@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "system_prompt": "Tu es un expert SEO et CRO spécialisé dans les sites de cliniques médicales. Analyse les signaux fournis et génère une recommandation actionnable.",
+  "email_1_template": "[À éditer par Nik depuis l'admin une fois l'audit tool en place]"
+}
