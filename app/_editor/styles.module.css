@@ -1,0 +1,26 @@
+.editable {
+  outline: 1px dashed transparent;
+  outline-offset: 4px;
+  cursor: text;
+  transition: outline-color 120ms;
+}
+.editable:hover { outline-color: rgba(28,123,253,.4); }
+.editable[data-editing="true"] {
+  outline: 2px solid #1c7bfd;
+  outline-offset: 4px;
+  background: rgba(28,123,253,.04);
+}
+.itemWrap { position: relative; }
+.itemRemove {
+  position: absolute; top: -8px; right: -8px;
+  background: #fff; border: 1px solid #ddd; border-radius: 999px;
+  width: 24px; height: 24px; display: grid; place-items: center;
+  cursor: pointer; opacity: 0; transition: opacity 120ms;
+  z-index: 5;
+}
+.itemWrap:hover .itemRemove { opacity: 1; }
+.addItem {
+  display: block; margin: 12px auto;
+  background: #fff; border: 1px dashed #1c7bfd; color: #1c7bfd;
+  border-radius: 8px; padding: 8px 16px; cursor: pointer; font: inherit;
+}
