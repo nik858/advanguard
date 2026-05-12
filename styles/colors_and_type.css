@@ -1,0 +1,250 @@
+/* ─────────────────────────────────────────────────────────────────
+   Advanguard Design System — Foundational Tokens
+   Brand: Advanguard / Automatic Clients (NHB Brand Kit)
+   Source: NHB Brand Kit #1.fig — Base-Funnel-Template > FrontEndShortFree
+   ───────────────────────────────────────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800&family=Barlow:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap");
+
+:root {
+  /* ─── Colors: Brand ─────────────────────────────────────────── */
+  --color-brand-blue: rgb(28, 127, 255);          /* Primary CTA / accent  */
+  --color-brand-blue-2: rgb(28, 123, 253);        /* Alt blue (book/strip) */
+  --color-brand-blue-deep: rgb(25, 69, 224);      /* Button shadow         */
+  --color-brand-blue-grad-1: rgb(0, 108, 255);    /* Book cover top        */
+  --color-brand-blue-grad-2: rgb(36, 137, 255);   /* Book cover bottom     */
+  --color-brand-blue-soft: rgb(238, 240, 255);    /* Tinted bg / iPad      */
+  --color-brand-blue-tint: rgba(28, 127, 255, 0.2);
+  --color-brand-blue-highlight: rgba(28, 127, 255, 0.3); /* Marker highlight */
+
+  /* ─── Colors: Semantic ─────────────────────────────────────── */
+  --color-success: rgb(56, 210, 90);              /* "$5.00" / Free pill   */
+  --color-danger: rgb(255, 0, 0);                 /* Strikethrough prices  */
+  --color-danger-2: rgb(236, 39, 74);             /* Limited time dot      */
+  --color-warning: rgb(255, 206, 30);             /* Guarantee badge       */
+  --color-warning-2: rgb(255, 224, 61);           /* Guarantee gradient    */
+  --color-warning-ring: rgba(208, 125, 0, 0.36);  /* Badge inner ring      */
+  --color-warning-bg: rgba(255, 204, 57, 0.2);    /* Yellow callout bg     */
+  --color-warning-border: rgba(255, 204, 57, 0.1);
+
+  /* ─── Colors: Neutrals (Text) ──────────────────────────────── */
+  --color-text-primary: rgb(20, 12, 12);          /* Headlines / body      */
+  --color-text-secondary: rgb(20, 18, 26);        /* Card body alt         */
+  --color-text-deep-navy: rgb(6, 17, 48);         /* Card titles           */
+  --color-text-navy-2: rgb(35, 53, 103);          /* Card subtitle         */
+  --color-text-muted: rgb(57, 73, 118);           /* Card description      */
+  --color-text-light: rgb(109, 109, 109);         /* Input placeholder     */
+  --color-text-icon: rgb(158, 167, 190);          /* Inline icon stroke    */
+  --color-text-inverse: rgb(255, 255, 255);
+
+  /* ─── Colors: Surfaces ─────────────────────────────────────── */
+  --color-bg: rgb(251, 251, 251);                 /* Page bg               */
+  --color-bg-alt: rgb(252, 252, 255);             /* Stack section bg      */
+  --color-surface: rgb(255, 255, 255);            /* Cards                 */
+  --color-footer-bg: rgb(28, 28, 28);             /* Dark footer           */
+  --color-border: rgb(216, 216, 217);             /* Input borders         */
+  --color-border-soft: rgba(0, 0, 0, 0.04);
+
+  /* ─── Shadows ──────────────────────────────────────────────── */
+  --shadow-header: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0px 4px 13px 0px rgba(0, 0, 0, 0.1);
+  --shadow-card-soft: 0px 4px 12px 0px rgba(0, 0, 0, 0.1);
+  --shadow-product: 0px 7.9px 19px 0px rgba(0, 0, 0, 0.12);
+  --shadow-demo: 0px 0px 44px 0px rgba(0, 0, 0, 0.2);
+  --shadow-input-inset: inset 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
+  --shadow-cta: 0px 1px 0px 0px rgb(25, 69, 224);
+  --shadow-icon-chip: 0px 2px 2px 0px rgba(0, 0, 0, 0.08);
+
+  /* ─── Radii ────────────────────────────────────────────────── */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-pill: 999px;
+
+  /* ─── Borders ──────────────────────────────────────────────── */
+  --border-cta: 3px solid var(--color-brand-blue-2);
+  --border-input: 1px solid var(--color-border);
+
+  /* ─── Spacing scale (page sections use 32 / 64 padding) ────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 27px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 54px;
+  --space-16: 64px;
+
+  /* ─── Layout ───────────────────────────────────────────────── */
+  --page-max: 1140px;        /* Centered content column                */
+  --gutter-x: 186px;         /* Side gutters on 1512 frame             */
+  --hero-col-left: 708px;    /* Hero copy column                        */
+  --hero-col-right: 378px;   /* Order form column                       */
+  --hero-gap: 54px;
+  --header-h: 64px;
+
+  /* ─── Type Families ────────────────────────────────────────── */
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif; /* H1-H2 */
+  --font-body: "Inter", system-ui, sans-serif;                   /* Body  */
+  --font-cta: "Inter", system-ui, sans-serif;                    /* CTA   */
+  --font-price: "Barlow", "Inter", sans-serif;                   /* Price */
+  --font-rating: "Roboto", "Inter", sans-serif;                  /* "Excellent based on…" */
+  --font-legacy: "Helvetica", "Inter", sans-serif;               /* Guarantee tag */
+
+  /* ─── Type Semantic ────────────────────────────────────────── */
+  /* H1 — Big section headlines (48 / 1.1, -2% tracking) */
+  --h1-size: 48px;
+  --h1-weight: 700;
+  --h1-line: 1.1;
+  --h1-tracking: -0.02em;
+  --h1-family: var(--font-display);
+
+  /* H2 — Sub-headings (44 / 1.1) - used for "What is the [Product]" */
+  --h2-size: 44px;
+  --h2-weight: 700;
+  --h2-line: 1.1;
+  --h2-family: var(--font-display);
+
+  /* Eyebrow — "For Anyone Looking To…" / "Limited Time" (20 bold) */
+  --eyebrow-size: 20px;
+  --eyebrow-weight: 700;
+  --eyebrow-line: 1;
+  --eyebrow-family: var(--font-body);
+
+  /* Lead body — "On Facebook, Google…" subtitle / body copy (24 / 1.4) */
+  --lead-size: 24px;
+  --lead-weight: 400;
+  --lead-line: 1.4;
+  --lead-family: var(--font-body);
+
+  /* Body — Cards / paragraphs (18 / 1.4) */
+  --body-size: 18px;
+  --body-weight: 400;
+  --body-line: 1.4;
+  --body-family: var(--font-body);
+
+  /* Body-sm — Testimonial body (16 / 1.5) */
+  --body-sm-size: 16px;
+  --body-sm-line: 1.5;
+
+  /* Caption — Card meta / fine print (14 / 1.4) */
+  --caption-size: 14px;
+  --caption-line: 1.4;
+
+  /* Micro — Pill labels (12 / 1.3) */
+  --micro-size: 12px;
+  --micro-line: 1.3;
+
+  /* CTA — Buttons (24 bold / 1.2) */
+  --cta-size: 24px;
+  --cta-weight: 700;
+  --cta-line: 1.2;
+  --cta-family: var(--font-cta);
+
+  /* Tiny CTA tag — "Get Your eBook Now!" small line (14 / 1.4) */
+  --cta-tag-size: 14px;
+  --cta-tag-weight: 500;
+
+  /* Price — Big strikethrough/now price (24 bold) */
+  --price-size: 24px;
+  --price-weight: 700;
+  --price-family: var(--font-price);
+}
+
+/* ─── Element defaults ─────────────────────────────────────────── */
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .h1 {
+  font-family: var(--h1-family);
+  font-size: var(--h1-size);
+  font-weight: var(--h1-weight);
+  line-height: var(--h1-line);
+  letter-spacing: var(--h1-tracking);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-wrap: balance;
+}
+
+h2, .h2 {
+  font-family: var(--h2-family);
+  font-size: var(--h2-size);
+  font-weight: var(--h2-weight);
+  line-height: var(--h2-line);
+  letter-spacing: var(--h1-tracking);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.eyebrow {
+  font-family: var(--eyebrow-family);
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  line-height: var(--eyebrow-line);
+  color: var(--color-text-primary);
+}
+
+.lead {
+  font-family: var(--lead-family);
+  font-size: var(--lead-size);
+  line-height: var(--lead-line);
+  color: var(--color-text-primary);
+  text-wrap: pretty;
+}
+
+p {
+  font-family: var(--body-family);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--color-text-primary);
+  margin: 0 0 1em 0;
+  text-wrap: pretty;
+}
+
+.muted { color: var(--color-text-muted); opacity: 0.9; }
+
+a { color: var(--color-brand-blue-2); text-decoration: underline; }
+a:hover { opacity: 0.85; }
+
+/* The "eyebrow dot" marker — blue or red dot in a soft halo */
+.eyebrow-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+.eyebrow-dot::before {
+  content: "";
+  display: inline-block;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--dot-color, var(--color-brand-blue));
+  position: relative;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 20%, transparent);
+}
+
+/* ─── Reusable container ───────────────────────────────────────── */
+.container {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ─── Section wrapper ──────────────────────────────────────────── */
+section { padding: 64px 32px; background: var(--color-surface); }
