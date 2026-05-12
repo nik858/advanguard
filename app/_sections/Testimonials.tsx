@@ -1,6 +1,7 @@
 import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Stars } from "./_shared/Stars";
+import { Edit } from "../_editor/Edit";
 import { mediaUrl, type Content } from "@/types/content";
 import type { ReactNode } from "react";
 
@@ -25,17 +26,23 @@ function highlightQuote(quote: string, highlights: string[]): ReactNode {
   return parts.map((p, i) => p.hl ? <span className="ac-testi-card__hl" key={i}>{p.text}</span> : <span key={i}>{p.text}</span>);
 }
 
-export function Testimonials({ content: c }: { content: Content["testimonials"] }) {
+export function Testimonials({ content: c, edit = false }: { content: Content["testimonials"]; edit?: boolean }) {
   return (
     <section className="ac-testi" aria-labelledby="testi-h2">
       <div className="ac-testi__inner">
         <Reveal className="ac-testi__head">
           <div className="ac-testi__rating">
-            <span className="ac-testi__rating-text">{c.rating}</span>
+            <span className="ac-testi__rating-text">
+              <Edit edit={edit} path="testimonials.rating">{c.rating}</Edit>
+            </span>
             <span className="ac-testi__rating-stars" aria-label="5 out of 5"><Stars/></span>
           </div>
-          <h2 className="ac-testi__h2" id="testi-h2">{c.h2}</h2>
-          <p className="ac-testi__pull">{c.pullQuote}</p>
+          <h2 className="ac-testi__h2" id="testi-h2">
+            <Edit edit={edit} path="testimonials.h2">{c.h2}</Edit>
+          </h2>
+          <p className="ac-testi__pull">
+            <Edit edit={edit} path="testimonials.pullQuote">{c.pullQuote}</Edit>
+          </p>
         </Reveal>
         <div className="ac-testi__grid">
           {c.items.map((t, i) => (
@@ -44,9 +51,13 @@ export function Testimonials({ content: c }: { content: Content["testimonials"] 
                 <div className="ac-testi-card ac-testi-card--video">
                   <VideoPlayer src={t.videoUrl} poster={t.videoPoster} label={t.name}/>
                   <div className="ac-testi-card__video-foot">
-                    <div className="ac-testi-card__name">{t.name}</div>
-                    <div className="ac-testi-card__role">{t.role}</div>
-                    <div className="ac-testi-card__video-quote">&quot;{t.quote}&quot;</div>
+                    <div className="ac-testi-card__name">
+                      <Edit edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</Edit>
+                    </div>
+                    <div className="ac-testi-card__role">
+                      <Edit edit={edit} path={`testimonials.items.${i}.role`}>{t.role}</Edit>
+                    </div>
+                    <div className="ac-testi-card__video-quote">&quot;<Edit edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</Edit>&quot;</div>
                   </div>
                 </div>
               ) : (
@@ -54,12 +65,20 @@ export function Testimonials({ content: c }: { content: Content["testimonials"] 
                   <div className="ac-testi-card__head">
                     <div className="ac-testi-card__avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
                     <div>
-                      <div className="ac-testi-card__name">{t.name}</div>
-                      <div className="ac-testi-card__role">{t.role}</div>
+                      <div className="ac-testi-card__name">
+                        <Edit edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</Edit>
+                      </div>
+                      <div className="ac-testi-card__role">
+                        <Edit edit={edit} path={`testimonials.items.${i}.role`}>{t.role}</Edit>
+                      </div>
                     </div>
                   </div>
                   <div className="ac-testi-card__stars" aria-label="5 stars"><Stars/></div>
-                  <p className="ac-testi-card__quote">{highlightQuote(t.quote, t.highlights)}</p>
+                  <p className="ac-testi-card__quote">
+                    {edit
+                      ? <Edit edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</Edit>
+                      : highlightQuote(t.quote, t.highlights)}
+                  </p>
                 </div>
               )}
             </Reveal>

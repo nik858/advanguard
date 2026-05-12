@@ -3,9 +3,10 @@ import { useState } from "react";
 import { CTA } from "./_shared/CTA";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Stars } from "./_shared/Stars";
+import { Edit } from "../_editor/Edit";
 import { mediaUrl, type Content } from "@/types/content";
 
-export function OrderForm({ content: order, onCheckout }: { content: Content["order"]; onCheckout?: () => void }) {
+export function OrderForm({ content: order, onCheckout, edit = false }: { content: Content["order"]; onCheckout?: () => void; edit?: boolean }) {
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "err">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -25,21 +26,37 @@ export function OrderForm({ content: order, onCheckout }: { content: Content["or
 
   return (
     <aside className="ac-order" aria-label="Order form">
-      <div className="ac-order__strip">{order.badge}</div>
+      <div className="ac-order__strip">
+        <Edit edit={edit} path="order.badge">{order.badge}</Edit>
+      </div>
       <div className="ac-order__product">
-        <div className="ac-order__product-name">{order.productName}</div>
-        <div className="ac-order__product-sub">{order.productSubtitle}</div>
+        <div className="ac-order__product-name">
+          <Edit edit={edit} path="order.productName">{order.productName}</Edit>
+        </div>
+        <div className="ac-order__product-sub">
+          <Edit edit={edit} path="order.productSubtitle">{order.productSubtitle}</Edit>
+        </div>
       </div>
       <div className="ac-order__inner">
-        <div className="ac-order__limited">{order.limitedTime}</div>
+        <div className="ac-order__limited">
+          <Edit edit={edit} path="order.limitedTime">{order.limitedTime}</Edit>
+        </div>
         <div className="ac-order__price-row">
           <div>
-            <span className="ac-order__price-was">{order.priceWas}</span>
-            <span className="ac-order__price">{order.priceNow}</span>
+            <span className="ac-order__price-was">
+              <Edit edit={edit} path="order.priceWas">{order.priceWas}</Edit>
+            </span>
+            <span className="ac-order__price">
+              <Edit edit={edit} path="order.priceNow">{order.priceNow}</Edit>
+            </span>
           </div>
-          <div className="ac-order__price-sub">{order.priceSubLine}</div>
+          <div className="ac-order__price-sub">
+            <Edit edit={edit} path="order.priceSubLine">{order.priceSubLine}</Edit>
+          </div>
         </div>
-        <p className="ac-order__desc">{order.description}</p>
+        <p className="ac-order__desc">
+          <Edit edit={edit} path="order.description" multiline>{order.description}</Edit>
+        </p>
         <form onSubmit={onSubmit} aria-label="Order">
           <label htmlFor="email" className="visually-hidden">Email</label>
           <input id="email" name="email" type="email" required placeholder="Enter your email" className="ac-order__field" autoComplete="email" />
@@ -55,14 +72,18 @@ export function OrderForm({ content: order, onCheckout }: { content: Content["or
         </form>
         <div className="ac-order__secure">
           <span className="ac-order__check" aria-hidden="true">✓</span>
-          <span>{order.secureText}</span>
+          <span><Edit edit={edit} path="order.secureText">{order.secureText}</Edit></span>
         </div>
         <div className="ac-order__guarantee-row">
           <GuaranteeBadge size={64}/>
-          <div className="ac-order__guarantee-text">{order.guaranteeText}</div>
+          <div className="ac-order__guarantee-text">
+            <Edit edit={edit} path="order.guaranteeText">{order.guaranteeText}</Edit>
+          </div>
         </div>
         <div className="ac-order__rating">
-          <span className="ac-order__rating-text">{order.ratingText}</span>
+          <span className="ac-order__rating-text">
+            <Edit edit={edit} path="order.ratingText">{order.ratingText}</Edit>
+          </span>
           <span className="ac-order__rating-stars" aria-label="5 out of 5 stars"><Stars/></span>
         </div>
         <div className="ac-order__mini-testimonials">
@@ -70,9 +91,13 @@ export function OrderForm({ content: order, onCheckout }: { content: Content["or
             <div className="ac-order__mini-card" key={i}>
               <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
               <div>
-                <div className="ac-order__mini-name">{t.name}</div>
-                <div className="ac-order__mini-role">{t.role}</div>
-                <div className="ac-order__mini-quote">&quot;{t.quote}&quot;</div>
+                <div className="ac-order__mini-name">
+                  <Edit edit={edit} path={`order.miniTestimonials.${i}.name`}>{t.name}</Edit>
+                </div>
+                <div className="ac-order__mini-role">
+                  <Edit edit={edit} path={`order.miniTestimonials.${i}.role`}>{t.role}</Edit>
+                </div>
+                <div className="ac-order__mini-quote">&quot;<Edit edit={edit} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</Edit>&quot;</div>
               </div>
             </div>
           ))}

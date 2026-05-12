@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import contentJson from "@/content/content.json";
 import { ContentSchema, mediaUrl } from "@/types/content";
 import { JsonLd } from "./_sections/JsonLd";
@@ -12,8 +13,12 @@ import { Stack } from "./_sections/Stack";
 import { GuaranteeSection } from "./_sections/GuaranteeSection";
 import { FAQ } from "./_sections/FAQ";
 import { Footer } from "./_sections/Footer";
+import { EditorProvider } from "./_editor/EditorProvider";
+import { LandingTree } from "./_editor/LandingTree";
 
-export default function Home() {
+export default async function Home() {
+  const h = await headers();
+  const editMode = h.get("x-adv-edit-mode") === "1";
   const c = ContentSchema.parse(contentJson);
 
   const productJsonLd = {
@@ -42,6 +47,18 @@ export default function Home() {
       acceptedAnswer: { "@type": "Answer", text: q.a },
     })),
   };
+
+  if (editMode) {
+    return (
+      <>
+        <JsonLd data={productJsonLd} />
+        <JsonLd data={faqJsonLd} />
+        <EditorProvider initial={c}>
+          <LandingTree />
+        </EditorProvider>
+      </>
+    );
+  }
 
   return (
     <>
