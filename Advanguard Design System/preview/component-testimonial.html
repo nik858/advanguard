@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Testimonial Card</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { padding: 24px; background: rgb(251,251,251); }
+  .card {
+    width: 320px; box-sizing: border-box;
+    background: #fff; border-radius: 10px;
+    padding: 28px;
+    box-shadow: 0 4px 13px rgba(0,0,0,0.1);
+  }
+  .head { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+  .avatar { width: 52px; height: 52px; border-radius: 50%; background: url("../assets/avatar-placeholder.png") center/cover, #ddd; flex: 0 0 auto; }
+  .who .name { font: 700 16px/1 var(--font-body); color: #000; }
+  .who .role { font: 400 14px/1.2 var(--font-body); color: #000; margin-top: 6px; }
+  .stars { display: flex; gap: 3px; margin: 6px 0 14px; }
+  .stars svg { width: 18px; height: 18px; }
+  .body { font: 400 16px/1.5 var(--font-body); color: #000; }
+  .hl { background: rgba(28,127,255,0.3); padding: 0 1px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="head">
+      <div class="avatar"></div>
+      <div class="who">
+        <div class="name">Sarah Mitchell</div>
+        <div class="role">CEO, Mitchell &amp; Co.</div>
+      </div>
+    </div>
+    <div class="stars">
+      <svg viewBox="0 0 24 24" fill="rgb(56,210,90)"><path d="M12 17.3 5.82 21l1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73L18.18 21z"/></svg>
+      <svg viewBox="0 0 24 24" fill="rgb(56,210,90)"><path d="M12 17.3 5.82 21l1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73L18.18 21z"/></svg>
+      <svg viewBox="0 0 24 24" fill="rgb(56,210,90)"><path d="M12 17.3 5.82 21l1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73L18.18 21z"/></svg>
+      <svg viewBox="0 0 24 24" fill="rgb(56,210,90)"><path d="M12 17.3 5.82 21l1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73L18.18 21z"/></svg>
+      <svg viewBox="0 0 24 24" fill="rgb(56,210,90)"><path d="M12 17.3 5.82 21l1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73L18.18 21z"/></svg>
+    </div>
+    <p class="body">The Automatic Clients model let us <span class="hl">scale past 7 figures</span> in 9 months — the bridge from cold traffic to high‑ticket is the only thing that actually works.</p>
+  </div>
+</body>
+</html>

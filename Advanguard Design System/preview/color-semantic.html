@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Color · Semantic</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { padding: 24px; background: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .swatch { display: flex; flex-direction: column; gap: 6px; }
+  .chip { height: 64px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.06); display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 14px; letter-spacing: 0.04em; }
+  .name { font: 700 13px/1.2 var(--font-body); color: var(--color-text-primary); }
+  .val { font: 500 11px/1.2 ui-monospace, "SF Mono", Menlo, monospace; color: var(--color-text-muted); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="swatch">
+      <div class="chip" style="background: rgb(56,210,90)">$5 / FREE</div>
+      <div class="name">Success</div>
+      <div class="val">rgb(56, 210, 90)</div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background: rgb(255,0,0)">$27.00</div>
+      <div class="name">Urgency Red</div>
+      <div class="val">rgb(255, 0, 0)</div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background: rgb(236,39,74)">Limited</div>
+      <div class="name">Limited Time Dot</div>
+      <div class="val">rgb(236, 39, 74)</div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background: linear-gradient(rgb(255,224,61), rgb(255,206,30)); color: rgb(122,51,0)">100%</div>
+      <div class="name">Guarantee Yellow</div>
+      <div class="val">#FFE03D → #FFCE1E</div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background: rgba(255,204,57,0.2); color: rgb(122,51,0); border: 1px solid rgba(255,204,57,0.5)">Callout</div>
+      <div class="name">Yellow Soft BG</div>
+      <div class="val">rgba(255,204,57,0.2)</div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background: rgba(208,125,0,0.36); color: #fff">Ring</div>
+      <div class="name">Badge Inner Ring</div>
+      <div class="val">rgba(208,125,0,0.36)</div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background: rgb(28,28,28)">Footer</div>
+      <div class="name">Footer Dark</div>
+      <div class="val">rgb(28, 28, 28)</div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background: rgb(251,251,251); border: 1px solid rgba(0,0,0,0.08); color: rgb(20,12,12)">Page</div>
+      <div class="name">Page BG</div>
+      <div class="val">rgb(251, 251, 251)</div>
+    </div>
+  </div>
+</body>
+</html>

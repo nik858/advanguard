@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Header bar</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { padding: 0; background: rgb(251,251,251); }
+  .header {
+    position: relative; height: 64px;
+    background: rgba(255,255,255,0.5);
+    box-shadow: 0 4px 4px rgba(0,0,0,0.1);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px;
+  }
+  .left, .right { display: flex; align-items: center; gap: 6px; color: rgba(0,0,0,0.7); font: 400 16px/1.6 var(--font-body); }
+  .logo { font: 900 18px/1 var(--font-body); letter-spacing: -0.03em; color: var(--color-text-primary); }
+  .phone { width: 18px; height: 18px; display: inline-block; }
+  .phone svg { width: 100%; height: 100%; }
+  .below { padding: 64px 24px 24px; font: 500 12px/1.4 ui-monospace, "SF Mono", Menlo, monospace; color: var(--color-text-muted); }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="left">
+      <span class="phone"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 22a18 18 0 0 1-18-18c0-1.1.9-2 2-2h3a1 1 0 0 1 1 .76l1 4.24a1 1 0 0 1-.3 1L7.4 9.4a14 14 0 0 0 7.2 7.2l1.4-1.3a1 1 0 0 1 1-.3l4.24 1a1 1 0 0 1 .76 1V20a2 2 0 0 1-2 2"/></svg></span>
+      Order By Phone [Enter Your Phone Number Here]
+    </div>
+    <div class="logo">YOURLOGO</div>
+    <div class="right">Need help? support@yourdomain.com</div>
+  </div>
+  <div class="below">Header — 64px tall · 50% white surface · 4px drop shadow · 16px Inter at 70% opacity left + right; bold wordmark center.</div>
+</body>
+</html>

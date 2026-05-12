@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light" />
+<meta name="theme-color" content="#ffffff" />
+
+<title>Automatic Clients — A Counterintuitive Approach to Acquiring Customers · Advanguard</title>
+<meta name="description" content="New book reveals a counterintuitive approach to acquiring 100–300 customers per day and converting them into high-ticket clients — without paid ads." />
+<link rel="canonical" href="https://advanguard.example.com/automatic-clients" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="product" />
+<meta property="og:site_name" content="Advanguard" />
+<meta property="og:title" content="Automatic Clients — Get Your Copy For $27" />
+<meta property="og:description" content="A counterintuitive approach to acquiring 100–300 customers per day. 340 pages. Instant download." />
+<meta property="og:image" content="../../assets/video-thumbnail.png" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://advanguard.example.com/automatic-clients" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Automatic Clients" />
+<meta name="twitter:description" content="The 340-page playbook for acquiring customers on autopilot." />
+<meta name="twitter:image" content="../../assets/video-thumbnail.png" />
+
+<!-- Performance: preconnect to font CDN -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Brand stylesheets -->
+<link rel="stylesheet" href="../../colors_and_type.css" />
+<link rel="stylesheet" href="landing.css" />
+
+<!-- Favicon (inline SVG so no extra request) -->
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%231C7BFD"/><path d="M22 18l20 14-20 14z" fill="white"/></svg>' />
+
+<!-- JSON-LD: Product schema for richer SERP results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Automatic Clients",
+  "brand": { "@type": "Brand", "name": "Advanguard" },
+  "description": "A 340-page playbook for acquiring customers on autopilot — covers free-customer acquisition, ascension ladders, and the offer ecosystem behind 100–300/day customer flow.",
+  "image": "https://advanguard.example.com/assets/video-thumbnail.png",
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "456" },
+  "offers": {
+    "@type": "Offer",
+    "price": "27.00",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://advanguard.example.com/automatic-clients"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Who is this for?", "acceptedAnswer": { "@type": "Answer", "text": "Coaches, consultants, agency owners, artists, professional service providers, influencers, freelancers, content creators." }},
+    { "@type": "Question", "name": "Do you offer more in-depth help?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — optional upgrades after purchase and a private clients group (application only)." }},
+    { "@type": "Question", "name": "Is there a guarantee?", "acceptedAnswer": { "@type": "Answer", "text": "30-day, no-questions-asked refund. You keep the book." }}
+  ]
+}
+</script>
+
+<style>
+  .visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body>
+
+<a href="#main" class="visually-hidden">Skip to content</a>
+
+<!-- App mount -->
+<div id="ac-root"></div>
+
+<!-- React + Babel (pinned, with SRI) -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Content (vanilla JS, runs before React) -->
+<script src="data.js"></script>
+
+<!-- Sections (Babel JSX) -->
+<script type="text/babel" data-presets="react" src="sections.jsx"></script>
+
+<!-- Admin editor (Babel JSX) -->
+<script type="text/babel" data-presets="react" src="admin.jsx"></script>
+
+<!-- App entry -->
+<script type="text/babel" data-presets="react">
+  (function () {
+    function App() {
+      const onCheckout = () => {
+        const order = document.querySelector(".ac-order");
+        if (order) order.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+      return (
+        <window.ContentProvider>
+          <window.Header />
+          <main id="main">
+            <window.Headline />
+            <window.Hero onCheckout={onCheckout} />
+            <window.LogoStrip />
+            <window.OnlySystem onCheckout={onCheckout} />
+            <window.Demo />
+            <window.Testimonials />
+            <window.Stack onCheckout={onCheckout} />
+            <window.GuaranteeSection />
+            <window.FAQ />
+          </main>
+          <window.Footer onCheckout={onCheckout} />
+          <window.AdminEditor />
+        </window.ContentProvider>
+      );
+    }
+    function mount() {
+      if (!window.ContentProvider || !window.Header || !window.AdminEditor) {
+        // Babel scripts still transpiling — retry shortly.
+        return setTimeout(mount, 30);
+      }
+      ReactDOM.createRoot(document.getElementById("ac-root")).render(<App />);
+      // Update document meta from content
+      const meta = window.AC.content.meta;
+      if (meta && meta.title) document.title = meta.title;
+    }
+    mount();
+  })();
+</script>
+</body>
+</html>

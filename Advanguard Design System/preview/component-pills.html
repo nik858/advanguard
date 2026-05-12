@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Pills & Tags</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { padding: 28px; background: #fff; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 4px 10px; border-radius: 6px; font: 700 14px/1.3 var(--font-body); }
+  .green { background: rgb(56,210,90); color: #fff; }
+  .blue-strip { background: var(--color-brand-blue-2); color: #fff; padding: 8px 18px; border-radius: 0; font-weight: 700; font-size: 14px; letter-spacing: 0.04em; }
+  .yellow-soft { background: rgba(255,204,57,0.2); border: 1px solid rgba(255,204,57,0.5); color: rgb(122,51,0); }
+  .secure { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-secondary); font: 500 14px/1 var(--font-body); }
+  .check { width: 20px; height: 20px; border-radius: 50%; background: rgb(89,201,137); display: grid; place-items: center; color: #fff; font-size: 13px; line-height: 1; }
+  .price-strike { font: 700 22px/1 var(--font-price); text-decoration: line-through; color: var(--color-text-light); }
+  .price-now { font: 700 22px/1 var(--font-price); color: var(--color-danger); }
+</style>
+</head>
+<body>
+  <span class="pill green">$5.00</span>
+  <span class="pill green">Free</span>
+  <span class="pill yellow-soft">Limited Stock</span>
+  <span class="blue-strip">NOW AVAILABLE FOR INSTANT DIGITAL DOWNLOAD</span>
+  <span class="secure"><span class="check">✓</span> 100% Secure Checkout by Stripe</span>
+  <span class="price-strike">$327.00</span>
+  <span class="price-now">$27.00</span>
+</body>
+</html>

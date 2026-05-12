@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Color · Text</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { padding: 28px; background: #fff; display: grid; gap: 14px; }
+  .row { display: grid; grid-template-columns: 24px 1fr 180px; gap: 14px; align-items: center; padding: 8px 14px; border: 1px solid rgba(0,0,0,0.06); border-radius: 8px; }
+  .chip { width: 24px; height: 24px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.06); }
+  .label { font-family: var(--font-body); font-weight: 700; font-size: 20px; }
+  .val { font: 500 12px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--color-text-muted); text-align: right; }
+</style>
+</head>
+<body>
+  <div class="row"><div class="chip" style="background: rgb(20,12,12)"></div><div class="label" style="color: rgb(20,12,12)">Text Primary — body & headlines</div><div class="val">rgb(20, 12, 12)</div></div>
+  <div class="row"><div class="chip" style="background: rgb(20,18,26)"></div><div class="label" style="color: rgb(20,18,26)">Text Secondary — card body</div><div class="val">rgb(20, 18, 26)</div></div>
+  <div class="row"><div class="chip" style="background: rgb(6,17,48)"></div><div class="label" style="color: rgb(6,17,48)">Deep Navy — card titles</div><div class="val">rgb(6, 17, 48)</div></div>
+  <div class="row"><div class="chip" style="background: rgb(35,53,103)"></div><div class="label" style="color: rgb(35,53,103)">Navy 2 — subtitle</div><div class="val">rgb(35, 53, 103)</div></div>
+  <div class="row"><div class="chip" style="background: rgb(57,73,118)"></div><div class="label" style="color: rgb(57,73,118)">Muted — description</div><div class="val">rgb(57, 73, 118)</div></div>
+  <div class="row"><div class="chip" style="background: rgb(158,167,190)"></div><div class="label" style="color: rgb(158,167,190)">Icon — inline icon stroke</div><div class="val">rgb(158, 167, 190)</div></div>
+  <div class="row"><div class="chip" style="background: rgb(109,109,109)"></div><div class="label" style="color: rgb(109,109,109)">Placeholder — inputs</div><div class="val">rgb(109, 109, 109)</div></div>
+</body>
+</html>

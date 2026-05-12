@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Type · CTA & Price</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { padding: 28px 32px; background: #fff; display: grid; gap: 22px; }
+  .meta { font: 500 11px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--color-text-muted); margin-top: 8px; }
+  .cta { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 12px 28px; border-radius: 8px; background: var(--color-brand-blue-2); color: #fff; box-shadow: 0 1px 0 var(--color-brand-blue-deep); }
+  .cta .tag { font: 500 14px/1.4 var(--font-body); opacity: 0.7; }
+  .cta .label { font: 700 24px/1.2 var(--font-body); }
+  .price-row { display: flex; align-items: baseline; gap: 12px; }
+  .price-now { font: 700 28px/1 var(--font-price); color: var(--color-danger); }
+  .price-was { font: 700 22px/1 var(--font-price); color: var(--color-text-light); text-decoration: line-through; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="cta"><span class="tag">Get Your eBook Now!</span><span class="label">Download Now for only $27.00</span></div>
+    <div class="meta">CTA · Inter Bold 24px main + 14px Medium 70% tag</div>
+  </div>
+  <div>
+    <div class="price-row"><span class="price-was">$327.00</span><span class="price-now">$27.00</span></div>
+    <div class="meta">Price · Barlow Bold 24–28px — strikethrough in muted, "now" in urgency red</div>
+  </div>
+</body>
+</html>

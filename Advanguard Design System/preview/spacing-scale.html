@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Spacing</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { padding: 24px 28px; background: #fff; }
+  .row { display: grid; grid-template-columns: 70px 1fr 90px; gap: 12px; align-items: center; margin-bottom: 8px; }
+  .name { font: 700 13px/1 var(--font-body); }
+  .bar { height: 14px; background: var(--color-brand-blue); border-radius: 3px; }
+  .val { font: 500 11px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--color-text-muted); text-align: right; }
+</style>
+</head>
+<body>
+  <div class="row"><div class="name">space‑1</div><div class="bar" style="width: 4px"></div><div class="val">4px</div></div>
+  <div class="row"><div class="name">space‑2</div><div class="bar" style="width: 8px"></div><div class="val">8px</div></div>
+  <div class="row"><div class="name">space‑3</div><div class="bar" style="width: 12px"></div><div class="val">12px</div></div>
+  <div class="row"><div class="name">space‑4</div><div class="bar" style="width: 16px"></div><div class="val">16px · card gap</div></div>
+  <div class="row"><div class="name">space‑5</div><div class="bar" style="width: 20px"></div><div class="val">20px</div></div>
+  <div class="row"><div class="name">space‑6</div><div class="bar" style="width: 24px"></div><div class="val">24px</div></div>
+  <div class="row"><div class="name">space‑8</div><div class="bar" style="width: 32px"></div><div class="val">32px · section pad</div></div>
+  <div class="row"><div class="name">space‑10</div><div class="bar" style="width: 40px"></div><div class="val">40px</div></div>
+  <div class="row"><div class="name">space‑12</div><div class="bar" style="width: 54px"></div><div class="val">54px · hero gap</div></div>
+  <div class="row"><div class="name">space‑16</div><div class="bar" style="width: 64px"></div><div class="val">64px · big pad</div></div>
+</body>
+</html>

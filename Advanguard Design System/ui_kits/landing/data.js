@@ -1,0 +1,247 @@
+/* Advanguard Landing — content source of truth.
+ *
+ * Text content here mirrors the original Figma template (Front End — Short Free)
+ * verbatim, including its [INSERT …] placeholders. An admin fills these in via
+ * the Editor drawer (✎ bottom-right) and the page updates live; edits persist
+ * to localStorage and can be exported as JSON to commit into this file.
+ */
+
+window.AC = window.AC || {};
+
+window.AC.defaultContent = {
+  /* SEO / page meta */
+  meta: {
+    title: "[INSERT PAGE TITLE HERE] · Advanguard",
+    description: "New book reveals a counterintuitive approach that [Insert Desired Result] Without [Insert].",
+    brand: "Advanguard",
+    productName: "[INSERT YOUR PRODUCT NAME]",
+    canonical: "https://advanguard.example.com/",
+    ogImage: "../../assets/video-thumbnail.png",
+  },
+
+  /* Header */
+  header: {
+    orderByPhone: "Order By Phone [Enter Your Phone Number Here]",
+    needHelp: "Need help? support@yourdomain.com",
+    logoLight: "../../assets/advanguard-logo-white.png", // for dark backgrounds
+    logoDark:  "../../assets/advanguard-logo-dark.png",  // for white backgrounds
+    logoText:  "ADVANGUARD",                              // fallback
+  },
+
+  /* Headline (above hero) */
+  headline: {
+    eyebrow: "For Anyone Looking To [INSERT DESIRED OUTCOME]",
+    eyebrowDotColor: "rgb(28,127,255)",
+    h1: "\"New Book Reveals A Counterintuitive Approach That [Insert Desired Result] Without [Insert]\"",
+    sub: "While also [INSERT BENEFIT #1], [INSERT BENEFIT #2], [INSERT BENEFIT #3]",
+  },
+
+  /* Hero — video + What-Is copy */
+  hero: {
+    videoLabel: "Hit Play on The Video",
+    videoUrl: "",
+    videoPoster: "../../assets/video-thumbnail.png",
+    sectionTitle: "What is the [INSERT YOUR PRODUCT NAME]?",
+    sectionBody:
+`[INSERT PRODUCT NAME] is a counterintuitive approach to [INSERT DESIRED RESULT], that allows you to [DESCRIBE TOP BENEFITS] without [DESCRIBE THINGS THEY WANT TO AVOID].
+
+We achieve this by [EXPLAIN HOW YOU ACHIEVE IT] without [EXPLAIN WHAT YOU DON'T DO THAT THEY WANT TO AVOID DOING].
+
+And as a result… this frees you up to [INSERT WHAT THEY'D RATHER DO INSTEAD] — this is the [INSERT YOUR PRODUCT NAME].
+
+Sed varius facilisis dui sit amet imperdiet. Quisque ut ex urna. Integer nec nulla auctor, congue lacus eget, gravida felis. Suspendisse potenti.
+
+Suspendisse gravida lorem id massa pretium imperdiet nec consectetur urna. Nulla mi dui, lobortis ut lacinia sit amet, porta ac justo. Donec at ullamcorper ex. Sed sagittis dictum elementum.
+
+Curabitur nec ligula lacus. Pellentesque eu odio tincidunt, laoreet elit id, mattis enim. Praesent quis lobortis dolor. Praesent nunc magna, viverra nec rhoncus vel, viverra vitae diam. Maecenas pretium ornare interdum…`,
+  },
+
+  /* Order form */
+  order: {
+    badge: "NOW AVAILABLE FOR INSTANT DIGITAL DOWNLOAD",
+    productName: "[INSERT PRODUCT NAME]",
+    productSubtitle: "[INSERT SHORT PRODUCT TAGLINE HERE]",
+    limitedTime: "Limited Time Offer",
+    priceWas: "$327.00",
+    priceNow: "$27.00",
+    priceSubLine: "Save $300.00 today",
+    description: "Download The eBook For $327 Just $27.00! Delivered instantly. Start reading in the next 2 minutes.",
+    ctaTagline: "Get Your eBook Now!",
+    ctaLabel: "Go to step #2",
+    secureText: "100% Secure Checkout by Stripe",
+    guaranteeText: "Backed by our 30-day money back guarantee. You'll love the book or we'll give you your money back AND let you keep your copy.",
+    ratingText: "Excellent based on 456 reviews",
+    miniTestimonials: [
+      { avatar: "../../assets/avatar-placeholder.png", name: "Full Name", role: "Put person position here", quote: "[Insert short testimonial here]" },
+      { avatar: "../../assets/avatar-placeholder.png", name: "Full Name", role: "Put person position here", quote: "[Insert short testimonial here]" },
+      { avatar: "../../assets/avatar-placeholder.png", name: "Full Name", role: "Put person position here", quote: "[Insert short testimonial here]" },
+    ],
+  },
+
+  /* Authority logo strip */
+  authority: {
+    title: "Features [INSERT LOGOS BELOW IF YOU HAVE OTHERWISE DELETE THIS SECTION]",
+    logos: ["Authority", "Business", "Magazine", "Logo", "Credibility", "Startup"],
+  },
+
+  /* "Only System" / book + features */
+  onlySystem: {
+    eyebrow: "Limited Time Special — Download The Digital Version For Only $27.00",
+    eyebrowDotColor: "rgb(236,39,74)",
+    h2: "The Only System You'll Ever Need To\n[INSERT OUTCOME HERE]",
+    body: "We put everything we've learned, everything we use ourselves in this book so that you can learn from our mistakes, our wins, as well as benefitting from all the time, effort, and money that has gone into the experiences that made their way into this book.",
+    leftFeatures: [
+      { title: "Build A High Performing Team", body: "" },
+      { title: "Create An Automatic Marketing Machine", body: "" },
+      { title: "Generate Recurring Revenue", body: "" },
+      { title: "Create Effective Upsells", body: "" },
+    ],
+    rightFeatures: [
+      { title: "Create A 7-Figure Digital Business", body: "" },
+      { title: "Build A Community", body: "" },
+      { title: "Sell High Ticket Coaching and Consulting", body: "" },
+      { title: "Create Effective Upsells", body: "" },
+    ],
+    stats: [
+      { value: "21 Chapters", label: "Theory + Chapters" },
+      { value: "340 Pages", label: "Everything you need to know to start Automatic Clients." },
+      { value: "1 System", label: "Do what we outline and it works in any niche." },
+    ],
+    ctaTagline: "Get Your eBook Now!",
+    ctaLabel: "Download Now for only $27.00",
+    ctaSubLink: "Click Here To Download Your Automatic Clients Book Now",
+    guaranteeText: "Backed By Our Unconditional 60 Day Money Back Guarantee",
+  },
+
+  /* Demo */
+  demo: {
+    h2: "Check out Step-by-Step Demo of How [Insert Product / Mechanics Name] Works…",
+    videoUrl: "",
+    videoPoster: "../../assets/video-thumbnail.png",
+  },
+
+  /* Testimonials */
+  testimonials: {
+    rating: "Excellent based on 456 reviews",
+    h2: "What Are Others Saying About Our Model?",
+    pullQuote: "\"The AC Model Allowed Me To Scale My Business Beyond 7-Figures. Thanks Automatic Clients!\"",
+    items: [
+      { type: "video", videoUrl: "", videoPoster: "../../assets/video-thumbnail.png", name: "Full Name", role: "Put person position here", quote: "[\"Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]\"]" },
+      { type: "text",  avatar: "../../assets/avatar-placeholder.png", name: "Full Name", role: "Put person position here", quote: "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing. Interdum ut nulla cum mi quisque feugiat turpis lacinia orci.", highlights: ["egestas arcu mauris dictum", "feugiat turpis lacinia orci"] },
+      { type: "text",  avatar: "../../assets/avatar-placeholder.png", name: "Full Name", role: "Put person position here", quote: "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.", highlights: ["adipiscing"] },
+      { type: "video", videoUrl: "", videoPoster: "../../assets/video-thumbnail.png", name: "Full Name", role: "Put person position here", quote: "[\"Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]\"]" },
+      { type: "text",  avatar: "../../assets/avatar-placeholder.png", name: "Full Name", role: "Put person position here", quote: "Risus tincidunt ut in leo. Pharetra aliquam est elit integer dis nisi eu cras. Mattis imperdiet aenean nunc nullam aliquet arcu lacinia phasellus. Consequat nibh nunc amet donec habitant gravida quis eleifend donec.", highlights: [] },
+      { type: "video", videoUrl: "", videoPoster: "../../assets/video-thumbnail.png", name: "Full Name", role: "Put person position here", quote: "[\"Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]\"]" },
+      { type: "text",  avatar: "../../assets/avatar-placeholder.png", name: "Full Name", role: "Put person position here", quote: "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.", highlights: ["tristique aliquet pulvinar"] },
+      { type: "text",  avatar: "../../assets/avatar-placeholder.png", name: "Full Name", role: "Put person position here", quote: "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.", highlights: ["egestas arcu mauris dictum", "odio quis"] },
+    ],
+  },
+
+  /* Stack — "Here's Everything You're Getting" */
+  stack: {
+    h2: "Here's Everything You're Getting For Only $27.00 Today",
+    bigStackImg: "../../assets/ipad-stack.png",
+    items: [
+      { kind: "book", title: "340 Page AC Book",     sub: "(Digital PDF Download)",  body: "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.", access: "Instant Access", priceWas: "$37", priceNow: "Free" },
+      { kind: "ipad", title: "Fast-Start Series",    sub: "6+ Hours Online Course",  body: "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.", access: "Instant Access", priceWas: "$37", priceNow: "Free" },
+      { kind: "ipad", title: "Fast-Start Series",    sub: "6+ Hours Online Course",  body: "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.", access: "Instant Access", priceWas: "$37", priceNow: "Free" },
+      { kind: "ipad", title: "Fast-Start Series",    sub: "6+ Hours Online Course",  body: "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.", access: "Instant Access", priceWas: "$37", priceNow: "Free" },
+      { kind: "ipad", title: "Fast-Start Series",    sub: "6+ Hours Online Course",  body: "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.", access: "Instant Access", priceWas: "$37", priceNow: "Free" },
+      { kind: "ipad", title: "Fast-Start Series",    sub: "6+ Hours Online Course",  body: "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.", access: "Instant Access", priceWas: "$37", priceNow: "Free" },
+    ],
+    ctaTagline: "Get Your eBook Now!",
+    ctaLabel: "Download Now for only $27.00",
+    guaranteeText: "Backed By Our Unconditional 60 Day Money Back Guarantee",
+  },
+
+  /* Guarantee */
+  guarantee: {
+    h2: "Your Purchase Is Backed By Our\nUnconditional Money Back Guarantee",
+    body:
+`I know that before I get into anything… I'd like to know what I'm buying and that it's backed by a solid money-back guarantee.
+
+And I want you to be comfortable with this purchase.
+
+And even though it's only $27.00 — you worked for that money and it counts.
+
+Like my grandpa used to say, "Test drive the car before you drive it off the lot"…
+
+So here's what I've arranged:
+
+Download the eBook, read it, but more importantly apply what you learn in there.
+
+And if you're not blown away by what you learn — just shoot us an email at support@yourdomain.com and request a refund within 30 days.
+
+We'll refund you your $27.00 and let you keep the Automatic Clients book free of charge.
+
+How's that for a money back guarantee? I'd say pretty good!`,
+  },
+
+  /* FAQ */
+  faq: {
+    h2: "Frequently Asked Questions",
+    sub: "Need help? support@yourdomain.com",
+    items: [
+      { q: "Who is this for?",
+        a: "This is for anyone who wants to acquire more customers, automatically. Coaches, consultants, agency owners, artists, professional service providers, influencers, information marketers, freelancers, content creators, and so on." },
+      { q: "Do you offer more in depth help?",
+        a: "Yes. Nothing was held back while writing this book but for the people that want to further assistance we do offer opportunities to \"upgrade\" your order after purchasing. We also have our group of private clients (by application only) if you want us to help you implement everything." },
+      { q: "Is there a physical book available?",
+        a: "Due to high demand our supply of physical copies is only available to eBook customers (inside the membership area), so you'll be able to get one." },
+      { q: "I want this, what exactly am I getting?",
+        a: "You are getting a copy of the Automatic Clients ebook, available instantly. You are getting the highly praised 6+ hour Advanced Acquisition Theory course. You are getting our advanced Economics Calculator. You are getting our 2,854 Profitable Niches spreadsheet. You're getting the 7-Day Fast Start video series, our best $200,000 Advertisement, access to our FB community, our 7-Figure Video Sales Letter script, and a 26-step Launch Checklist." },
+      { q: "Do you have any success stories?",
+        a: "Yes. This didn't just work for us. We encourage you to watch the videos above from [List of success Customer] and others to get their side of the story." },
+      { q: "Is there a guarantee?",
+        a: "Yes, you get a 30 day \"no questions asked\" money back guarantee in case it's not for you. We even let you keep the book." },
+    ],
+  },
+
+  /* Footer */
+  footer: {
+    disclaimer:
+      "This site is not a part of the Facebook website or Facebook Inc. Additionally, This site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.",
+    ctaLabel: "Download Now for only $5.00",
+    ctaTagline: "Get Your eBook Now!",
+    earnings: "[insert earnings disclaimer]",
+    logoText: "ADVANGUARD",
+    copyright: "© 2026 Advanguard. All rights reserved.",
+  },
+};
+
+/* Load any persisted edits from localStorage and deep-merge over defaults. */
+(function () {
+  const KEY = "advanguard:content";
+  const VKEY = "advanguard:version";
+  const VERSION = 2;  // bump when defaults change shape — invalidates old localStorage
+  function deepMerge(a, b) {
+    if (Array.isArray(b)) return b.slice();
+    if (b && typeof b === "object") {
+      const out = { ...a };
+      for (const k of Object.keys(b)) out[k] = deepMerge(a ? a[k] : undefined, b[k]);
+      return out;
+    }
+    return b === undefined ? a : b;
+  }
+  try {
+    const storedV = parseInt(localStorage.getItem(VKEY) || "0", 10);
+    if (storedV < VERSION) {
+      localStorage.removeItem(KEY);
+      localStorage.setItem(VKEY, String(VERSION));
+    }
+    const raw = localStorage.getItem(KEY);
+    window.AC.content = raw ? deepMerge(window.AC.defaultContent, JSON.parse(raw)) : window.AC.defaultContent;
+  } catch (e) {
+    window.AC.content = window.AC.defaultContent;
+  }
+  window.AC.save = function (next) {
+    window.AC.content = next;
+    try { localStorage.setItem(KEY, JSON.stringify(next)); } catch (e) {}
+    window.dispatchEvent(new CustomEvent("ac:content", { detail: next }));
+  };
+  window.AC.reset = function () {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    window.AC.content = window.AC.defaultContent;
+    window.dispatchEvent(new CustomEvent("ac:content", { detail: window.AC.content }));
+  };
+})();

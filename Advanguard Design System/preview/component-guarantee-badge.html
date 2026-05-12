@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Guarantee Badge</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { padding: 24px 28px; background: #fff; display: flex; gap: 28px; align-items: center; }
+  .badge {
+    width: 124px; height: 124px;
+    background: linear-gradient(rgb(255,224,61) 0%, rgb(255,206,30) 100%);
+    border-radius: 3px;
+    position: relative;
+    display: grid; place-items: center;
+    /* Star shape using clip-path */
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+  .badge .pct {
+    color: rgb(122,51,0);
+    font: 900 22px/1 var(--font-body);
+    letter-spacing: -0.02em;
+  }
+  .small { width: 64px; height: 64px; }
+  .small .pct { font-size: 12px; }
+  .meta { font: 500 12px/1.4 ui-monospace, "SF Mono", Menlo, monospace; color: var(--color-text-muted); max-width: 220px; }
+</style>
+</head>
+<body>
+  <div class="badge"><span class="pct">100%</span></div>
+  <div class="badge small"><span class="pct">100%</span></div>
+  <div class="meta">Guarantee Badge — 8‑point star, yellow gradient (#FFE03D → #FFCE1E), 100% in burnt‑orange Inter Black.<br><br>Pulled as <code>assets/guarantee-star.svg</code>.</div>
+</body>
+</html>
