@@ -1,66 +1,65 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import contentJson from "@/content/content.json";
+import { ContentSchema, mediaUrl } from "@/types/content";
+import { JsonLd } from "./_sections/JsonLd";
+import { Header } from "./_sections/Header";
+import { Headline } from "./_sections/Headline";
+import { Hero } from "./_sections/Hero";
+import { LogoStrip } from "./_sections/LogoStrip";
+import { OnlySystem } from "./_sections/OnlySystem";
+import { Demo } from "./_sections/Demo";
+import { Testimonials } from "./_sections/Testimonials";
+import { Stack } from "./_sections/Stack";
+import { GuaranteeSection } from "./_sections/GuaranteeSection";
+import { FAQ } from "./_sections/FAQ";
+import { Footer } from "./_sections/Footer";
 
 export default function Home() {
+  const c = ContentSchema.parse(contentJson);
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: c.meta.productName,
+    brand: { "@type": "Brand", name: c.meta.brand },
+    description: c.meta.description,
+    image: mediaUrl(c.meta.ogImage),
+    aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "456" },
+    offers: {
+      "@type": "Offer",
+      price: c.order.priceNow.replace(/[^\d.]/g, ""),
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: c.meta.canonical,
+    },
+  };
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: c.faq.items.map((q) => ({
+      "@type": "Question",
+      name: q.q,
+      acceptedAnswer: { "@type": "Answer", text: q.a },
+    })),
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <JsonLd data={productJsonLd} />
+      <JsonLd data={faqJsonLd} />
+      <Header content={c.header} />
+      <main id="main">
+        <Headline content={c.headline} />
+        <Hero hero={c.hero} order={c.order} />
+        <LogoStrip content={c.authority} />
+        <OnlySystem content={c.onlySystem} />
+        <Demo content={c.demo} />
+        <Testimonials content={c.testimonials} />
+        <Stack content={c.stack} />
+        <GuaranteeSection content={c.guarantee} />
+        <FAQ content={c.faq} />
       </main>
-    </div>
+      <Footer content={c.footer} header={c.header} />
+    </>
   );
 }
