@@ -1,0 +1,71 @@
+import { Reveal } from "./_shared/Reveal";
+import { VideoPlayer } from "./_shared/VideoPlayer";
+import { Stars } from "./_shared/Stars";
+import { mediaUrl, type Content } from "@/types/content";
+import type { ReactNode } from "react";
+
+function highlightQuote(quote: string, highlights: string[]): ReactNode {
+  if (!highlights || !highlights.length) return quote;
+  type Part = { text: string; hl: boolean };
+  const parts: Part[] = [{ text: quote, hl: false }];
+  for (const h of highlights) {
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i];
+      if (p.hl) continue;
+      const idx = p.text.toLowerCase().indexOf(h.toLowerCase());
+      if (idx >= 0) {
+        const before = p.text.slice(0, idx);
+        const match = p.text.slice(idx, idx + h.length);
+        const after = p.text.slice(idx + h.length);
+        parts.splice(i, 1, { text: before, hl: false }, { text: match, hl: true }, { text: after, hl: false });
+        break;
+      }
+    }
+  }
+  return parts.map((p, i) => p.hl ? <span className="ac-testi-card__hl" key={i}>{p.text}</span> : <span key={i}>{p.text}</span>);
+}
+
+export function Testimonials({ content: c }: { content: Content["testimonials"] }) {
+  return (
+    <section className="ac-testi" aria-labelledby="testi-h2">
+      <div className="ac-testi__inner">
+        <Reveal className="ac-testi__head">
+          <div className="ac-testi__rating">
+            <span className="ac-testi__rating-text">{c.rating}</span>
+            <span className="ac-testi__rating-stars" aria-label="5 out of 5"><Stars/></span>
+          </div>
+          <h2 className="ac-testi__h2" id="testi-h2">{c.h2}</h2>
+          <p className="ac-testi__pull">{c.pullQuote}</p>
+        </Reveal>
+        <div className="ac-testi__grid">
+          {c.items.map((t, i) => (
+            <Reveal className="ac-testi__card" key={i} delay={(i % 3) * 80}>
+              {t.type === "video" ? (
+                <div className="ac-testi-card ac-testi-card--video">
+                  <VideoPlayer src={t.videoUrl} poster={t.videoPoster} label={t.name}/>
+                  <div className="ac-testi-card__video-foot">
+                    <div className="ac-testi-card__name">{t.name}</div>
+                    <div className="ac-testi-card__role">{t.role}</div>
+                    <div className="ac-testi-card__video-quote">&quot;{t.quote}&quot;</div>
+                  </div>
+                </div>
+              ) : (
+                <div className="ac-testi-card">
+                  <div className="ac-testi-card__head">
+                    <div className="ac-testi-card__avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
+                    <div>
+                      <div className="ac-testi-card__name">{t.name}</div>
+                      <div className="ac-testi-card__role">{t.role}</div>
+                    </div>
+                  </div>
+                  <div className="ac-testi-card__stars" aria-label="5 stars"><Stars/></div>
+                  <p className="ac-testi-card__quote">{highlightQuote(t.quote, t.highlights)}</p>
+                </div>
+              )}
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
