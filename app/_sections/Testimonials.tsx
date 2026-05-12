@@ -2,6 +2,7 @@ import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
+import { MediaSwapButton } from "../_editor/MediaSwapButton";
 import { mediaUrl, type Content } from "@/types/content";
 import type { ReactNode } from "react";
 
@@ -48,7 +49,8 @@ export function Testimonials({ content: c, edit = false }: { content: Content["t
           {c.items.map((t, i) => (
             <Reveal className="ac-testi__card" key={i} delay={(i % 3) * 80}>
               {t.type === "video" ? (
-                <div className="ac-testi-card ac-testi-card--video">
+                <div className="ac-testi-card ac-testi-card--video" style={{ position: "relative" }}>
+                  {edit && <MediaSwapButton path={`testimonials.items.${i}.videoUrl`} accept="video" allowUrl />}
                   <VideoPlayer src={t.videoUrl} poster={t.videoPoster} label={t.name}/>
                   <div className="ac-testi-card__video-foot">
                     <div className="ac-testi-card__name">
