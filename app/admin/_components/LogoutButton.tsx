@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { Icons } from "../../_sections/_shared/Icons";
 
 export function LogoutButton() {
   const router = useRouter();
@@ -7,5 +8,26 @@ export function LogoutButton() {
     await fetch("/api/logout", { method: "POST" });
     router.replace("/admin/login");
   }
-  return <button onClick={logout} style={{ background: "transparent", color: "#e2e8f0", border: 0, padding: 8, cursor: "pointer", textAlign: "left" }}>Se déconnecter</button>;
+  return (
+    <button
+      onClick={logout}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        background: "transparent",
+        color: "var(--adv-text-muted, #71717a)",
+        border: "1px solid var(--adv-border, #e7e7ea)",
+        padding: "6px 12px",
+        borderRadius: 6,
+        cursor: "pointer",
+        fontFamily: "var(--adv-font, system-ui)",
+        fontSize: 13,
+        fontWeight: 500,
+      }}
+    >
+      <Icons.LogOut />
+      Se déconnecter
+    </button>
+  );
 }
