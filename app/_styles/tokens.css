@@ -1,0 +1,75 @@
+/* Admin/Editor design tokens — distinct from the landing's brand colors.
+   The landing uses its own brand tokens from styles/colors_and_type.css. */
+:root {
+  /* Surface colors */
+  --adv-bg: #fafafa;
+  --adv-surface: #ffffff;
+  --adv-surface-2: #f5f5f7;
+  --adv-border: #e7e7ea;
+  --adv-border-strong: #d4d4d8;
+
+  /* Text */
+  --adv-text: #18181b;
+  --adv-text-muted: #71717a;
+  --adv-text-subtle: #a1a1aa;
+  --adv-text-on-dark: #fafafa;
+
+  /* Accent (use sparingly — minimalist) */
+  --adv-accent: #18181b;
+  --adv-accent-hover: #27272a;
+  --adv-link: #2563eb;
+
+  /* State colors */
+  --adv-success: #16a34a;
+  --adv-success-bg: #f0fdf4;
+  --adv-error: #dc2626;
+  --adv-error-bg: #fef2f2;
+  --adv-warning: #d97706;
+
+  /* Radius */
+  --adv-radius-sm: 6px;
+  --adv-radius: 8px;
+  --adv-radius-lg: 12px;
+  --adv-radius-pill: 999px;
+
+  /* Shadows (subtle) */
+  --adv-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --adv-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --adv-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --adv-shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Spacing scale */
+  --adv-sp-1: 4px;
+  --adv-sp-2: 8px;
+  --adv-sp-3: 12px;
+  --adv-sp-4: 16px;
+  --adv-sp-5: 20px;
+  --adv-sp-6: 24px;
+  --adv-sp-8: 32px;
+  --adv-sp-10: 40px;
+  --adv-sp-12: 48px;
+
+  /* Typography */
+  --adv-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", system-ui, sans-serif;
+  --adv-font-mono: "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+  /* Z-index scale */
+  --adv-z-modal-backdrop: 200;
+  --adv-z-modal: 201;
+  --adv-z-toast: 300;
+  --adv-z-publish-bar: 100;
+
+  /* Transitions */
+  --adv-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --adv-duration-fast: 120ms;
+  --adv-duration: 200ms;
+}
+
+/* Scope-class for the admin area — apply to admin layout root */
+.adv-admin {
+  background: var(--adv-bg);
+  color: var(--adv-text);
+  font-family: var(--adv-font);
+  font-size: 14px;
+  line-height: 1.5;
+}
