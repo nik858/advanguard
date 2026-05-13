@@ -1,5 +1,6 @@
 "use client";
 import { useEditor } from "./EditorProvider";
+import { ToastProvider } from "../_components/Toast";
 import { Header } from "../_sections/Header";
 import { Headline } from "../_sections/Headline";
 import { Hero } from "../_sections/Hero";
@@ -16,8 +17,10 @@ import { PublishBar } from "./PublishBar";
 export function LandingTree() {
   const { state } = useEditor();
   const c = state.draft;
+  // In preview mode, sections still receive `edit` so they render content from draft,
+  // but EditableText / MediaSwapButton internally early-return based on previewMode.
   return (
-    <>
+    <ToastProvider>
       <PublishBar />
       <Header content={c.header} edit />
       <main id="main">
@@ -32,6 +35,6 @@ export function LandingTree() {
         <FAQ content={c.faq} edit />
       </main>
       <Footer content={c.footer} header={c.header} edit />
-    </>
+    </ToastProvider>
   );
 }

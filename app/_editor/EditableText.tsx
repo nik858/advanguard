@@ -38,11 +38,17 @@ export function EditableText({
     if (!multiline && e.key === "Enter") { e.preventDefault(); (e.currentTarget as HTMLElement).blur(); }
   }
 
+  // In preview mode, render plain text without editor affordance
+  if (state.previewMode) {
+    return <Tag className={className} style={{ whiteSpace: multiline ? "pre-line" : undefined }}>{children ?? value}</Tag>;
+  }
+
   return (
     <Tag
       ref={ref}
       className={`${className} ${styles.editable}`}
       data-editing={editing ? "true" : "false"}
+      data-multiline={multiline ? "true" : "false"}
       contentEditable={editing}
       suppressContentEditableWarning
       tabIndex={0}

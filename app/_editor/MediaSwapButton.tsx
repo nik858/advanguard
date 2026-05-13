@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { UploadModal } from "./UploadModal";
 import { useEditor } from "./EditorProvider";
+import { Icons } from "../_sections/_shared/Icons";
 
 export function MediaSwapButton({
   path,
@@ -14,6 +15,9 @@ export function MediaSwapButton({
 }) {
   const { setField, state } = useEditor();
   const [open, setOpen] = useState(false);
+
+  if (state.previewMode) return null;
+
   const current = path.split(".").reduce<any>(
     (acc, k) => acc?.[k.match(/^\d+$/) ? Number(k) : k],
     state.draft,
@@ -30,20 +34,29 @@ export function MediaSwapButton({
         }}
         style={{
           position: "absolute",
-          top: 8,
-          right: 8,
+          top: 10,
+          right: 10,
           zIndex: 10,
-          background: "rgba(15,23,42,.85)",
-          color: "#fff",
-          border: 0,
+          background: "rgba(255, 255, 255, 0.96)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          color: "#18181b",
+          border: "1px solid rgba(0, 0, 0, 0.08)",
           borderRadius: 999,
-          padding: "6px 10px",
+          padding: "6px 12px",
           fontSize: 12,
+          fontWeight: 500,
           cursor: "pointer",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 6,
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+          fontFamily: "var(--adv-font, system-ui, sans-serif)",
         }}
         aria-label="Changer le média"
       >
-        ↻ Changer
+        <Icons.Pencil />
+        Changer
       </button>
       {open && (
         <UploadModal

@@ -6,9 +6,12 @@ export type EditorState = {
   dirty: boolean;
   publishing: boolean;
   lastSaveAt: number | null;
+  previewMode: boolean;
 };
 
 export type EditorAction =
   | { type: "set"; path: string; value: unknown }
   | { type: "reset" }
-  | { type: "setDraft"; draft: Content };
+  | { type: "setDraft"; draft: Content }
+  | { type: "savedAt"; at: number }
+  | { type: "togglePreview" };

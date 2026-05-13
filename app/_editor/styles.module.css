@@ -2,13 +2,52 @@
   outline: 1px dashed transparent;
   outline-offset: 4px;
   cursor: text;
-  transition: outline-color 120ms;
+  transition: outline-color var(--adv-duration-fast, 120ms), background var(--adv-duration-fast, 120ms);
+  position: relative;
+  border-radius: 2px;
 }
-.editable:hover { outline-color: rgba(28,123,253,.4); }
+.editable:hover {
+  outline-color: rgba(28, 123, 253, 0.5);
+  background: rgba(28, 123, 253, 0.04);
+}
 .editable[data-editing="true"] {
   outline: 2px solid #1c7bfd;
   outline-offset: 4px;
-  background: rgba(28,123,253,.04);
+  background: rgba(28, 123, 253, 0.06);
+}
+.editable[data-editing="true"][data-multiline="false"]::after {
+  content: "⏎ valider · Esc annuler";
+  position: absolute;
+  bottom: -28px;
+  left: 0;
+  background: #18181b;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  font-family: var(--adv-font, system-ui, sans-serif);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.editable[data-editing="true"][data-multiline="true"]::after {
+  content: "⇧⏎ retour à la ligne · Esc annuler";
+  position: absolute;
+  bottom: -28px;
+  left: 0;
+  background: #18181b;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  font-family: var(--adv-font, system-ui, sans-serif);
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 .itemWrap { position: relative; }
 .itemRemove {

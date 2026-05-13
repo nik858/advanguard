@@ -1,6 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useEditor } from "./EditorProvider";
+import { ConfirmDialog } from "../_components/ConfirmDialog";
+import { Icons } from "../_sections/_shared/Icons";
 
 function countDiff(a: unknown, b: unknown): number {
   if (a === b) return 0;
@@ -20,14 +22,53 @@ function countDiff(a: unknown, b: unknown): number {
   return 1;
 }
 
+function formatAgo(ms: number): string {
+  const s = Math.max(0, Math.floor((Date.now() - ms) / 1000));
+  if (s < 5) return "à l'instant";
+  if (s < 60) return `il y a ${s}s`;
+  const m = Math.floor(s / 60);
+  if (m < 60) return `il y a ${m}min`;
+  const h = Math.floor(m / 60);
+  return `il y a ${h}h`;
+}
+
 export function PublishBar() {
-  const { state, resetDraft, publish } = useEditor();
+  const { state, resetDraft, publish, togglePreview } = useEditor();
   const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(null);
   const [busy, setBusy] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [tick, setTick] = useState(0);
   const diffs = countDiff(state.draft, state.baseline);
 
+  // Re-render every 10s so "il y a Xs" stays current
+  useEffect(() => {
+    if (!state.lastSaveAt) return;
+    const i = setInterval(() => setTick((t) => t + 1), 10_000);
+    return () => clearInterval(i);
+  }, [state.lastSaveAt]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const cmdOrCtrl = e.metaKey || e.ctrlKey;
+      if (cmdOrCtrl && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        if (state.dirty && !busy) onPublish();
+        return;
+      }
+      if (cmdOrCtrl && e.shiftKey && e.key.toLowerCase() === "p") {
+        e.preventDefault();
+        togglePreview();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.dirty, busy]);
+
   async function onPublish() {
-    setBusy(true); setStatus(null);
+    setBusy(true);
+    setStatus({ ok: true, msg: "Publication…" });
     const r = await publish();
     if (!r.ok) {
       setBusy(false);
@@ -36,41 +77,210 @@ export function PublishBar() {
     }
     setStatus({ ok: true, msg: "Build en cours…" });
     const sha = r.commit_sha;
-    if (!sha) { setBusy(false); setStatus({ ok: true, msg: "✓ Commit publié" }); return; }
+    if (!sha) {
+      setBusy(false);
+      setStatus({ ok: true, msg: "Publié" });
+      return;
+    }
     const deadline = Date.now() + 120_000;
     const poll = async () => {
       const res = await fetch(`/api/deploy-status?sha=${sha}`);
       if (res.ok) {
         const body = await res.json();
-        if (body.state === "READY") { setBusy(false); setStatus({ ok: true, msg: "✓ Site en ligne" }); return; }
-        if (body.state === "ERROR" || body.state === "CANCELED") { setBusy(false); setStatus({ ok: false, msg: "Build échoué — voir Vercel" }); return; }
+        if (body.state === "READY") {
+          setBusy(false);
+          setStatus({ ok: true, msg: "✓ Site en ligne" });
+          setTimeout(() => setStatus(null), 5000);
+          return;
+        }
+        if (body.state === "ERROR" || body.state === "CANCELED") {
+          setBusy(false);
+          setStatus({ ok: false, msg: "Build échoué" });
+          return;
+        }
       }
-      if (Date.now() > deadline) { setBusy(false); setStatus({ ok: true, msg: "✓ Commit publié (timeout polling)" }); return; }
+      if (Date.now() > deadline) {
+        setBusy(false);
+        setStatus({ ok: true, msg: "Publié (vérifie Vercel)" });
+        return;
+      }
       setTimeout(poll, 3000);
     };
     setTimeout(poll, 3000);
   }
 
-  async function onCancel() {
-    if (!confirm("Annuler toutes les modifications non publiées ?")) return;
-    resetDraft();
-    setStatus(null);
+  function onCancelClick() {
+    if (!state.dirty) return;
+    setConfirmOpen(true);
   }
 
+  function onConfirmCancel() {
+    resetDraft();
+    setStatus(null);
+    setConfirmOpen(false);
+  }
+
+  const isPreview = state.previewMode;
+
   return (
-    <div style={{
-      position: "sticky", top: 0, zIndex: 100,
-      background: "#0f172a", color: "#fff",
-      padding: "10px 16px", display: "flex", alignItems: "center", gap: 16,
-      fontFamily: "system-ui, -apple-system, sans-serif", fontSize: 14,
-    }}>
-      <span>🟢 Mode édition</span>
-      <span style={{ opacity: 0.7 }}>•</span>
-      <span><b>{diffs}</b> modif{diffs > 1 ? "s" : ""} non publiée{diffs > 1 ? "s" : ""}</span>
-      <div style={{ flex: 1 }} />
-      {status && <span style={{ background: status.ok ? "#15803d" : "#b91c1c", padding: "4px 10px", borderRadius: 999 }}>{status.msg}</span>}
-      <button onClick={onCancel} disabled={busy || !state.dirty} style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.3)", padding: "6px 12px", borderRadius: 6, cursor: state.dirty ? "pointer" : "not-allowed", opacity: state.dirty ? 1 : 0.5 }}>Annuler</button>
-      <button onClick={onPublish} disabled={busy || !state.dirty} style={{ background: "#1c7bfd", color: "#fff", border: 0, padding: "8px 16px", borderRadius: 6, cursor: state.dirty ? "pointer" : "not-allowed", opacity: state.dirty ? 1 : 0.5, fontWeight: 600 }}>{busy ? "Publication..." : "Publier"}</button>
-    </div>
+    <>
+      <div
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+          background: "rgba(255, 255, 255, 0.92)",
+          backdropFilter: "saturate(180%) blur(16px)",
+          WebkitBackdropFilter: "saturate(180%) blur(16px)",
+          borderBottom: "1px solid var(--adv-border, #e7e7ea)",
+          padding: "8px 16px",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          fontFamily: "var(--adv-font, -apple-system, system-ui, sans-serif)",
+          fontSize: 13,
+          color: "var(--adv-text, #18181b)",
+        }}
+      >
+        {/* Status dot */}
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 500 }}>
+          <span
+            aria-hidden="true"
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              background: isPreview ? "#a1a1aa" : "#16a34a",
+              boxShadow: isPreview ? "none" : "0 0 0 3px rgba(22,163,74,.15)",
+            }}
+          />
+          {isPreview ? "Aperçu" : "Édition"}
+        </span>
+
+        {/* Preview toggle */}
+        <button
+          type="button"
+          onClick={togglePreview}
+          title="Basculer aperçu (⌘⇧P)"
+          aria-pressed={isPreview}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            background: isPreview ? "#f5f5f7" : "transparent",
+            border: "1px solid transparent",
+            color: "var(--adv-text-muted, #71717a)",
+            padding: "5px 10px",
+            borderRadius: 6,
+            cursor: "pointer",
+            fontSize: 13,
+            fontFamily: "inherit",
+          }}
+        >
+          <Icons.Eye />
+          {isPreview ? "Reprendre l'édition" : "Aperçu"}
+        </button>
+
+        {/* Diff chip */}
+        {diffs > 0 && (
+          <span
+            style={{
+              background: "#fef3c7",
+              color: "#92400e",
+              padding: "2px 8px",
+              borderRadius: 999,
+              fontSize: 12,
+              fontWeight: 600,
+            }}
+            title={`${diffs} modification${diffs > 1 ? "s" : ""} en attente de publication`}
+          >
+            {diffs} modification{diffs > 1 ? "s" : ""} non publiée{diffs > 1 ? "s" : ""}
+          </span>
+        )}
+
+        <div style={{ flex: 1 }} />
+
+        {/* Save status indicator */}
+        {state.lastSaveAt && !state.dirty && (
+          <span style={{ color: "var(--adv-text-muted, #71717a)", fontSize: 12, display: "inline-flex", alignItems: "center", gap: 4 }} key={tick}>
+            <Icons.Check />
+            Sauvegardé {formatAgo(state.lastSaveAt)}
+          </span>
+        )}
+        {state.dirty && !state.lastSaveAt && (
+          <span style={{ color: "var(--adv-text-muted, #71717a)", fontSize: 12 }}>
+            Sauvegarde…
+          </span>
+        )}
+
+        {/* Action status pill */}
+        {status && (
+          <span
+            style={{
+              background: status.ok ? "#dcfce7" : "#fee2e2",
+              color: status.ok ? "#166534" : "#991b1b",
+              padding: "4px 10px",
+              borderRadius: 999,
+              fontSize: 12,
+              fontWeight: 500,
+            }}
+          >
+            {status.msg}
+          </span>
+        )}
+
+        {/* Buttons */}
+        <button
+          type="button"
+          onClick={onCancelClick}
+          disabled={busy || !state.dirty}
+          style={{
+            background: "transparent",
+            color: "var(--adv-text, #18181b)",
+            border: "1px solid var(--adv-border, #e7e7ea)",
+            padding: "6px 12px",
+            borderRadius: 6,
+            cursor: state.dirty ? "pointer" : "not-allowed",
+            opacity: state.dirty && !busy ? 1 : 0.5,
+            fontSize: 13,
+            fontWeight: 500,
+            fontFamily: "inherit",
+          }}
+        >
+          Annuler
+        </button>
+        <button
+          type="button"
+          onClick={onPublish}
+          disabled={busy || !state.dirty}
+          title="Publier (⌘S)"
+          style={{
+            background: "var(--adv-accent, #18181b)",
+            color: "#fff",
+            border: 0,
+            padding: "7px 14px",
+            borderRadius: 6,
+            cursor: state.dirty && !busy ? "pointer" : "not-allowed",
+            opacity: state.dirty && !busy ? 1 : 0.5,
+            fontSize: 13,
+            fontWeight: 600,
+            fontFamily: "inherit",
+          }}
+        >
+          {busy ? "Publication…" : "Publier"}
+        </button>
+      </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Annuler les modifications non publiées ?"
+        description="Toutes les modifications en cours seront perdues. Cette action est irréversible."
+        confirmLabel="Tout annuler"
+        cancelLabel="Garder mes modifications"
+        destructive
+        onConfirm={onConfirmCancel}
+        onCancel={() => setConfirmOpen(false)}
+      />
+    </>
   );
 }

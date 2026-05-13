@@ -24,12 +24,26 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
   switch (action.type) {
     case "set": {
       const next = setByPath(state.draft, action.path, action.value) as Content;
-      return { ...state, draft: next, dirty: JSON.stringify(next) !== JSON.stringify(state.baseline) };
+      const dirty = JSON.stringify(next) !== JSON.stringify(state.baseline);
+      return {
+        ...state,
+        draft: next,
+        dirty,
+        // A new edit invalidates the saved-at indicator while dirty.
+        // When edit brings us back to baseline (dirty=false), keep prior lastSaveAt.
+        lastSaveAt: dirty ? null : state.lastSaveAt,
+      };
     }
     case "reset":
       return { ...state, draft: state.baseline, dirty: false };
-    case "setDraft":
-      return { ...state, draft: action.draft, dirty: JSON.stringify(action.draft) !== JSON.stringify(state.baseline) };
+    case "setDraft": {
+      const dirty = JSON.stringify(action.draft) !== JSON.stringify(state.baseline);
+      return { ...state, draft: action.draft, dirty };
+    }
+    case "savedAt":
+      return { ...state, lastSaveAt: action.at };
+    case "togglePreview":
+      return { ...state, previewMode: !state.previewMode };
   }
 }
 
@@ -37,6 +51,7 @@ type EditorContextValue = {
   state: EditorState;
   setField: (path: string, value: unknown) => void;
   resetDraft: () => void;
+  togglePreview: () => void;
   publish: () => Promise<{ ok: true; commit_sha?: string } | { ok: false; error: string }>;
 };
 
@@ -54,6 +69,7 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
     dirty: false,
     publishing: false,
     lastSaveAt: null,
+    previewMode: false,
   });
 
   // Load draft from localStorage on mount, then merge server-side draft if exists
@@ -88,7 +104,9 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ draft: state.draft }),
-      }).catch(() => {});
+      })
+        .then((r) => { if (r.ok) dispatch({ type: "savedAt", at: Date.now() }); })
+        .catch(() => {});
     }, 5000);
     return () => { if (saveTimer.current) clearTimeout(saveTimer.current); };
   }, [state.draft, state.dirty]);
@@ -101,6 +119,7 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
       localStorage.removeItem(STORAGE_KEY);
       fetch("/api/draft", { method: "DELETE" }).catch(() => {});
     },
+    togglePreview: () => dispatch({ type: "togglePreview" }),
     publish: async () => {
       const res = await fetch("/api/publish", { method: "POST" });
       if (res.ok) {
