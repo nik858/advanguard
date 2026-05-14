@@ -50,9 +50,15 @@ export async function loadPromptsBlob(): Promise<unknown | null> {
     const { blobs } = await list({ prefix: PROMPTS_KEY });
     const match = blobs.find((b) => b.pathname === PROMPTS_KEY);
     if (!match) return null;
-    const r = await fetch(match.url, { cache: "no-store" });
-    if (!r.ok) return null;
-    return await r.json();
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+    try {
+      const r = await fetch(match.url, { cache: "no-store", signal: controller.signal });
+      if (!r.ok) return null;
+      return await r.json();
+    } finally {
+      clearTimeout(timer);
+    }
   } catch {
     return null;
   }

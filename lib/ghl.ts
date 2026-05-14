@@ -1,3 +1,5 @@
+class NonRetriableError extends Error {}
+
 async function postWithRetry(url: string, body: unknown, max = 3): Promise<void> {
   let lastErr: unknown;
   for (let i = 0; i < max; i++) {
@@ -8,9 +10,14 @@ async function postWithRetry(url: string, body: unknown, max = 3): Promise<void>
         body: JSON.stringify(body),
       });
       if (res.ok) return;
-      if (res.status < 500) throw new Error(`GHL ${res.status}: ${await res.text()}`);
+      // 4xx — client error, retrying won't help. Fail fast.
+      if (res.status < 500) throw new NonRetriableError(`GHL ${res.status}: ${await res.text()}`);
+      // 5xx — server error, retriable.
       lastErr = new Error(`GHL ${res.status}`);
-    } catch (e) { lastErr = e; }
+    } catch (e) {
+      if (e instanceof NonRetriableError) throw e;
+      lastErr = e;
+    }
     if (i < max - 1) await new Promise((r) => setTimeout(r, 1000 * Math.pow(3, i)));
   }
   throw lastErr;

@@ -36,6 +36,13 @@ describe("postAuditToGHL", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
 
+  it("does not retry on a 4xx response — fails fast", async () => {
+    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue(new Response("bad request", { status: 400 }));
+    const { postAuditToGHL } = await import("@/lib/ghl");
+    await expect(postAuditToGHL(payload)).rejects.toThrow();
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
   it("throws when the webhook URL is not configured", async () => {
     delete process.env.GHL_AUDIT_WEBHOOK_URL;
     vi.resetModules();
