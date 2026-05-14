@@ -8,7 +8,6 @@ export default function SettingsPage() {
   const anthropic = !!process.env.ANTHROPIC_API_KEY;
   const pagespeed = !!process.env.GOOGLE_PAGESPEED_API_KEY;
   const blob = !!process.env.BLOB_READ_WRITE_TOKEN;
-  const kv = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
 
   type RowProps = { label: string; description: string; ok: boolean; value?: string };
   function Row({ label, description, ok, value }: RowProps) {
@@ -47,7 +46,6 @@ export default function SettingsPage() {
       <div style={{ background: "#fff", border: "1px solid #e7e7ea", borderRadius: 12, padding: "0 20px" }}>
         <Row label="GitHub repo" description="Stores the landing page content. Each publish = one commit." ok={repo !== "(not configured)"} value={`${repo} · ${branch}`} />
         <Row label="Vercel Blob" description="Stores uploaded media and the AI audit prompts." ok={blob} />
-        <Row label="Rate limiting (Upstash KV)" description="Brute-force protection on login and anti-spam on the form." ok={kv} />
         <Row label="Anthropic API (Claude)" description="Generates the personalized audit email. Required for the audit pipeline." ok={anthropic} />
         <Row label="GHL Audit webhook" description="Endpoint where finished audit emails are sent for delivery." ok={ghlAudit} />
         <Row label="Google PageSpeed API" description="Performance metrics for the audit. Optional — the audit degrades gracefully without it." ok={pagespeed} />

@@ -35,6 +35,7 @@ export const HeaderSchema = z.object({
   logoLight: MediaRefSchema.nullable(),
   logoDark: MediaRefSchema.nullable(),
   logoText: z.string(),
+  favicon: MediaRefSchema.nullable().default(null),  // browser-tab icon
 });
 export type HeaderContent = z.infer<typeof HeaderSchema>;
 

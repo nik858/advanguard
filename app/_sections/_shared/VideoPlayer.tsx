@@ -8,7 +8,7 @@ function isVimeo(u: string)   { return /vimeo\.com\//.test(u); }
 function youTubeId(u: string) { const m = u.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/); return m ? m[1] : ""; }
 function vimeoId(u: string)   { const m = u.match(/vimeo\.com\/(\d+)/); return m ? m[1] : ""; }
 
-export function VideoPlayer({ src, poster, label }: { src: string; poster: MediaRef; label?: string }) {
+export function VideoPlayer({ src, poster, label, edit = false }: { src: string; poster: MediaRef; label?: string; edit?: boolean }) {
   const [playing, setPlaying] = useState(false);
   const posterUrl = mediaUrl(poster);
   const onActivate = useCallback(() => { if (src) setPlaying(true); }, [src]);
@@ -18,13 +18,13 @@ export function VideoPlayer({ src, poster, label }: { src: string; poster: Media
 
   if (!playing) {
     const isFile = !!src && !isYouTube(src) && !isVimeo(src);
-    // A direct video file with no poster has nothing to show — render the
-    // video element itself (first frame + native controls) instead of a
-    // broken/empty poster image.
-    if (isFile && !posterUrl) {
+    // Render the <video> element directly when there's a real file to show and
+    // either there's no poster, or we're in the editor — so editing the page
+    // shows the actual uploaded video, not a stale poster thumbnail.
+    if (isFile && (!posterUrl || edit)) {
       return (
         <div className="ac-player">
-          <video src={src} controls preload="metadata" playsInline />
+          <video src={src} poster={posterUrl || undefined} controls preload="metadata" playsInline />
         </div>
       );
     }

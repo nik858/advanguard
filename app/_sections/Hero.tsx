@@ -13,7 +13,7 @@ export function Hero({ hero, order, edit = false }: { hero: HeroContent; order: 
           <Reveal className="ac-hero__video-wrap">
             <div className="ac-hero__video" style={{ position: "relative" }}>
               {edit && <MediaSlot path="hero.videoUrl" accept="video" />}
-              <VideoPlayer src={hero.videoUrl} poster={hero.videoPoster} label={hero.videoLabel}/>
+              <VideoPlayer src={hero.videoUrl} poster={hero.videoPoster} label={hero.videoLabel} edit={edit}/>
             </div>
             <p className="ac-hero__video-label">
               <Edit edit={edit} path="hero.videoLabel">{hero.videoLabel}</Edit>

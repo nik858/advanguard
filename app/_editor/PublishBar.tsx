@@ -122,6 +122,40 @@ export function PublishBar() {
 
   const isPreview = state.previewMode;
 
+  // In preview the editor chrome disappears entirely — the page looks exactly
+  // as a visitor sees it. A single unobtrusive floating button gets back.
+  if (isPreview) {
+    return (
+      <button
+        type="button"
+        onClick={togglePreview}
+        title="Resume editing (⌘⇧P)"
+        style={{
+          position: "fixed",
+          bottom: 16,
+          right: 16,
+          zIndex: 100,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 6,
+          background: "var(--adv-accent, #18181b)",
+          color: "#fff",
+          border: 0,
+          padding: "9px 14px",
+          borderRadius: 999,
+          fontSize: 13,
+          fontWeight: 600,
+          fontFamily: "var(--adv-font, -apple-system, system-ui, sans-serif)",
+          cursor: "pointer",
+          boxShadow: "0 4px 16px rgba(0,0,0,0.24)",
+        }}
+      >
+        <Icons.Eye />
+        Resume editing
+      </button>
+    );
+  }
+
   return (
     <>
       <div

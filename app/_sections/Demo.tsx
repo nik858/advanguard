@@ -16,7 +16,7 @@ export function Demo({ content: c, edit = false }: { content: DemoContent; edit?
         <Reveal delay={120}>
           <div className="ac-demo__video" style={{ position: "relative" }}>
             {edit && <MediaSlot path="demo.videoUrl" accept="video" />}
-            <VideoPlayer src={c.videoUrl} poster={c.videoPoster} label="Demo video"/>
+            <VideoPlayer src={c.videoUrl} poster={c.videoPoster} label="Demo video" edit={edit}/>
           </div>
         </Reveal>
       </div>

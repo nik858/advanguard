@@ -5,9 +5,14 @@ import { migrateContent, mediaUrl } from "@/types/content";
 
 const content = migrateContent(contentJson);
 
+// Browser-tab icon — editable from the admin (header.favicon), with the
+// Advanguard logo as the on-brand fallback until one is uploaded.
+const faviconUrl = mediaUrl(content.header.favicon) || "/assets/advanguard-logo-dark.png";
+
 export const metadata: Metadata = {
   title: content.meta.title,
   description: content.meta.description,
+  icons: { icon: faviconUrl },
   alternates: { canonical: content.meta.canonical },
   openGraph: {
     type: "website",

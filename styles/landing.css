@@ -38,6 +38,12 @@ img { max-width: 100%; height: auto; display: block; }
 .ac-header__logo { font: 900 18px/1 var(--font-body); letter-spacing: -0.03em; color: var(--color-text-primary); }
 .ac-header__logo-link { display: inline-flex; align-items: center; text-decoration: none; }
 .ac-header__logo-img { height: 28px; width: auto; display: block; }
+/* Editor-only brand controls (logo + favicon upload slots) */
+.ac-header__brand-edit { display: flex; align-items: center; gap: 12px; }
+.ac-header__logo-slot { display: flex; align-items: center; justify-content: center; min-width: 150px; min-height: 48px; padding: 8px 14px; border: 1px dashed rgba(0,0,0,0.18); border-radius: 8px; }
+.ac-header__favicon-slot { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 6px; border: 1px dashed rgba(0,0,0,0.18); border-radius: 8px; flex: 0 0 auto; }
+.ac-header__favicon-img { width: 100%; height: 100%; object-fit: contain; }
+.ac-header__favicon-empty { font: 600 9px/1.15 var(--font-body); color: rgba(0,0,0,0.4); text-align: center; }
 @media (max-width: 900px) {
   .ac-header { padding: 0 16px; }
   .ac-header__left, .ac-header__right { display: none; }
