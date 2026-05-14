@@ -1,0 +1,122 @@
+/* Hub dashboard cards + shared admin UI */
+
+.primaryCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px;
+  background: linear-gradient(135deg, #1c1c20 0%, #0a0a0a 100%);
+  color: #fff;
+  border: 1px solid #27272a;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: transform 200ms var(--adv-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    box-shadow 200ms var(--adv-ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+.primaryCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+}
+.primaryIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.primaryArrow {
+  font-size: 20px;
+  opacity: 0.5;
+  transition: transform 200ms var(--adv-ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+.primaryCard:hover .primaryArrow {
+  transform: translateX(3px);
+  opacity: 0.8;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+@media (max-width: 720px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ececef;
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 160ms var(--adv-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    border-color 160ms ease, box-shadow 160ms ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #d4d4d8;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+.cardIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: #f4f4f5;
+  color: #52525b;
+  display: grid;
+  place-items: center;
+  margin-bottom: 6px;
+}
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #18181b;
+}
+.cardDesc {
+  font-size: 13px;
+  color: #a1a1aa;
+  line-height: 1.45;
+}
+
+/* Flow steps used on the funnel page */
+.step {
+  display: flex;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f4f4f5;
+}
+.step:last-child {
+  border-bottom: 0;
+}
+.stepNum {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: #18181b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.stepBody {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #27272a;
+}
+.stepBody strong {
+  display: block;
+  font-weight: 600;
+  color: #18181b;
+  margin-bottom: 1px;
+}

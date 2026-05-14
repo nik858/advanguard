@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Icons } from "../_sections/_shared/Icons";
 import { listRecentCommits } from "@/lib/github";
+import styles from "./_components/ui.module.css";
 
 async function getLatestCommit() {
   try {
@@ -28,80 +29,85 @@ export default async function AdminHome() {
   const latest = await getLatestCommit();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
       <div>
-        <h1 style={{ fontSize: 26, fontWeight: 600, margin: "0 0 6px" }}>Bienvenue, Nik</h1>
+        <h1 style={{ fontSize: 28, fontWeight: 600, margin: "0 0 4px", letterSpacing: "-0.01em" }}>
+          Bonjour Nik
+        </h1>
         <p style={{ color: "#71717a", margin: 0, fontSize: 15 }}>
-          Édite ton site directement en cliquant sur les textes et les médias.
+          Que veux-tu faire aujourd&apos;hui&nbsp;?
         </p>
       </div>
 
-      {/* Primary CTA */}
-      <Link
-        href="/"
+      {/* Primary action */}
+      <Link href="/" className={styles.primaryCard}>
+        <div className={styles.primaryIcon}>
+          <Icons.Pencil />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 3 }}>Modifier la landing</div>
+          <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.45 }}>
+            Édition en place&nbsp;: clique directement sur les textes et les médias du site.
+          </div>
+        </div>
+        <span className={styles.primaryArrow} aria-hidden>
+          &rarr;
+        </span>
+      </Link>
+
+      {/* Secondary actions */}
+      <div className={styles.cardGrid}>
+        <Link href="/admin/funnel" className={styles.card}>
+          <div className={styles.cardIcon}>
+            <Icons.Sparkles />
+          </div>
+          <div className={styles.cardTitle}>Tunnel &amp; Audit AI</div>
+          <div className={styles.cardDesc}>
+            Le parcours complet&nbsp;: capture du lead, validation, audit AI, envoi vers GoHighLevel.
+          </div>
+        </Link>
+
+        <Link href="/admin/media" className={styles.card}>
+          <div className={styles.cardIcon}>
+            <Icons.Image />
+          </div>
+          <div className={styles.cardTitle}>Médiathèque</div>
+          <div className={styles.cardDesc}>
+            Toutes les photos et vidéos uploadées depuis l&apos;éditeur.
+          </div>
+        </Link>
+
+        <Link href="/admin/settings" className={styles.card}>
+          <div className={styles.cardIcon}>
+            <Icons.Settings />
+          </div>
+          <div className={styles.cardTitle}>Réglages</div>
+          <div className={styles.cardDesc}>
+            État des intégrations (GitHub, GoHighLevel, stockage).
+          </div>
+        </Link>
+      </div>
+
+      {/* Footer status */}
+      <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 16,
-          padding: "20px 24px",
-          background: "#18181b",
-          color: "#fff",
-          borderRadius: 12,
-          textDecoration: "none",
-          maxWidth: 600,
-          boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+          gap: 8,
+          fontSize: 13,
+          color: "#a1a1aa",
+          paddingTop: 4,
         }}
       >
-        <div style={{ width: 40, height: 40, borderRadius: 999, background: "rgba(255,255,255,.1)", display: "grid", placeItems: "center" }}>
-          <Icons.Pencil />
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 2 }}>Modifier la landing</div>
-          <div style={{ fontSize: 13, opacity: 0.7 }}>Édition en place : clique sur n&apos;importe quel texte ou média</div>
-        </div>
-        <span style={{ fontSize: 20, opacity: 0.6 }}>→</span>
-      </Link>
-
-      {/* Secondary cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16, maxWidth: 900 }}>
-        <div style={cardStyle}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#71717a", marginBottom: 8 }}>
-            <Icons.Check />
-            <span style={{ fontSize: 13, fontWeight: 500 }}>Dernière publication</span>
-          </div>
-          {latest ? (
-            <div style={{ fontSize: 15, color: "#18181b" }}>{formatRelative(latest.date)}</div>
-          ) : (
-            <div style={{ fontSize: 13, color: "#a1a1aa" }}>Aucune publication encore</div>
-          )}
-        </div>
-
-        <Link href="/admin/media" style={{ ...cardStyle, textDecoration: "none", color: "inherit" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#71717a", marginBottom: 8 }}>
-            <Icons.Image />
-            <span style={{ fontSize: 13, fontWeight: 500 }}>Médiathèque</span>
-          </div>
-          <div style={{ fontSize: 13, color: "#a1a1aa" }}>Gère les photos et vidéos uploadées</div>
-        </Link>
-
-        <Link href="/" target="_blank" rel="noreferrer" style={{ ...cardStyle, textDecoration: "none", color: "inherit" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#71717a", marginBottom: 8 }}>
-            <Icons.ExternalLink />
-            <span style={{ fontSize: 13, fontWeight: 500 }}>Voir le site publié</span>
-          </div>
-          <div style={{ fontSize: 13, color: "#a1a1aa" }}>Ouvre la landing telle que les visiteurs la voient</div>
-        </Link>
+        <span style={{ display: "inline-flex", color: "#16a34a" }}>
+          <Icons.Check />
+        </span>
+        {latest ? (
+          <span>Dernière publication&nbsp;: {formatRelative(latest.date)}</span>
+        ) : (
+          <span>Aucune publication pour le moment</span>
+        )}
       </div>
     </div>
   );
 }
-
-const cardStyle: React.CSSProperties = {
-  padding: 20,
-  background: "#fff",
-  border: "1px solid #e7e7ea",
-  borderRadius: 12,
-  display: "flex",
-  flexDirection: "column",
-  transition: "border-color 120ms, box-shadow 120ms",
-};

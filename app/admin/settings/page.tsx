@@ -1,4 +1,5 @@
 import { Icons } from "../../_sections/_shared/Icons";
+import { BackLink } from "../_components/BackLink";
 
 export default function SettingsPage() {
   const repo = process.env.GITHUB_REPO || "(non configuré)";
@@ -36,6 +37,7 @@ export default function SettingsPage() {
 
   return (
     <div style={{ maxWidth: 760, display: "flex", flexDirection: "column", gap: 20 }}>
+      <BackLink />
       <div>
         <h1 style={{ fontSize: 26, fontWeight: 600, margin: "0 0 6px" }}>Réglages</h1>
         <p style={{ color: "#71717a", margin: 0, fontSize: 15 }}>État des intégrations. Modifie les valeurs dans le dashboard Vercel.</p>
