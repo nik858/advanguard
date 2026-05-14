@@ -63,3 +63,16 @@
   background: #fff; border: 1px dashed #1c7bfd; color: #1c7bfd;
   border-radius: 8px; padding: 8px 16px; cursor: pointer; font: inherit;
 }
+.sortableCell {
+  position: relative;
+  break-inside: avoid;
+}
+.itemDrag {
+  position: absolute; top: -8px; left: -8px;
+  background: #fff; border: 1px solid #ddd; border-radius: 999px;
+  width: 24px; height: 24px; display: grid; place-items: center;
+  cursor: grab; opacity: 0; transition: opacity 120ms;
+  z-index: 6; font-size: 12px; color: #71717a; line-height: 1;
+}
+.sortableCell:hover .itemDrag,
+.sortableCell:hover .itemRemove { opacity: 1; }
