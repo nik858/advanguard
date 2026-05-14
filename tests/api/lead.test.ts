@@ -1,11 +1,24 @@
 // @vitest-environment node
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
+const runAudit = vi.fn().mockResolvedValue(undefined);
+const afterCb: Array<() => void> = [];
+
 beforeEach(() => {
   vi.restoreAllMocks();
   vi.resetModules();
-  process.env.GHL_LEAD_WEBHOOK_URL = "https://x.test/hook";
+  runAudit.mockClear();
+  afterCb.length = 0;
 });
+
+vi.mock("next/server", async (orig) => {
+  const actual = await orig<typeof import("next/server")>();
+  return {
+    ...actual,
+    after: (cb: () => void) => { afterCb.push(cb); },
+  };
+});
+vi.mock("@/lib/audit/index", () => ({ runAudit }));
 
 function mkReq(body: unknown): Request {
   return new Request("http://localhost/api/lead", {
@@ -16,31 +29,33 @@ function mkReq(body: unknown): Request {
 }
 
 describe("POST /api/lead", () => {
-  it("forwards valid lead to GHL", async () => {
-    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 200 }));
+  it("schedules runAudit for a valid work email", async () => {
     const { POST } = await import("@/app/api/lead/route");
-    const res = await POST(mkReq({ email: "matt@clinicabc.com", phone: "+1234" }));
+    const res = await POST(mkReq({ email: "matt@clinicabc.com", first_name: "Matt" }));
     expect(res.status).toBe(200);
-    expect(fetchSpy).toHaveBeenCalled();
+    expect(afterCb).toHaveLength(1);
+    afterCb[0]();
+    expect(runAudit).toHaveBeenCalledOnce();
+    expect(runAudit.mock.calls[0][0]).toMatchObject({ email: "matt@clinicabc.com", firstName: "Matt", domain: "clinicabc.com" });
   });
 
-  it("rejects gmail/yahoo emails", async () => {
+  it("rejects generic email domains", async () => {
     const { POST } = await import("@/app/api/lead/route");
     const res = await POST(mkReq({ email: "matt@gmail.com" }));
     expect(res.status).toBe(400);
+    expect(afterCb).toHaveLength(0);
   });
 
-  it("rejects missing email", async () => {
+  it("rejects an invalid/missing email", async () => {
     const { POST } = await import("@/app/api/lead/route");
     const res = await POST(mkReq({ phone: "+1234" }));
     expect(res.status).toBe(400);
   });
 
-  it("silently accepts honeypot fill (likely bot)", async () => {
-    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 200 }));
+  it("silently accepts a honeypot fill without scheduling an audit", async () => {
     const { POST } = await import("@/app/api/lead/route");
     const res = await POST(mkReq({ email: "matt@clinicabc.com", website: "spam" }));
     expect(res.status).toBe(200);
-    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(afterCb).toHaveLength(0);
   });
 });

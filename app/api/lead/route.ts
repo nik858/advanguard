@@ -1,8 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { z } from "zod";
 import crypto from "node:crypto";
-import { postLeadToGHL } from "@/lib/ghl";
 import { checkLimit, clientIp, leadLimiter } from "@/lib/ratelimit";
+import { runAudit } from "@/lib/audit/index";
+import { extractDomain } from "@/lib/audit/domain";
+import type { Lead } from "@/types/audit";
+
+// The audit runs in the background via after(); give the function room to finish.
+export const maxDuration = 300;
 
 const BLOCKED_DOMAINS = new Set([
   "gmail.com", "googlemail.com", "yahoo.com", "yahoo.fr", "ymail.com",
@@ -16,7 +21,6 @@ const BodySchema = z.object({
   email: z.string().email(),
   first_name: z.string().optional(),
   phone: z.string().optional(),
-  vertical: z.string().optional(),
   website: z.string().optional(), // honeypot
 });
 
@@ -29,31 +33,27 @@ export async function POST(req: Request) {
   const parsed = BodySchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ error: "Invalid email" }, { status: 400 });
 
-  // Honeypot: silently 200 if filled
+  // Honeypot: silently accept (200) but do nothing — bots think they succeeded.
   if (parsed.data.website && parsed.data.website.trim().length > 0) {
     return NextResponse.json({ ok: true });
   }
 
-  const domain = parsed.data.email.split("@")[1].toLowerCase();
+  const domain = extractDomain(parsed.data.email);
   if (BLOCKED_DOMAINS.has(domain)) {
     return NextResponse.json({ error: "Please use a work email address." }, { status: 400 });
   }
 
-  const ip_hash = crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16);
-  try {
-    await postLeadToGHL({
-      email: parsed.data.email,
-      first_name: parsed.data.first_name,
-      phone: parsed.data.phone,
-      vertical: parsed.data.vertical,
-      domain,
-      user_agent: req.headers.get("user-agent") || "",
-      ip_hash,
-    });
-  } catch (e) {
-    console.error("[lead] GHL forward failed", e);
-    return NextResponse.json({ error: "Service temporarily unavailable" }, { status: 502 });
-  }
+  const lead: Lead = {
+    email: parsed.data.email,
+    firstName: parsed.data.first_name || "",
+    phone: parsed.data.phone,
+    domain,
+    userAgent: req.headers.get("user-agent") || "",
+    ipHash: crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16),
+  };
+
+  // Respond immediately; the audit pipeline runs in the background.
+  after(() => runAudit(lead));
 
   return NextResponse.json({ ok: true });
 }

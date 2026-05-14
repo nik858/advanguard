@@ -53,7 +53,3 @@ export type AuditEmail = {
   subject: string;
   body: string;
 };
-
-export type AuditOutcome =
-  | { status: "success"; signals: Signals; email: AuditEmail }
-  | { status: "fallback"; reason: string; email: AuditEmail };

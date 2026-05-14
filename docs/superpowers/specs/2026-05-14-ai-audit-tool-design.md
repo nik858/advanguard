@@ -94,7 +94,7 @@ Visitor → OrderForm → POST /api/lead
 1. **Capture** (`/api/lead`) — receives `{ email, phone?, first_name?, website (honeypot) }` from the landing form. Validates: rejects generic email domains (logic already exists), honeypot check, rate limit. Responds `200` immediately. Schedules `runAudit(lead)` via `waitUntil()`. The previous behavior (forwarding to a separate `GHL_LEAD_WEBHOOK_URL`) is removed — there is no separate lead workflow; the audit pipeline ends with the only GHL call.
 2. **Domain identification** (`domain.ts`) — extracts the domain from the email, normalizes it (https, www, follows redirects), checks reachability. If unreachable → fail fast to fallback.
 3. **Signal extraction** — runs in parallel:
-   - `scrape.ts` — fetches the homepage HTML (+ up to 2 internal pages discovered via links, e.g. `/contact`, `/services`), parses ~17 signals with cheerio.
+   - `scrape.ts` — fetches the homepage HTML and parses ~17 signals with cheerio. (v1 scope: homepage only — multi-page crawling of `/contact`, `/services` etc. is deferred; see §13.)
    - `pagespeed.ts` — calls Google PageSpeed Insights API for mobile + desktop performance/SEO/accessibility metrics.
 4. **AI generation** (`ai.ts`) — loads the prompt (Blob → bundled default), assembles the `Signals` object into a structured message, calls Claude (Haiku), parses `{ subject, body }`.
 5. **Delivery** (`ghl.ts :: postAuditToGHL`) — POSTs `{ email, first_name, ai_email_subject, ai_email_body }` to the GHL "Audit Email" webhook. Retries 3× with backoff on 5xx.
@@ -153,7 +153,7 @@ tests/fixtures/                   — sample HTML files for scrape tests
 ## 5. Signal extraction (~17 signals)
 
 ### Source 1 — raw HTML via `fetch` + cheerio (`scrape.ts`)
-Fetches the homepage, plus up to 2 internal pages discovered via links (e.g. `/contact`, `/services`, `/about`). Parses:
+**v1 scope: the homepage only.** Multi-page crawling (fetching `/contact`, `/services`, `/about` etc.) is deferred to a later iteration — see §13. Homepage HTML is parsed for:
 
 | Signal | Detection method |
 |---|---|
@@ -299,6 +299,7 @@ To be added by TB Dev via `vercel env add` (never pasted in chat):
 - "Test this prompt" admin feature.
 - Email follow-up sequences → GoHighLevel's domain; Nik wants zero for v1.
 - Durable retry queue → `waitUntil` is sufficient for v1 volume.
+- **Multi-page crawling** → v1 audits the homepage only. Fetching `/contact`, `/services`, `/about` etc. to catch signals that live off the homepage (phone, address, deeper service structure) is deferred. Decision: ship homepage-only, see if audit quality is sufficient in practice, add multi-page later if needed.
 
 ---
 

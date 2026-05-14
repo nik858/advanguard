@@ -1,29 +1,50 @@
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
+// In-memory best-effort rate limiter — no external dependency.
+//
+// Caveat: serverless function instances are ephemeral and not shared, so this
+// is not a hard cross-instance guarantee. Under Fluid Compute (which reuses warm
+// instances) it reliably slows an attacker hammering the same instance — a real
+// speed bump. For this site's traffic that is plenty. If the site is ever
+// seriously attacked, Vercel's platform Firewall (dashboard) is the next layer.
 
-const redis = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
-  ? new Redis({
-      url: process.env.KV_REST_API_URL,
-      token: process.env.KV_REST_API_TOKEN,
-    })
-  : null;
+export type Limiter = { limit: number; windowMs: number; prefix: string };
 
-export const loginLimiter = redis
-  ? new Ratelimit({ redis, limiter: Ratelimit.fixedWindow(5, "15 m"), prefix: "adv:login" })
-  : null;
+export const loginLimiter: Limiter = { limit: 5, windowMs: 15 * 60_000, prefix: "login" };
+export const leadLimiter: Limiter = { limit: 20, windowMs: 60 * 60_000, prefix: "lead" };
 
-export const leadLimiter = redis
-  ? new Ratelimit({ redis, limiter: Ratelimit.fixedWindow(20, "1 h"), prefix: "adv:lead" })
-  : null;
+type Bucket = { count: number; resetAt: number };
+const buckets = new Map<string, Bucket>();
 
 export function clientIp(req: Request): string {
-  return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
-    || req.headers.get("x-real-ip")
-    || "unknown";
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
 }
 
-export async function checkLimit(limiter: Ratelimit | null, key: string): Promise<{ success: boolean; remaining: number }> {
-  if (!limiter) return { success: true, remaining: Infinity }; // dev fallback without KV
-  const r = await limiter.limit(key);
-  return { success: r.success, remaining: r.remaining };
+export async function checkLimit(
+  limiter: Limiter,
+  key: string,
+): Promise<{ success: boolean; remaining: number }> {
+  const now = Date.now();
+  const bucketKey = `${limiter.prefix}:${key}`;
+
+  let bucket = buckets.get(bucketKey);
+  if (!bucket || now >= bucket.resetAt) {
+    bucket = { count: 0, resetAt: now + limiter.windowMs };
+    buckets.set(bucketKey, bucket);
+  }
+  bucket.count += 1;
+
+  // Opportunistic cleanup so the Map can't grow unbounded over a long-lived instance.
+  if (buckets.size > 5000) {
+    for (const [k, b] of buckets) {
+      if (now >= b.resetAt) buckets.delete(k);
+    }
+  }
+
+  return {
+    success: bucket.count <= limiter.limit,
+    remaining: Math.max(0, limiter.limit - bucket.count),
+  };
 }
