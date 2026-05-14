@@ -91,11 +91,26 @@
         "authority": {
           "title": "Features [INSERT LOGOS BELOW IF YOU HAVE OTHERWISE DELETE THIS SECTION]",
           "logos": [
-            { "url": "", "alt": "" },
-            { "url": "", "alt": "" },
-            { "url": "", "alt": "" },
-            { "url": "", "alt": "" },
-            { "url": "", "alt": "" }
+            {
+              "url": "",
+              "alt": ""
+            },
+            {
+              "url": "",
+              "alt": ""
+            },
+            {
+              "url": "",
+              "alt": ""
+            },
+            {
+              "url": "",
+              "alt": ""
+            },
+            {
+              "url": "",
+              "alt": ""
+            }
           ]
         }
       }
@@ -259,6 +274,14 @@
                 "egestas arcu mauris dictum",
                 "odio quis"
               ]
+            },
+            {
+              "type": "text",
+              "avatar": "",
+              "name": "Name",
+              "role": "Role",
+              "quote": "New testimonial quote.",
+              "highlights": []
             }
           ]
         }
@@ -270,7 +293,7 @@
       "data": {
         "stack": {
           "h2": "Here's Everything You're Getting For Only $27.00 Today",
-          "bigStackImg": "/assets/ipad-stack.png",
+          "bigStackImg": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1778793435816-Capture%20d%E2%80%99e%CC%81cran%202026-05-10%20a%CC%80%2021.37.35-hOyS0nPLPj2iMHc2WJ5Kh0YBKAX7LP.png",
           "items": [
             {
               "kind": "book",
@@ -325,6 +348,15 @@
               "access": "Instant Access",
               "priceWas": "$37",
               "priceNow": "Free"
+            },
+            {
+              "kind": "book",
+              "title": "New item",
+              "sub": "",
+              "body": "",
+              "access": "Instant Access",
+              "priceWas": "",
+              "priceNow": "Free"
             }
           ],
           "ctaTagline": "Get Your eBook Now!",
@@ -376,6 +408,20 @@
               "a": "Yes, you get a 30 day \"no questions asked\" money back guarantee in case it's not for you. We even let you keep the book."
             }
           ]
+        }
+      }
+    },
+    {
+      "id": "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc",
+      "type": "stack",
+      "data": {
+        "stack": {
+          "h2": "What you get",
+          "bigStackImg": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1778793512397-Capture%20d%E2%80%99e%CC%81cran%202026-05-08%20a%CC%80%2018.30.29-NdozWum7mGOetiCQcjLfzAmi6aYxCA.png",
+          "items": [],
+          "ctaTagline": "",
+          "ctaLabel": "Buy now",
+          "guaranteeText": ""
         }
       }
     }
