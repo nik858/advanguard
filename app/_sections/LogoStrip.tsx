@@ -4,7 +4,7 @@ import type { Content } from "@/types/content";
 
 export function LogoStrip({ content: c, edit = false }: { content: Content["authority"]; edit?: boolean }) {
   return (
-    <section className="ac-authority" aria-label="Featured in">
+    <section className="ac-authority" aria-label="Ils parlent de nous">
       <Reveal>
         <div className="ac-authority__title">
           <Edit edit={edit} path="authority.title">{c.title}</Edit>

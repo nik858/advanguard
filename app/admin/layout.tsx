@@ -1,14 +1,10 @@
 import { ToastProvider } from "../_components/Toast";
-import { TopBar } from "./_components/TopBar";
-import styles from "./_components/layout.module.css";
+import { AdminChrome } from "./_components/AdminChrome";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <ToastProvider>
-      <div className={`${styles.shell} adv-admin`}>
-        <TopBar />
-        <main className={styles.content}>{children}</main>
-      </div>
+      <AdminChrome>{children}</AdminChrome>
     </ToastProvider>
   );
 }

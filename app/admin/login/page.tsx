@@ -1,9 +1,8 @@
 "use client";
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 function LoginForm() {
-  const router = useRouter();
   const params = useSearchParams();
   const next = params.get("next") || "/admin";
   const [password, setPassword] = useState("");
@@ -18,9 +17,14 @@ function LoginForm() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ password }),
     });
+    if (res.ok) {
+      // Hard navigation so the just-set session cookie is sent with the
+      // request — a soft router navigation can race the cookie write.
+      window.location.href = next;
+      return;
+    }
     setBusy(false);
-    if (res.ok) router.replace(next);
-    else if (res.status === 429) setError("Trop de tentatives. Réessaie dans 15 minutes.");
+    if (res.status === 429) setError("Trop de tentatives. Réessaie dans 15 minutes.");
     else setError("Mot de passe incorrect.");
   }
 

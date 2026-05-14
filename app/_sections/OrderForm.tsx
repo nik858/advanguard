@@ -25,7 +25,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
   }
 
   return (
-    <aside className="ac-order" aria-label="Order form">
+    <aside className="ac-order" aria-label="Formulaire de commande">
       <div className="ac-order__strip">
         <Edit edit={edit} path="order.badge">{order.badge}</Edit>
       </div>
@@ -57,12 +57,12 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
         <p className="ac-order__desc">
           <Edit edit={edit} path="order.description" multiline>{order.description}</Edit>
         </p>
-        <form onSubmit={onSubmit} aria-label="Order">
+        <form onSubmit={onSubmit} aria-label="Commande">
           <label htmlFor="email" className="visually-hidden">Email</label>
-          <input id="email" name="email" type="email" required placeholder="Enter your email" className="ac-order__field" autoComplete="email" />
+          <input id="email" name="email" type="email" required placeholder="Entrez votre email" className="ac-order__field" autoComplete="email" />
           <div style={{ height: 9 }}/>
-          <label htmlFor="phone" className="visually-hidden">Phone</label>
-          <input id="phone" name="phone" type="tel" placeholder="Phone number (for bonuses)" className="ac-order__field" autoComplete="tel" />
+          <label htmlFor="phone" className="visually-hidden">Téléphone</label>
+          <input id="phone" name="phone" type="tel" placeholder="Numéro de téléphone (pour les bonus)" className="ac-order__field" autoComplete="tel" />
           {/* Honeypot: positioned offscreen, bots fill it but humans don't */}
           <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1 }} />
           <div style={{ height: 12 }}/>
@@ -84,7 +84,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           <span className="ac-order__rating-text">
             <Edit edit={edit} path="order.ratingText">{order.ratingText}</Edit>
           </span>
-          <span className="ac-order__rating-stars" aria-label="5 out of 5 stars"><Stars/></span>
+          <span className="ac-order__rating-stars" aria-label="5 étoiles sur 5"><Stars/></span>
         </div>
         <div className="ac-order__mini-testimonials">
           {order.miniTestimonials.map((t, i) => (
