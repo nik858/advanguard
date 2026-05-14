@@ -10,6 +10,9 @@ const htmlSignals = {
   hasLiveChat: false, hasHomepageVideo: false, hasPricingInfo: false, hasGoogleReviews: false,
   hasTeamPage: true, isMultilingual: false, servicePageCount: 3, hasViewportMeta: true,
   metaTitle: "Bright Smile", metaDescription: null, hasPhone: true, hasAddress: true,
+  socialProfiles: [], hasContactForm: false, hasOpenGraph: false, hasFavicon: false,
+  h1Count: 1, imageCount: 0, imagesWithoutAlt: 0,
+  imageFormats: { jpeg: 0, png: 0, gif: 0, webp: 0, avif: 0, svg: 0, other: 0 },
 };
 
 describe("runAudit", () => {

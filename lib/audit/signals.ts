@@ -1,7 +1,20 @@
-import type { Signals } from "@/types/audit";
+import type { Signals, ImageFormatCounts, CruxMetric } from "@/types/audit";
 
 function yn(b: boolean): string {
   return b ? "found" : "not found";
+}
+
+function formatImageFormats(f: ImageFormatCounts): string {
+  const parts = (["jpeg", "png", "gif", "webp", "avif", "svg", "other"] as const)
+    .filter((k) => f[k] > 0)
+    .map((k) => `${f[k]} ${k}`);
+  return parts.length ? parts.join(", ") : "no <img> tags found";
+}
+
+function formatCruxMetric(label: string, m: CruxMetric | null, unit: string): string | null {
+  if (!m) return null;
+  const v = unit === "s" ? m.value.toFixed(1) : unit === "" ? m.value.toFixed(2) : Math.round(m.value).toString();
+  return `  ${label}: ${v}${unit} (${m.rating})`;
 }
 
 /**
@@ -35,6 +48,13 @@ export function formatSignalsForPrompt(s: Signals): string {
     `Meta description: ${h.metaDescription ?? "missing"}`,
     `Phone number on page: ${yn(h.hasPhone)}`,
     `Physical address on page: ${yn(h.hasAddress)}`,
+    `Social profiles linked: ${h.socialProfiles.length ? h.socialProfiles.join(", ") : "none"}`,
+    `Contact form: ${yn(h.hasContactForm)}`,
+    `Open Graph / social-share tags: ${yn(h.hasOpenGraph)}`,
+    `Favicon: ${yn(h.hasFavicon)}`,
+    `H1 headings on page: ${h.h1Count}`,
+    `Images: ${h.imageCount} total, ${h.imagesWithoutAlt} missing alt text`,
+    `Image formats: ${formatImageFormats(h.imageFormats)}`,
     ``,
     `--- Performance (Google PageSpeed) ---`,
   ];
@@ -53,20 +73,45 @@ export function formatSignalsForPrompt(s: Signals): string {
       `Accessibility score: ${p.accessibilityScore ?? "n/a"} / 100`,
       `Best Practices score: ${p.bestPracticesScore ?? "n/a"} / 100`,
     );
+    if (p.detectedPlatform) {
+      lines.push(`Website platform detected: ${p.detectedPlatform}`);
+    }
+    if (p.field) {
+      const f = p.field;
+      lines.push(
+        ``,
+        `Real-user field data (Chrome UX Report, last 28 days) — what actual visitors experienced:`,
+        `  Overall: ${f.overall ?? "n/a"}`,
+        ...[
+          formatCruxMetric("Largest Contentful Paint", f.lcp, "s"),
+          formatCruxMetric("First Contentful Paint", f.fcp, "s"),
+          formatCruxMetric("Cumulative Layout Shift", f.cls, ""),
+          formatCruxMetric("Interaction to Next Paint", f.inp, "ms"),
+        ].filter((l): l is string => l !== null),
+      );
+    }
     if (p.opportunities.length) {
       lines.push(
         ``,
         `Top performance opportunities (Google Lighthouse — estimated load-time savings):`,
-        ...p.opportunities.map((o) =>
-          `- ${o.title}${o.displayValue ? ` — ${o.displayValue}` : ` — ~${Math.round(o.savingsMs)}ms`}`,
-        ),
+        ...p.opportunities.map((o) => {
+          const head = o.displayValue ? `${o.title} — ${o.displayValue}` : `${o.title} — ~${Math.round(o.savingsMs)}ms`;
+          return `- ${head}${o.description ? `. ${o.description}` : ""}`;
+        }),
       );
     }
     if (p.failedAudits.length) {
       lines.push(
         ``,
         `Other failed Lighthouse audits:`,
-        ...p.failedAudits.map((f) => `- [${f.category}] ${f.title}`),
+        ...p.failedAudits.map((a) => `- [${a.category}] ${a.title}${a.displayValue ? ` — ${a.displayValue}` : ""}`),
+      );
+    }
+    if (p.platformTips.length) {
+      lines.push(
+        ``,
+        `Platform-specific tips from Lighthouse:`,
+        ...p.platformTips.map((t) => `- ${t}`),
       );
     }
   } else {

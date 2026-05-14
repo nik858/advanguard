@@ -38,6 +38,22 @@ describe("parseSignals — rich clinic site", () => {
     expect(s.hasPhone).toBe(true);
     expect(s.hasAddress).toBe(true);
   });
+  it("detects social profiles", () => {
+    expect(s.socialProfiles).toContain("instagram");
+    expect(s.socialProfiles).toContain("facebook");
+  });
+  it("detects a contact form", () => { expect(s.hasContactForm).toBe(true); });
+  it("detects Open Graph tags and favicon", () => {
+    expect(s.hasOpenGraph).toBe(true);
+    expect(s.hasFavicon).toBe(true);
+  });
+  it("counts H1 headings", () => { expect(s.h1Count).toBe(1); });
+  it("counts images, missing alt text, and formats", () => {
+    expect(s.imageCount).toBe(3);
+    expect(s.imagesWithoutAlt).toBe(1);
+    expect(s.imageFormats.jpeg).toBe(2);
+    expect(s.imageFormats.webp).toBe(1);
+  });
 });
 
 describe("parseSignals — thin site", () => {
@@ -48,5 +64,9 @@ describe("parseSignals — thin site", () => {
     expect(s.schemaTypes).toEqual([]);
     expect(s.servicePageCount).toBe(0);
     expect(s.metaTitle).toBe(null);
+    expect(s.socialProfiles).toEqual([]);
+    expect(s.hasContactForm).toBe(false);
+    expect(s.hasOpenGraph).toBe(false);
+    expect(s.imageCount).toBe(0);
   });
 });

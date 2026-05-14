@@ -1,5 +1,33 @@
 import * as cheerio from "cheerio";
-import type { HtmlSignals } from "@/types/audit";
+import type { HtmlSignals, ImageFormatCounts } from "@/types/audit";
+
+// host substring -> normalized platform name
+const SOCIAL_HOSTS: Record<string, string> = {
+  "instagram.com": "instagram",
+  "facebook.com": "facebook",
+  "fb.com": "facebook",
+  "tiktok.com": "tiktok",
+  "youtube.com": "youtube",
+  "youtu.be": "youtube",
+  "linkedin.com": "linkedin",
+  "twitter.com": "twitter",
+  "x.com": "twitter",
+  "pinterest.com": "pinterest",
+};
+
+function imageFormat(src: string): keyof ImageFormatCounts {
+  const ext = src.toLowerCase().split(/[?#]/)[0].match(/\.([a-z0-9]+)$/)?.[1];
+  switch (ext) {
+    case "jpg":
+    case "jpeg": return "jpeg";
+    case "png": return "png";
+    case "gif": return "gif";
+    case "webp": return "webp";
+    case "avif": return "avif";
+    case "svg": return "svg";
+    default: return "other";
+  }
+}
 
 const FETCH_TIMEOUT_MS = 10000;
 
@@ -29,7 +57,7 @@ function hasAny(haystack: string, needles: string[]): boolean {
   return needles.some((n) => lower.includes(n));
 }
 
-/** Parses ~17 audit signals out of a homepage's HTML. Pure function — never throws. */
+/** Parses ~25 audit signals out of a homepage's HTML. Pure function — never throws. */
 export function parseSignals(html: string, _url: string): HtmlSignals {
   const $ = cheerio.load(html);
   const scripts = $("script").map((_, el) => $(el).html() || "").get().join("\n")
@@ -62,6 +90,32 @@ export function parseSignals(html: string, _url: string): HtmlSignals {
   const titleText = $("title").first().text().trim();
   const descText = $('meta[name="description"]').attr("content")?.trim() || "";
 
+  // Social profiles linked from the page
+  const socialSet = new Set<string>();
+  $("a[href]").each((_, el) => {
+    const href = ($(el).attr("href") || "").toLowerCase();
+    for (const host of Object.keys(SOCIAL_HOSTS)) {
+      if (href.includes(host)) socialSet.add(SOCIAL_HOSTS[host]);
+    }
+  });
+
+  // Contact form: a real form with contact-style inputs, or a link to a contact page
+  const hasContactForm =
+    $("form").toArray().some((f) => $(f).find('input[type="email"], input[type="tel"], textarea').length > 0) ||
+    $("a[href]").toArray().some((el) => /(\/contact|#contact)/i.test($(el).attr("href") || ""));
+
+  // Images: count, missing alt text, format breakdown
+  const imageFormats: ImageFormatCounts = { jpeg: 0, png: 0, gif: 0, webp: 0, avif: 0, svg: 0, other: 0 };
+  let imagesWithoutAlt = 0;
+  const imgEls = $("img").toArray();
+  for (const el of imgEls) {
+    const $el = $(el);
+    const alt = $el.attr("alt");
+    if (alt == null || alt.trim() === "") imagesWithoutAlt += 1;
+    const src = $el.attr("src") || $el.attr("data-src") || "";
+    imageFormats[imageFormat(src)] += 1;
+  }
+
   return {
     hasMetaPixel: hasAny(scripts, ["fbq(", "connect.facebook.net", "facebook pixel"]),
     hasGoogleAnalytics: hasAny(scripts, ["gtag(", "google-analytics.com", "googletagmanager.com", "ga('"]),
@@ -83,5 +137,13 @@ export function parseSignals(html: string, _url: string): HtmlSignals {
     metaDescription: descText.length > 0 ? descText : null,
     hasPhone: $('a[href^="tel:"]').length > 0 || /\+?\d[\d\s().-]{7,}\d/.test(bodyText),
     hasAddress: $("address").length > 0 || hasAny(bodyText, [" st,", " street", " ave,", " avenue", " blvd", " suite "]),
+    socialProfiles: [...socialSet],
+    hasContactForm,
+    hasOpenGraph: $('meta[property^="og:"]').length > 0,
+    hasFavicon: $('link[rel~="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]').length > 0,
+    h1Count: $("h1").length,
+    imageCount: imgEls.length,
+    imagesWithoutAlt,
+    imageFormats,
   };
 }
