@@ -17,10 +17,23 @@ export function VideoPlayer({ src, poster, label }: { src: string; poster: Media
   }, [src]);
 
   if (!playing) {
+    const isFile = !!src && !isYouTube(src) && !isVimeo(src);
+    // A direct video file with no poster has nothing to show — render the
+    // video element itself (first frame + native controls) instead of a
+    // broken/empty poster image.
+    if (isFile && !posterUrl) {
+      return (
+        <div className="ac-player">
+          <video src={src} controls preload="metadata" playsInline />
+        </div>
+      );
+    }
     return (
       <div className="ac-player" role="button" tabIndex={src ? 0 : -1} aria-label={label || "Play video"} onClick={onActivate} onKeyDown={onKey}>
-        <img className="ac-player__poster" src={posterUrl} alt={label || "Video preview"} loading="lazy" decoding="async" width={1280} height={720} />
-        <div className="ac-player__play"><div className="ac-player__play-icon"><Icons.Play/></div></div>
+        {posterUrl
+          ? <img className="ac-player__poster" src={posterUrl} alt={label || "Video preview"} loading="lazy" decoding="async" width={1280} height={720} />
+          : <div className="ac-player__poster ac-player__poster--empty" aria-hidden="true" />}
+        {src && <div className="ac-player__play"><div className="ac-player__play-icon"><Icons.Play/></div></div>}
       </div>
     );
   }

@@ -82,7 +82,7 @@ export type OrderContent = z.infer<typeof OrderSchema>;
 
 export const AuthoritySchema = z.object({
   title: z.string(),
-  logos: z.array(z.string()),
+  logos: z.array(MediaRefSchema),
 });
 export type AuthorityContent = z.infer<typeof AuthoritySchema>;
 

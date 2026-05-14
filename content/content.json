@@ -91,12 +91,11 @@
         "authority": {
           "title": "Features [INSERT LOGOS BELOW IF YOU HAVE OTHERWISE DELETE THIS SECTION]",
           "logos": [
-            "Authority",
-            "Business",
-            "Magazine",
-            "Logo",
-            "Credibility",
-            "Startup"
+            { "url": "", "alt": "" },
+            { "url": "", "alt": "" },
+            { "url": "", "alt": "" },
+            { "url": "", "alt": "" },
+            { "url": "", "alt": "" }
           ]
         }
       }
@@ -193,7 +192,7 @@
               "videoPoster": "/assets/video-thumbnail.png",
               "name": "Full Name",
               "role": "Put person position here",
-              "quote": "[\"Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]\"]"
+              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
             },
             {
               "type": "text",
@@ -222,7 +221,7 @@
               "videoPoster": "/assets/video-thumbnail.png",
               "name": "Full Name",
               "role": "Put person position here",
-              "quote": "[\"Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]\"]"
+              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
             },
             {
               "type": "text",
@@ -238,7 +237,7 @@
               "videoPoster": "/assets/video-thumbnail.png",
               "name": "Full Name",
               "role": "Put person position here",
-              "quote": "[\"Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]\"]"
+              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
             },
             {
               "type": "text",

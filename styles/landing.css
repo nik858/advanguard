@@ -188,7 +188,10 @@ img { max-width: 100%; height: auto; display: block; }
 .ac-authority { background: #fff; padding: 32px; }
 .ac-authority__title { font: 700 20px/1 var(--font-body); color: var(--color-text-secondary); text-align: center; }
 .ac-authority__row { max-width: 1140px; margin: 32px auto 0; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: center; }
-.ac-authority__logo { font: 800 24px/1 var(--font-display); letter-spacing: -0.02em; color: rgb(120,119,123); opacity: 0.85; }
+.ac-authority__logo { display: flex; align-items: center; justify-content: center; }
+.ac-authority__logo-img { height: 44px; width: auto; max-width: 170px; object-fit: contain; opacity: 0.85; }
+.ac-authority__logo-slot { display: flex; align-items: center; justify-content: center; min-width: 130px; min-height: 56px; padding: 8px; border: 1px dashed rgba(0,0,0,0.15); border-radius: 8px; }
+.ac-authority__logo-empty { font: 600 13px/1 var(--font-body); color: rgba(0,0,0,0.32); }
 
 /* ─── Only System ─── */
 .ac-only { background: #fff; padding: 64px 32px; }
@@ -301,8 +304,12 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 900px) { .ac-demo__h2 { font-size: 30px; } }
 
 /* ─── Video player (shared) ─── */
-.ac-player { position: relative; width: 100%; height: 100%; cursor: pointer; }
-.ac-player__poster { width: 100%; height: 100%; object-fit: cover; }
+/* border-radius: inherit cascades the container's rounding down to the media
+   itself — <video>/<iframe> get their own compositing layer and a parent's
+   `overflow:hidden` does not always clip them (notably in Safari). */
+.ac-player { position: relative; width: 100%; height: 100%; cursor: pointer; border-radius: inherit; }
+.ac-player__poster { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.ac-player__poster--empty { background: #000; cursor: default; }
 .ac-player__play {
   position: absolute; inset: 0; display: grid; place-items: center;
   background: rgba(0,0,0,0.18);
@@ -316,7 +323,7 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--color-brand-blue-2);
 }
 .ac-player__play-icon svg { width: 30px; height: 30px; margin-left: 4px; }
-.ac-player video, .ac-player iframe { width: 100%; height: 100%; border: 0; display: block; }
+.ac-player video, .ac-player iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: inherit; }
 
 /* ─── Testimonials ─── */
 .ac-testi { background: #fff; padding: 64px 32px; }
@@ -328,10 +335,12 @@ img { max-width: 100%; height: auto; display: block; }
 .ac-testi__rating-stars svg { width: 22px; height: 22px; fill: rgb(56,210,90); }
 .ac-testi__h2 { font: 700 48px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--color-text-primary); margin: 0; text-wrap: balance; }
 .ac-testi__pull { font: 400 24px/1.2 var(--font-body); color: var(--color-text-primary); max-width: 720px; text-wrap: pretty; margin: 0; }
-.ac-testi__grid { columns: 3; column-gap: 16px; }
-.ac-testi__card { break-inside: avoid; margin-bottom: 16px; }
-@media (max-width: 1000px) { .ac-testi__grid { columns: 2; } .ac-testi__h2 { font-size: 30px; } }
-@media (max-width: 700px) { .ac-testi__grid { columns: 1; } }
+/* CSS grid (not multi-column): robust to the per-item wrapper the editor adds
+   for drag-reorder, so the layout is identical in edit and published views. */
+.ac-testi__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+.ac-testi__card { break-inside: avoid; }
+@media (max-width: 1000px) { .ac-testi__grid { grid-template-columns: repeat(2, 1fr); } .ac-testi__h2 { font-size: 30px; } }
+@media (max-width: 700px) { .ac-testi__grid { grid-template-columns: 1fr; } }
 
 .ac-testi-card {
   background: #fff; border-radius: 10px;

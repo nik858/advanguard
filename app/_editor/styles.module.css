@@ -62,6 +62,8 @@
   display: block; margin: 12px auto;
   background: #fff; border: 1px dashed #1c7bfd; color: #1c7bfd;
   border-radius: 8px; padding: 8px 16px; cursor: pointer; font: inherit;
+  /* Span the full row when the list parent is a CSS grid; ignored otherwise. */
+  grid-column: 1 / -1;
 }
 .sortableCell {
   position: relative;

@@ -142,6 +142,26 @@ export function PublishBar() {
           color: "var(--adv-text, #18181b)",
         }}
       >
+        {/* Back to admin */}
+        <a
+          href="/admin"
+          title="Back to admin"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            textDecoration: "none",
+            color: "var(--adv-text-muted, #71717a)",
+            border: "1px solid var(--adv-border, #e7e7ea)",
+            padding: "5px 10px",
+            borderRadius: 6,
+            fontSize: 13,
+            fontFamily: "inherit",
+          }}
+        >
+          ← Admin
+        </a>
+
         {/* Status dot */}
         <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 500 }}>
           <span
