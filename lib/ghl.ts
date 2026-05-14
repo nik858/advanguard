@@ -34,21 +34,21 @@ export async function postLeadToGHL(payload: LeadPayload): Promise<void> {
   await postWithRetry(url, { source: "advanguard-landing", submitted_at: new Date().toISOString(), ...payload });
 }
 
-export type AuditPayload = {
+/**
+ * Payload for the GHL "Audit Email" inbound webhook. The GHL workflow maps
+ * these exact field names: email -> contact Email, first_name -> contact First Name,
+ * ai_email_subject -> email subject, ai_email_body -> email body.
+ */
+export type AuditWebhookPayload = {
   email: string;
-  domain: string;
-  audit_score: number;
-  audit_strengths: string[];
-  audit_weaknesses: string[];
-  audit_signals_json: string;
-  ai_email_1_subject: string;
-  ai_email_1_body: string;
-  ai_diagnosis_tags: string[];
-  audited_at?: string;
+  first_name: string;
+  ai_email_subject: string;
+  ai_email_body: string;
 };
 
-export async function postAuditToGHL(payload: AuditPayload): Promise<void> {
+/** POSTs the finished audit (or fallback) email to the GHL "Audit Email" webhook. */
+export async function postAuditToGHL(payload: AuditWebhookPayload): Promise<void> {
   const url = process.env.GHL_AUDIT_WEBHOOK_URL;
   if (!url) throw new Error("GHL_AUDIT_WEBHOOK_URL not set");
-  await postWithRetry(url, { audited_at: new Date().toISOString(), ...payload });
+  await postWithRetry(url, payload);
 }
