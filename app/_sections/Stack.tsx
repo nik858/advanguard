@@ -6,11 +6,11 @@ import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
 import { MediaSwapButton } from "../_editor/MediaSwapButton";
-import { mediaUrl, type Content } from "@/types/content";
+import { mediaUrl, type StackContent } from "@/types/content";
 
 function shortLabel(s: string): string { return s.split(" ").slice(0, 2).join(" "); }
 
-export function Stack({ content: c, onCheckout, edit = false }: { content: Content["stack"]; onCheckout?: () => void; edit?: boolean }) {
+export function Stack({ content: c, onCheckout, edit = false }: { content: StackContent; onCheckout?: () => void; edit?: boolean }) {
   return (
     <section className="ac-stack" aria-labelledby="stack-h2">
       <div className="ac-stack__inner">

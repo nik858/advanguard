@@ -3,7 +3,7 @@ import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
 import { MediaSwapButton } from "../_editor/MediaSwapButton";
-import { mediaUrl, type Content } from "@/types/content";
+import { mediaUrl, type TestimonialsContent } from "@/types/content";
 import type { ReactNode } from "react";
 
 function highlightQuote(quote: string, highlights: string[]): ReactNode {
@@ -27,7 +27,7 @@ function highlightQuote(quote: string, highlights: string[]): ReactNode {
   return parts.map((p, i) => p.hl ? <span className="ac-testi-card__hl" key={i}>{p.text}</span> : <span key={i}>{p.text}</span>);
 }
 
-export function Testimonials({ content: c, edit = false }: { content: Content["testimonials"]; edit?: boolean }) {
+export function Testimonials({ content: c, edit = false }: { content: TestimonialsContent; edit?: boolean }) {
   return (
     <section className="ac-testi" aria-labelledby="testi-h2">
       <div className="ac-testi__inner">

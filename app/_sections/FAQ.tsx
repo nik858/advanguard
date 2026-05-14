@@ -1,9 +1,9 @@
 import { Reveal } from "./_shared/Reveal";
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
-import type { Content } from "@/types/content";
+import type { FaqContent } from "@/types/content";
 
-export function FAQ({ content: c, edit = false }: { content: Content["faq"]; edit?: boolean }) {
+export function FAQ({ content: c, edit = false }: { content: FaqContent; edit?: boolean }) {
   return (
     <section className="ac-faq" aria-labelledby="faq-h2">
       <div className="ac-faq__inner">

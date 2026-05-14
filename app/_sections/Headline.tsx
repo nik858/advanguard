@@ -1,8 +1,8 @@
 import { Reveal } from "./_shared/Reveal";
 import { Edit } from "../_editor/Edit";
-import type { Content } from "@/types/content";
+import type { HeadlineContent } from "@/types/content";
 
-export function Headline({ content: c, edit = false }: { content: Content["headline"]; edit?: boolean }) {
+export function Headline({ content: c, edit = false }: { content: HeadlineContent; edit?: boolean }) {
   return (
     <section className="ac-headline" id="top">
       <Reveal>

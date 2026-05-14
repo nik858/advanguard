@@ -3,9 +3,9 @@ import { VideoPlayer } from "./_shared/VideoPlayer";
 import { OrderForm } from "./OrderForm";
 import { Edit } from "../_editor/Edit";
 import { MediaSwapButton } from "../_editor/MediaSwapButton";
-import type { Content } from "@/types/content";
+import type { HeroContent, OrderContent } from "@/types/content";
 
-export function Hero({ hero, order, edit = false }: { hero: Content["hero"]; order: Content["order"]; edit?: boolean }) {
+export function Hero({ hero, order, edit = false }: { hero: HeroContent; order: OrderContent; edit?: boolean }) {
   return (
     <section className="ac-hero" aria-labelledby="what-is-h2">
       <div className="ac-hero__grid">

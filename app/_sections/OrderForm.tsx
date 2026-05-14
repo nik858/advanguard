@@ -4,9 +4,9 @@ import { CTA } from "./_shared/CTA";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
-import { mediaUrl, type Content } from "@/types/content";
+import { mediaUrl, type OrderContent } from "@/types/content";
 
-export function OrderForm({ content: order, onCheckout, edit = false }: { content: Content["order"]; onCheckout?: () => void; edit?: boolean }) {
+export function OrderForm({ content: order, onCheckout, edit = false }: { content: OrderContent; onCheckout?: () => void; edit?: boolean }) {
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "err">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 

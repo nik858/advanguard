@@ -1,8 +1,8 @@
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
-import { mediaUrl, type Content } from "@/types/content";
+import { mediaUrl, type HeaderContent } from "@/types/content";
 
-export function Header({ content: c, edit = false }: { content: Content["header"]; edit?: boolean }) {
+export function Header({ content: c, edit = false }: { content: HeaderContent; edit?: boolean }) {
   const logoDarkUrl = mediaUrl(c.logoDark);
   return (
     <header className="ac-header" role="banner">

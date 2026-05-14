@@ -4,9 +4,9 @@ import { CTA } from "./_shared/CTA";
 import { Book } from "./_shared/Book";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Edit } from "../_editor/Edit";
-import type { Content } from "@/types/content";
+import type { OnlySystemContent } from "@/types/content";
 
-export function OnlySystem({ content: c, onCheckout, edit = false }: { content: Content["onlySystem"]; onCheckout?: () => void; edit?: boolean }) {
+export function OnlySystem({ content: c, onCheckout, edit = false }: { content: OnlySystemContent; onCheckout?: () => void; edit?: boolean }) {
   return (
     <section className="ac-only" aria-labelledby="only-h2">
       <div className="ac-only__inner">

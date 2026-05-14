@@ -1,8 +1,8 @@
 import { Reveal } from "./_shared/Reveal";
 import { Edit } from "../_editor/Edit";
-import type { Content } from "@/types/content";
+import type { AuthorityContent } from "@/types/content";
 
-export function LogoStrip({ content: c, edit = false }: { content: Content["authority"]; edit?: boolean }) {
+export function LogoStrip({ content: c, edit = false }: { content: AuthorityContent; edit?: boolean }) {
   return (
     <section className="ac-authority" aria-label="Featured in">
       <Reveal>

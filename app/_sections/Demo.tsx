@@ -2,9 +2,9 @@ import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Edit } from "../_editor/Edit";
 import { MediaSwapButton } from "../_editor/MediaSwapButton";
-import type { Content } from "@/types/content";
+import type { DemoContent } from "@/types/content";
 
-export function Demo({ content: c, edit = false }: { content: Content["demo"]; edit?: boolean }) {
+export function Demo({ content: c, edit = false }: { content: DemoContent; edit?: boolean }) {
   return (
     <section className="ac-demo" aria-labelledby="demo-h2">
       <div className="ac-demo__inner">

@@ -1,9 +1,9 @@
 import { Reveal } from "./_shared/Reveal";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Edit } from "../_editor/Edit";
-import type { Content } from "@/types/content";
+import type { GuaranteeContent } from "@/types/content";
 
-export function GuaranteeSection({ content: c, edit = false }: { content: Content["guarantee"]; edit?: boolean }) {
+export function GuaranteeSection({ content: c, edit = false }: { content: GuaranteeContent; edit?: boolean }) {
   return (
     <section className="ac-guarantee" aria-labelledby="guarantee-h2">
       <div className="ac-guarantee__inner">

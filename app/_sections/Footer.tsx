@@ -2,11 +2,11 @@
 import { Reveal } from "./_shared/Reveal";
 import { CTA } from "./_shared/CTA";
 import { Edit } from "../_editor/Edit";
-import { mediaUrl, type Content } from "@/types/content";
+import { mediaUrl, type FooterContent, type HeaderContent } from "@/types/content";
 
 export function Footer({ content: c, header: h, onCheckout, edit = false }: {
-  content: Content["footer"];
-  header: Content["header"];
+  content: FooterContent;
+  header: HeaderContent;
   onCheckout?: () => void;
   edit?: boolean;
 }) {
