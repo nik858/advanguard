@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { Signals, Lead, AuditEmail } from "@/types/audit";
+import { type Prompts } from "@/types/prompts";
 import { loadPrompts } from "@/lib/audit/prompts";
 import { formatSignalsForPrompt } from "@/lib/audit/signals";
 
@@ -11,11 +12,15 @@ const MODEL = "claude-haiku-4-5-20251001";
  * Throws on missing API key, API failure, or unparseable response — the caller
  * (the orchestrator) catches and switches to the fallback email.
  */
-export async function generateAuditEmail(signals: Signals, lead: Lead): Promise<AuditEmail> {
+export async function generateAuditEmail(
+  signals: Signals,
+  lead: Lead,
+  promptsOverride?: Prompts,
+): Promise<AuditEmail> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("ANTHROPIC_API_KEY not set");
 
-  const prompts = await loadPrompts();
+  const prompts = promptsOverride ?? (await loadPrompts());
   const client = new Anthropic({ apiKey });
 
   const userMessage = [

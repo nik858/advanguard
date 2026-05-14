@@ -20,11 +20,21 @@ const FIELDS: { key: keyof Omit<Prompts, "version">; label: string; hint: string
   { key: "signature", label: "Signature", hint: "How the email signs off.", rows: 1 },
 ];
 
+type PreviewResult = {
+  outcome: "success" | "fallback";
+  reason: string | null;
+  signals: unknown | null;
+  email: { subject: string; body: string };
+};
+
 export function PromptEditor() {
   const { toast } = useToast();
   const [prompts, setPrompts] = useState<Prompts | null>(null);
   const [saving, setSaving] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [previewEmail, setPreviewEmail] = useState("");
+  const [previewing, setPreviewing] = useState(false);
+  const [previewResult, setPreviewResult] = useState<PreviewResult | null>(null);
 
   useEffect(() => {
     fetch("/api/prompts")
@@ -54,6 +64,29 @@ export function PromptEditor() {
       toast("success", "Reset to the default prompts");
     } else {
       toast("error", "Could not reset the prompts");
+    }
+  }
+
+  async function runPreview() {
+    if (!prompts) return;
+    setPreviewing(true);
+    setPreviewResult(null);
+    try {
+      const res = await fetch("/api/audit/preview", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: previewEmail, prompts }),
+      });
+      if (!res.ok) {
+        toast("error", "Could not run the preview");
+        return;
+      }
+      const b = (await res.json()) as PreviewResult;
+      setPreviewResult(b);
+    } catch {
+      toast("error", "Could not run the preview");
+    } finally {
+      setPreviewing(false);
     }
   }
 
@@ -100,6 +133,86 @@ export function PromptEditor() {
         >
           Reset to default
         </button>
+      </div>
+      <div style={{ borderTop: "1px solid #e7e7ea", paddingTop: 20, marginTop: 4 }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: "#18181b", marginBottom: 2 }}>Preview</div>
+        <div style={{ fontSize: 12, color: "#a1a1aa", marginBottom: 12 }}>
+          Run the audit on a test email using the prompts currently in this editor. Nothing is sent — no
+          webhook, no email.
+        </div>
+        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <input
+            type="email"
+            value={previewEmail}
+            onChange={(e) => setPreviewEmail(e.target.value)}
+            placeholder="owner@clinic.com"
+            style={{
+              flex: "1 1 240px", minWidth: 220, padding: "9px 12px", border: "1px solid #d4d4d8",
+              borderRadius: 6, fontSize: 13, fontFamily: "var(--adv-font, system-ui)", boxSizing: "border-box",
+            }}
+          />
+          <button
+            onClick={runPreview}
+            disabled={previewing || !previewEmail}
+            style={{
+              background: "#18181b", color: "#fff", border: 0, padding: "9px 18px",
+              borderRadius: 6, fontSize: 14, fontWeight: 600,
+              cursor: previewing || !previewEmail ? "not-allowed" : "pointer",
+              opacity: previewing || !previewEmail ? 0.6 : 1,
+            }}
+          >
+            {previewing ? "Running…" : "Run preview"}
+          </button>
+        </div>
+        {previewing && (
+          <div style={{ fontSize: 12, color: "#a1a1aa", marginTop: 10 }}>
+            Running the real audit — this takes up to a minute…
+          </div>
+        )}
+        {previewResult && (
+          <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 12 }}>
+            {previewResult.outcome === "fallback" && (
+              <div style={{ fontSize: 12, color: "#a1a1aa" }}>
+                The pipeline fell back (reason: {previewResult.reason ?? "unknown"}) — here is the fallback
+                email that would be sent:
+              </div>
+            )}
+            <div
+              style={{
+                border: "1px solid #e7e7ea", borderRadius: 8, padding: "12px 14px", background: "#fafafa",
+              }}
+            >
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#18181b", marginBottom: 8 }}>
+                {previewResult.email.subject}
+              </div>
+              <pre
+                style={{
+                  margin: 0, fontSize: 12.5, color: "#3f3f46", whiteSpace: "pre-wrap",
+                  fontFamily: "var(--adv-font, system-ui)", lineHeight: 1.55,
+                }}
+              >
+                {previewResult.email.body}
+              </pre>
+            </div>
+            {previewResult.signals != null && (
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "#27272a", marginBottom: 6 }}>
+                  Extracted signals
+                </div>
+                <pre
+                  style={{
+                    margin: 0, fontSize: 11.5, color: "#52525b", whiteSpace: "pre-wrap",
+                    fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+                    background: "#fafafa", border: "1px solid #e7e7ea", borderRadius: 8,
+                    padding: "12px 14px", overflowX: "auto",
+                  }}
+                >
+                  {JSON.stringify(previewResult.signals, null, 2)}
+                </pre>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <ConfirmDialog
         open={confirmReset}
