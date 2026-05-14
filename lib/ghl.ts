@@ -16,24 +16,6 @@ async function postWithRetry(url: string, body: unknown, max = 3): Promise<void>
   throw lastErr;
 }
 
-export type LeadPayload = {
-  email: string;
-  first_name?: string;
-  phone?: string;
-  domain?: string;
-  source?: string;
-  vertical?: string;
-  submitted_at?: string;
-  user_agent?: string;
-  ip_hash?: string;
-};
-
-export async function postLeadToGHL(payload: LeadPayload): Promise<void> {
-  const url = process.env.GHL_LEAD_WEBHOOK_URL;
-  if (!url) throw new Error("GHL_LEAD_WEBHOOK_URL not set");
-  await postWithRetry(url, { source: "advanguard-landing", submitted_at: new Date().toISOString(), ...payload });
-}
-
 /**
  * Payload for the GHL "Audit Email" inbound webhook. The GHL workflow maps
  * these exact field names: email -> contact Email, first_name -> contact First Name,
