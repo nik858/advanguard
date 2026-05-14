@@ -271,3 +271,53 @@ export function findSection<T extends SectionType>(
 ): Extract<Section, { type: T }> | undefined {
   return content.sections.find((s) => s.type === type) as Extract<Section, { type: T }> | undefined;
 }
+
+/** Human-readable labels for the structure sidebar. */
+export const SECTION_LABELS: Record<SectionType, string> = {
+  headline: "Headline",
+  hero: "Hero + Order",
+  authority: "Logo Strip",
+  onlySystem: "Only System",
+  demo: "Demo",
+  testimonials: "Testimonials",
+  stack: "Stack",
+  guarantee: "Guarantee",
+  faq: "FAQ",
+};
+
+/** Canonical order used when offering "add a section". */
+export const SECTION_TYPES: SectionType[] = [
+  "headline", "hero", "authority", "onlySystem", "demo",
+  "testimonials", "stack", "guarantee", "faq",
+];
+
+/** Builds a new section of the given type with valid default (placeholder) data. */
+export function createSection(type: SectionType): Section {
+  const id = genSectionId();
+  switch (type) {
+    case "headline":
+      return { id, type, data: { headline: { eyebrow: "Eyebrow text", eyebrowDotColor: "rgb(28,127,255)", h1: "New headline", sub: "Subtitle" } } };
+    case "hero":
+      return {
+        id, type,
+        data: {
+          hero: { videoLabel: "Watch the video", videoUrl: "", videoPoster: "", sectionTitle: "Section title", sectionBody: "Body text" },
+          order: { badge: "", productName: "Product", productSubtitle: "", limitedTime: "", priceWas: "", priceNow: "", priceSubLine: "", description: "", ctaTagline: "", ctaLabel: "Buy now", secureText: "", guaranteeText: "", ratingText: "", miniTestimonials: [] },
+        },
+      };
+    case "authority":
+      return { id, type, data: { authority: { title: "Featured in", logos: [] } } };
+    case "onlySystem":
+      return { id, type, data: { onlySystem: { eyebrow: "", eyebrowDotColor: "rgb(28,127,255)", h2: "Heading", body: "", leftFeatures: [], rightFeatures: [], stats: [], ctaTagline: "", ctaLabel: "Buy now", ctaSubLink: "", guaranteeText: "" } } };
+    case "demo":
+      return { id, type, data: { demo: { h2: "Demo", videoUrl: "", videoPoster: "" } } };
+    case "testimonials":
+      return { id, type, data: { testimonials: { rating: "", h2: "What people say", pullQuote: "", items: [] } } };
+    case "stack":
+      return { id, type, data: { stack: { h2: "What you get", bigStackImg: "", items: [], ctaTagline: "", ctaLabel: "Buy now", guaranteeText: "" } } };
+    case "guarantee":
+      return { id, type, data: { guarantee: { h2: "Our guarantee", body: "" } } };
+    case "faq":
+      return { id, type, data: { faq: { h2: "FAQ", sub: "", items: [] } } };
+  }
+}
