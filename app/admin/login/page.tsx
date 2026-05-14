@@ -25,7 +25,7 @@ function LoginForm() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24, background: "#fafafa", fontFamily: "var(--adv-font, system-ui)" }}>
+    <div style={{ minHeight: "100vh", display: "grid", placeItems: "start center", padding: "10vh 24px 24px", background: "#fafafa", fontFamily: "var(--adv-font, system-ui)" }}>
       <div style={{ width: "100%", maxWidth: 360 }}>
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <img src="/assets/advanguard-logo-dark.png" alt="Advanguard" width={140} height={30} style={{ height: "auto" }} />

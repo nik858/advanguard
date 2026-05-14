@@ -9,7 +9,6 @@ const items: { href: string; label: string; icon: () => ReactNode }[] = [
   { href: "/admin/lead-magnet", label: "Lead Magnet", icon: () => <Icons.Megaphone /> },
   { href: "/admin/audit", label: "AI Audit", icon: () => <Icons.Sparkles /> },
   { href: "/admin/media", label: "Médiathèque", icon: () => <Icons.Image /> },
-  { href: "/admin/history", label: "Historique", icon: () => <Icons.History /> },
   { href: "/admin/settings", label: "Réglages", icon: () => <Icons.Settings /> },
 ];
 

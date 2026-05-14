@@ -64,20 +64,17 @@ export default async function AdminHome() {
 
       {/* Secondary cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16, maxWidth: 900 }}>
-        <Link href="/admin/history" style={{ ...cardStyle, textDecoration: "none", color: "inherit" }}>
+        <div style={cardStyle}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#71717a", marginBottom: 8 }}>
-            <Icons.History />
+            <Icons.Check />
             <span style={{ fontSize: 13, fontWeight: 500 }}>Dernière publication</span>
           </div>
           {latest ? (
-            <>
-              <div style={{ fontSize: 15, color: "#18181b", marginBottom: 4 }}>{formatRelative(latest.date)}</div>
-              <div style={{ fontSize: 12, color: "#a1a1aa", fontFamily: "var(--adv-font-mono, monospace)" }}>{latest.message.split("\n")[0].slice(0, 60)}</div>
-            </>
+            <div style={{ fontSize: 15, color: "#18181b" }}>{formatRelative(latest.date)}</div>
           ) : (
             <div style={{ fontSize: 13, color: "#a1a1aa" }}>Aucune publication encore</div>
           )}
-        </Link>
+        </div>
 
         <Link href="/admin/media" style={{ ...cardStyle, textDecoration: "none", color: "inherit" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#71717a", marginBottom: 8 }}>
