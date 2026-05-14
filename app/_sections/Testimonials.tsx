@@ -4,6 +4,7 @@ import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
+import { TestimonialTypeToggle } from "../_editor/TestimonialTypeToggle";
 import { mediaUrl, type TestimonialsContent } from "@/types/content";
 import type { ReactNode } from "react";
 
@@ -54,6 +55,7 @@ export function Testimonials({ content: c, edit = false }: { content: Testimonia
           >
           {c.items.map((t, i) => (
             <Reveal className="ac-testi__card" key={i} delay={(i % 3) * 80}>
+              {edit && <TestimonialTypeToggle path={`testimonials.items.${i}`} current={t.type} />}
               {t.type === "video" ? (
                 <div className="ac-testi-card ac-testi-card--video" style={{ position: "relative" }}>
                   {edit && <MediaSlot path={`testimonials.items.${i}.videoUrl`} accept="video" />}
@@ -71,7 +73,14 @@ export function Testimonials({ content: c, edit = false }: { content: Testimonia
               ) : (
                 <div className="ac-testi-card">
                   <div className="ac-testi-card__head">
-                    <div className="ac-testi-card__avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
+                    {edit ? (
+                      <div className="ac-testi-card__avatar-slot" style={{ position: "relative" }}>
+                        <MediaSlot path={`testimonials.items.${i}.avatar`} accept="image" />
+                        <div className="ac-testi-card__avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
+                      </div>
+                    ) : (
+                      <div className="ac-testi-card__avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
+                    )}
                     <div>
                       <div className="ac-testi-card__name">
                         <Edit edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</Edit>

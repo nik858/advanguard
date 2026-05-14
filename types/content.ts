@@ -141,6 +141,7 @@ export const StackSchema = z.object({
   items: z.array(
     z.object({
       kind: z.enum(["book", "ipad"]),
+      image: MediaRefSchema.optional(),
       title: z.string(),
       sub: z.string(),
       body: z.string(),

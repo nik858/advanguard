@@ -48,20 +48,24 @@ export function StructurePanel() {
       style={{
         position: "fixed",
         left: 0,
-        top: 0,
+        // Clear the sticky PublishBar so the panel header isn't hidden behind it.
+        top: 48,
         bottom: 0,
         width: 260,
+        boxSizing: "border-box",
         zIndex: 90,
         background: "rgba(255,255,255,0.97)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         borderRight: "1px solid var(--adv-border, #e7e7ea)",
+        borderTop: "1px solid var(--adv-border, #e7e7ea)",
         padding: 12,
         display: "flex",
         flexDirection: "column",
         gap: 10,
         fontFamily: "var(--adv-font, system-ui, sans-serif)",
         overflowY: "auto",
+        overflowX: "hidden",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>

@@ -29,16 +29,19 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
         <div className="ac-stack__grid">
           <RepeatableList
             path="stack.items"
-            newItem={{ kind: "book", title: "New item", sub: "", body: "", access: "Instant Access", priceWas: "", priceNow: "Free" }}
+            newItem={{ kind: "book", image: "", title: "New item", sub: "", body: "", access: "Instant Access", priceWas: "", priceNow: "Free" }}
             edit={edit}
           >
           {c.items.map((it, i) => (
             <Reveal key={i} delay={(i % 3) * 80}>
               <div className="ac-stack-card">
-                <div className="ac-stack-card__visual">
-                  {it.kind === "book"
-                    ? <Book size="sm" />
-                    : <div className="ac-stack-card__ipad" aria-hidden="true"><div className="ac-stack-card__ipad-label">{shortLabel(it.title)}</div></div>}
+                <div className="ac-stack-card__visual" style={edit ? { position: "relative" } : undefined}>
+                  {edit && <MediaSlot path={`stack.items.${i}.image`} accept="image" />}
+                  {mediaUrl(it.image)
+                    ? <img className="ac-stack-card__img" src={mediaUrl(it.image)} alt={it.title} />
+                    : it.kind === "book"
+                      ? <Book size="sm" />
+                      : <div className="ac-stack-card__ipad" aria-hidden="true"><div className="ac-stack-card__ipad-label">{shortLabel(it.title)}</div></div>}
                 </div>
                 <div className="ac-stack-card__title-block">
                   <div className="ac-stack-card__title">
