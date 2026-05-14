@@ -4,6 +4,7 @@ import { CTA } from "./_shared/CTA";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
+import { RepeatableList } from "../_editor/RepeatableList";
 import { mediaUrl, type OrderContent } from "@/types/content";
 
 export function OrderForm({ content: order, onCheckout, edit = false }: { content: OrderContent; onCheckout?: () => void; edit?: boolean }) {
@@ -87,7 +88,14 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           <span className="ac-order__rating-stars" aria-label="5 out of 5 stars"><Stars/></span>
         </div>
         <div className="ac-order__mini-testimonials">
-          {order.miniTestimonials.map((t, i) => (
+          <RepeatableList
+            path="order.miniTestimonials"
+            newItem={{ avatar: "", name: "Name", role: "Role", quote: "Short quote." }}
+            edit={edit}
+          >
+          {(i) => {
+            const t = order.miniTestimonials[i];
+            return (
             <div className="ac-order__mini-card" key={i}>
               <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
               <div>
@@ -100,7 +108,9 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
                 <div className="ac-order__mini-quote">&quot;<Edit edit={edit} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</Edit>&quot;</div>
               </div>
             </div>
-          ))}
+            );
+          }}
+          </RepeatableList>
         </div>
       </div>
     </aside>

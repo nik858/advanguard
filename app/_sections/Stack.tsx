@@ -6,6 +6,7 @@ import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
 import { MediaSlot } from "../_editor/MediaSlot";
+import { RepeatableList } from "../_editor/RepeatableList";
 import { mediaUrl, type StackContent } from "@/types/content";
 
 function shortLabel(s: string): string { return s.split(" ").slice(0, 2).join(" "); }
@@ -26,7 +27,14 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
           </div>
         </Reveal>
         <div className="ac-stack__grid">
-          {c.items.map((it, i) => (
+          <RepeatableList
+            path="stack.items"
+            newItem={{ kind: "book", title: "New item", sub: "", body: "", access: "Instant Access", priceWas: "", priceNow: "Free" }}
+            edit={edit}
+          >
+          {(i) => {
+            const it = c.items[i];
+            return (
             <Reveal key={i} delay={(i % 3) * 80}>
               <div className="ac-stack-card">
                 <div className="ac-stack-card__visual">
@@ -56,7 +64,9 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
                 </div>
               </div>
             </Reveal>
-          ))}
+            );
+          }}
+          </RepeatableList>
         </div>
         <Reveal className="ac-only__cta-wrap" delay={200}>
           <CTA tag={c.ctaTagline} label={c.ctaLabel} onClick={onCheckout}/>
