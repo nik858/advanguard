@@ -3,7 +3,7 @@ import { z } from "zod";
 import { verifySession, SESSION_CONFIG } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { saveDraft, loadDraft, deleteDraft } from "@/lib/blob";
-import { ContentSchema } from "@/types/content";
+import { migrateContent } from "@/types/content";
 
 async function requireSession() {
   const c = await cookies();
@@ -23,9 +23,13 @@ export async function PUT(req: Request) {
   const body = await req.json().catch(() => null);
   const parsed = PutBody.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid body" }, { status: 400 });
-  const draftCheck = ContentSchema.safeParse(parsed.data.draft);
-  if (!draftCheck.success) return NextResponse.json({ error: "Invalid content shape", issues: draftCheck.error.issues }, { status: 400 });
-  await saveDraft(draftCheck.data);
+  let migrated;
+  try {
+    migrated = migrateContent(parsed.data.draft);
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid content shape", detail: (e as Error).message }, { status: 400 });
+  }
+  await saveDraft(migrated);
   return NextResponse.json({ ok: true });
 }
 

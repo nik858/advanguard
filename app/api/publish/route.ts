@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifySession, SESSION_CONFIG } from "@/lib/auth";
-import { ContentSchema } from "@/types/content";
+import { migrateContent } from "@/types/content";
 import { loadDraft, deleteDraft } from "@/lib/blob";
 import { getFile, putFile } from "@/lib/github";
 
@@ -14,9 +14,11 @@ export async function POST() {
   const draft = await loadDraft();
   if (!draft) return NextResponse.json({ error: "No draft to publish" }, { status: 400 });
 
-  const parsed = ContentSchema.safeParse(draft);
-  if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid content", issues: parsed.error.issues }, { status: 400 });
+  let migrated;
+  try {
+    migrated = migrateContent(draft);
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid content", detail: (e as Error).message }, { status: 400 });
   }
 
   let current;
@@ -26,7 +28,12 @@ export async function POST() {
     return NextResponse.json({ error: "Could not read content.json from GitHub", detail: (e as Error).message }, { status: 502 });
   }
 
-  if (JSON.stringify(current.content) === JSON.stringify(parsed.data)) {
+  let currentMigrated = null;
+  try {
+    currentMigrated = migrateContent(current.content);
+  } catch { /* current file unreadable as content — treat as changed */ }
+
+  if (currentMigrated && JSON.stringify(currentMigrated) === JSON.stringify(migrated)) {
     await deleteDraft();
     return NextResponse.json({ ok: true, noop: true });
   }
@@ -34,7 +41,7 @@ export async function POST() {
   try {
     const r = await putFile({
       path: "content/content.json",
-      content: parsed.data,
+      content: migrated,
       sha: current.sha,
       message: `content: ${session.sub} edit (${new Date().toISOString().slice(0,10)})`,
     });

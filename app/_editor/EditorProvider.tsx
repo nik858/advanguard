@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useMemo, useReducer, useRef, type ReactNode } from "react";
 import type { Content } from "@/types/content";
+import { migrateContent } from "@/types/content";
 import type { EditorState, EditorAction } from "./types";
 
 const STORAGE_KEY = "adv:draft:v1";
@@ -78,13 +79,19 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === "object") dispatch({ type: "setDraft", draft: parsed });
+        if (parsed && typeof parsed === "object") {
+          dispatch({ type: "setDraft", draft: migrateContent(parsed) });
+        }
       }
-    } catch { /* ignore */ }
+    } catch { /* ignore corrupt/incompatible local draft */ }
     fetch("/api/draft").then(async (r) => {
       if (!r.ok) return;
       const body = await r.json();
-      if (body?.draft) dispatch({ type: "setDraft", draft: body.draft });
+      if (body?.draft) {
+        try {
+          dispatch({ type: "setDraft", draft: migrateContent(body.draft) });
+        } catch { /* ignore incompatible server draft */ }
+      }
     }).catch(() => {});
   }, []);
 
