@@ -7,3 +7,7 @@ out
 .DS_Store
 dist
 coverage
+
+# Build artifacts
+tsconfig.tsbuildinfo
+next-env.d.ts
