@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import contentJson from "@/content/content.json";
-import { ContentSchema, mediaUrl } from "@/types/content";
+import { migrateContent, mediaUrl } from "@/types/content";
 
-const content = ContentSchema.parse(contentJson);
+const content = migrateContent(contentJson);
 
 export const metadata: Metadata = {
   title: content.meta.title,

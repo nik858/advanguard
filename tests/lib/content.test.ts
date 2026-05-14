@@ -1,10 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { ContentSchema } from "@/types/content";
+import { ContentSchema, migrateContent } from "@/types/content";
 import contentJson from "@/content/content.json";
 
 describe("ContentSchema", () => {
-  it("parses content.json successfully", () => {
-    const result = ContentSchema.safeParse(contentJson);
+  it("parses content.json (after migration) successfully", () => {
+    const migrated = migrateContent(contentJson);
+    const result = ContentSchema.safeParse(migrated);
     if (!result.success) console.error(result.error.issues);
     expect(result.success).toBe(true);
   });

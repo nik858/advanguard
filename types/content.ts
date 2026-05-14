@@ -222,13 +222,9 @@ export const ContentSchemaV2 = z.object({
 });
 export type ContentV2 = z.infer<typeof ContentSchemaV2>;
 
-/*
- * `ContentSchema` / `Content` stay pointed at v1 in this task so existing
- * consumers (page.tsx, api routes, section components, content.test.ts)
- * keep compiling and passing. Task 6 repoints them to v2.
- */
-export const ContentSchema = ContentSchemaV1;
-export type Content = ContentV1;
+/* `ContentSchema` / `Content` are the current canonical shape (v2). */
+export const ContentSchema = ContentSchemaV2;
+export type Content = ContentV2;
 
 /* ---------- migration ---------- */
 
