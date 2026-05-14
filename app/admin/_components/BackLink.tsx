@@ -17,7 +17,7 @@ export function BackLink() {
       <span style={{ fontSize: 15, lineHeight: 1 }} aria-hidden>
         &larr;
       </span>
-      Tableau de bord
+      Dashboard
     </Link>
   );
 }

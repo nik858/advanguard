@@ -5,28 +5,28 @@ import styles from "../_components/ui.module.css";
 
 const steps: { title: string; body: string }[] = [
   {
-    title: "Capture du lead",
-    body: "Un visiteur entre son email professionnel dans le formulaire de la landing.",
+    title: "Lead capture",
+    body: "A visitor enters their work email in the landing page form.",
   },
   {
-    title: "Validation automatique",
-    body: "Les adresses génériques (Gmail, Yahoo, Outlook…) sont bloquées — seuls les emails pro passent.",
+    title: "Automatic validation",
+    body: "Generic addresses (Gmail, Yahoo, Outlook…) are blocked — only work emails get through.",
   },
   {
-    title: "Envoi vers GoHighLevel",
-    body: "Le lead est transmis instantanément à ton workflow GHL, qui envoie l'email de confirmation.",
+    title: "Hand-off to GoHighLevel",
+    body: "The lead is sent instantly to your GHL workflow, which sends the confirmation email.",
   },
   {
-    title: "Audit du site (v1.1)",
-    body: "L'outil identifie le site de la clinique depuis le domaine de l'email, puis extrait des signaux : performance, SEO, schema, preuve sociale, prise de rendez-vous…",
+    title: "Site audit (v1.1)",
+    body: "The tool identifies the clinic's website from the email domain, then extracts signals: performance, SEO, schema, social proof, appointment booking…",
   },
   {
-    title: "Génération de l'email AI (v1.1)",
-    body: "Claude rédige un email personnalisé avec des recommandations concrètes basées sur l'audit.",
+    title: "AI email generation (v1.1)",
+    body: "Claude writes a personalized email with concrete recommendations based on the audit.",
   },
   {
-    title: "Séquence automatique (v1.1)",
-    body: "L'email part via GoHighLevel, qui gère ensuite toute la séquence de relance.",
+    title: "Automated sequence (v1.1)",
+    body: "The email goes out via GoHighLevel, which then handles the full follow-up sequence.",
   },
 ];
 
@@ -37,10 +37,10 @@ export default function FunnelPage() {
 
       <div>
         <h1 style={{ fontSize: 26, fontWeight: 600, margin: "0 0 6px", letterSpacing: "-0.01em" }}>
-          Tunnel &amp; Audit AI
+          Funnel &amp; AI Audit
         </h1>
         <p style={{ color: "#71717a", margin: 0, fontSize: 15, lineHeight: 1.5 }}>
-          Voici comment un prospect est capté sur ta landing, puis traité automatiquement de bout en bout.
+          Here&apos;s how a prospect is captured on your landing page, then processed automatically end to end.
         </p>
       </div>
 
@@ -80,14 +80,14 @@ export default function FunnelPage() {
         </span>
         <div style={{ fontSize: 14, lineHeight: 1.55, color: "#27272a" }}>
           <strong style={{ display: "block", fontWeight: 600, color: "#18181b", marginBottom: 2 }}>
-            Modifier le texte du formulaire
+            Editing the form copy
           </strong>
-          Le wording (titres, labels, boutons, messages de confirmation) se modifie directement sur la
-          landing.{" "}
+          The wording (titles, labels, buttons, confirmation messages) is edited directly on the
+          landing page.{" "}
           <Link href="/" style={{ color: "#2563eb", textDecoration: "none" }}>
-            Va sur le site
+            Go to the site
           </Link>{" "}
-          et clique sur les champs concernés.
+          and click the relevant fields.
         </div>
       </div>
 
@@ -107,10 +107,10 @@ export default function FunnelPage() {
         </span>
         <div style={{ fontSize: 14, lineHeight: 1.55, color: "#71717a" }}>
           <strong style={{ display: "block", fontWeight: 600, color: "#27272a", marginBottom: 2 }}>
-            Audit AI — pas encore activé
+            AI Audit — not active yet
           </strong>
-          Les étapes 4 à 6 arrivent en v1.1. Une fois l&apos;outil en place, tu pourras éditer les
-          prompts Claude depuis cette page, sans intervention technique.
+          Steps 4 to 6 are coming in v1.1. Once the tool is in place, you&apos;ll be able to edit the
+          Claude prompts from this page, with no technical help needed.
         </div>
       </div>
     </div>

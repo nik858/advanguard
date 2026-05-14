@@ -24,12 +24,12 @@ function countDiff(a: unknown, b: unknown): number {
 
 function formatAgo(ms: number): string {
   const s = Math.max(0, Math.floor((Date.now() - ms) / 1000));
-  if (s < 5) return "à l'instant";
-  if (s < 60) return `il y a ${s}s`;
+  if (s < 5) return "just now";
+  if (s < 60) return `${s}s ago`;
   const m = Math.floor(s / 60);
-  if (m < 60) return `il y a ${m}min`;
+  if (m < 60) return `${m} min ago`;
   const h = Math.floor(m / 60);
-  return `il y a ${h}h`;
+  return `${h} h ago`;
 }
 
 export function PublishBar() {
@@ -68,18 +68,18 @@ export function PublishBar() {
 
   async function onPublish() {
     setBusy(true);
-    setStatus({ ok: true, msg: "Publication…" });
+    setStatus({ ok: true, msg: "Publishing…" });
     const r = await publish();
     if (!r.ok) {
       setBusy(false);
       setStatus({ ok: false, msg: r.error });
       return;
     }
-    setStatus({ ok: true, msg: "Build en cours…" });
+    setStatus({ ok: true, msg: "Building…" });
     const sha = r.commit_sha;
     if (!sha) {
       setBusy(false);
-      setStatus({ ok: true, msg: "Publié" });
+      setStatus({ ok: true, msg: "Published" });
       return;
     }
     const deadline = Date.now() + 120_000;
@@ -89,19 +89,19 @@ export function PublishBar() {
         const body = await res.json();
         if (body.state === "READY") {
           setBusy(false);
-          setStatus({ ok: true, msg: "✓ Site en ligne" });
+          setStatus({ ok: true, msg: "✓ Site is live" });
           setTimeout(() => setStatus(null), 5000);
           return;
         }
         if (body.state === "ERROR" || body.state === "CANCELED") {
           setBusy(false);
-          setStatus({ ok: false, msg: "Build échoué" });
+          setStatus({ ok: false, msg: "Build failed" });
           return;
         }
       }
       if (Date.now() > deadline) {
         setBusy(false);
-        setStatus({ ok: true, msg: "Publié (vérifie Vercel)" });
+        setStatus({ ok: true, msg: "Published (check Vercel)" });
         return;
       }
       setTimeout(poll, 3000);
@@ -154,14 +154,14 @@ export function PublishBar() {
               boxShadow: isPreview ? "none" : "0 0 0 3px rgba(22,163,74,.15)",
             }}
           />
-          {isPreview ? "Aperçu" : "Édition"}
+          {isPreview ? "Preview" : "Editing"}
         </span>
 
         {/* Preview toggle */}
         <button
           type="button"
           onClick={togglePreview}
-          title="Basculer aperçu (⌘⇧P)"
+          title="Toggle preview (⌘⇧P)"
           aria-pressed={isPreview}
           style={{
             display: "inline-flex",
@@ -178,7 +178,7 @@ export function PublishBar() {
           }}
         >
           <Icons.Eye />
-          {isPreview ? "Reprendre l'édition" : "Aperçu"}
+          {isPreview ? "Resume editing" : "Preview"}
         </button>
 
         {/* Diff chip */}
@@ -192,9 +192,9 @@ export function PublishBar() {
               fontSize: 12,
               fontWeight: 600,
             }}
-            title={`${diffs} modification${diffs > 1 ? "s" : ""} en attente de publication`}
+            title={`${diffs} unpublished change${diffs > 1 ? "s" : ""}`}
           >
-            {diffs} modification{diffs > 1 ? "s" : ""} non publiée{diffs > 1 ? "s" : ""}
+            {diffs} unpublished change{diffs > 1 ? "s" : ""}
           </span>
         )}
 
@@ -204,12 +204,12 @@ export function PublishBar() {
         {state.lastSaveAt && !state.dirty && (
           <span style={{ color: "var(--adv-text-muted, #71717a)", fontSize: 12, display: "inline-flex", alignItems: "center", gap: 4 }} key={tick}>
             <Icons.Check />
-            Sauvegardé {formatAgo(state.lastSaveAt)}
+            Saved {formatAgo(state.lastSaveAt)}
           </span>
         )}
         {state.dirty && !state.lastSaveAt && (
           <span style={{ color: "var(--adv-text-muted, #71717a)", fontSize: 12 }}>
-            Sauvegarde…
+            Saving…
           </span>
         )}
 
@@ -247,13 +247,13 @@ export function PublishBar() {
             fontFamily: "inherit",
           }}
         >
-          Annuler
+          Discard
         </button>
         <button
           type="button"
           onClick={onPublish}
           disabled={busy || !state.dirty}
-          title="Publier (⌘S)"
+          title="Publish (⌘S)"
           style={{
             background: "var(--adv-accent, #18181b)",
             color: "#fff",
@@ -267,16 +267,16 @@ export function PublishBar() {
             fontFamily: "inherit",
           }}
         >
-          {busy ? "Publication…" : "Publier"}
+          {busy ? "Publishing…" : "Publish"}
         </button>
       </div>
 
       <ConfirmDialog
         open={confirmOpen}
-        title="Annuler les modifications non publiées ?"
-        description="Toutes les modifications en cours seront perdues. Cette action est irréversible."
-        confirmLabel="Tout annuler"
-        cancelLabel="Garder mes modifications"
+        title="Discard unpublished changes?"
+        description="All current changes will be lost. This action cannot be undone."
+        confirmLabel="Discard all"
+        cancelLabel="Keep my changes"
         destructive
         onConfirm={onConfirmCancel}
         onCancel={() => setConfirmOpen(false)}

@@ -27,7 +27,7 @@ export function LogoutButton() {
       }}
     >
       <Icons.LogOut />
-      Se déconnecter
+      Sign out
     </button>
   );
 }

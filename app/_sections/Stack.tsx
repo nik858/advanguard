@@ -22,7 +22,7 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Conte
         <Reveal delay={120}>
           <div style={{ position: "relative" }}>
             {edit && <MediaSwapButton path="stack.bigStackImg" accept="image" />}
-            <img className="ac-stack__hero-img" src={mediaUrl(c.bigStackImg)} alt="Tout ce que vous obtenez dans le pack" width={800} height={334} loading="lazy" decoding="async"/>
+            <img className="ac-stack__hero-img" src={mediaUrl(c.bigStackImg)} alt="Everything you're getting in the bundle" width={800} height={334} loading="lazy" decoding="async"/>
           </div>
         </Reveal>
         <div className="ac-stack__grid">

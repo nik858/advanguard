@@ -24,8 +24,8 @@ function LoginForm() {
       return;
     }
     setBusy(false);
-    if (res.status === 429) setError("Trop de tentatives. Réessaie dans 15 minutes.");
-    else setError("Mot de passe incorrect.");
+    if (res.status === 429) setError("Too many attempts. Try again in 15 minutes.");
+    else setError("Incorrect password.");
   }
 
   return (
@@ -44,9 +44,9 @@ function LoginForm() {
             boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
           }}
         >
-          <h1 style={{ fontSize: 20, fontWeight: 600, margin: "0 0 6px", color: "#18181b" }}>Espace admin</h1>
-          <p style={{ fontSize: 14, color: "#71717a", margin: "0 0 20px" }}>Connecte-toi pour modifier ta landing.</p>
-          <label htmlFor="pw" style={{ display: "block", fontSize: 13, fontWeight: 500, color: "#27272a", marginBottom: 6 }}>Mot de passe</label>
+          <h1 style={{ fontSize: 20, fontWeight: 600, margin: "0 0 6px", color: "#18181b" }}>Admin</h1>
+          <p style={{ fontSize: 14, color: "#71717a", margin: "0 0 20px" }}>Sign in to edit your landing page.</p>
+          <label htmlFor="pw" style={{ display: "block", fontSize: 13, fontWeight: 500, color: "#27272a", marginBottom: 6 }}>Password</label>
           <input
             id="pw"
             type="password"
@@ -89,11 +89,11 @@ function LoginForm() {
               fontFamily: "inherit",
             }}
           >
-            {busy ? "Connexion…" : "Se connecter"}
+            {busy ? "Signing in…" : "Sign in"}
           </button>
         </form>
         <p style={{ textAlign: "center", marginTop: 16, fontSize: 13, color: "#a1a1aa" }}>
-          Mot de passe oublié ? Contacte TB Dev.
+          Forgot your password? Contact TB Dev.
         </p>
       </div>
     </div>

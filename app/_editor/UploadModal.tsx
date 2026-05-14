@@ -68,7 +68,7 @@ export function UploadModal({
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 style={{ marginTop: 0 }}>Changer le média</h3>
+        <h3 style={{ marginTop: 0 }}>Change media</h3>
         {allowUrl && (
           <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
             <button
@@ -82,7 +82,7 @@ export function UploadModal({
                 borderRadius: 6,
               }}
             >
-              Fichier
+              File
             </button>
             <button
               onClick={() => setTab("url")}
@@ -126,11 +126,11 @@ export function UploadModal({
                 borderRadius: 6,
               }}
             >
-              Utiliser cette URL
+              Use this URL
             </button>
           </div>
         )}
-        {busy && <p style={{ fontSize: 13, color: "#666", marginTop: 12 }}>Upload en cours...</p>}
+        {busy && <p style={{ fontSize: 13, color: "#666", marginTop: 12 }}>Uploading...</p>}
         {error && <p style={{ color: "#c62828", fontSize: 13, marginTop: 12 }}>{error}</p>}
         <button
           onClick={onClose}

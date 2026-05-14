@@ -23,11 +23,11 @@ const BodySchema = z.object({
 export async function POST(req: Request) {
   const ip = clientIp(req);
   const limit = await checkLimit(leadLimiter, ip);
-  if (!limit.success) return NextResponse.json({ error: "Trop de soumissions" }, { status: 429 });
+  if (!limit.success) return NextResponse.json({ error: "Too many submissions" }, { status: 429 });
 
   const json = await req.json().catch(() => null);
   const parsed = BodySchema.safeParse(json);
-  if (!parsed.success) return NextResponse.json({ error: "Email invalide" }, { status: 400 });
+  if (!parsed.success) return NextResponse.json({ error: "Invalid email" }, { status: 400 });
 
   // Honeypot: silently 200 if filled
   if (parsed.data.website && parsed.data.website.trim().length > 0) {
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 
   const domain = parsed.data.email.split("@")[1].toLowerCase();
   if (BLOCKED_DOMAINS.has(domain)) {
-    return NextResponse.json({ error: "Veuillez utiliser une adresse professionnelle." }, { status: 400 });
+    return NextResponse.json({ error: "Please use a work email address." }, { status: 400 });
   }
 
   const ip_hash = crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16);

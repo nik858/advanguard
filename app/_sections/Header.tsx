@@ -10,7 +10,7 @@ export function Header({ content: c, edit = false }: { content: Content["header"
         <span className="ac-header__phone"><Icons.Phone/></span>
         <span><Edit edit={edit} path="header.orderByPhone">{c.orderByPhone}</Edit></span>
       </div>
-      <a href="#top" className="ac-header__logo-link" aria-label="Accueil Advanguard">
+      <a href="#top" className="ac-header__logo-link" aria-label="Advanguard home">
         {logoDarkUrl
           ? <img src={logoDarkUrl} alt="Advanguard" className="ac-header__logo-img" width={160} height={34}/>
           : <span className="ac-header__logo"><Edit edit={edit} path="header.logoText">{c.logoText || "ADVANGUARD"}</Edit></span>}

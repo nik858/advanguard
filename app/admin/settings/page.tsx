@@ -2,7 +2,7 @@ import { Icons } from "../../_sections/_shared/Icons";
 import { BackLink } from "../_components/BackLink";
 
 export default function SettingsPage() {
-  const repo = process.env.GITHUB_REPO || "(non configuré)";
+  const repo = process.env.GITHUB_REPO || "(not configured)";
   const branch = process.env.GITHUB_BRANCH || "main";
   const ghlLead = !!process.env.GHL_LEAD_WEBHOOK_URL;
   const ghlAudit = !!process.env.GHL_AUDIT_WEBHOOK_URL;
@@ -24,7 +24,7 @@ export default function SettingsPage() {
                 boxShadow: ok ? "0 0 0 3px rgba(22,163,74,.15)" : "0 0 0 3px rgba(220,38,38,.15)",
               }}
             />
-            <span style={{ color: ok ? "#16a34a" : "#dc2626", fontSize: 12, fontWeight: 600 }}>{ok ? "OK" : "Manquant"}</span>
+            <span style={{ color: ok ? "#16a34a" : "#dc2626", fontSize: 12, fontWeight: 600 }}>{ok ? "OK" : "Missing"}</span>
           </div>
           <div style={{ fontSize: 13, color: "#71717a" }}>{description}</div>
         </div>
@@ -39,16 +39,16 @@ export default function SettingsPage() {
     <div style={{ maxWidth: 760, display: "flex", flexDirection: "column", gap: 20 }}>
       <BackLink />
       <div>
-        <h1 style={{ fontSize: 26, fontWeight: 600, margin: "0 0 6px" }}>Réglages</h1>
-        <p style={{ color: "#71717a", margin: 0, fontSize: 15 }}>État des intégrations. Modifie les valeurs dans le dashboard Vercel.</p>
+        <h1 style={{ fontSize: 26, fontWeight: 600, margin: "0 0 6px" }}>Settings</h1>
+        <p style={{ color: "#71717a", margin: 0, fontSize: 15 }}>Integration status. Edit the values in the Vercel dashboard.</p>
       </div>
 
       <div style={{ background: "#fff", border: "1px solid #e7e7ea", borderRadius: 12, padding: "0 20px" }}>
-        <Row label="Repo GitHub" description="Stockage du contenu de la landing. Chaque publication = un commit." ok={repo !== "(non configuré)"} value={`${repo} · ${branch}`} />
-        <Row label="Vercel Blob" description="Stockage des médias uploadés depuis l'éditeur." ok={blob} />
-        <Row label="Rate limit (Upstash KV)" description="Protection anti-bruteforce sur le login et anti-spam sur le formulaire." ok={kv} />
-        <Row label="Webhook GHL Lead" description="Endpoint où sont envoyés les leads du formulaire." ok={ghlLead} />
-        <Row label="Webhook GHL Audit (v1.1)" description="Endpoint pour l'audit AI (pas encore actif)." ok={ghlAudit} />
+        <Row label="GitHub repo" description="Stores the landing page content. Each publish = one commit." ok={repo !== "(not configured)"} value={`${repo} · ${branch}`} />
+        <Row label="Vercel Blob" description="Stores media uploaded from the editor." ok={blob} />
+        <Row label="Rate limiting (Upstash KV)" description="Brute-force protection on login and anti-spam on the form." ok={kv} />
+        <Row label="GHL Lead webhook" description="Endpoint where form leads are sent." ok={ghlLead} />
+        <Row label="GHL Audit webhook (v1.1)" description="Endpoint for the AI audit (not active yet)." ok={ghlAudit} />
       </div>
 
       <a
@@ -66,7 +66,7 @@ export default function SettingsPage() {
         }}
       >
         <Icons.ExternalLink />
-        Ouvrir le dashboard Vercel
+        Open the Vercel dashboard
       </a>
     </div>
   );

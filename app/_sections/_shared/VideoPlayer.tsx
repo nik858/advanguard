@@ -18,17 +18,17 @@ export function VideoPlayer({ src, poster, label }: { src: string; poster: Media
 
   if (!playing) {
     return (
-      <div className="ac-player" role="button" tabIndex={src ? 0 : -1} aria-label={label || "Lire la vidéo"} onClick={onActivate} onKeyDown={onKey}>
-        <img className="ac-player__poster" src={posterUrl} alt={label || "Aperçu de la vidéo"} loading="lazy" decoding="async" width={1280} height={720} />
+      <div className="ac-player" role="button" tabIndex={src ? 0 : -1} aria-label={label || "Play video"} onClick={onActivate} onKeyDown={onKey}>
+        <img className="ac-player__poster" src={posterUrl} alt={label || "Video preview"} loading="lazy" decoding="async" width={1280} height={720} />
         <div className="ac-player__play"><div className="ac-player__play-icon"><Icons.Play/></div></div>
       </div>
     );
   }
   if (isYouTube(src)) {
-    return <iframe src={`https://www.youtube.com/embed/${youTubeId(src)}?autoplay=1&rel=0`} title={label || "Vidéo"} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />;
+    return <iframe src={`https://www.youtube.com/embed/${youTubeId(src)}?autoplay=1&rel=0`} title={label || "Video"} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />;
   }
   if (isVimeo(src)) {
-    return <iframe src={`https://player.vimeo.com/video/${vimeoId(src)}?autoplay=1`} title={label || "Vidéo"} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />;
+    return <iframe src={`https://player.vimeo.com/video/${vimeoId(src)}?autoplay=1`} title={label || "Video"} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />;
   }
   return <video src={src} poster={posterUrl} controls autoPlay playsInline />;
 }

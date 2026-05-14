@@ -36,7 +36,7 @@ export function Testimonials({ content: c, edit = false }: { content: Content["t
             <span className="ac-testi__rating-text">
               <Edit edit={edit} path="testimonials.rating">{c.rating}</Edit>
             </span>
-            <span className="ac-testi__rating-stars" aria-label="5 sur 5"><Stars/></span>
+            <span className="ac-testi__rating-stars" aria-label="5 out of 5"><Stars/></span>
           </div>
           <h2 className="ac-testi__h2" id="testi-h2">
             <Edit edit={edit} path="testimonials.h2">{c.h2}</Edit>
@@ -75,7 +75,7 @@ export function Testimonials({ content: c, edit = false }: { content: Content["t
                       </div>
                     </div>
                   </div>
-                  <div className="ac-testi-card__stars" aria-label="5 étoiles"><Stars/></div>
+                  <div className="ac-testi-card__stars" aria-label="5 stars"><Stars/></div>
                   <p className="ac-testi-card__quote">
                     {edit
                       ? <Edit edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</Edit>

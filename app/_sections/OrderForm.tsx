@@ -19,13 +19,13 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
     if (res.ok) { setStatus("ok"); onCheckout?.(); }
     else {
       const b = await res.json().catch(() => ({}));
-      setErrorMsg(b.error || "Erreur");
+      setErrorMsg(b.error || "Error");
       setStatus("err");
     }
   }
 
   return (
-    <aside className="ac-order" aria-label="Formulaire de commande">
+    <aside className="ac-order" aria-label="Order form">
       <div className="ac-order__strip">
         <Edit edit={edit} path="order.badge">{order.badge}</Edit>
       </div>
@@ -57,18 +57,18 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
         <p className="ac-order__desc">
           <Edit edit={edit} path="order.description" multiline>{order.description}</Edit>
         </p>
-        <form onSubmit={onSubmit} aria-label="Commande">
+        <form onSubmit={onSubmit} aria-label="Order">
           <label htmlFor="email" className="visually-hidden">Email</label>
-          <input id="email" name="email" type="email" required placeholder="Entrez votre email" className="ac-order__field" autoComplete="email" />
+          <input id="email" name="email" type="email" required placeholder="Enter your email" className="ac-order__field" autoComplete="email" />
           <div style={{ height: 9 }}/>
-          <label htmlFor="phone" className="visually-hidden">Téléphone</label>
-          <input id="phone" name="phone" type="tel" placeholder="Numéro de téléphone (pour les bonus)" className="ac-order__field" autoComplete="tel" />
+          <label htmlFor="phone" className="visually-hidden">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="Phone number (for bonuses)" className="ac-order__field" autoComplete="tel" />
           {/* Honeypot: positioned offscreen, bots fill it but humans don't */}
           <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1 }} />
           <div style={{ height: 12 }}/>
-          <CTA tag={order.ctaTagline} label={status === "busy" ? "Envoi..." : order.ctaLabel} />
+          <CTA tag={order.ctaTagline} label={status === "busy" ? "Sending..." : order.ctaLabel} />
           {status === "err" && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
-          {status === "ok" && <p style={{ color: "#15803d", fontSize: 13, marginTop: 8 }}>Merci, on revient vers vous!</p>}
+          {status === "ok" && <p style={{ color: "#15803d", fontSize: 13, marginTop: 8 }}>Thanks, we&apos;ll be in touch!</p>}
         </form>
         <div className="ac-order__secure">
           <span className="ac-order__check" aria-hidden="true">✓</span>
@@ -84,7 +84,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           <span className="ac-order__rating-text">
             <Edit edit={edit} path="order.ratingText">{order.ratingText}</Edit>
           </span>
-          <span className="ac-order__rating-stars" aria-label="5 étoiles sur 5"><Stars/></span>
+          <span className="ac-order__rating-stars" aria-label="5 out of 5 stars"><Stars/></span>
         </div>
         <div className="ac-order__mini-testimonials">
           {order.miniTestimonials.map((t, i) => (

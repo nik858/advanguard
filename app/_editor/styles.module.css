@@ -16,7 +16,7 @@
   background: rgba(28, 123, 253, 0.06);
 }
 .editable[data-editing="true"][data-multiline="false"]::after {
-  content: "⏎ valider · Esc annuler";
+  content: "⏎ to save · Esc to cancel";
   position: absolute;
   bottom: -28px;
   left: 0;
@@ -33,7 +33,7 @@
   letter-spacing: 0.02em;
 }
 .editable[data-editing="true"][data-multiline="true"]::after {
-  content: "⇧⏎ retour à la ligne · Esc annuler";
+  content: "⇧⏎ for a new line · Esc to cancel";
   position: absolute;
   bottom: -28px;
   left: 0;

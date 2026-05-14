@@ -53,10 +53,10 @@ export function MediaSwapButton({
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
           fontFamily: "var(--adv-font, system-ui, sans-serif)",
         }}
-        aria-label="Changer le média"
+        aria-label="Change media"
       >
         <Icons.Pencil />
-        Changer
+        Change
       </button>
       {open && (
         <UploadModal

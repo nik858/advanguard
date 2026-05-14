@@ -23,24 +23,24 @@ export function MediaGrid() {
     setConfirming(null);
     const r = await fetch("/api/media", { method: "DELETE", headers: { "content-type": "application/json" }, body: JSON.stringify({ url }) });
     if (r.ok) {
-      toast("success", "Média supprimé");
+      toast("success", "Media deleted");
       load();
     } else {
-      toast("error", "Impossible de supprimer ce média");
+      toast("error", "Could not delete this media");
     }
   }
 
   async function copy(url: string) {
     try {
       await navigator.clipboard.writeText(url);
-      toast("success", "URL copiée");
+      toast("success", "URL copied");
     } catch {
-      toast("error", "Impossible de copier l'URL");
+      toast("error", "Could not copy the URL");
     }
   }
 
-  if (!items) return <p style={{ color: "#71717a" }}>Chargement…</p>;
-  if (!items.length) return <p style={{ color: "#71717a" }}>Aucun média uploadé. Les fichiers que tu ajoutes depuis l&apos;éditeur de la landing apparaîtront ici.</p>;
+  if (!items) return <p style={{ color: "#71717a" }}>Loading…</p>;
+  if (!items.length) return <p style={{ color: "#71717a" }}>No media uploaded yet. Files you add from the landing page editor will show up here.</p>;
 
   return (
     <>
@@ -78,7 +78,7 @@ export function MediaGrid() {
                 }
               </div>
               <div style={{ fontSize: 12, color: "#71717a" }}>
-                {(it.size / 1024).toFixed(0)} KB · {new Date(it.uploadedAt).toLocaleDateString("fr-FR")}
+                {(it.size / 1024).toFixed(0)} KB · {new Date(it.uploadedAt).toLocaleDateString("en-US")}
               </div>
               <div style={{ display: "flex", gap: 6 }}>
                 <button
@@ -96,11 +96,11 @@ export function MediaGrid() {
                     fontFamily: "inherit",
                   }}
                 >
-                  Copier URL
+                  Copy URL
                 </button>
                 <button
                   onClick={() => setConfirming(it)}
-                  aria-label="Supprimer ce média"
+                  aria-label="Delete this media"
                   style={{
                     padding: "7px 10px",
                     background: "#fff",
@@ -125,10 +125,10 @@ export function MediaGrid() {
 
       <ConfirmDialog
         open={!!confirming}
-        title="Supprimer ce média ?"
-        description={confirming ? <span>Si ce fichier est utilisé sur la landing, l&apos;image cassera. Cette action est irréversible.</span> : null}
-        confirmLabel="Supprimer"
-        cancelLabel="Garder"
+        title="Delete this media?"
+        description={confirming ? <span>If this file is used on the landing page, the image will break. This action cannot be undone.</span> : null}
+        confirmLabel="Delete"
+        cancelLabel="Keep"
         destructive
         onConfirm={doRemove}
         onCancel={() => setConfirming(null)}

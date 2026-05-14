@@ -6,7 +6,7 @@ import styles from "./layout.module.css";
 export function TopBar() {
   return (
     <header className={styles.topbar}>
-      <Link href="/admin" aria-label="Tableau de bord" style={{ display: "inline-flex", alignItems: "center" }}>
+      <Link href="/admin" aria-label="Dashboard" style={{ display: "inline-flex", alignItems: "center" }}>
         <img
           src="/assets/advanguard-logo-dark.png"
           alt="Advanguard"
@@ -32,7 +32,7 @@ export function TopBar() {
           }}
         >
           <Icons.ExternalLink />
-          Voir le site
+          View site
         </Link>
         <LogoutButton />
       </div>
