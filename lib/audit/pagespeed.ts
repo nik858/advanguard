@@ -1,7 +1,10 @@
 import type { PageSpeedSignals } from "@/types/audit";
 
 const PSI_ENDPOINT = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
-const PSI_TIMEOUT_MS = 30000;
+// PageSpeed analysis of a real, image-heavy clinic site routinely takes 25-40s.
+// The whole audit runs in the background (maxDuration 300s), so we give each
+// strategy a generous 60s rather than losing the perf data to a tight timeout.
+const PSI_TIMEOUT_MS = 60000;
 
 type Strategy = "mobile" | "desktop";
 
