@@ -43,12 +43,32 @@ export function formatSignalsForPrompt(s: Signals): string {
     lines.push(
       `Mobile performance: ${p.mobilePerformance ?? "n/a"} / 100`,
       `Desktop performance: ${p.desktopPerformance ?? "n/a"} / 100`,
+      `First Contentful Paint: ${p.fcp != null ? p.fcp.toFixed(1) + "s" : "n/a"}`,
       `Largest Contentful Paint: ${p.lcp != null ? p.lcp.toFixed(1) + "s" : "n/a"}`,
+      `Speed Index: ${p.speedIndex != null ? p.speedIndex.toFixed(1) + "s" : "n/a"}`,
+      `Total Blocking Time: ${p.tbt != null ? Math.round(p.tbt) + "ms" : "n/a"}`,
       `Cumulative Layout Shift: ${p.cls != null ? p.cls.toFixed(2) : "n/a"}`,
-      `Interaction to Next Paint: ${p.inp != null ? p.inp + "ms" : "n/a"}`,
+      `Interaction to Next Paint: ${p.inp != null ? Math.round(p.inp) + "ms" : "n/a"}`,
       `SEO score: ${p.seoScore ?? "n/a"} / 100`,
       `Accessibility score: ${p.accessibilityScore ?? "n/a"} / 100`,
+      `Best Practices score: ${p.bestPracticesScore ?? "n/a"} / 100`,
     );
+    if (p.opportunities.length) {
+      lines.push(
+        ``,
+        `Top performance opportunities (Google Lighthouse — estimated load-time savings):`,
+        ...p.opportunities.map((o) =>
+          `- ${o.title}${o.displayValue ? ` — ${o.displayValue}` : ` — ~${Math.round(o.savingsMs)}ms`}`,
+        ),
+      );
+    }
+    if (p.failedAudits.length) {
+      lines.push(
+        ``,
+        `Other failed Lighthouse audits:`,
+        ...p.failedAudits.map((f) => `- [${f.category}] ${f.title}`),
+      );
+    }
   } else {
     lines.push(`PageSpeed data: unavailable for this site`);
   }
