@@ -5,7 +5,7 @@ import { Book } from "./_shared/Book";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
-import { MediaSwapButton } from "../_editor/MediaSwapButton";
+import { MediaSlot } from "../_editor/MediaSlot";
 import { mediaUrl, type StackContent } from "@/types/content";
 
 function shortLabel(s: string): string { return s.split(" ").slice(0, 2).join(" "); }
@@ -21,7 +21,7 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
         </Reveal>
         <Reveal delay={120}>
           <div style={{ position: "relative" }}>
-            {edit && <MediaSwapButton path="stack.bigStackImg" accept="image" />}
+            {edit && <MediaSlot path="stack.bigStackImg" accept="image" />}
             <img className="ac-stack__hero-img" src={mediaUrl(c.bigStackImg)} alt="Everything you're getting in the bundle" width={800} height={334} loading="lazy" decoding="async"/>
           </div>
         </Reveal>

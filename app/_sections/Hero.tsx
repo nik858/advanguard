@@ -2,7 +2,7 @@ import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { OrderForm } from "./OrderForm";
 import { Edit } from "../_editor/Edit";
-import { MediaSwapButton } from "../_editor/MediaSwapButton";
+import { MediaSlot } from "../_editor/MediaSlot";
 import type { HeroContent, OrderContent } from "@/types/content";
 
 export function Hero({ hero, order, edit = false }: { hero: HeroContent; order: OrderContent; edit?: boolean }) {
@@ -12,7 +12,7 @@ export function Hero({ hero, order, edit = false }: { hero: HeroContent; order: 
         <div className="ac-hero__copy">
           <Reveal className="ac-hero__video-wrap">
             <div className="ac-hero__video" style={{ position: "relative" }}>
-              {edit && <MediaSwapButton path="hero.videoUrl" accept="video" allowUrl />}
+              {edit && <MediaSlot path="hero.videoUrl" accept="video" />}
               <VideoPlayer src={hero.videoUrl} poster={hero.videoPoster} label={hero.videoLabel}/>
             </div>
             <p className="ac-hero__video-label">

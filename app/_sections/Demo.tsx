@@ -1,7 +1,7 @@
 import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Edit } from "../_editor/Edit";
-import { MediaSwapButton } from "../_editor/MediaSwapButton";
+import { MediaSlot } from "../_editor/MediaSlot";
 import type { DemoContent } from "@/types/content";
 
 export function Demo({ content: c, edit = false }: { content: DemoContent; edit?: boolean }) {
@@ -15,7 +15,7 @@ export function Demo({ content: c, edit = false }: { content: DemoContent; edit?
         </Reveal>
         <Reveal delay={120}>
           <div className="ac-demo__video" style={{ position: "relative" }}>
-            {edit && <MediaSwapButton path="demo.videoUrl" accept="video" allowUrl />}
+            {edit && <MediaSlot path="demo.videoUrl" accept="video" />}
             <VideoPlayer src={c.videoUrl} poster={c.videoPoster} label="Demo video"/>
           </div>
         </Reveal>
