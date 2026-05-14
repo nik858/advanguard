@@ -93,9 +93,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
             newItem={{ avatar: "", name: "Name", role: "Role", quote: "Short quote." }}
             edit={edit}
           >
-          {(i) => {
-            const t = order.miniTestimonials[i];
-            return (
+          {order.miniTestimonials.map((t, i) => (
             <div className="ac-order__mini-card" key={i}>
               <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
               <div>
@@ -108,8 +106,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
                 <div className="ac-order__mini-quote">&quot;<Edit edit={edit} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</Edit>&quot;</div>
               </div>
             </div>
-            );
-          }}
+          ))}
           </RepeatableList>
         </div>
       </div>

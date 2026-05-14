@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, type ReactNode } from "react";
+import { Children, type ReactNode } from "react";
 import {
   DndContext, closestCenter, KeyboardSensor, PointerSensor,
   useSensor, useSensors, type DragEndEvent,
@@ -20,6 +20,12 @@ function resolve(obj: unknown, path: string): unknown {
   );
 }
 
+/**
+ * Wraps a list of pre-rendered item elements. In non-edit mode it is a
+ * transparent pass-through (no hooks, no extra DOM) so it is safe to render
+ * on the public page where there is no EditorProvider. In edit mode it
+ * delegates to EditableRepeatableList which adds drag-reorder + add/remove.
+ */
 export function RepeatableList({
   path,
   newItem,
@@ -29,11 +35,29 @@ export function RepeatableList({
   path: string;
   newItem: unknown;
   edit: boolean;
-  children: (i: number) => ReactNode;
+  children: ReactNode;
+}) {
+  if (!edit) return <>{children}</>;
+  return (
+    <EditableRepeatableList path={path} newItem={newItem}>
+      {children}
+    </EditableRepeatableList>
+  );
+}
+
+function EditableRepeatableList({
+  path,
+  newItem,
+  children,
+}: {
+  path: string;
+  newItem: unknown;
+  children: ReactNode;
 }) {
   const { state, setField } = useEditor();
   const fullPath = useSectionPath(path);
   const arr = (resolve(state.draft, fullPath) as unknown[] | undefined) ?? [];
+  const items = Children.toArray(children);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -55,20 +79,15 @@ export function RepeatableList({
     setField(fullPath, arrayMove(arr, from, to));
   }
 
-  // Non-edit: render items exactly as before, no extra DOM.
-  if (!edit) {
-    return <>{arr.map((_, i) => <Fragment key={i}>{children(i)}</Fragment>)}</>;
-  }
-
-  const ids = arr.map((_, i) => String(i));
+  const ids = items.map((_, i) => String(i));
 
   return (
     <>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={ids} strategy={rectSortingStrategy}>
-          {arr.map((_, i) => (
+          {items.map((child, i) => (
             <SortableCell key={i} id={String(i)} onRemove={() => remove(i)}>
-              {children(i)}
+              {child}
             </SortableCell>
           ))}
         </SortableContext>

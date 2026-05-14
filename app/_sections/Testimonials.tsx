@@ -52,9 +52,7 @@ export function Testimonials({ content: c, edit = false }: { content: Testimonia
             newItem={{ type: "text", avatar: "", name: "Name", role: "Role", quote: "New testimonial quote.", highlights: [] }}
             edit={edit}
           >
-          {(i) => {
-            const t = c.items[i];
-            return (
+          {c.items.map((t, i) => (
             <Reveal className="ac-testi__card" key={i} delay={(i % 3) * 80}>
               {t.type === "video" ? (
                 <div className="ac-testi-card ac-testi-card--video" style={{ position: "relative" }}>
@@ -92,8 +90,7 @@ export function Testimonials({ content: c, edit = false }: { content: Testimonia
                 </div>
               )}
             </Reveal>
-            );
-          }}
+          ))}
           </RepeatableList>
         </div>
       </div>

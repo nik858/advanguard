@@ -18,9 +18,7 @@ export function FAQ({ content: c, edit = false }: { content: FaqContent; edit?: 
         </Reveal>
         <div className="ac-faq__grid">
           <RepeatableList path="faq.items" newItem={{ q: "New question?", a: "Answer." }} edit={edit}>
-          {(i) => {
-            const q = c.items[i];
-            return (
+          {c.items.map((q, i) => (
             <Reveal className="ac-faq__item" key={i} delay={(i % 2) * 80}>
               <div className="ac-faq__q">
                 <span className="ac-faq__q-icon" aria-hidden="true"><Icons.Question/></span>
@@ -32,8 +30,7 @@ export function FAQ({ content: c, edit = false }: { content: FaqContent; edit?: 
                 <Edit edit={edit} path={`faq.items.${i}.a`} multiline>{q.a}</Edit>
               </p>
             </Reveal>
-            );
-          }}
+          ))}
           </RepeatableList>
         </div>
       </div>

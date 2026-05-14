@@ -32,9 +32,7 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
             newItem={{ kind: "book", title: "New item", sub: "", body: "", access: "Instant Access", priceWas: "", priceNow: "Free" }}
             edit={edit}
           >
-          {(i) => {
-            const it = c.items[i];
-            return (
+          {c.items.map((it, i) => (
             <Reveal key={i} delay={(i % 3) * 80}>
               <div className="ac-stack-card">
                 <div className="ac-stack-card__visual">
@@ -64,8 +62,7 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
                 </div>
               </div>
             </Reveal>
-            );
-          }}
+          ))}
           </RepeatableList>
         </div>
         <Reveal className="ac-only__cta-wrap" delay={200}>

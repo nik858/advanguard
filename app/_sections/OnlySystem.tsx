@@ -25,9 +25,7 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
         <Reveal className="ac-only__features" delay={120}>
           <div className="ac-only__col ac-only__col--left">
             <RepeatableList path="onlySystem.leftFeatures" newItem={{ title: "New feature", body: "" }} edit={edit}>
-            {(i) => {
-              const f = c.leftFeatures[i];
-              return (
+            {c.leftFeatures.map((f, i) => (
               <div key={i}>
                 <div className="ac-only__feat-title">
                   <Edit edit={edit} path={`onlySystem.leftFeatures.${i}.title`}>{f.title}</Edit>
@@ -36,8 +34,7 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
                   <Edit edit={edit} path={`onlySystem.leftFeatures.${i}.body`}>{f.body}</Edit>
                 </div>
               </div>
-              );
-            }}
+            ))}
             </RepeatableList>
           </div>
           <div className="ac-only__book-stage">
@@ -51,9 +48,7 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
           </div>
           <div className="ac-only__col ac-only__col--right">
             <RepeatableList path="onlySystem.rightFeatures" newItem={{ title: "New feature", body: "" }} edit={edit}>
-            {(i) => {
-              const f = c.rightFeatures[i];
-              return (
+            {c.rightFeatures.map((f, i) => (
               <div key={i}>
                 <div className="ac-only__feat-title">
                   <Edit edit={edit} path={`onlySystem.rightFeatures.${i}.title`}>{f.title}</Edit>
@@ -62,16 +57,13 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
                   <Edit edit={edit} path={`onlySystem.rightFeatures.${i}.body`}>{f.body}</Edit>
                 </div>
               </div>
-              );
-            }}
+            ))}
             </RepeatableList>
           </div>
         </Reveal>
         <Reveal className="ac-only__stats" delay={160}>
           <RepeatableList path="onlySystem.stats" newItem={{ value: "0", label: "Label" }} edit={edit}>
-          {(i) => {
-            const s = c.stats[i];
-            return (
+          {c.stats.map((s, i) => (
             <div className="ac-only__stat" key={i}>
               <div className="ac-only__stat-value">
                 <Edit edit={edit} path={`onlySystem.stats.${i}.value`}>{s.value}</Edit>
@@ -80,8 +72,7 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
                 <Edit edit={edit} path={`onlySystem.stats.${i}.label`}>{s.label}</Edit>
               </div>
             </div>
-            );
-          }}
+          ))}
           </RepeatableList>
         </Reveal>
         <Reveal className="ac-only__cta-wrap" delay={200}>
