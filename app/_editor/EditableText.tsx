@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, type ElementType } from "react";
 import { useEditor } from "./EditorProvider";
+import { useSectionPath } from "./SectionContext";
 import styles from "./styles.module.css";
 
 export function EditableText({
@@ -17,10 +18,11 @@ export function EditableText({
   children?: React.ReactNode;
 }) {
   const { state, setField } = useEditor();
+  const fullPath = useSectionPath(path);
   const ref = useRef<HTMLElement | null>(null);
   const [editing, setEditing] = useState(false);
 
-  const value: string = path.split(".").reduce<any>(
+  const value: string = fullPath.split(".").reduce<any>(
     (acc, k) => acc?.[k.match(/^\d+$/) ? Number(k) : k],
     state.draft,
   ) ?? "";
@@ -30,7 +32,7 @@ export function EditableText({
   function onBlur() {
     setEditing(false);
     const next = (ref.current?.innerText || "").replace(/\r\n/g, "\n");
-    if (next !== value) setField(path, next);
+    if (next !== value) setField(fullPath, next);
   }
 
   function onKey(e: React.KeyboardEvent) {

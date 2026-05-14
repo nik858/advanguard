@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { UploadModal } from "./UploadModal";
 import { useEditor } from "./EditorProvider";
+import { useSectionPath } from "./SectionContext";
 import { Icons } from "../_sections/_shared/Icons";
 
 export function MediaSwapButton({
@@ -14,11 +15,12 @@ export function MediaSwapButton({
   allowUrl?: boolean;
 }) {
   const { setField, state } = useEditor();
+  const fullPath = useSectionPath(path);
   const [open, setOpen] = useState(false);
 
   if (state.previewMode) return null;
 
-  const current = path.split(".").reduce<any>(
+  const current = fullPath.split(".").reduce<any>(
     (acc, k) => acc?.[k.match(/^\d+$/) ? Number(k) : k],
     state.draft,
   ) ?? "";
@@ -65,8 +67,8 @@ export function MediaSwapButton({
           initialUrl={currentUrl}
           onClose={() => setOpen(false)}
           onSelect={(url) => {
-            if (typeof current === "object" && current !== null) setField(path, { ...current, url });
-            else setField(path, url);
+            if (typeof current === "object" && current !== null) setField(fullPath, { ...current, url });
+            else setField(fullPath, url);
           }}
         />
       )}
