@@ -1,6 +1,7 @@
 import { Reveal } from "./_shared/Reveal";
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
+import { RepeatableList } from "../_editor/RepeatableList";
 import type { FaqContent } from "@/types/content";
 
 export function FAQ({ content: c, edit = false }: { content: FaqContent; edit?: boolean }) {
@@ -16,7 +17,10 @@ export function FAQ({ content: c, edit = false }: { content: FaqContent; edit?: 
           </p>
         </Reveal>
         <div className="ac-faq__grid">
-          {c.items.map((q, i) => (
+          <RepeatableList path="faq.items" newItem={{ q: "New question?", a: "Answer." }} edit={edit}>
+          {(i) => {
+            const q = c.items[i];
+            return (
             <Reveal className="ac-faq__item" key={i} delay={(i % 2) * 80}>
               <div className="ac-faq__q">
                 <span className="ac-faq__q-icon" aria-hidden="true"><Icons.Question/></span>
@@ -28,7 +32,9 @@ export function FAQ({ content: c, edit = false }: { content: FaqContent; edit?: 
                 <Edit edit={edit} path={`faq.items.${i}.a`} multiline>{q.a}</Edit>
               </p>
             </Reveal>
-          ))}
+            );
+          }}
+          </RepeatableList>
         </div>
       </div>
     </section>
