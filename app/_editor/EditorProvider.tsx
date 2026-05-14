@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useMemo, useReducer, useRef, type ReactNode } from "react";
-import type { Content } from "@/types/content";
-import { migrateContent } from "@/types/content";
+import type { Content, SectionType } from "@/types/content";
+import { migrateContent, genSectionId, createSection } from "@/types/content";
 import type { EditorState, EditorAction } from "./types";
 
 const STORAGE_KEY = "adv:draft:v1";
@@ -19,6 +19,11 @@ function setByPath(obj: unknown, path: string, value: unknown): unknown {
   }
   cur[parts[parts.length - 1]] = value;
   return root;
+}
+
+function withDraft(state: EditorState, draft: Content): EditorState {
+  const dirty = JSON.stringify(draft) !== JSON.stringify(state.baseline);
+  return { ...state, draft, dirty, lastSaveAt: dirty ? null : state.lastSaveAt };
 }
 
 function reducer(state: EditorState, action: EditorAction): EditorState {
@@ -45,6 +50,34 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
       return { ...state, lastSaveAt: action.at };
     case "togglePreview":
       return { ...state, previewMode: !state.previewMode };
+    case "reorderSections": {
+      const byId = new Map(state.draft.sections.map((s) => [s.id, s]));
+      const sections = action.order
+        .map((id) => byId.get(id))
+        .filter((s): s is NonNullable<typeof s> => Boolean(s));
+      return withDraft(state, { ...state.draft, sections });
+    }
+    case "setSectionHidden": {
+      const sections = state.draft.sections.map((s) =>
+        s.id === action.id ? { ...s, hidden: action.hidden } : s
+      );
+      return withDraft(state, { ...state.draft, sections });
+    }
+    case "addSection":
+      return withDraft(state, { ...state.draft, sections: [...state.draft.sections, action.section] });
+    case "duplicateSection": {
+      const idx = state.draft.sections.findIndex((s) => s.id === action.id);
+      if (idx < 0) return state;
+      const orig = state.draft.sections[idx];
+      const copy = { ...structuredClone(orig), id: genSectionId() };
+      const sections = [...state.draft.sections];
+      sections.splice(idx + 1, 0, copy);
+      return withDraft(state, { ...state.draft, sections });
+    }
+    case "removeSection": {
+      const sections = state.draft.sections.filter((s) => s.id !== action.id);
+      return withDraft(state, { ...state.draft, sections });
+    }
   }
 }
 
@@ -54,6 +87,11 @@ type EditorContextValue = {
   resetDraft: () => void;
   togglePreview: () => void;
   publish: () => Promise<{ ok: true; commit_sha?: string } | { ok: false; error: string }>;
+  reorderSections: (order: string[]) => void;
+  setSectionHidden: (id: string, hidden: boolean) => void;
+  addSection: (type: SectionType) => void;
+  duplicateSection: (id: string) => void;
+  removeSection: (id: string) => void;
 };
 
 const Ctx = createContext<EditorContextValue | null>(null);
@@ -137,6 +175,11 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
       const err = await res.json().catch(() => ({ error: "Erreur inconnue" }));
       return { ok: false, error: err.error || "Erreur" };
     },
+    reorderSections: (order) => dispatch({ type: "reorderSections", order }),
+    setSectionHidden: (id, hidden) => dispatch({ type: "setSectionHidden", id, hidden }),
+    addSection: (type) => dispatch({ type: "addSection", section: createSection(type) }),
+    duplicateSection: (id) => dispatch({ type: "duplicateSection", id }),
+    removeSection: (id) => dispatch({ type: "removeSection", id }),
   }), [state]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

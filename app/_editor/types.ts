@@ -1,4 +1,4 @@
-import type { Content } from "@/types/content";
+import type { Content, Section } from "@/types/content";
 
 export type EditorState = {
   draft: Content;
@@ -14,4 +14,9 @@ export type EditorAction =
   | { type: "reset" }
   | { type: "setDraft"; draft: Content }
   | { type: "savedAt"; at: number }
-  | { type: "togglePreview" };
+  | { type: "togglePreview" }
+  | { type: "reorderSections"; order: string[] }
+  | { type: "setSectionHidden"; id: string; hidden: boolean }
+  | { type: "addSection"; section: Section }
+  | { type: "duplicateSection"; id: string }
+  | { type: "removeSection"; id: string };
