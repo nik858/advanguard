@@ -10,9 +10,11 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import type { ReactNode, CSSProperties } from "react";
 
+type SortableResult = ReturnType<typeof useSortable>;
+
 export type SortableHandle = {
-  attributes: Record<string, unknown>;
-  listeners: Record<string, unknown> | undefined;
+  attributes: SortableResult["attributes"];
+  listeners: SortableResult["listeners"];
   isDragging: boolean;
 };
 
