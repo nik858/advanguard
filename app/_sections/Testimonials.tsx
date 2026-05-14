@@ -3,6 +3,7 @@ import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
 import { MediaSlot } from "../_editor/MediaSlot";
+import { RepeatableList } from "../_editor/RepeatableList";
 import { mediaUrl, type TestimonialsContent } from "@/types/content";
 import type { ReactNode } from "react";
 
@@ -46,7 +47,14 @@ export function Testimonials({ content: c, edit = false }: { content: Testimonia
           </p>
         </Reveal>
         <div className="ac-testi__grid">
-          {c.items.map((t, i) => (
+          <RepeatableList
+            path="testimonials.items"
+            newItem={{ type: "text", avatar: "", name: "Name", role: "Role", quote: "New testimonial quote.", highlights: [] }}
+            edit={edit}
+          >
+          {(i) => {
+            const t = c.items[i];
+            return (
             <Reveal className="ac-testi__card" key={i} delay={(i % 3) * 80}>
               {t.type === "video" ? (
                 <div className="ac-testi-card ac-testi-card--video" style={{ position: "relative" }}>
@@ -84,7 +92,9 @@ export function Testimonials({ content: c, edit = false }: { content: Testimonia
                 </div>
               )}
             </Reveal>
-          ))}
+            );
+          }}
+          </RepeatableList>
         </div>
       </div>
     </section>
