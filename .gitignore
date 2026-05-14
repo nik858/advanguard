@@ -11,3 +11,6 @@ coverage
 # Build artifacts
 tsconfig.tsbuildinfo
 next-env.d.ts
+
+# Brainstorming scratch
+.superpowers/
