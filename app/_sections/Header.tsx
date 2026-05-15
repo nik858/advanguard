@@ -22,7 +22,7 @@ export function Header({ content: c, edit = false }: { content: HeaderContent; e
               : <span className="ac-header__logo"><Edit edit={edit} path="header.logoText">{c.logoText || "ADVANGUARD"}</Edit></span>}
           </div>
           <div className="ac-header__favicon-slot" style={{ position: "relative" }} title="Browser-tab icon (favicon)">
-            <MediaSlot path="header.favicon" accept="image" />
+            <MediaSlot path="header.favicon" accept="image" compact />
             {faviconUrl
               ? <img src={faviconUrl} alt="Favicon" className="ac-header__favicon-img" />
               : <span className="ac-header__favicon-empty">tab icon</span>}

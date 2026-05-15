@@ -1,3 +1,72 @@
+/* ─── Title row + help tooltip ────────────────────────────────────────────── */
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.help {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: #a1a1aa;
+  cursor: help;
+  transition: color 160ms ease, transform 160ms ease;
+  outline: none;
+}
+.help:hover,
+.help:focus-visible {
+  color: #18181b;
+  transform: translateY(-1px);
+}
+.help:focus-visible {
+  outline: 2px solid rgba(24, 24, 27, 0.18);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+.helpBubble {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translate(-50%, -4px);
+  width: 320px;
+  max-width: 80vw;
+  padding: 12px 14px;
+  background: #18181b;
+  color: #fafafa;
+  border-radius: 10px;
+  font: 400 12.5px/1.55 var(--adv-font, system-ui);
+  letter-spacing: 0;
+  text-align: left;
+  box-shadow: 0 12px 32px rgba(24, 24, 27, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 50;
+}
+.helpBubble::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: #18181b;
+  border-radius: 1px;
+}
+.help:hover .helpBubble,
+.help:focus-visible .helpBubble {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 /* ─── Segmented tabs ──────────────────────────────────────────────────────── */
 
 .tabs {

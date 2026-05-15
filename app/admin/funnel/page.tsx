@@ -1,5 +1,6 @@
 import { BackLink } from "../_components/BackLink";
 import { PromptEditor } from "./_components/PromptEditor";
+import styles from "./_components/funnel.module.css";
 
 export default function FunnelPage() {
   return (
@@ -15,25 +16,34 @@ export default function FunnelPage() {
             marginBottom: 10,
           }}
         >
-          Funnel · AI audit
+          Funnel · Lead magnet
         </div>
-        <h1
-          style={{
-            fontSize: 32,
-            fontWeight: 600,
-            margin: "0 0 8px",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.1,
-            color: "#18181b",
-          }}
-        >
-          The prompts that write every audit email.
-        </h1>
-        <p style={{ color: "#71717a", margin: 0, fontSize: 15, lineHeight: 1.55, maxWidth: 640 }}>
-          When a visitor submits their work email, the system audits their website and Claude
-          writes them a personalized email. These prompts control how that email is written.
-          Edits take effect on the next audit — no deploy needed.
-        </p>
+        <div className={styles.titleRow}>
+          <h1
+            style={{
+              fontSize: 32,
+              fontWeight: 600,
+              margin: 0,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.1,
+              color: "#18181b",
+            }}
+          >
+            Le mail d&apos;analyse envoyé à chaque lead
+          </h1>
+          <span className={styles.help} tabIndex={0} role="button" aria-label="À quoi sert cette page ?">
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+              <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="1.4" />
+              <circle cx="8" cy="4.7" r="0.95" fill="currentColor" />
+              <path d="M8 7v5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+            <span className={styles.helpBubble} role="tooltip">
+              Quand un visiteur dépose son email pro, le système audite son site et Claude lui
+              écrit un mail personnalisé. Ces prompts contrôlent comment ce mail est écrit.
+              Les modifs prennent effet au prochain audit — aucun déploiement nécessaire.
+            </span>
+          </span>
+        </div>
       </div>
       <PromptEditor />
     </div>

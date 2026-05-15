@@ -51,7 +51,16 @@ const popPrimary: React.CSSProperties = {
   fontFamily: "inherit",
 };
 
-export function MediaSlot({ path, accept }: { path: string; accept: "image" | "video" }) {
+export function MediaSlot({
+  path,
+  accept,
+  compact = false,
+}: {
+  path: string;
+  accept: "image" | "video";
+  /** Tiny icon-only trigger for small slots (e.g. the favicon). */
+  compact?: boolean;
+}) {
   const { setField, state } = useEditor();
   const fullPath = useSectionPath(path);
   const { uploadFile, busy, error } = useMediaUpload();
@@ -61,6 +70,8 @@ export function MediaSlot({ path, accept }: { path: string; accept: "image" | "v
   const [urlInput, setUrlInput] = useState("");
   const [altInput, setAltInput] = useState("");
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const popoverRef = useRef<HTMLDivElement | null>(null);
 
   // Window-level drag detection so the overlay only intercepts pointer
   // events while a file is actually being dragged.
@@ -83,6 +94,26 @@ export function MediaSlot({ path, accept }: { path: string; accept: "image" | "v
       window.removeEventListener("dragend", onDrop);
     };
   }, []);
+
+  // Close the popover on outside click or Escape.
+  useEffect(() => {
+    if (!open) return;
+    function onDown(e: MouseEvent) {
+      const t = e.target as Node;
+      if (triggerRef.current && triggerRef.current.contains(t)) return;
+      if (popoverRef.current && popoverRef.current.contains(t)) return;
+      setOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   if (state.previewMode) return null;
 
@@ -113,6 +144,51 @@ export function MediaSlot({ path, accept }: { path: string; accept: "image" | "v
     const url = await uploadFile(f);
     if (url) applyUrl(url);
   }
+
+  const triggerStyle: React.CSSProperties = compact
+    ? {
+        position: "absolute",
+        top: 4,
+        right: 4,
+        zIndex: 10,
+        width: 22,
+        height: 22,
+        padding: 0,
+        background: "rgba(255,255,255,0.96)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        color: "#18181b",
+        border: "1px solid rgba(0,0,0,0.08)",
+        borderRadius: 999,
+        cursor: "pointer",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+        fontFamily: "var(--adv-font, system-ui, sans-serif)",
+      }
+    : {
+        position: "absolute",
+        top: 10,
+        right: 10,
+        zIndex: 10,
+        background: "rgba(255,255,255,0.96)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        color: "#18181b",
+        border: "1px solid rgba(0,0,0,0.08)",
+        borderRadius: 999,
+        padding: "6px 12px",
+        fontSize: 12,
+        fontWeight: 500,
+        cursor: "pointer",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+        fontFamily: "var(--adv-font, system-ui, sans-serif)",
+      };
+  const popoverTop = compact ? 30 : 44;
 
   return (
     <>
@@ -145,43 +221,25 @@ export function MediaSlot({ path, accept }: { path: string; accept: "image" | "v
 
       {/* Corner button */}
       <button
+        ref={triggerRef}
         type="button"
         onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); setView("menu"); }}
         aria-label="Change media"
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 10,
-          zIndex: 10,
-          background: "rgba(255,255,255,0.96)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-          color: "#18181b",
-          border: "1px solid rgba(0,0,0,0.08)",
-          borderRadius: 999,
-          padding: "6px 12px",
-          fontSize: 12,
-          fontWeight: 500,
-          cursor: "pointer",
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 6,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          fontFamily: "var(--adv-font, system-ui, sans-serif)",
-        }}
+        style={triggerStyle}
       >
         <Icons.Pencil />
-        Change
+        {!compact && "Change"}
       </button>
 
       {/* Popover */}
       {open && (
         <div
+          ref={popoverRef}
           onClick={(e) => e.stopPropagation()}
           style={{
             position: "absolute",
-            top: 44,
-            right: 10,
+            top: popoverTop,
+            right: compact ? 4 : 10,
             zIndex: 11,
             width: 280,
             background: "#fff",
