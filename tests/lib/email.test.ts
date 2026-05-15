@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-const mockSend = vi.fn();
+const { mockSend } = vi.hoisted(() => ({ mockSend: vi.fn() }));
 vi.mock("resend", () => ({
   Resend: class {
     emails = { send: mockSend };
@@ -92,6 +92,19 @@ describe("lib/email — sendAuditEmail", () => {
 
     await expect(p).rejects.toThrow(/500/);
     expect(mockSend).toHaveBeenCalledTimes(3);
+  });
+
+  it("retries when the SDK throws a network error", async () => {
+    mockSend
+      .mockRejectedValueOnce(new Error("ENOTFOUND api.resend.com"))
+      .mockResolvedValueOnce({ data: { id: "ok" }, error: null });
+
+    const p = sendAuditEmail({ to: "a@b.com", subject: "x", body: "x" });
+    p.catch(() => {});
+    await vi.advanceTimersByTimeAsync(1000);
+
+    await expect(p).resolves.toBeUndefined();
+    expect(mockSend).toHaveBeenCalledTimes(2);
   });
 
   it("recovers when a 5xx is followed by a success", async () => {
