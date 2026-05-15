@@ -193,11 +193,53 @@ img { max-width: 100%; height: auto; display: block; }
 /* ─── Authority logo strip ─── */
 .ac-authority { background: #fff; padding: 32px; }
 .ac-authority__title { font: 700 20px/1 var(--font-body); color: var(--color-text-secondary); text-align: center; }
-.ac-authority__row { max-width: 1140px; margin: 32px auto 0; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: center; }
+.ac-authority__viewport { max-width: 1140px; margin: 32px auto 0; }
+.ac-authority__row { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: center; }
 .ac-authority__logo { display: flex; align-items: center; justify-content: center; }
 .ac-authority__logo-img { height: 44px; width: auto; max-width: 170px; object-fit: contain; opacity: 0.85; }
 .ac-authority__logo-slot { display: flex; align-items: center; justify-content: center; min-width: 130px; min-height: 56px; padding: 8px; border: 1px dashed rgba(0,0,0,0.15); border-radius: 8px; }
 .ac-authority__logo-empty { font: 600 13px/1 var(--font-body); color: rgba(0,0,0,0.32); }
+.ac-authority__row-dup { display: none; }
+
+/* Mobile, non-edit: turn the row into an infinite horizontal carousel.
+   The row contains the original logos + an aria-hidden duplicate. Together
+   they fill 2× the original width; the animation slides by -50% so the
+   duplicate ends exactly where the original started — seamless loop. */
+@media (max-width: 700px) {
+  .ac-authority__viewport:not(.ac-authority__viewport--edit) {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  }
+  .ac-authority__row:not(.ac-authority__row--edit) {
+    flex-wrap: nowrap;
+    width: max-content;
+    gap: 56px;
+    justify-content: flex-start;
+    animation: ac-authority-marquee 28s linear infinite;
+  }
+  .ac-authority__row:not(.ac-authority__row--edit):hover,
+  .ac-authority__row:not(.ac-authority__row--edit):focus-within {
+    animation-play-state: paused;
+  }
+  .ac-authority__row:not(.ac-authority__row--edit) .ac-authority__row-dup {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 56px;
+    align-items: center;
+  }
+}
+
+@keyframes ac-authority-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ac-authority__row:not(.ac-authority__row--edit) {
+    animation: none;
+  }
+}
 
 /* ─── Only System ─── */
 .ac-only { background: #fff; padding: 64px 32px; }

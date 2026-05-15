@@ -16,36 +16,52 @@ function logoAlt(logo: AuthorityContent["logos"][number]): string {
 }
 
 export function LogoStrip({ content: c, edit = false }: { content: AuthorityContent; edit?: boolean }) {
+  // On mobile, non-edit mode renders a sliding carousel. The CSS animates a
+  // track that contains the logos twice; this duplicate (aria-hidden, no
+  // editor wiring) is what makes the loop seamless. In edit mode we skip the
+  // duplicate so the wrap layout stays clean and editable.
+  const visibleLogos = !edit ? c.logos.filter((l) => logoSrc(l)) : [];
   return (
     <section className="ac-authority" aria-label="Featured in">
       <Reveal>
         <div className="ac-authority__title">
           <Edit edit={edit} path="authority.title">{c.title}</Edit>
         </div>
-        <div className="ac-authority__row">
-          <RepeatableList path="authority.logos" newItem={{ url: "", alt: "" }} edit={edit}>
-          {c.logos.map((logo, i) => {
-            const src = logoSrc(logo);
-            if (edit) {
+        <div className={`ac-authority__viewport${edit ? " ac-authority__viewport--edit" : ""}`}>
+          <div className={`ac-authority__row${edit ? " ac-authority__row--edit" : ""}`}>
+            <RepeatableList path="authority.logos" newItem={{ url: "", alt: "" }} edit={edit}>
+            {c.logos.map((logo, i) => {
+              const src = logoSrc(logo);
+              if (edit) {
+                return (
+                  <Reveal key={i} delay={i * 80} className="ac-authority__logo">
+                    <div className="ac-authority__logo-slot" style={{ position: "relative" }}>
+                      <MediaSlot path={`authority.logos.${i}`} accept="image" />
+                      {src
+                        ? <img className="ac-authority__logo-img" src={src} alt={logoAlt(logo)} />
+                        : <span className="ac-authority__logo-empty">Logo</span>}
+                    </div>
+                  </Reveal>
+                );
+              }
+              if (!src) return null;
               return (
                 <Reveal key={i} delay={i * 80} className="ac-authority__logo">
-                  <div className="ac-authority__logo-slot" style={{ position: "relative" }}>
-                    <MediaSlot path={`authority.logos.${i}`} accept="image" />
-                    {src
-                      ? <img className="ac-authority__logo-img" src={src} alt={logoAlt(logo)} />
-                      : <span className="ac-authority__logo-empty">Logo</span>}
-                  </div>
+                  <img className="ac-authority__logo-img" src={src} alt={logoAlt(logo)} />
                 </Reveal>
               );
-            }
-            if (!src) return null;
-            return (
-              <Reveal key={i} delay={i * 80} className="ac-authority__logo">
-                <img className="ac-authority__logo-img" src={src} alt={logoAlt(logo)} />
-              </Reveal>
-            );
-          })}
-          </RepeatableList>
+            })}
+            </RepeatableList>
+            {visibleLogos.length > 0 && (
+              <div className="ac-authority__row-dup" aria-hidden="true">
+                {visibleLogos.map((logo, i) => (
+                  <div key={`dup-${i}`} className="ac-authority__logo">
+                    <img className="ac-authority__logo-img" src={logoSrc(logo)} alt="" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </Reveal>
     </section>
