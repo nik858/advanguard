@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useToast } from "../../../_components/Toast";
 import { ConfirmDialog } from "../../../_components/ConfirmDialog";
+import styles from "./funnel.module.css";
 
 type Prompts = {
   version: number;
@@ -12,12 +13,30 @@ type Prompts = {
   signature: string;
 };
 
-const FIELDS: { key: keyof Omit<Prompts, "version">; label: string; hint: string; rows: number }[] = [
-  { key: "system_prompt", label: "System prompt", hint: "Who Claude is and how it should think about the audit.", rows: 5 },
-  { key: "email_instructions", label: "Email body instructions", hint: "How the email body should be structured and written.", rows: 5 },
-  { key: "subject_instructions", label: "Subject line instructions", hint: "How the subject line should be written.", rows: 3 },
-  { key: "tone", label: "Tone", hint: "The voice of the email.", rows: 2 },
-  { key: "signature", label: "Signature", hint: "How the email signs off.", rows: 1 },
+type FieldKey = keyof Omit<Prompts, "version">;
+type Field = { key: FieldKey; label: string; hint: string; rows: number };
+type Group = { id: string; label: string; title: string; fields: Field[] };
+
+const GROUPS: Group[] = [
+  {
+    id: "identity",
+    label: "01",
+    title: "Identity & instructions",
+    fields: [
+      { key: "system_prompt", label: "System prompt", hint: "Who Claude is and how it should think about the audit.", rows: 5 },
+      { key: "email_instructions", label: "Email body instructions", hint: "How the email body should be structured and written.", rows: 5 },
+      { key: "subject_instructions", label: "Subject line instructions", hint: "How the subject line should be written.", rows: 3 },
+    ],
+  },
+  {
+    id: "voice",
+    label: "02",
+    title: "Voice",
+    fields: [
+      { key: "tone", label: "Tone", hint: "The voice of the email.", rows: 2 },
+      { key: "signature", label: "Signature", hint: "How the email signs off.", rows: 1 },
+    ],
+  },
 ];
 
 type PreviewResult = {
@@ -27,21 +46,34 @@ type PreviewResult = {
   email: { subject: string; body: string };
 };
 
+type Tab = "prompts" | "preview";
+
 export function PromptEditor() {
   const { toast } = useToast();
   const [prompts, setPrompts] = useState<Prompts | null>(null);
+  const [baseline, setBaseline] = useState<Prompts | null>(null);
   const [saving, setSaving] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const [previewEmail, setPreviewEmail] = useState("");
   const [previewing, setPreviewing] = useState(false);
   const [previewResult, setPreviewResult] = useState<PreviewResult | null>(null);
+  const [signalsOpen, setSignalsOpen] = useState(false);
+  const [tab, setTab] = useState<Tab>("prompts");
 
   useEffect(() => {
     fetch("/api/prompts")
       .then((r) => (r.ok ? r.json() : Promise.reject(r.statusText)))
-      .then((b) => setPrompts(b.prompts))
+      .then((b) => {
+        setPrompts(b.prompts);
+        setBaseline(b.prompts);
+      })
       .catch(() => toast("error", "Could not load the prompts"));
   }, [toast]);
+
+  const dirty = useMemo(() => {
+    if (!prompts || !baseline) return false;
+    return JSON.stringify(prompts) !== JSON.stringify(baseline);
+  }, [prompts, baseline]);
 
   async function save(next: Prompts) {
     setSaving(true);
@@ -51,8 +83,12 @@ export function PromptEditor() {
       body: JSON.stringify(next),
     });
     setSaving(false);
-    if (res.ok) toast("success", "Prompts saved — the next audit will use them");
-    else toast("error", "Could not save the prompts");
+    if (res.ok) {
+      setBaseline(next);
+      toast("success", "Prompts saved — the next audit will use them");
+    } else {
+      toast("error", "Could not save the prompts");
+    }
   }
 
   async function resetToDefault() {
@@ -61,6 +97,7 @@ export function PromptEditor() {
     if (res.ok) {
       const b = await res.json();
       setPrompts(b.prompts);
+      setBaseline(b.prompts);
       toast("success", "Reset to the default prompts");
     } else {
       toast("error", "Could not reset the prompts");
@@ -71,6 +108,7 @@ export function PromptEditor() {
     if (!prompts) return;
     setPreviewing(true);
     setPreviewResult(null);
+    setSignalsOpen(false);
     try {
       const res = await fetch("/api/audit/preview", {
         method: "POST",
@@ -93,127 +131,58 @@ export function PromptEditor() {
   if (!prompts) return <p style={{ color: "#71717a" }}>Loading…</p>;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 720 }}>
-      {FIELDS.map((f) => (
-        <div key={f.key}>
-          <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#27272a", marginBottom: 2 }}>
-            {f.label}
-          </label>
-          <div style={{ fontSize: 12, color: "#a1a1aa", marginBottom: 6 }}>{f.hint}</div>
-          <textarea
-            value={prompts[f.key]}
-            rows={f.rows}
-            onChange={(e) => setPrompts({ ...prompts, [f.key]: e.target.value })}
-            style={{
-              width: "100%", padding: "10px 12px", border: "1px solid #d4d4d8",
-              borderRadius: 8, fontSize: 13, fontFamily: "var(--adv-font, system-ui)",
-              resize: "vertical", boxSizing: "border-box", lineHeight: 1.5,
-            }}
-          />
-        </div>
-      ))}
-      <div style={{ display: "flex", gap: 8 }}>
-        <button
-          onClick={() => save(prompts)}
-          disabled={saving}
-          style={{
-            background: "#18181b", color: "#fff", border: 0, padding: "9px 18px",
-            borderRadius: 6, fontSize: 14, fontWeight: 600, cursor: saving ? "not-allowed" : "pointer",
-            opacity: saving ? 0.6 : 1,
-          }}
-        >
-          {saving ? "Saving…" : "Save prompts"}
-        </button>
-        <button
-          onClick={() => setConfirmReset(true)}
-          style={{
-            background: "transparent", color: "#27272a", border: "1px solid #e7e7ea",
-            padding: "9px 18px", borderRadius: 6, fontSize: 14, fontWeight: 500, cursor: "pointer",
-          }}
-        >
-          Reset to default
-        </button>
-      </div>
-      <div style={{ borderTop: "1px solid #e7e7ea", paddingTop: 20, marginTop: 4 }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: "#18181b", marginBottom: 2 }}>Preview</div>
-        <div style={{ fontSize: 12, color: "#a1a1aa", marginBottom: 12 }}>
-          Run the audit on a test email using the prompts currently in this editor. Nothing is sent — no
-          webhook, no email.
-        </div>
-        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-          <input
-            type="email"
-            value={previewEmail}
-            onChange={(e) => setPreviewEmail(e.target.value)}
-            placeholder="owner@clinic.com"
-            style={{
-              flex: "1 1 240px", minWidth: 220, padding: "9px 12px", border: "1px solid #d4d4d8",
-              borderRadius: 6, fontSize: 13, fontFamily: "var(--adv-font, system-ui)", boxSizing: "border-box",
-            }}
-          />
+    <div>
+      {/* Tabs */}
+      <div className={styles.tabs}>
+        <div className={styles.tabsTrack} data-active={tab}>
+          <div className={styles.tabsIndicator} aria-hidden="true" />
           <button
-            onClick={runPreview}
-            disabled={previewing || !previewEmail}
-            style={{
-              background: "#18181b", color: "#fff", border: 0, padding: "9px 18px",
-              borderRadius: 6, fontSize: 14, fontWeight: 600,
-              cursor: previewing || !previewEmail ? "not-allowed" : "pointer",
-              opacity: previewing || !previewEmail ? 0.6 : 1,
-            }}
+            type="button"
+            className={styles.tabBtn}
+            data-active={tab === "prompts"}
+            onClick={() => setTab("prompts")}
           >
-            {previewing ? "Running…" : "Run preview"}
+            Edit prompts
+          </button>
+          <button
+            type="button"
+            className={styles.tabBtn}
+            data-active={tab === "preview"}
+            onClick={() => setTab("preview")}
+          >
+            Preview
           </button>
         </div>
-        {previewing && (
-          <div style={{ fontSize: 12, color: "#a1a1aa", marginTop: 10 }}>
-            Running the real audit — this takes up to a minute…
-          </div>
-        )}
-        {previewResult && (
-          <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 12 }}>
-            {previewResult.outcome === "fallback" && (
-              <div style={{ fontSize: 12, color: "#a1a1aa" }}>
-                The pipeline fell back (reason: {previewResult.reason ?? "unknown"}) — here is the fallback
-                email that would be sent:
-              </div>
-            )}
-            <div
-              style={{
-                border: "1px solid #e7e7ea", borderRadius: 8, padding: "12px 14px", background: "#fafafa",
-              }}
-            >
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#18181b", marginBottom: 8 }}>
-                {previewResult.email.subject}
-              </div>
-              <pre
-                style={{
-                  margin: 0, fontSize: 12.5, color: "#3f3f46", whiteSpace: "pre-wrap",
-                  fontFamily: "var(--adv-font, system-ui)", lineHeight: 1.55,
-                }}
-              >
-                {previewResult.email.body}
-              </pre>
-            </div>
-            {previewResult.signals != null && (
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "#27272a", marginBottom: 6 }}>
-                  Extracted signals
-                </div>
-                <pre
-                  style={{
-                    margin: 0, fontSize: 11.5, color: "#52525b", whiteSpace: "pre-wrap",
-                    fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-                    background: "#fafafa", border: "1px solid #e7e7ea", borderRadius: 8,
-                    padding: "12px 14px", overflowX: "auto",
-                  }}
-                >
-                  {JSON.stringify(previewResult.signals, null, 2)}
-                </pre>
-              </div>
-            )}
-          </div>
+        <span className={styles.tabStatus} data-dirty={dirty}>
+          <span className={styles.tabStatusDot} aria-hidden="true" />
+          {dirty ? "Unsaved changes" : "All changes saved"}
+        </span>
+      </div>
+
+      {/* Panels — key={tab} re-mounts and replays the fade-in keyframe on switch */}
+      <div key={tab} className={styles.panel}>
+        {tab === "prompts" ? (
+          <PromptsPanel
+            prompts={prompts}
+            setPrompts={setPrompts}
+            saving={saving}
+            dirty={dirty}
+            onSave={() => save(prompts)}
+            onReset={() => setConfirmReset(true)}
+          />
+        ) : (
+          <PreviewPanel
+            email={previewEmail}
+            setEmail={setPreviewEmail}
+            previewing={previewing}
+            result={previewResult}
+            signalsOpen={signalsOpen}
+            setSignalsOpen={setSignalsOpen}
+            onRun={runPreview}
+          />
         )}
       </div>
+
       <ConfirmDialog
         open={confirmReset}
         title="Reset to the default prompts?"
@@ -225,5 +194,160 @@ export function PromptEditor() {
         onCancel={() => setConfirmReset(false)}
       />
     </div>
+  );
+}
+
+function PromptsPanel({
+  prompts,
+  setPrompts,
+  saving,
+  dirty,
+  onSave,
+  onReset,
+}: {
+  prompts: Prompts;
+  setPrompts: (p: Prompts) => void;
+  saving: boolean;
+  dirty: boolean;
+  onSave: () => void;
+  onReset: () => void;
+}) {
+  return (
+    <>
+      <div className={styles.groups}>
+        {GROUPS.map((g) => (
+          <section key={g.id} className={styles.group}>
+            <div className={styles.groupHead}>
+              <div className={styles.groupLabel}>{g.label}</div>
+              <div className={styles.groupTitle}>{g.title}</div>
+            </div>
+            {g.fields.map((f) => (
+              <div key={f.key} className={styles.field}>
+                <div className={styles.fieldHead}>
+                  <label htmlFor={`f-${f.key}`} className={styles.fieldLabel}>
+                    {f.label}
+                  </label>
+                </div>
+                <div className={styles.fieldHint}>{f.hint}</div>
+                <textarea
+                  id={`f-${f.key}`}
+                  className={styles.textarea}
+                  value={prompts[f.key]}
+                  rows={f.rows}
+                  onChange={(e) => setPrompts({ ...prompts, [f.key]: e.target.value })}
+                />
+              </div>
+            ))}
+          </section>
+        ))}
+      </div>
+
+      <div className={styles.actionBar}>
+        <span className={styles.actionBarMessage}>
+          {dirty ? "You have unsaved changes." : "All changes saved."}
+        </span>
+        <button type="button" onClick={onReset} className={styles.btnGhost}>
+          Reset to default
+        </button>
+        <button type="button" onClick={onSave} disabled={saving || !dirty} className={styles.btnPrimary}>
+          {saving ? "Saving…" : "Save prompts"}
+        </button>
+      </div>
+    </>
+  );
+}
+
+function PreviewPanel({
+  email,
+  setEmail,
+  previewing,
+  result,
+  signalsOpen,
+  setSignalsOpen,
+  onRun,
+}: {
+  email: string;
+  setEmail: (s: string) => void;
+  previewing: boolean;
+  result: PreviewResult | null;
+  signalsOpen: boolean;
+  setSignalsOpen: (b: boolean) => void;
+  onRun: () => void;
+}) {
+  const signalsJson = result?.signals != null ? JSON.stringify(result.signals, null, 2) : "";
+  return (
+    <>
+      <div className={styles.previewRunner}>
+        <div className={styles.previewHead}>
+          <div className={styles.previewTitle}>Test an email</div>
+          <div className={styles.previewSub}>
+            Runs the real audit pipeline against this email using the prompts currently in the
+            editor. Nothing is sent — no webhook, no email.
+          </div>
+        </div>
+        <div className={styles.previewRow}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="owner@clinic.com"
+            className={styles.input}
+          />
+          <button
+            type="button"
+            onClick={onRun}
+            disabled={previewing || !email}
+            className={styles.btnPrimary}
+          >
+            {previewing ? "Running…" : "Run preview"}
+          </button>
+        </div>
+        {previewing && (
+          <span className={styles.previewRunning}>
+            <span className={styles.previewRunningDot} aria-hidden="true" />
+            Running the real audit — this takes up to a minute…
+          </span>
+        )}
+      </div>
+
+      {result && (
+        <div className={styles.previewResults}>
+          {result.outcome === "fallback" && (
+            <div className={styles.fallbackBanner}>
+              The pipeline fell back ({result.reason ?? "unknown reason"}) — here is the fallback
+              email that would be sent.
+            </div>
+          )}
+          <article className={styles.emailCard}>
+            <header className={styles.emailCardHead}>
+              <div className={styles.emailEyebrow}>Generated email</div>
+              <div className={styles.emailSubject}>{result.email.subject}</div>
+            </header>
+            <pre className={styles.emailBody}>{result.email.body}</pre>
+          </article>
+          {result.signals != null && (
+            <div className={styles.signalsCard}>
+              <button
+                type="button"
+                className={styles.signalsToggle}
+                onClick={() => setSignalsOpen(!signalsOpen)}
+                aria-expanded={signalsOpen}
+              >
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+                  <span className={styles.signalsChevron} data-open={signalsOpen} aria-hidden="true">
+                    ›
+                  </span>
+                  Extracted signals
+                </span>
+                <span className={styles.signalsCount}>
+                  {signalsJson ? `${signalsJson.split("\n").length} lines` : ""}
+                </span>
+              </button>
+              {signalsOpen && <pre className={styles.signalsBody}>{signalsJson}</pre>}
+            </div>
+          )}
+        </div>
+      )}
+    </>
   );
 }
