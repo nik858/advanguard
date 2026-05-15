@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { CTA } from "./_shared/CTA";
-import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
 import { RepeatableList } from "../_editor/RepeatableList";
@@ -76,7 +75,6 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           <span><Edit edit={edit} path="order.secureText">{order.secureText}</Edit></span>
         </div>
         <div className="ac-order__guarantee-row">
-          <GuaranteeBadge size={64}/>
           <div className="ac-order__guarantee-text">
             <Edit edit={edit} path="order.guaranteeText">{order.guaranteeText}</Edit>
           </div>
