@@ -83,7 +83,11 @@ function EditableRepeatableList({
 
   return (
     <>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+      {/* id={fullPath} keeps DndContext's auto-generated aria-describedby IDs
+          stable between SSR and CSR. Without it dnd-kit's internal counter
+          ticks differently in dev (StrictMode double-renders) and causes a
+          hydration mismatch on every drag handle. */}
+      <DndContext id={fullPath} sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={ids} strategy={rectSortingStrategy}>
           {items.map((child, i) => (
             <SortableCell key={i} id={String(i)} onRemove={() => remove(i)}>
