@@ -4,6 +4,7 @@ import crypto from "node:crypto";
 import { checkLimit, clientIp, leadLimiter } from "@/lib/ratelimit";
 import { runAudit } from "@/lib/audit/index";
 import { extractDomain } from "@/lib/audit/domain";
+import { insertLead } from "@/lib/db/leads";
 import type { Lead } from "@/types/audit";
 
 // The audit runs in the background via after(); give the function room to finish.
@@ -43,7 +44,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Please use a work email address." }, { status: 400 });
   }
 
+  let row: Awaited<ReturnType<typeof insertLead>>;
+  try {
+    row = await insertLead({
+      email: parsed.data.email,
+      firstName: parsed.data.first_name || null,
+      phone: parsed.data.phone ?? null,
+      domain,
+      source: "inbound",
+    });
+  } catch (e) {
+    console.error("[lead] db insert failed", { domain, error: String(e) });
+    return NextResponse.json({ ok: true });
+  }
+
   const lead: Lead = {
+    id: row.id,
     email: parsed.data.email,
     firstName: parsed.data.first_name || "",
     phone: parsed.data.phone,

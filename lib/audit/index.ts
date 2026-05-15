@@ -6,6 +6,7 @@ import { fetchPageSpeed } from "@/lib/audit/pagespeed";
 import { generateAuditEmail } from "@/lib/audit/ai";
 import { generateFallbackEmail } from "@/lib/audit/fallback";
 import { sendAuditEmail } from "@/lib/email";
+import { updateLeadAudit } from "@/lib/db/leads";
 
 export type PipelineResult = {
   email: AuditEmail;
@@ -63,6 +64,20 @@ export async function runAuditPipeline(lead: Lead, promptsOverride?: Prompts): P
  */
 export async function runAudit(lead: Lead): Promise<void> {
   const result = await runAuditPipeline(lead);
+
+  try {
+    await updateLeadAudit({
+      id: lead.id,
+      subject: result.email.subject,
+      body: result.email.body,
+      outcome: result.outcome,
+      reason: result.reason ?? null,
+      signals: result.signals,
+    });
+  } catch (e) {
+    console.error("[audit] db update failed", { id: lead.id, error: String(e) });
+  }
+
   try {
     await sendAuditEmail({
       to: lead.email,

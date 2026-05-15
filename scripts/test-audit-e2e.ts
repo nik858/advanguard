@@ -23,7 +23,7 @@ async function main() {
   console.log("(every stage is real; postAuditToGHL is NOT called — no email is sent)\n");
 
   const domain = extractDomain(EMAIL);
-  const lead: Lead = { email: EMAIL, firstName: "", domain };
+  const lead: Lead = { id: "", email: EMAIL, firstName: "", domain }; // e2e dry-run: not persisted
   console.log(`Lead email : ${EMAIL}`);
   console.log(`Domain     : ${domain}\n`);
 

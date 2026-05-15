@@ -33,6 +33,7 @@ export async function POST(req: Request) {
   }
 
   const lead: Lead = {
+    id: "", // preview runs are not persisted to the leads table
     email: parsed.data.email,
     firstName: "",
     domain: extractDomain(parsed.data.email),

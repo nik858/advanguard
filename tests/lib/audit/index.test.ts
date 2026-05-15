@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Lead } from "@/types/audit";
 
-const lead: Lead = { email: "matt@brightsmile.com", firstName: "Matt", domain: "brightsmile.com" };
+const lead: Lead = { id: "00000000-0000-0000-0000-000000000001", email: "matt@brightsmile.com", firstName: "Matt", domain: "brightsmile.com" };
 
 const htmlSignals = {
   hasMetaPixel: false, hasGoogleAnalytics: true, hasGoogleAds: false, hasBookingWidget: false,
@@ -20,11 +20,13 @@ describe("runAudit", () => {
 
   it("happy path: sends the AI-generated email via Resend", async () => {
     const sendAuditEmail = vi.fn().mockResolvedValue(undefined);
+    const updateLeadAudit = vi.fn().mockResolvedValue(undefined);
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => "https://brightsmile.com/" }));
     vi.doMock("@/lib/audit/scrape", () => ({ fetchHtml: async () => "<html></html>", parseSignals: () => htmlSignals }));
     vi.doMock("@/lib/audit/pagespeed", () => ({ fetchPageSpeed: async () => null }));
     vi.doMock("@/lib/audit/ai", () => ({ generateAuditEmail: async () => ({ subject: "AI subject", body: "AI body" }) }));
     vi.doMock("@/lib/email", () => ({ sendAuditEmail }));
+    vi.doMock("@/lib/db/leads", () => ({ updateLeadAudit }));
 
     const { runAudit } = await import("@/lib/audit/index");
     await runAudit(lead);
@@ -35,12 +37,21 @@ describe("runAudit", () => {
       subject: "AI subject",
       body: "AI body",
     });
+    expect(updateLeadAudit).toHaveBeenCalledTimes(1);
+    expect(updateLeadAudit).toHaveBeenCalledWith(expect.objectContaining({
+      id: lead.id,
+      subject: "AI subject",
+      body: "AI body",
+      outcome: "success",
+    }));
   });
 
   it("unreachable site: sends a fallback email via Resend", async () => {
     const sendAuditEmail = vi.fn().mockResolvedValue(undefined);
+    const updateLeadAudit = vi.fn().mockResolvedValue(undefined);
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => null }));
     vi.doMock("@/lib/email", () => ({ sendAuditEmail }));
+    vi.doMock("@/lib/db/leads", () => ({ updateLeadAudit }));
 
     const { runAudit } = await import("@/lib/audit/index");
     await runAudit(lead);
@@ -53,11 +64,13 @@ describe("runAudit", () => {
 
   it("AI failure: sends a fallback email via Resend", async () => {
     const sendAuditEmail = vi.fn().mockResolvedValue(undefined);
+    const updateLeadAudit = vi.fn().mockResolvedValue(undefined);
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => "https://brightsmile.com/" }));
     vi.doMock("@/lib/audit/scrape", () => ({ fetchHtml: async () => "<html></html>", parseSignals: () => htmlSignals }));
     vi.doMock("@/lib/audit/pagespeed", () => ({ fetchPageSpeed: async () => null }));
     vi.doMock("@/lib/audit/ai", () => ({ generateAuditEmail: async () => { throw new Error("claude down"); } }));
     vi.doMock("@/lib/email", () => ({ sendAuditEmail }));
+    vi.doMock("@/lib/db/leads", () => ({ updateLeadAudit }));
 
     const { runAudit } = await import("@/lib/audit/index");
     await runAudit(lead);
@@ -67,10 +80,31 @@ describe("runAudit", () => {
   });
 
   it("never throws, even if Resend itself fails", async () => {
+    const updateLeadAudit = vi.fn().mockResolvedValue(undefined);
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => null }));
     vi.doMock("@/lib/email", () => ({ sendAuditEmail: vi.fn().mockRejectedValue(new Error("resend down")) }));
+    vi.doMock("@/lib/db/leads", () => ({ updateLeadAudit }));
     const { runAudit } = await import("@/lib/audit/index");
     await expect(runAudit(lead)).resolves.toBeUndefined();
+  });
+
+  it("calls updateLeadAudit with outcome 'fallback' when the AI fails", async () => {
+    const sendAuditEmail = vi.fn().mockResolvedValue(undefined);
+    const updateLeadAudit = vi.fn().mockResolvedValue(undefined);
+    vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => "https://brightsmile.com/" }));
+    vi.doMock("@/lib/audit/scrape", () => ({ fetchHtml: async () => "<html></html>", parseSignals: () => htmlSignals }));
+    vi.doMock("@/lib/audit/pagespeed", () => ({ fetchPageSpeed: async () => null }));
+    vi.doMock("@/lib/audit/ai", () => ({ generateAuditEmail: async () => { throw new Error("claude down"); } }));
+    vi.doMock("@/lib/email", () => ({ sendAuditEmail }));
+    vi.doMock("@/lib/db/leads", () => ({ updateLeadAudit }));
+
+    const { runAudit } = await import("@/lib/audit/index");
+    await runAudit(lead);
+
+    expect(updateLeadAudit).toHaveBeenCalledWith(expect.objectContaining({
+      id: lead.id,
+      outcome: "fallback",
+    }));
   });
 });
 

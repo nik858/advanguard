@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 import { generateFallbackEmail } from "@/lib/audit/fallback";
 import type { Lead } from "@/types/audit";
 
-const lead: Lead = { email: "matt@brightsmile.com", firstName: "Matt", domain: "brightsmile.com" };
+const lead: Lead = { id: "00000000-0000-0000-0000-000000000001", email: "matt@brightsmile.com", firstName: "Matt", domain: "brightsmile.com" };
 
 describe("generateFallbackEmail", () => {
   it("produces a graceful, non-technical email with a subject and body", () => {

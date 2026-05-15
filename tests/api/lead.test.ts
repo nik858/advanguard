@@ -19,6 +19,9 @@ vi.mock("next/server", async (orig) => {
   };
 });
 vi.mock("@/lib/audit/index", () => ({ runAudit }));
+vi.mock("@/lib/db/leads", () => ({
+  insertLead: vi.fn().mockResolvedValue({ id: "00000000-0000-0000-0000-000000000001" }),
+}));
 
 function mkReq(body: unknown): Request {
   return new Request("http://localhost/api/lead", {

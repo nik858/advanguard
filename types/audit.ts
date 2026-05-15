@@ -1,6 +1,7 @@
 // Domain types for the AI audit pipeline.
 
 export type Lead = {
+  id: string;               // UUID — the leads-table row id created in /api/lead
   email: string;
   firstName: string;        // empty string if not provided by the form
   phone?: string;
