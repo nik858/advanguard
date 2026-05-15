@@ -14,7 +14,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
     e.preventDefault();
     setStatus("busy");
     const fd = new FormData(e.currentTarget);
-    const body = { email: fd.get("email"), phone: fd.get("phone"), website: fd.get("website") };
+    const body = { email: fd.get("email"), website: fd.get("website") };
     const res = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
     if (res.ok) { setStatus("ok"); onCheckout?.(); }
     else {
@@ -59,14 +59,33 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
         </p>
         <form onSubmit={onSubmit} aria-label="Order">
           <label htmlFor="email" className="visually-hidden">Email</label>
-          <input id="email" name="email" type="email" required placeholder="Enter your email" className="ac-order__field" autoComplete="email" />
-          <div style={{ height: 9 }}/>
-          <label htmlFor="phone" className="visually-hidden">Phone</label>
-          <input id="phone" name="phone" type="tel" placeholder="Phone number (for bonuses)" className="ac-order__field" autoComplete="tel" />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder="Enter your work email"
+            className="ac-order__field"
+            autoComplete="email"
+          />
           {/* Honeypot: positioned offscreen, bots fill it but humans don't */}
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1 }} />
-          <div style={{ height: 12 }}/>
-          <CTA tag={order.ctaTagline} label={status === "busy" ? "Sending..." : order.ctaLabel} />
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-9999px", width: 1, height: 1 }}
+          />
+          <div style={{ height: 12 }} />
+          <CTA
+            type={edit ? "button" : "submit"}
+            tag={<Edit edit={edit} path="order.ctaTagline">{order.ctaTagline}</Edit>}
+            label={status === "busy"
+              ? "Sending…"
+              : <Edit edit={edit} path="order.ctaLabel">{order.ctaLabel}</Edit>}
+            ariaLabel={order.ctaLabel}
+          />
           {status === "err" && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
           {status === "ok" && <p style={{ color: "#15803d", fontSize: 13, marginTop: 8 }}>Thanks, we&apos;ll be in touch!</p>}
         </form>
