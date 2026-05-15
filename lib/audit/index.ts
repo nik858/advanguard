@@ -17,7 +17,7 @@ export type PipelineResult = {
 /**
  * Runs the audit pipeline (domain → scrape → PageSpeed → Claude) and returns
  * the result. Never throws — any failure produces a graceful fallback email.
- * Does NOT touch GHL. `promptsOverride` lets a caller (e.g. the admin preview)
+ * The email is sent via Resend. `promptsOverride` lets a caller (e.g. the admin preview)
  * supply a prompt set directly instead of loading the saved one.
  */
 export async function runAuditPipeline(lead: Lead, promptsOverride?: Prompts): Promise<PipelineResult> {

@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     domain: extractDomain(parsed.data.email),
   };
 
-  // runAuditPipeline never throws and never touches GHL — safe to await directly.
+  // runAuditPipeline never throws — safe to await directly.
   const result = await runAuditPipeline(lead, parsed.data.prompts);
   return NextResponse.json({
     outcome: result.outcome,

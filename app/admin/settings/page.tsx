@@ -4,7 +4,7 @@ import { BackLink } from "../_components/BackLink";
 export default function SettingsPage() {
   const repo = process.env.GITHUB_REPO || "(not configured)";
   const branch = process.env.GITHUB_BRANCH || "main";
-  const ghlAudit = !!process.env.GHL_AUDIT_WEBHOOK_URL;
+  const resend = !!process.env.RESEND_API_KEY;
   const anthropic = !!process.env.ANTHROPIC_API_KEY;
   const pagespeed = !!process.env.GOOGLE_PAGESPEED_API_KEY;
   const blob = !!process.env.BLOB_READ_WRITE_TOKEN;
@@ -72,7 +72,7 @@ export default function SettingsPage() {
         <Row label="GitHub repo" description="Stores the landing page content. Each publish = one commit." ok={repo !== "(not configured)"} value={`${repo} · ${branch}`} />
         <Row label="Vercel Blob" description="Stores uploaded media and the AI audit prompts." ok={blob} />
         <Row label="Anthropic API (Claude)" description="Generates the personalized audit email. Required for the audit pipeline." ok={anthropic} />
-        <Row label="GHL Audit webhook" description="Endpoint where finished audit emails are sent for delivery." ok={ghlAudit} />
+        <Row label="Resend API" description="Sends the personalized audit email to each lead." ok={resend} />
         <Row label="Google PageSpeed API" description="Performance metrics for the audit. Optional — the audit degrades gracefully without it." ok={pagespeed} />
       </div>
 

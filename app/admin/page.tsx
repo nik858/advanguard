@@ -63,7 +63,7 @@ export default async function AdminHome() {
           </div>
           <div className={styles.cardTitle}>Funnel &amp; AI Audit</div>
           <div className={styles.cardDesc}>
-            The full journey: lead capture, validation, AI audit, hand-off to GoHighLevel.
+            The full journey: lead capture, validation, AI audit, email delivery via Resend.
           </div>
         </Link>
 
@@ -83,7 +83,7 @@ export default async function AdminHome() {
           </div>
           <div className={styles.cardTitle}>Settings</div>
           <div className={styles.cardDesc}>
-            Integration status (GitHub, GoHighLevel, storage).
+            Integration status (GitHub, Resend, storage).
           </div>
         </Link>
       </div>
