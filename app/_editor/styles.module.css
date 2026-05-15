@@ -54,10 +54,14 @@
   position: absolute; top: -8px; right: -8px;
   background: #fff; border: 1px solid #ddd; border-radius: 999px;
   width: 24px; height: 24px; display: grid; place-items: center;
-  cursor: pointer; opacity: 0; transition: opacity 120ms;
-  z-index: 5;
+  cursor: pointer; z-index: 5;
+  font-size: 14px; color: #71717a; line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: color 120ms, border-color 120ms, transform 120ms;
 }
-.itemWrap:hover .itemRemove { opacity: 1; }
+.itemRemove:hover {
+  color: #c62828; border-color: #c62828; transform: scale(1.08);
+}
 .addItem {
   display: block; margin: 12px auto;
   background: #fff; border: 1px dashed #1c7bfd; color: #1c7bfd;
@@ -73,8 +77,11 @@
   position: absolute; top: -8px; left: -8px;
   background: #fff; border: 1px solid #ddd; border-radius: 999px;
   width: 24px; height: 24px; display: grid; place-items: center;
-  cursor: grab; opacity: 0; transition: opacity 120ms;
-  z-index: 6; font-size: 12px; color: #71717a; line-height: 1;
+  cursor: grab; z-index: 6;
+  font-size: 12px; color: #71717a; line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: color 120ms, border-color 120ms;
 }
-.sortableCell:hover .itemDrag,
-.sortableCell:hover .itemRemove { opacity: 1; }
+.itemDrag:hover {
+  color: #18181b; border-color: #18181b;
+}
