@@ -5,7 +5,7 @@ import { fetchHtml, parseSignals } from "@/lib/audit/scrape";
 import { fetchPageSpeed } from "@/lib/audit/pagespeed";
 import { generateAuditEmail } from "@/lib/audit/ai";
 import { generateFallbackEmail } from "@/lib/audit/fallback";
-import { postAuditToGHL } from "@/lib/ghl";
+import { sendAuditEmail } from "@/lib/email";
 
 export type PipelineResult = {
   email: AuditEmail;
@@ -58,19 +58,18 @@ export async function runAuditPipeline(lead: Lead, promptsOverride?: Prompts): P
 }
 
 /**
- * Runs the full audit for one lead and delivers it via GHL. Never throws —
+ * Runs the full audit for one lead and delivers it via Resend. Never throws —
  * designed to be called fire-and-forget from `after()` in the lead route.
  */
 export async function runAudit(lead: Lead): Promise<void> {
   const result = await runAuditPipeline(lead);
   try {
-    await postAuditToGHL({
-      email: lead.email,
-      first_name: lead.firstName,
-      ai_email_subject: result.email.subject,
-      ai_email_body: result.email.body,
+    await sendAuditEmail({
+      to: lead.email,
+      subject: result.email.subject,
+      body: result.email.body,
     });
   } catch (e) {
-    console.error("[audit] GHL delivery failed", { domain: lead.domain, error: String(e) });
+    console.error("[audit] email delivery failed", { domain: lead.domain, error: String(e) });
   }
 }
