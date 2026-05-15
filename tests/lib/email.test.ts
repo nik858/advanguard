@@ -94,6 +94,18 @@ describe("lib/email — sendAuditEmail", () => {
     expect(mockSend).toHaveBeenCalledTimes(3);
   });
 
+  it("exhausts retries when the SDK throws on every attempt", async () => {
+    mockSend.mockRejectedValue(new Error("ECONNRESET"));
+
+    const p = sendAuditEmail({ to: "a@b.com", subject: "x", body: "x" });
+    p.catch(() => {});
+    await vi.advanceTimersByTimeAsync(1000);
+    await vi.advanceTimersByTimeAsync(3000);
+
+    await expect(p).rejects.toThrow(/ECONNRESET/);
+    expect(mockSend).toHaveBeenCalledTimes(3);
+  });
+
   it("retries when the SDK throws a network error", async () => {
     mockSend
       .mockRejectedValueOnce(new Error("ENOTFOUND api.resend.com"))

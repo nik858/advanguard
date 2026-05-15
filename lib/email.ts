@@ -1,3 +1,4 @@
+import "server-only";
 import { Resend, type ErrorResponse } from "resend";
 
 export const RESEND_FROM = "onboarding@resend.dev";
