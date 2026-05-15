@@ -18,58 +18,57 @@ const htmlSignals = {
 describe("runAudit", () => {
   beforeEach(() => { vi.resetModules(); vi.restoreAllMocks(); });
 
-  it("happy path: posts the AI-generated email to GHL", async () => {
-    const postAuditToGHL = vi.fn().mockResolvedValue(undefined);
+  it("happy path: sends the AI-generated email via Resend", async () => {
+    const sendAuditEmail = vi.fn().mockResolvedValue(undefined);
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => "https://brightsmile.com/" }));
     vi.doMock("@/lib/audit/scrape", () => ({ fetchHtml: async () => "<html></html>", parseSignals: () => htmlSignals }));
     vi.doMock("@/lib/audit/pagespeed", () => ({ fetchPageSpeed: async () => null }));
     vi.doMock("@/lib/audit/ai", () => ({ generateAuditEmail: async () => ({ subject: "AI subject", body: "AI body" }) }));
-    vi.doMock("@/lib/ghl", () => ({ postAuditToGHL }));
+    vi.doMock("@/lib/email", () => ({ sendAuditEmail }));
 
     const { runAudit } = await import("@/lib/audit/index");
     await runAudit(lead);
 
-    expect(postAuditToGHL).toHaveBeenCalledOnce();
-    expect(postAuditToGHL).toHaveBeenCalledWith({
-      email: "matt@brightsmile.com",
-      first_name: "Matt",
-      ai_email_subject: "AI subject",
-      ai_email_body: "AI body",
+    expect(sendAuditEmail).toHaveBeenCalledOnce();
+    expect(sendAuditEmail).toHaveBeenCalledWith({
+      to: "matt@brightsmile.com",
+      subject: "AI subject",
+      body: "AI body",
     });
   });
 
-  it("unreachable site: posts a fallback email to GHL", async () => {
-    const postAuditToGHL = vi.fn().mockResolvedValue(undefined);
+  it("unreachable site: sends a fallback email via Resend", async () => {
+    const sendAuditEmail = vi.fn().mockResolvedValue(undefined);
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => null }));
-    vi.doMock("@/lib/ghl", () => ({ postAuditToGHL }));
+    vi.doMock("@/lib/email", () => ({ sendAuditEmail }));
 
     const { runAudit } = await import("@/lib/audit/index");
     await runAudit(lead);
 
-    expect(postAuditToGHL).toHaveBeenCalledOnce();
-    const arg = postAuditToGHL.mock.calls[0][0];
-    expect(arg.email).toBe("matt@brightsmile.com");
-    expect(arg.ai_email_body).toContain("Matt");
+    expect(sendAuditEmail).toHaveBeenCalledOnce();
+    const arg = sendAuditEmail.mock.calls[0][0];
+    expect(arg.to).toBe("matt@brightsmile.com");
+    expect(arg.body).toContain("Matt");
   });
 
-  it("AI failure: posts a fallback email to GHL", async () => {
-    const postAuditToGHL = vi.fn().mockResolvedValue(undefined);
+  it("AI failure: sends a fallback email via Resend", async () => {
+    const sendAuditEmail = vi.fn().mockResolvedValue(undefined);
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => "https://brightsmile.com/" }));
     vi.doMock("@/lib/audit/scrape", () => ({ fetchHtml: async () => "<html></html>", parseSignals: () => htmlSignals }));
     vi.doMock("@/lib/audit/pagespeed", () => ({ fetchPageSpeed: async () => null }));
     vi.doMock("@/lib/audit/ai", () => ({ generateAuditEmail: async () => { throw new Error("claude down"); } }));
-    vi.doMock("@/lib/ghl", () => ({ postAuditToGHL }));
+    vi.doMock("@/lib/email", () => ({ sendAuditEmail }));
 
     const { runAudit } = await import("@/lib/audit/index");
     await runAudit(lead);
 
-    expect(postAuditToGHL).toHaveBeenCalledOnce();
-    expect(postAuditToGHL.mock.calls[0][0].ai_email_body).toContain("specialist");
+    expect(sendAuditEmail).toHaveBeenCalledOnce();
+    expect(sendAuditEmail.mock.calls[0][0].body).toContain("specialist");
   });
 
-  it("never throws, even if GHL itself fails", async () => {
+  it("never throws, even if Resend itself fails", async () => {
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => null }));
-    vi.doMock("@/lib/ghl", () => ({ postAuditToGHL: vi.fn().mockRejectedValue(new Error("ghl down")) }));
+    vi.doMock("@/lib/email", () => ({ sendAuditEmail: vi.fn().mockRejectedValue(new Error("resend down")) }));
     const { runAudit } = await import("@/lib/audit/index");
     await expect(runAudit(lead)).resolves.toBeUndefined();
   });
@@ -83,7 +82,7 @@ describe("runAuditPipeline", () => {
     vi.doMock("@/lib/audit/scrape", () => ({ fetchHtml: async () => "<html></html>", parseSignals: () => htmlSignals }));
     vi.doMock("@/lib/audit/pagespeed", () => ({ fetchPageSpeed: async () => null }));
     vi.doMock("@/lib/audit/ai", () => ({ generateAuditEmail: async () => ({ subject: "AI subject", body: "AI body" }) }));
-    vi.doMock("@/lib/ghl", () => ({ postAuditToGHL: vi.fn() }));
+    vi.doMock("@/lib/email", () => ({ sendAuditEmail: vi.fn() }));
     const { runAuditPipeline } = await import("@/lib/audit/index");
     const r = await runAuditPipeline(lead);
     expect(r.outcome).toBe("success");
@@ -93,7 +92,7 @@ describe("runAuditPipeline", () => {
 
   it("returns fallback + null signals when the site is unreachable", async () => {
     vi.doMock("@/lib/audit/domain", () => ({ resolveReachableUrl: async () => null }));
-    vi.doMock("@/lib/ghl", () => ({ postAuditToGHL: vi.fn() }));
+    vi.doMock("@/lib/email", () => ({ sendAuditEmail: vi.fn() }));
     const { runAuditPipeline } = await import("@/lib/audit/index");
     const r = await runAuditPipeline(lead);
     expect(r.outcome).toBe("fallback");
@@ -107,7 +106,7 @@ describe("runAuditPipeline", () => {
     vi.doMock("@/lib/audit/scrape", () => ({ fetchHtml: async () => "<html></html>", parseSignals: () => htmlSignals }));
     vi.doMock("@/lib/audit/pagespeed", () => ({ fetchPageSpeed: async () => null }));
     vi.doMock("@/lib/audit/ai", () => ({ generateAuditEmail: genMock }));
-    vi.doMock("@/lib/ghl", () => ({ postAuditToGHL: vi.fn() }));
+    vi.doMock("@/lib/email", () => ({ sendAuditEmail: vi.fn() }));
     const { runAuditPipeline } = await import("@/lib/audit/index");
     const override = { version: 1, system_prompt: "x", email_instructions: "x", subject_instructions: "x", tone: "x", signature: "x" };
     await runAuditPipeline(lead, override);
