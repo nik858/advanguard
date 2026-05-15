@@ -2,9 +2,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 const mockSend = vi.fn();
 vi.mock("resend", () => ({
-  Resend: vi.fn().mockImplementation(() => ({
-    emails: { send: mockSend },
-  })),
+  Resend: class {
+    emails = { send: mockSend };
+    constructor(_apiKey: string) {}
+  },
 }));
 
 // Import AFTER the mock so the SDK is already stubbed.
@@ -81,6 +82,9 @@ describe("lib/email — sendAuditEmail", () => {
     });
 
     const p = sendAuditEmail({ to: "a@b.com", subject: "x", body: "x" });
+    // Attach a no-op catch immediately so the rejection isn't briefly unhandled
+    // while we advance timers (fake-timers + async rejection timing quirk).
+    p.catch(() => {});
 
     // First attempt fires immediately, then 1s backoff, then 3s backoff.
     await vi.advanceTimersByTimeAsync(1000);

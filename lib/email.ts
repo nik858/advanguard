@@ -35,7 +35,7 @@ const BACKOFFS_MS = [1000, 3000];
 export async function sendAuditEmail(input: SendAuditEmailInput): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) throw new Error("RESEND_API_KEY not set");
-  const client = (Resend as any)(apiKey);
+  const client = new Resend(apiKey);
 
   let lastErr: Error | null = null;
 
