@@ -57,6 +57,16 @@ export default async function AdminHome() {
 
       {/* Secondary actions */}
       <div className={styles.cardGrid}>
+        <Link href="/admin/leads" className={styles.card}>
+          <div className={styles.cardIcon}>
+            <Icons.FileText />
+          </div>
+          <div className={styles.cardTitle}>Leads</div>
+          <div className={styles.cardDesc}>
+            Inbound submissions, manual entries, statuses, and CSV export.
+          </div>
+        </Link>
+
         <Link href="/admin/funnel" className={styles.card}>
           <div className={styles.cardIcon}>
             <Icons.Sparkles />
