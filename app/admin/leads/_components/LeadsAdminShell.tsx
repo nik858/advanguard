@@ -45,13 +45,6 @@ export function LeadsAdminShell({ content, rows }: { content: Content; rows: Lea
             ?
           </button>
         </h1>
-        {/* Tooltip text editor (visually muted; lets Nik edit the long copy without showing it on the page). */}
-        <div style={{ marginTop: 14, fontSize: 12, color: "#a1a1aa", maxWidth: 620 }}>
-          <span style={{ fontWeight: 600, marginRight: 6 }}>Tooltip text:</span>
-          <Edit edit path="admin.leads.tooltip" multiline>
-            {admin.tooltip}
-          </Edit>
-        </div>
       </div>
       <div style={{ marginTop: 28 }}>
         <LeadsTable initialRows={rows} />
