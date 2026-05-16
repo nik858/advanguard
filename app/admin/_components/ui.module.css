@@ -87,6 +87,106 @@
   line-height: 1.45;
 }
 
+/* Icon-only button with hover tooltip (topbar actions, etc.) */
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #71717a;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+  position: relative;
+}
+.iconBtn:hover {
+  background: #f4f4f5;
+  color: #18181b;
+  border-color: #ececef;
+}
+.iconBtn:focus-visible {
+  outline: 2px solid #18181b;
+  outline-offset: 2px;
+}
+.iconBtn[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #18181b;
+  color: #fafafa;
+  font: 500 11px/1 var(--adv-font, system-ui);
+  letter-spacing: 0.02em;
+  padding: 6px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-3px);
+  transition: opacity 160ms ease, transform 160ms ease;
+  z-index: 60;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+.iconBtn[data-tip]:hover::after,
+.iconBtn[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Inline info tooltip — small "?" next to a heading. */
+.infoTip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #f4f4f5;
+  color: #71717a;
+  font: 600 11px/1 var(--adv-font, system-ui);
+  cursor: help;
+  margin-left: 12px;
+  vertical-align: middle;
+  position: relative;
+  border: 0;
+  transition: background 140ms ease, color 140ms ease;
+}
+.infoTip:hover,
+.infoTip:focus-visible {
+  background: #e4e4e7;
+  color: #18181b;
+  outline: none;
+}
+.infoTip[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-3px);
+  background: #18181b;
+  color: #fafafa;
+  font: 400 12px/1.5 var(--adv-font, system-ui);
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 280px;
+  width: max-content;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 60;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+.infoTip[data-tip]:hover::after,
+.infoTip[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* Flow steps used on the funnel page */
 .step {
   display: flex;

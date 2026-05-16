@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Icons } from "../../_sections/_shared/Icons";
+import ui from "./ui.module.css";
 
 export function LogoutButton() {
   const router = useRouter();
@@ -10,24 +11,13 @@ export function LogoutButton() {
   }
   return (
     <button
+      type="button"
       onClick={logout}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        background: "transparent",
-        color: "var(--adv-text-muted, #71717a)",
-        border: "1px solid var(--adv-border, #e7e7ea)",
-        padding: "6px 12px",
-        borderRadius: 6,
-        cursor: "pointer",
-        fontFamily: "var(--adv-font, system-ui)",
-        fontSize: 13,
-        fontWeight: 500,
-      }}
+      className={ui.iconBtn}
+      data-tip="Sign out"
+      aria-label="Sign out"
     >
       <Icons.LogOut />
-      Sign out
     </button>
   );
 }

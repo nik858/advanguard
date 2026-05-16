@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Icons } from "../../_sections/_shared/Icons";
 import { LogoutButton } from "./LogoutButton";
 import styles from "./layout.module.css";
+import ui from "./ui.module.css";
 
 export function TopBar() {
   return (
@@ -20,19 +21,19 @@ export function TopBar() {
           href="/"
           target="_blank"
           rel="noreferrer"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            color: "#71717a",
-            textDecoration: "none",
-            fontSize: 13,
-            fontWeight: 500,
-            padding: "6px 10px",
-          }}
+          className={ui.iconBtn}
+          data-tip="View live site"
+          aria-label="View live site"
         >
           <Icons.ExternalLink />
-          View site
+        </Link>
+        <Link
+          href="/admin/settings"
+          className={ui.iconBtn}
+          data-tip="Settings"
+          aria-label="Settings"
+        >
+          <Icons.Settings />
         </Link>
         <LogoutButton />
       </div>

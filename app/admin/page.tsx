@@ -86,16 +86,6 @@ export default async function AdminHome() {
             All photos and videos uploaded from the editor.
           </div>
         </Link>
-
-        <Link href="/admin/settings" className={styles.card}>
-          <div className={styles.cardIcon}>
-            <Icons.Settings />
-          </div>
-          <div className={styles.cardTitle}>Settings</div>
-          <div className={styles.cardDesc}>
-            Integration status (GitHub, Resend, storage).
-          </div>
-        </Link>
       </div>
 
       {/* Footer status */}
