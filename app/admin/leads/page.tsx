@@ -1,32 +1,20 @@
-import { LeadsTable } from "./_components/LeadsTable";
+import contentJson from "@/content/content.json";
+import { migrateContent } from "@/types/content";
 import { listLeads } from "@/lib/db/leads";
 import { BackLink } from "../_components/BackLink";
-import ui from "../_components/ui.module.css";
+import { LeadsAdminShell } from "./_components/LeadsAdminShell";
 
 export const dynamic = "force-dynamic";
 
 export default async function LeadsPage() {
-  const rows = await listLeads({ limit: 200, offset: 0 });
+  const [rows, content] = await Promise.all([
+    listLeads({ limit: 200, offset: 0 }),
+    Promise.resolve(migrateContent(contentJson)),
+  ]);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
       <BackLink />
-      <div>
-        <div style={{ font: "600 10px/1 var(--adv-font, system-ui)", textTransform: "uppercase", letterSpacing: "0.18em", color: "#a1a1aa", marginBottom: 10 }}>
-          CRM · Leads
-        </div>
-        <h1 style={{ fontSize: 32, fontWeight: 600, margin: 0, letterSpacing: "-0.02em", lineHeight: 1.1, color: "#18181b", display: "inline-flex", alignItems: "center" }}>
-          Every lead in one place.
-          <button
-            type="button"
-            className={ui.infoTip}
-            data-tip="Inbound submissions land here automatically. Add manual leads with the + New lead button. Click any row for details."
-            aria-label="About this page"
-          >
-            ?
-          </button>
-        </h1>
-      </div>
-      <LeadsTable initialRows={rows} />
+      <LeadsAdminShell content={content} rows={rows} />
     </div>
   );
 }

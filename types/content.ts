@@ -180,6 +180,30 @@ export const FooterSchema = z.object({
 });
 export type FooterContent = z.infer<typeof FooterSchema>;
 
+/* ---------- Admin page labels (editable from the admin itself) ---------- */
+
+export const AdminLeadsSchema = z.object({
+  eyebrow: z.string(),
+  title: z.string(),
+  tooltip: z.string(),
+});
+export type AdminLeadsContent = z.infer<typeof AdminLeadsSchema>;
+
+export const AdminSchema = z.object({
+  leads: AdminLeadsSchema,
+});
+export type AdminContent = z.infer<typeof AdminSchema>;
+
+/** Defaults used when content.json predates the admin block. */
+export const DEFAULT_ADMIN: AdminContent = {
+  leads: {
+    eyebrow: "CRM · Leads",
+    title: "Every lead in one place.",
+    tooltip:
+      "Inbound submissions land here automatically. Add manual leads with the + New lead button. Click any row for details.",
+  },
+};
+
 /* ---------- v1 (legacy, fixed keys) ---------- */
 
 export const ContentSchemaV1 = z.object({
@@ -221,6 +245,7 @@ export const ContentSchemaV2 = z.object({
   header: HeaderSchema,
   footer: FooterSchema,
   sections: z.array(SectionSchema),
+  admin: AdminSchema.default(DEFAULT_ADMIN),
 });
 export type ContentV2 = z.infer<typeof ContentSchemaV2>;
 
@@ -263,6 +288,7 @@ export function migrateContent(raw: unknown): ContentV2 {
     header: v1.header,
     footer: v1.footer,
     sections,
+    admin: DEFAULT_ADMIN,
   });
 }
 

@@ -426,5 +426,12 @@
         }
       }
     }
-  ]
+  ],
+  "admin": {
+    "leads": {
+      "eyebrow": "CRM · Leads",
+      "title": "Every lead in one place.",
+      "tooltip": "Inbound submissions land here automatically. Add manual leads with the + New lead button. Click any row for details."
+    }
+  }
 }
