@@ -1,20 +1,17 @@
 "use client";
 import { EditorProvider } from "@/app/_editor/EditorProvider";
 import { Edit } from "@/app/_editor/Edit";
-import { PublishBar } from "@/app/_editor/PublishBar";
 import type { Content } from "@/types/content";
 import type { Lead } from "@/lib/db/schema";
 import { LeadsTable } from "./LeadsTable";
+import { PublishPill } from "./PublishPill";
 import ui from "../../_components/ui.module.css";
 
 export function LeadsAdminShell({ content, rows }: { content: Content; rows: Lead[] }) {
   const admin = content.admin.leads;
   return (
     <EditorProvider initial={content}>
-      <div style={{ marginInline: -24, marginTop: -28 }}>
-        <PublishBar />
-      </div>
-      <div style={{ marginTop: 28 }}>
+      <div>
         <div
           style={{
             font: "600 10px/1 var(--adv-font, system-ui)",
@@ -59,6 +56,7 @@ export function LeadsAdminShell({ content, rows }: { content: Content; rows: Lea
       <div style={{ marginTop: 28 }}>
         <LeadsTable initialRows={rows} />
       </div>
+      <PublishPill />
     </EditorProvider>
   );
 }
