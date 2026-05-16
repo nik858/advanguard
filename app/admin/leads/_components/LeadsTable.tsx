@@ -2,6 +2,8 @@
 import { useMemo, useState } from "react";
 import styles from "../leads.module.css";
 import { StatusBadge } from "./StatusBadge";
+import { LeadDetailDrawer } from "./LeadDetailDrawer";
+import { NewLeadDialog } from "./NewLeadDialog";
 import type { Lead, LeadStatus } from "@/lib/db/schema";
 
 const STATUS_FILTERS: Array<{ key: "all" | LeadStatus; label: string }> = [
@@ -25,9 +27,12 @@ function timeAgo(date: Date | string): string {
 }
 
 export function LeadsTable({ initialRows }: { initialRows: Lead[] }) {
-  const [rows] = useState<Lead[]>(initialRows);
+  const [rows, setRows] = useState<Lead[]>(initialRows);
   const [filter, setFilter] = useState<"all" | LeadStatus>("all");
   const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [showNewDialog, setShowNewDialog] = useState(false);
+  const selected = useMemo(() => rows.find((r) => r.id === selectedId) ?? null, [rows, selectedId]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -64,7 +69,9 @@ export function LeadsTable({ initialRows }: { initialRows: Lead[] }) {
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <a href="/api/admin/leads/export" download className={`${styles.btn} ${styles.btnGhost}`}>Export CSV</a>
-          {/* "+ New lead" button is added by NewLeadDialog in Task 18 */}
+          <button type="button" className={styles.btn} onClick={() => setShowNewDialog(true)}>
+            + New lead
+          </button>
         </div>
       </div>
 
@@ -85,7 +92,11 @@ export function LeadsTable({ initialRows }: { initialRows: Lead[] }) {
             </thead>
             <tbody>
               {filtered.map((r) => (
-                <tr key={r.id}>
+                <tr
+                  key={r.id}
+                  data-selected={r.id === selectedId}
+                  onClick={() => setSelectedId(r.id)}
+                >
                   <td className={styles.cellEmail}>{r.email}</td>
                   <td>{r.firstName ?? <span className={styles.cellMuted}>—</span>}</td>
                   <td className={styles.cellMuted}>{r.domain ?? "—"}</td>
@@ -98,6 +109,20 @@ export function LeadsTable({ initialRows }: { initialRows: Lead[] }) {
           </table>
         </div>
       )}
+
+      {showNewDialog && (
+        <NewLeadDialog
+          onClose={() => setShowNewDialog(false)}
+          onCreated={(row) => setRows((prev) => [row, ...prev])}
+        />
+      )}
+
+      <LeadDetailDrawer
+        lead={selected}
+        onClose={() => setSelectedId(null)}
+        onUpdate={(updated) => setRows((prev) => prev.map((r) => (r.id === updated.id ? updated : r)))}
+        onDelete={(id) => setRows((prev) => prev.filter((r) => r.id !== id))}
+      />
     </div>
   );
 }
