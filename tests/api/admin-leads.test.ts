@@ -26,6 +26,7 @@ const fakeRow = {
   auditOutcome: null,
   auditReason: null,
   signals: null,
+  clinicType: null,
   createdAt: new Date("2026-05-14T12:00:00Z"),
   updatedAt: new Date("2026-05-14T12:00:00Z"),
 };
