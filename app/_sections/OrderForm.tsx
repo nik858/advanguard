@@ -80,7 +80,17 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
             name="clinic_type"
             className="ac-order__field"
             defaultValue=""
-            style={{ marginTop: 8 }}
+            style={{
+              marginTop: 8,
+              WebkitAppearance: "none",
+              MozAppearance: "none",
+              appearance: "none",
+              backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2371717a' stroke-width='1.5' d='m4 6 4 4 4-4'/%3e%3c/svg%3e\")",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "right 16px center",
+              backgroundSize: "14px",
+              paddingRight: 40,
+            }}
           >
             <option value="" disabled hidden>Type of clinic (optional)</option>
             {CLINIC_TYPES.map((v) => (
