@@ -5,6 +5,7 @@ import { checkLimit, clientIp, leadLimiter } from "@/lib/ratelimit";
 import { runAudit } from "@/lib/audit/index";
 import { extractDomain } from "@/lib/audit/domain";
 import { insertLead } from "@/lib/db/leads";
+import { CLINIC_TYPES } from "@/lib/leads/clinic-types";
 import type { Lead } from "@/types/audit";
 
 // The audit runs in the background via after(); give the function room to finish.
@@ -22,6 +23,7 @@ const BodySchema = z.object({
   email: z.string().email(),
   first_name: z.string().optional(),
   phone: z.string().optional(),
+  clinic_type: z.enum(CLINIC_TYPES).optional(),
   website: z.string().optional(), // honeypot
 });
 
@@ -52,6 +54,7 @@ export async function POST(req: Request) {
       phone: parsed.data.phone ?? null,
       domain,
       source: "inbound",
+      clinicType: parsed.data.clinic_type ?? null,
     });
   } catch (e) {
     console.error("[lead] db insert failed", { domain, error: String(e) });

@@ -61,4 +61,28 @@ describe("POST /api/lead", () => {
     expect(res.status).toBe(200);
     expect(afterCb).toHaveLength(0);
   });
+
+  it("persists a valid clinic_type", async () => {
+    const insertLead = vi.fn().mockResolvedValue({ id: "00000000-0000-0000-0000-000000000001" });
+    vi.doMock("@/lib/db/leads", () => ({ insertLead }));
+    const { POST } = await import("@/app/api/lead/route");
+    const res = await POST(mkReq({ email: "matt@clinicabc.com", clinic_type: "dental_implant" }));
+    expect(res.status).toBe(200);
+    expect(insertLead).toHaveBeenCalledWith(expect.objectContaining({ clinicType: "dental_implant" }));
+  });
+
+  it("treats a missing clinic_type as null", async () => {
+    const insertLead = vi.fn().mockResolvedValue({ id: "00000000-0000-0000-0000-000000000001" });
+    vi.doMock("@/lib/db/leads", () => ({ insertLead }));
+    const { POST } = await import("@/app/api/lead/route");
+    const res = await POST(mkReq({ email: "matt@clinicabc.com" }));
+    expect(res.status).toBe(200);
+    expect(insertLead).toHaveBeenCalledWith(expect.objectContaining({ clinicType: null }));
+  });
+
+  it("rejects an unknown clinic_type value", async () => {
+    const { POST } = await import("@/app/api/lead/route");
+    const res = await POST(mkReq({ email: "matt@clinicabc.com", clinic_type: "not_a_thing" }));
+    expect(res.status).toBe(400);
+  });
 });
