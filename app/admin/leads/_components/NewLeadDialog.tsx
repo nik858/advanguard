@@ -70,6 +70,16 @@ export function NewLeadDialog({ onClose, onCreated }: Props) {
             className={styles.formInput}
             value={clinicType}
             onChange={(e) => setClinicType(e.target.value as ClinicType | "")}
+            style={{
+              WebkitAppearance: "none",
+              MozAppearance: "none",
+              appearance: "none",
+              backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2371717a' stroke-width='1.5' d='m4 6 4 4 4-4'/%3e%3c/svg%3e\")",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "right 12px center",
+              backgroundSize: "14px",
+              paddingRight: 36,
+            }}
           >
             <option value="">—</option>
             {CLINIC_TYPES.map((v) => (

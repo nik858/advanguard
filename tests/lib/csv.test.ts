@@ -82,6 +82,10 @@ describe("leadsToCsv", () => {
   it("emits an empty cell for a null clinic_type", () => {
     const csv = leadsToCsv([{ ...row, clinicType: null }]);
     const lines = csv.slice(1).split("\n").filter(Boolean);
-    expect(lines[1]).not.toContain('"dental_implant"');
+    const header = lines[0].split(",");
+    const dataCells = lines[1].split(",");
+    const clinicIdx = header.indexOf('"clinic_type"');
+    expect(clinicIdx).toBeGreaterThanOrEqual(0);
+    expect(dataCells[clinicIdx]).toBe('""');
   });
 });
