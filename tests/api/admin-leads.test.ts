@@ -84,6 +84,43 @@ describe("/api/admin/leads", () => {
       source: "manual",
     }));
   });
+
+  it("POST persists a valid clinic_type on a manual lead", async () => {
+    const insertLead = vi.fn().mockResolvedValue(fakeRow);
+    vi.doMock("@/lib/db/leads", () => ({ insertLead }));
+    const { POST } = await import("@/app/api/admin/leads/route");
+    const res = await POST(makeReq("http://x/api/admin/leads", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: "matt@brightsmile.com", clinic_type: "med_spa" }),
+    }));
+    expect(res.status).toBe(201);
+    expect(insertLead).toHaveBeenCalledWith(expect.objectContaining({ clinicType: "med_spa" }));
+  });
+
+  it("POST stores null when clinic_type is omitted", async () => {
+    const insertLead = vi.fn().mockResolvedValue(fakeRow);
+    vi.doMock("@/lib/db/leads", () => ({ insertLead }));
+    const { POST } = await import("@/app/api/admin/leads/route");
+    const res = await POST(makeReq("http://x/api/admin/leads", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: "matt@brightsmile.com" }),
+    }));
+    expect(res.status).toBe(201);
+    expect(insertLead).toHaveBeenCalledWith(expect.objectContaining({ clinicType: null }));
+  });
+
+  it("POST rejects an unknown clinic_type", async () => {
+    vi.doMock("@/lib/db/leads", () => ({ insertLead: vi.fn() }));
+    const { POST } = await import("@/app/api/admin/leads/route");
+    const res = await POST(makeReq("http://x/api/admin/leads", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: "matt@brightsmile.com", clinic_type: "garbage" }),
+    }));
+    expect(res.status).toBe(400);
+  });
 });
 
 describe("/api/admin/leads/[id]", () => {

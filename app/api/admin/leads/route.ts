@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 import { verifySession, SESSION_CONFIG } from "@/lib/auth";
 import { insertLead, listLeads } from "@/lib/db/leads";
+import { CLINIC_TYPES } from "@/lib/leads/clinic-types";
 
 export const runtime = "nodejs";
 
@@ -22,6 +23,7 @@ const CreateBody = z.object({
   first_name: z.string().trim().optional().nullable(),
   phone: z.string().trim().optional().nullable(),
   domain: z.string().trim().optional().nullable(),
+  clinic_type: z.enum(CLINIC_TYPES).optional().nullable(),
 });
 
 export async function GET(req: Request) {
@@ -51,6 +53,7 @@ export async function POST(req: Request) {
     phone: parsed.data.phone ?? null,
     domain: parsed.data.domain ?? null,
     source: "manual",
+    clinicType: parsed.data.clinic_type ?? null,
   });
   return NextResponse.json({ row }, { status: 201 });
 }
