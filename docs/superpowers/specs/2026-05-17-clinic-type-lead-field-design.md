@@ -241,7 +241,7 @@ Extend existing test files (no new test files required):
 - Manual create with omitted `clinic_type` → `null`
 - Manual create with invalid value → 400
 
-### `tests/csv.test.ts`
+### `tests/lib/csv.test.ts`
 - Export contains `clinic_type` column in the header
 - Rows with `NULL` clinic_type emit empty string for that column
 - Rows with a value emit the snake_case form
@@ -260,13 +260,14 @@ No unit tests for the React components — they're thin pass-throughs over the e
 - `app/api/lead/route.ts`
 - `app/api/admin/leads/route.ts`
 - `app/api/admin/leads/export/route.ts`
+- `lib/csv.ts`
 - `app/_sections/OrderForm.tsx`
 - `app/admin/leads/_components/LeadsTable.tsx`
 - `app/admin/leads/_components/LeadDetailDrawer.tsx`
 - `app/admin/leads/_components/NewLeadDialog.tsx`
 - `tests/api/lead.test.ts`
 - `tests/api/admin-leads.test.ts`
-- `tests/csv.test.ts`
+- `tests/lib/csv.test.ts`
 
 ## Build order
 
