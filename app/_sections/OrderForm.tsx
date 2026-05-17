@@ -5,6 +5,7 @@ import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { mediaUrl, type OrderContent } from "@/types/content";
+import { CLINIC_TYPES, CLINIC_TYPE_LABELS } from "@/lib/leads/clinic-types";
 
 export function OrderForm({ content: order, onCheckout, edit = false }: { content: OrderContent; onCheckout?: () => void; edit?: boolean }) {
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "err">("idle");
@@ -14,7 +15,12 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
     e.preventDefault();
     setStatus("busy");
     const fd = new FormData(e.currentTarget);
-    const body = { email: fd.get("email"), website: fd.get("website") };
+    const clinic = fd.get("clinic_type");
+    const body = {
+      email: fd.get("email"),
+      clinic_type: typeof clinic === "string" && clinic ? clinic : undefined,
+      website: fd.get("website"),
+    };
     const res = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
     if (res.ok) { setStatus("ok"); onCheckout?.(); }
     else {
@@ -68,6 +74,19 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
             className="ac-order__field"
             autoComplete="email"
           />
+          <label htmlFor="clinic_type" className="visually-hidden">Type of clinic</label>
+          <select
+            id="clinic_type"
+            name="clinic_type"
+            className="ac-order__field"
+            defaultValue=""
+            style={{ marginTop: 8 }}
+          >
+            <option value="" disabled hidden>Type of clinic (optional)</option>
+            {CLINIC_TYPES.map((v) => (
+              <option key={v} value={v}>{CLINIC_TYPE_LABELS[v]}</option>
+            ))}
+          </select>
           {/* Honeypot: positioned offscreen, bots fill it but humans don't */}
           <input
             type="text"
