@@ -15,7 +15,7 @@ const row: Lead = {
   auditOutcome: "success",
   auditReason: null,
   signals: { url: "https://brightsmile.com" },
-  clinicType: null,
+  clinicType: "dental_implant",
   createdAt: new Date("2026-05-14T12:00:00.000Z"),
   updatedAt: new Date("2026-05-14T12:00:00.000Z"),
 };
@@ -54,7 +54,7 @@ describe("leadsToCsv", () => {
     const csv = leadsToCsv([]);
     const lines = csv.slice(1).split("\n").filter(Boolean);
     expect(lines).toHaveLength(1);
-    expect(lines[0]).toMatch(/^"id","email","first_name","phone","domain","source","status","audit_outcome","created_at","updated_at"$/);
+    expect(lines[0]).toMatch(/^"id","email","first_name","phone","domain","clinic_type","source","status","audit_outcome","created_at","updated_at"$/);
   });
 
   it("emits the expected columns and skips audit_subject / audit_body / signals", () => {
@@ -71,5 +71,17 @@ describe("leadsToCsv", () => {
     expect(data).toContain('"inbound"');
     expect(data).toContain('"new"');
     expect(data).toContain('"success"');
+  });
+
+  it("emits the clinic_type cell with the stored snake_case value", () => {
+    const csv = leadsToCsv([row]);
+    const lines = csv.slice(1).split("\n").filter(Boolean);
+    expect(lines[1]).toContain('"dental_implant"');
+  });
+
+  it("emits an empty cell for a null clinic_type", () => {
+    const csv = leadsToCsv([{ ...row, clinicType: null }]);
+    const lines = csv.slice(1).split("\n").filter(Boolean);
+    expect(lines[1]).not.toContain('"dental_implant"');
   });
 });
