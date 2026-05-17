@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "../leads.module.css";
 import { StatusBadge } from "./StatusBadge";
 import { LEAD_STATUSES, type Lead, type LeadStatus } from "@/lib/db/schema";
+import { CLINIC_TYPE_LABELS, type ClinicType } from "@/lib/leads/clinic-types";
 
 type Props = {
   lead: Lead | null;
@@ -77,6 +78,10 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
                   <div className={styles.kvValue}>{lead.phone ?? "—"}</div>
                   <div className={styles.kvKey}>Domain</div>
                   <div className={styles.kvValue}>{lead.domain ?? "—"}</div>
+                  <div className={styles.kvKey}>Clinic</div>
+                  <div className={styles.kvValue}>
+                    {lead.clinicType ? CLINIC_TYPE_LABELS[lead.clinicType as ClinicType] : "—"}
+                  </div>
                   <div className={styles.kvKey}>Source</div>
                   <div className={styles.kvValue}>{lead.source}</div>
                   <div className={styles.kvKey}>Created</div>
