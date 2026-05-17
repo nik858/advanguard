@@ -2,6 +2,7 @@ import "server-only";
 import { desc, eq } from "drizzle-orm";
 import { getDb } from "./client";
 import { leads, type Lead, type LeadStatus, type LeadSource, type LeadAuditOutcome } from "./schema";
+import type { ClinicType } from "@/lib/leads/clinic-types";
 
 const MAX_PAGE = 200;
 
@@ -11,6 +12,7 @@ export type InsertLeadInput = {
   phone?: string | null;
   domain?: string | null;
   source: LeadSource;
+  clinicType?: ClinicType | null;
 };
 
 export async function insertLead(input: InsertLeadInput): Promise<Lead> {
