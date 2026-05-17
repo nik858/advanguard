@@ -81,6 +81,7 @@ describe("POST /api/lead", () => {
   });
 
   it("rejects an unknown clinic_type value", async () => {
+    vi.doMock("@/lib/db/leads", () => ({ insertLead: vi.fn() }));
     const { POST } = await import("@/app/api/lead/route");
     const res = await POST(mkReq({ email: "matt@clinicabc.com", clinic_type: "not_a_thing" }));
     expect(res.status).toBe(400);
