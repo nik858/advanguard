@@ -15,6 +15,7 @@ const row: Lead = {
   auditOutcome: "success",
   auditReason: null,
   signals: { url: "https://brightsmile.com" },
+  clinicType: null,
   createdAt: new Date("2026-05-14T12:00:00.000Z"),
   updatedAt: new Date("2026-05-14T12:00:00.000Z"),
 };
