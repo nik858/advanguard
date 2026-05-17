@@ -2,6 +2,7 @@
 import { useState } from "react";
 import styles from "../leads.module.css";
 import type { Lead } from "@/lib/db/schema";
+import { CLINIC_TYPES, CLINIC_TYPE_LABELS, type ClinicType } from "@/lib/leads/clinic-types";
 
 type Props = {
   onClose: () => void;
@@ -13,6 +14,7 @@ export function NewLeadDialog({ onClose, onCreated }: Props) {
   const [firstName, setFirstName] = useState("");
   const [phone, setPhone] = useState("");
   const [domain, setDomain] = useState("");
+  const [clinicType, setClinicType] = useState<ClinicType | "">("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,6 +31,7 @@ export function NewLeadDialog({ onClose, onCreated }: Props) {
           first_name: firstName.trim() || null,
           phone: phone.trim() || null,
           domain: domain.trim() || null,
+          clinic_type: clinicType || null,
         }),
       });
       if (!res.ok) {
@@ -60,6 +63,19 @@ export function NewLeadDialog({ onClose, onCreated }: Props) {
         <label className={styles.formLabel}>
           Phone
           <input className={styles.formInput} value={phone} onChange={(e) => setPhone(e.target.value)} />
+        </label>
+        <label className={styles.formLabel}>
+          Clinic (optional)
+          <select
+            className={styles.formInput}
+            value={clinicType}
+            onChange={(e) => setClinicType(e.target.value as ClinicType | "")}
+          >
+            <option value="">—</option>
+            {CLINIC_TYPES.map((v) => (
+              <option key={v} value={v}>{CLINIC_TYPE_LABELS[v]}</option>
+            ))}
+          </select>
         </label>
         <label className={styles.formLabel}>
           Domain
