@@ -5,6 +5,7 @@ import { StatusBadge } from "./StatusBadge";
 import { LeadDetailDrawer } from "./LeadDetailDrawer";
 import { NewLeadDialog } from "./NewLeadDialog";
 import type { Lead, LeadStatus } from "@/lib/db/schema";
+import { CLINIC_TYPE_LABELS, type ClinicType } from "@/lib/leads/clinic-types";
 
 const STATUS_FILTERS: Array<{ key: "all" | LeadStatus; label: string }> = [
   { key: "all", label: "All" },
@@ -85,6 +86,7 @@ export function LeadsTable({ initialRows }: { initialRows: Lead[] }) {
                 <th>Email</th>
                 <th>Name</th>
                 <th>Domain</th>
+                <th>Clinic</th>
                 <th>Status</th>
                 <th>Source</th>
                 <th>Created</th>
@@ -100,6 +102,9 @@ export function LeadsTable({ initialRows }: { initialRows: Lead[] }) {
                   <td className={styles.cellEmail}>{r.email}</td>
                   <td>{r.firstName ?? <span className={styles.cellMuted}>—</span>}</td>
                   <td className={styles.cellMuted}>{r.domain ?? "—"}</td>
+                  <td className={styles.cellMuted}>
+                    {r.clinicType ? CLINIC_TYPE_LABELS[r.clinicType as ClinicType] : "—"}
+                  </td>
                   <td><StatusBadge status={r.status as LeadStatus} /></td>
                   <td><span className={styles.sourcePill}>{r.source}</span></td>
                   <td className={styles.cellTime}>{timeAgo(r.createdAt)}</td>
