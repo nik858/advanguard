@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { RICHTEXT_PALETTE } from "@/lib/richtext/palette";
 
 type Props = {
@@ -143,8 +144,12 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
   const activeUnder = typeof document !== "undefined" && document.queryCommandState?.("underline");
 
   if (!pos) return null;
+  if (typeof document === "undefined") return null;
 
-  return (
+  // Portal to document.body so that ancestor `transform` / `will-change` rules
+  // (used by the `Reveal` scroll-fade-in wrapper) don't promote the toolbar's
+  // containing block and break `position: fixed` viewport-relative positioning.
+  return createPortal(
     <div
       ref={ref}
       data-rich-text-toolbar="true"
@@ -202,6 +207,7 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
           </div>
         </>
       )}
-    </div>
+    </div>,
+    document.body,
   );
 }
