@@ -3,6 +3,7 @@ import { useState } from "react";
 import { CTA } from "./_shared/CTA";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { mediaUrl, type OrderContent } from "@/types/content";
@@ -34,7 +35,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
   return (
     <aside className="ac-order" aria-label="Order form">
       <div className="ac-order__strip">
-        <Edit edit={edit} path="order.badge">{order.badge}</Edit>
+        <EditRich edit={edit} path="order.badge">{order.badge}</EditRich>
       </div>
       {(mediaUrl(order.image) || edit) && (
         <div className="ac-order__image" style={{ position: "relative" }}>
@@ -50,10 +51,10 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
       )}
       <div className="ac-order__product">
         <div className="ac-order__product-name">
-          <Edit edit={edit} path="order.productName">{order.productName}</Edit>
+          <EditRich edit={edit} path="order.productName">{order.productName}</EditRich>
         </div>
         <div className="ac-order__product-sub">
-          <Edit edit={edit} path="order.productSubtitle">{order.productSubtitle}</Edit>
+          <EditRich edit={edit} path="order.productSubtitle">{order.productSubtitle}</EditRich>
         </div>
       </div>
       <div className="ac-order__inner">
@@ -74,7 +75,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           </div>
         </div>
         <p className="ac-order__desc">
-          <Edit edit={edit} path="order.description" multiline>{order.description}</Edit>
+          <EditRich edit={edit} path="order.description" multiline>{order.description}</EditRich>
         </p>
         <form onSubmit={onSubmit} aria-label="Order">
           <label htmlFor="email" className="visually-hidden">Email</label>
@@ -137,7 +138,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
         </div>
         <div className="ac-order__guarantee-row">
           <div className="ac-order__guarantee-text">
-            <Edit edit={edit} path="order.guaranteeText">{order.guaranteeText}</Edit>
+            <EditRich edit={edit} path="order.guaranteeText">{order.guaranteeText}</EditRich>
           </div>
         </div>
         <div className="ac-order__rating">

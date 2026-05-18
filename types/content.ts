@@ -57,18 +57,23 @@ export const HeroSchema = z.object({
 export type HeroContent = z.infer<typeof HeroSchema>;
 
 export const OrderSchema = z.object({
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   badge: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   productName: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   productSubtitle: z.string(),
   image: MediaRefSchema.optional(),
   limitedTime: z.string(),
   priceWas: z.string(),
   priceNow: z.string(),
   priceSubLine: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   description: z.string(),
   ctaTagline: z.string(),
   ctaLabel: z.string(),
   secureText: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   guaranteeText: z.string(),
   ratingText: z.string(),
   miniTestimonials: z.array(
