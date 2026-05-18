@@ -36,11 +36,16 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
   const [pos, setPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
   useEffect(() => {
-    const rect = range.getBoundingClientRect();
-    if (rect.width === 0 && rect.height === 0) return;
-    const top = rect.top - 44;
-    const left = Math.max(8, rect.left + rect.width / 2 - 110);
-    setPos({ top, left });
+    function reposition() {
+      const rect = range.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) return;
+      const top = rect.top - 44;
+      const left = Math.max(8, rect.left + rect.width / 2 - 110);
+      setPos({ top, left });
+    }
+    reposition();
+    window.addEventListener("scroll", reposition, { passive: true });
+    return () => window.removeEventListener("scroll", reposition);
   }, [range]);
 
   function applyToggle(tag: "strong" | "em" | "u") {
