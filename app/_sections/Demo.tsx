@@ -1,6 +1,7 @@
 import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import type { DemoContent } from "@/types/content";
 
@@ -10,7 +11,7 @@ export function Demo({ content: c, edit = false }: { content: DemoContent; edit?
       <div className="ac-demo__inner">
         <Reveal>
           <h2 className="ac-demo__h2" id="demo-h2">
-            <Edit edit={edit} path="demo.h2">{c.h2}</Edit>
+            <EditRich edit={edit} path="demo.h2">{c.h2}</EditRich>
           </h2>
         </Reveal>
         <Reveal delay={120}>

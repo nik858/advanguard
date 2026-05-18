@@ -1,6 +1,7 @@
 import { Reveal } from "./_shared/Reveal";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import type { GuaranteeContent } from "@/types/content";
 
 export function GuaranteeSection({ content: c, edit = false }: { content: GuaranteeContent; edit?: boolean }) {
@@ -10,12 +11,12 @@ export function GuaranteeSection({ content: c, edit = false }: { content: Guaran
         <Reveal><GuaranteeBadge size={124}/></Reveal>
         <Reveal delay={80}>
           <h2 className="ac-guarantee__h2" id="guarantee-h2">
-            <Edit edit={edit} path="guarantee.h2">{c.h2}</Edit>
+            <EditRich edit={edit} path="guarantee.h2">{c.h2}</EditRich>
           </h2>
         </Reveal>
         <Reveal delay={140}>
           <div className="ac-guarantee__body" style={{ whiteSpace: "pre-line" }}>
-            <Edit edit={edit} path="guarantee.body" multiline>{c.body}</Edit>
+            <EditRich edit={edit} path="guarantee.body" multiline>{c.body}</EditRich>
           </div>
         </Reveal>
       </div>

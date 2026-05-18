@@ -2,6 +2,7 @@ import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { TestimonialTypeToggle } from "../_editor/TestimonialTypeToggle";
@@ -41,10 +42,10 @@ export function Testimonials({ content: c, edit = false }: { content: Testimonia
             <span className="ac-testi__rating-stars" aria-label="5 out of 5"><Stars/></span>
           </div>
           <h2 className="ac-testi__h2" id="testi-h2">
-            <Edit edit={edit} path="testimonials.h2">{c.h2}</Edit>
+            <EditRich edit={edit} path="testimonials.h2">{c.h2}</EditRich>
           </h2>
           <p className="ac-testi__pull">
-            <Edit edit={edit} path="testimonials.pullQuote">{c.pullQuote}</Edit>
+            <EditRich edit={edit} path="testimonials.pullQuote">{c.pullQuote}</EditRich>
           </p>
         </Reveal>
         <div className="ac-testi__grid">

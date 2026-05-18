@@ -5,6 +5,7 @@ import { Book } from "./_shared/Book";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { mediaUrl, type StackContent } from "@/types/content";
@@ -17,7 +18,7 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
       <div className="ac-stack__inner">
         <Reveal>
           <h2 className="ac-stack__h2" id="stack-h2">
-            <Edit edit={edit} path="stack.h2">{c.h2}</Edit>
+            <EditRich edit={edit} path="stack.h2">{c.h2}</EditRich>
           </h2>
         </Reveal>
         <Reveal delay={120}>
@@ -73,7 +74,7 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
           <div className="ac-only__guarantee-row">
             <GuaranteeBadge size={64}/>
             <div className="ac-only__guarantee-text">
-              <Edit edit={edit} path="stack.guaranteeText">{c.guaranteeText}</Edit>
+              <EditRich edit={edit} path="stack.guaranteeText">{c.guaranteeText}</EditRich>
             </div>
           </div>
         </Reveal>

@@ -117,6 +117,7 @@ export const OnlySystemSchema = z.object({
 export type OnlySystemContent = z.infer<typeof OnlySystemSchema>;
 
 export const DemoSchema = z.object({
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   h2: z.string(),
   videoUrl: z.string(),
   videoPoster: MediaRefSchema,
@@ -125,7 +126,9 @@ export type DemoContent = z.infer<typeof DemoSchema>;
 
 export const TestimonialsSchema = z.object({
   rating: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   h2: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   pullQuote: z.string(),
   items: z.array(
     z.discriminatedUnion("type", [
@@ -151,6 +154,7 @@ export const TestimonialsSchema = z.object({
 export type TestimonialsContent = z.infer<typeof TestimonialsSchema>;
 
 export const StackSchema = z.object({
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   h2: z.string(),
   bigStackImg: MediaRefSchema,
   items: z.array(
@@ -167,24 +171,30 @@ export const StackSchema = z.object({
   ),
   ctaTagline: z.string(),
   ctaLabel: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   guaranteeText: z.string(),
 });
 export type StackContent = z.infer<typeof StackSchema>;
 
 export const GuaranteeSchema = z.object({
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   h2: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   body: z.string(),
 });
 export type GuaranteeContent = z.infer<typeof GuaranteeSchema>;
 
 export const FaqSchema = z.object({
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   h2: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   sub: z.string(),
   items: z.array(z.object({ q: z.string(), a: z.string() })),
 });
 export type FaqContent = z.infer<typeof FaqSchema>;
 
 export const FooterSchema = z.object({
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   disclaimer: z.string(),
   ctaLabel: z.string(),
   ctaTagline: z.string(),

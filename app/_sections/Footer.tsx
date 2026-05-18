@@ -2,6 +2,7 @@
 import { Reveal } from "./_shared/Reveal";
 import { CTA } from "./_shared/CTA";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { mediaUrl, type FooterContent, type HeaderContent } from "@/types/content";
 
 export function Footer({ content: c, header: h, onCheckout, edit = false }: {
@@ -16,7 +17,7 @@ export function Footer({ content: c, header: h, onCheckout, edit = false }: {
       <div className="ac-footer__inner">
         <Reveal>
           <p className="ac-footer__disclaimer">
-            <Edit edit={edit} path="footer.disclaimer" multiline>{c.disclaimer}</Edit>
+            <EditRich edit={edit} path="footer.disclaimer" multiline>{c.disclaimer}</EditRich>
           </p>
         </Reveal>
         <Reveal delay={80} className="ac-footer__stack">

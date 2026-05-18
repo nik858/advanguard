@@ -1,6 +1,7 @@
 import { Reveal } from "./_shared/Reveal";
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import type { FaqContent } from "@/types/content";
 
@@ -10,10 +11,10 @@ export function FAQ({ content: c, edit = false }: { content: FaqContent; edit?: 
       <div className="ac-faq__inner">
         <Reveal className="ac-faq__head">
           <h2 className="ac-faq__h2" id="faq-h2">
-            <Edit edit={edit} path="faq.h2">{c.h2}</Edit>
+            <EditRich edit={edit} path="faq.h2">{c.h2}</EditRich>
           </h2>
           <p className="ac-faq__sub">
-            <Edit edit={edit} path="faq.sub">{c.sub}</Edit>
+            <EditRich edit={edit} path="faq.sub">{c.sub}</EditRich>
           </p>
         </Reveal>
         <div className="ac-faq__grid">
