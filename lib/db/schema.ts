@@ -15,6 +15,7 @@ export const leads = pgTable(
     auditOutcome: text("audit_outcome"),
     auditReason: text("audit_reason"),
     signals: jsonb("signals"),
+    enrichment: jsonb("enrichment"),
     clinicType: text("clinic_type"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),

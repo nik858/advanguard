@@ -3,6 +3,7 @@ import { desc, eq } from "drizzle-orm";
 import { getDb } from "./client";
 import { leads, type Lead, type LeadStatus, type LeadSource, type LeadAuditOutcome } from "./schema";
 import type { ClinicType } from "@/lib/leads/clinic-types";
+import type { Enrichment } from "@/types/audit";
 
 const MAX_PAGE = 200;
 
@@ -27,6 +28,7 @@ export type UpdateLeadAuditInput = {
   outcome: LeadAuditOutcome;
   reason?: string | null;
   signals?: unknown | null;
+  enrichment?: Enrichment | null;
 };
 
 export async function updateLeadAudit(input: UpdateLeadAuditInput): Promise<void> {
@@ -38,6 +40,7 @@ export async function updateLeadAudit(input: UpdateLeadAuditInput): Promise<void
       auditOutcome: input.outcome,
       auditReason: input.reason ?? null,
       signals: (input.signals ?? null) as Lead["signals"],
+      enrichment: (input.enrichment ?? null) as Lead["enrichment"],
       updatedAt: new Date(),
     })
     .where(eq(leads.id, input.id));

@@ -122,3 +122,12 @@ export type AuditEmail = {
   subject: string;
   body: string;
 };
+
+export type Enrichment = {
+  phone?: string;
+  businessName?: string;
+  address?: string;
+  instagram?: string;
+  facebook?: string;
+  bookingUrl?: string;
+};
