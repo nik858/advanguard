@@ -123,6 +123,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           <div style={{ height: 12 }} />
           <CTA
             type={edit ? "button" : "submit"}
+            edit={edit}
             tag={<Edit edit={edit} path="order.ctaTagline">{order.ctaTagline}</Edit>}
             label={status === "busy"
               ? "Sending…"
