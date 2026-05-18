@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { CTA } from "./_shared/CTA";
-import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
@@ -146,7 +145,6 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           <span className="ac-order__rating-text">
             <Edit edit={edit} path="order.ratingText">{order.ratingText}</Edit>
           </span>
-          <span className="ac-order__rating-stars" aria-label="5 out of 5 stars"><Stars/></span>
         </div>
         <div className="ac-order__mini-testimonials">
           <RepeatableList

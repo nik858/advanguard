@@ -2,7 +2,6 @@
 import { Reveal } from "./_shared/Reveal";
 import { CTA } from "./_shared/CTA";
 import { Book } from "./_shared/Book";
-import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
@@ -82,7 +81,6 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
             <Edit edit={edit} path="onlySystem.ctaSubLink">{c.ctaSubLink}</Edit>
           </a>
           <div className="ac-only__guarantee-row">
-            <GuaranteeBadge size={64}/>
             <div className="ac-only__guarantee-text">
               <Edit edit={edit} path="onlySystem.guaranteeText">{c.guaranteeText}</Edit>
             </div>

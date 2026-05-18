@@ -2,7 +2,6 @@
 import { Reveal } from "./_shared/Reveal";
 import { CTA } from "./_shared/CTA";
 import { Book } from "./_shared/Book";
-import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Icons } from "./_shared/Icons";
 import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
@@ -72,7 +71,6 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
         <Reveal className="ac-only__cta-wrap" delay={200}>
           <CTA tag={c.ctaTagline} label={c.ctaLabel} onClick={onCheckout}/>
           <div className="ac-only__guarantee-row">
-            <GuaranteeBadge size={64}/>
             <div className="ac-only__guarantee-text">
               <EditRich edit={edit} path="stack.guaranteeText">{c.guaranteeText}</EditRich>
             </div>
