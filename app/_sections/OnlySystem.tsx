@@ -5,7 +5,9 @@ import { Book } from "./_shared/Book";
 import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
+import { MediaSlot } from "../_editor/MediaSlot";
 import type { OnlySystemContent } from "@/types/content";
+import { mediaUrl } from "@/types/content";
 
 export function OnlySystem({ content: c, onCheckout, edit = false }: { content: OnlySystemContent; onCheckout?: () => void; edit?: boolean }) {
   return (
@@ -37,14 +39,39 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
             ))}
             </RepeatableList>
           </div>
-          <div className="ac-only__book-stage">
-            <div className="ac-only__papers" aria-hidden="true">
-              <div className="ac-only__paper ac-only__paper--blue" style={{ transform: "translate(-180px,-10px) rotate(-12deg)" }}><div className="ac-only__paper-bar"></div><div className="ac-only__paper-title">Build A High Performing Team</div><div className="ac-only__paper-body">{Array.from({ length: 9 }).map((_,i) => <div key={i} className="ac-only__paper-line"/>)}</div></div>
-              <div className="ac-only__paper ac-only__paper--red"  style={{ transform: "translate(-90px,80px) rotate(-30deg)" }}><div className="ac-only__paper-bar"></div><div className="ac-only__paper-title">Automatic Marketing Machine</div><div className="ac-only__paper-body">{Array.from({ length: 9 }).map((_,i) => <div key={i} className="ac-only__paper-line"/>)}</div></div>
-              <div className="ac-only__paper ac-only__paper--red"  style={{ transform: "translate(180px,-10px) rotate(12deg)" }}><div className="ac-only__paper-bar"></div><div className="ac-only__paper-title">7-Figure Digital Business</div><div className="ac-only__paper-body">{Array.from({ length: 9 }).map((_,i) => <div key={i} className="ac-only__paper-line"/>)}</div></div>
-              <div className="ac-only__paper ac-only__paper--blue" style={{ transform: "translate(90px,80px) rotate(30deg)" }}><div className="ac-only__paper-bar"></div><div className="ac-only__paper-title">Build A Community</div><div className="ac-only__paper-body">{Array.from({ length: 9 }).map((_,i) => <div key={i} className="ac-only__paper-line"/>)}</div></div>
-            </div>
-            <div className="ac-only__book"><Book/></div>
+          <div className="ac-only__book-stage" style={{ position: "relative" }}>
+            {mediaUrl(c.centerImage) ? (
+              <>
+                <img
+                  src={mediaUrl(c.centerImage)}
+                  alt={typeof c.centerImage === "object" && c.centerImage ? (c.centerImage.alt ?? "") : ""}
+                  className="ac-only__center-img"
+                  style={{ maxWidth: "100%", maxHeight: 480, objectFit: "contain", display: "block", margin: "0 auto" }}
+                />
+                {edit && <MediaSlot path="onlySystem.centerImage" accept="image" compact />}
+              </>
+            ) : (
+              <>
+                <div className="ac-only__papers" aria-hidden={edit ? undefined : "true"}>
+                  {[
+                    { cls: "ac-only__paper--blue", transform: "translate(-180px,-10px) rotate(-12deg)", defaultTitle: "Build A High Performing Team" },
+                    { cls: "ac-only__paper--red",  transform: "translate(-90px,80px) rotate(-30deg)",   defaultTitle: "Automatic Marketing Machine" },
+                    { cls: "ac-only__paper--red",  transform: "translate(180px,-10px) rotate(12deg)",   defaultTitle: "7-Figure Digital Business" },
+                    { cls: "ac-only__paper--blue", transform: "translate(90px,80px) rotate(30deg)",     defaultTitle: "Build A Community" },
+                  ].map((p, i) => (
+                    <div key={i} className={`ac-only__paper ${p.cls}`} style={{ transform: p.transform }}>
+                      <div className="ac-only__paper-bar"></div>
+                      <div className="ac-only__paper-title">
+                        <Edit edit={edit} path={`onlySystem.paperTitles.${i}`}>{c.paperTitles?.[i] ?? p.defaultTitle}</Edit>
+                      </div>
+                      <div className="ac-only__paper-body">{Array.from({ length: 9 }).map((_, j) => <div key={j} className="ac-only__paper-line"/>)}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="ac-only__book"><Book/></div>
+                {edit && <MediaSlot path="onlySystem.centerImage" accept="image" compact />}
+              </>
+            )}
           </div>
           <div className="ac-only__col ac-only__col--right">
             <RepeatableList path="onlySystem.rightFeatures" newItem={{ title: "New feature", body: "" }} edit={edit}>

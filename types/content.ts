@@ -106,6 +106,8 @@ export const OnlySystemSchema = z.object({
   h2: z.string(),
   /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   body: z.string(),
+  centerImage: MediaRefSchema.optional(),
+  paperTitles: z.array(z.string()).optional(),
   leftFeatures: z.array(z.object({ title: z.string(), body: z.string() })),
   rightFeatures: z.array(z.object({ title: z.string(), body: z.string() })),
   stats: z.array(z.object({ value: z.string(), label: z.string() })),
