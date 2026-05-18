@@ -99,9 +99,12 @@ export const AuthoritySchema = z.object({
 export type AuthorityContent = z.infer<typeof AuthoritySchema>;
 
 export const OnlySystemSchema = z.object({
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   eyebrow: z.string(),
   eyebrowDotColor: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   h2: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   body: z.string(),
   leftFeatures: z.array(z.object({ title: z.string(), body: z.string() })),
   rightFeatures: z.array(z.object({ title: z.string(), body: z.string() })),

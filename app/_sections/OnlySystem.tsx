@@ -4,6 +4,7 @@ import { CTA } from "./_shared/CTA";
 import { Book } from "./_shared/Book";
 import { GuaranteeBadge } from "./_shared/GuaranteeBadge";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import type { OnlySystemContent } from "@/types/content";
 
@@ -13,13 +14,13 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
       <div className="ac-only__inner">
         <Reveal className="ac-only__header">
           <span className="ac-headline__eyebrow" style={{ ["--dot-color" as string]: c.eyebrowDotColor } as React.CSSProperties}>
-            <Edit edit={edit} path="onlySystem.eyebrow">{c.eyebrow}</Edit>
+            <EditRich edit={edit} path="onlySystem.eyebrow">{c.eyebrow}</EditRich>
           </span>
           <h2 className="ac-only__h2" id="only-h2">
-            <Edit edit={edit} path="onlySystem.h2" multiline>{c.h2}</Edit>
+            <EditRich edit={edit} path="onlySystem.h2" multiline>{c.h2}</EditRich>
           </h2>
           <p className="ac-only__body">
-            <Edit edit={edit} path="onlySystem.body">{c.body}</Edit>
+            <EditRich edit={edit} path="onlySystem.body">{c.body}</EditRich>
           </p>
         </Reveal>
         <Reveal className="ac-only__features" delay={120}>
