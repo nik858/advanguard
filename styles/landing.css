@@ -116,6 +116,20 @@ img { max-width: 100%; height: auto; display: block; }
   text-align: center; padding: 16px 12px;
   font: 700 16px/1 var(--font-body); letter-spacing: 0.02em;
 }
+.ac-order__image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px 0 8px;
+  min-height: 60px;
+}
+.ac-order__image-img {
+  max-width: 100%;
+  max-height: 180px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
 .ac-order__product { padding: 16px 18px 0; text-align: center; }
 .ac-order__product-name { font: 800 26px/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--color-brand-blue-2); }
 .ac-order__product-sub { font: 500 14px/1.4 var(--font-body); color: var(--color-text-muted); margin-top: 4px; }

@@ -4,6 +4,7 @@ import { CTA } from "./_shared/CTA";
 import { Stars } from "./_shared/Stars";
 import { Edit } from "../_editor/Edit";
 import { RepeatableList } from "../_editor/RepeatableList";
+import { MediaSlot } from "../_editor/MediaSlot";
 import { mediaUrl, type OrderContent } from "@/types/content";
 import { CLINIC_TYPES, CLINIC_TYPE_LABELS } from "@/lib/leads/clinic-types";
 
@@ -35,6 +36,18 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
       <div className="ac-order__strip">
         <Edit edit={edit} path="order.badge">{order.badge}</Edit>
       </div>
+      {(mediaUrl(order.image) || edit) && (
+        <div className="ac-order__image" style={{ position: "relative" }}>
+          {mediaUrl(order.image) && (
+            <img
+              src={mediaUrl(order.image)}
+              alt={typeof order.image === "object" && order.image ? (order.image.alt ?? "") : ""}
+              className="ac-order__image-img"
+            />
+          )}
+          {edit && <MediaSlot path="order.image" accept="image" compact />}
+        </div>
+      )}
       <div className="ac-order__product">
         <div className="ac-order__product-name">
           <Edit edit={edit} path="order.productName">{order.productName}</Edit>

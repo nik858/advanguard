@@ -60,6 +60,7 @@ export const OrderSchema = z.object({
   badge: z.string(),
   productName: z.string(),
   productSubtitle: z.string(),
+  image: MediaRefSchema.optional(),
   limitedTime: z.string(),
   priceWas: z.string(),
   priceNow: z.string(),
