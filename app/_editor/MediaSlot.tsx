@@ -121,6 +121,11 @@ export function MediaSlot({
     (acc, k) => (acc as Record<string, unknown> | undefined)?.[k.match(/^\d+$/) ? Number(k) : (k as string)],
     state.draft as unknown,
   );
+  const currentUrl = typeof current === "string"
+    ? current
+    : (current as { url?: string } | undefined)?.url ?? "";
+  const isEmpty = !currentUrl;
+  const popoverTop = compact ? 30 : 44;
 
   function applyUrl(url: string) {
     if (typeof current === "object" && current !== null) {
@@ -143,6 +148,149 @@ export function MediaSlot({
     if (!f) return;
     const url = await uploadFile(f);
     if (url) applyUrl(url);
+  }
+
+  if (isEmpty && !compact) {
+    return (
+      <>
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={(e) => { e.stopPropagation(); setOpen(true); setView("menu"); }}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragActive(false);
+            handleFile(e.dataTransfer.files?.[0]);
+          }}
+          aria-label={`Upload ${accept}`}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+            minHeight: 120,
+            width: "100%",
+            background: dragActive ? "rgba(28,123,253,0.12)" : "rgba(28,127,255,0.04)",
+            border: `2px dashed ${dragActive ? "#1c7bfd" : "rgba(28,127,255,0.5)"}`,
+            borderRadius: 8,
+            cursor: "pointer",
+            color: "#1c7bfd",
+            fontFamily: "var(--adv-font, system-ui, sans-serif)",
+            fontSize: 13,
+            fontWeight: 500,
+            padding: 12,
+            transition: "background 150ms ease-in-out, border-color 150ms ease-in-out",
+          }}
+        >
+          <Icons.Pencil />
+          <span>{dragActive ? `Drop to upload this ${accept}` : `Click or drop a${accept === "image" ? "n image" : " video"}`}</span>
+        </button>
+
+        {/* Popover */}
+        {open && (
+          <div
+            ref={popoverRef}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: "absolute",
+              top: popoverTop,
+              right: compact ? 4 : 10,
+              zIndex: 11,
+              width: 280,
+              background: "#fff",
+              border: "1px solid var(--adv-border, #e7e7ea)",
+              borderRadius: 10,
+              boxShadow: "0 12px 32px rgba(0,0,0,0.16)",
+              padding: 10,
+              fontFamily: "var(--adv-font, system-ui, sans-serif)",
+              fontSize: 13,
+              color: "#18181b",
+            }}
+          >
+            {view === "menu" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <button type="button" style={popItem} onClick={() => fileRef.current?.click()}>
+                  Upload a file
+                </button>
+                <button type="button" style={popItem} onClick={() => setView("library")}>
+                  Choose from library
+                </button>
+                <button type="button" style={popItem} onClick={() => setView("url")}>
+                  Paste a URL
+                </button>
+                {accept === "image" && (
+                  <button type="button" style={popItem} onClick={() => {
+                    setAltInput(typeof current === "object" && current !== null ? String((current as { alt?: string }).alt ?? "") : "");
+                    setView("alt");
+                  }}>
+                    Alt text
+                  </button>
+                )}
+                <p style={{ fontSize: 11, color: "#a1a1aa", margin: "6px 2px 0" }}>
+                  …or drag a {accept} file straight onto it.
+                </p>
+              </div>
+            )}
+
+            {view === "library" && (
+              <div>
+                <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
+                <MediaLibraryPopover accept={accept} onSelect={applyUrl} />
+              </div>
+            )}
+
+            {view === "url" && (
+              <div>
+                <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
+                <input
+                  type="url"
+                  placeholder={accept === "video" ? "https://… (YouTube, Vimeo, .mp4)" : "https://…/image.jpg"}
+                  value={urlInput}
+                  onChange={(e) => setUrlInput(e.target.value)}
+                  style={popInput}
+                />
+                <button
+                  type="button"
+                  onClick={() => { if (urlInput.trim()) applyUrl(urlInput.trim()); }}
+                  style={popPrimary}
+                >
+                  Use this URL
+                </button>
+              </div>
+            )}
+
+            {view === "alt" && (
+              <div>
+                <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
+                <input
+                  type="text"
+                  placeholder="Describe the image (accessibility)"
+                  value={altInput}
+                  onChange={(e) => setAltInput(e.target.value)}
+                  style={popInput}
+                />
+                <button type="button" onClick={() => applyAlt(altInput.trim())} style={popPrimary}>
+                  Save alt text
+                </button>
+              </div>
+            )}
+
+            {busy && <p style={{ fontSize: 12, color: "#71717a", marginTop: 8 }}>Uploading…</p>}
+            {error && <p style={{ fontSize: 12, color: "#c62828", marginTop: 8 }}>{error}</p>}
+          </div>
+        )}
+
+        <input
+          ref={fileRef}
+          type="file"
+          accept={accept === "image" ? "image/*" : "video/mp4,video/webm,video/quicktime"}
+          style={{ display: "none" }}
+          onChange={(e) => handleFile(e.target.files?.[0])}
+        />
+      </>
+    );
   }
 
   const triggerStyle: React.CSSProperties = compact
@@ -188,7 +336,6 @@ export function MediaSlot({
         boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
         fontFamily: "var(--adv-font, system-ui, sans-serif)",
       };
-  const popoverTop = compact ? 30 : 44;
 
   return (
     <>
