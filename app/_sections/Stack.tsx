@@ -7,10 +7,11 @@ import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { mediaUrl, type StackContent } from "@/types/content";
+import { scrollToLeadForm } from "@/lib/landing/scroll-to-lead-form";
 
 function shortLabel(s: string): string { return s.split(" ").slice(0, 2).join(" "); }
 
-export function Stack({ content: c, onCheckout, edit = false, style }: { content: StackContent; onCheckout?: () => void; edit?: boolean; style?: React.CSSProperties }) {
+export function Stack({ content: c, edit = false, style }: { content: StackContent; edit?: boolean; style?: React.CSSProperties }) {
   return (
     <section className="ac-stack" aria-labelledby="stack-h2" style={style}>
       <div className="ac-stack__inner">
@@ -72,7 +73,7 @@ export function Stack({ content: c, onCheckout, edit = false, style }: { content
             edit={edit}
             tag={<EditRich edit={edit} path="stack.ctaTagline">{c.ctaTagline}</EditRich>}
             label={<EditRich edit={edit} path="stack.ctaLabel">{c.ctaLabel}</EditRich>}
-            onClick={onCheckout}
+            onClick={scrollToLeadForm}
           />
           <div className="ac-only__guarantee-row">
             <div className="ac-only__guarantee-text">

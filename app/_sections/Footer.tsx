@@ -3,11 +3,11 @@ import { Reveal } from "./_shared/Reveal";
 import { CTA } from "./_shared/CTA";
 import { EditRich } from "../_editor/EditRich";
 import { mediaUrl, type FooterContent, type HeaderContent } from "@/types/content";
+import { scrollToLeadForm } from "@/lib/landing/scroll-to-lead-form";
 
-export function Footer({ content: c, header: h, onCheckout, edit = false }: {
+export function Footer({ content: c, header: h, edit = false }: {
   content: FooterContent;
   header: HeaderContent;
-  onCheckout?: () => void;
   edit?: boolean;
 }) {
   const logoLightUrl = mediaUrl(h.logoLight);
@@ -24,7 +24,7 @@ export function Footer({ content: c, header: h, onCheckout, edit = false }: {
               edit={edit}
               tag={<EditRich edit={edit} path="footer.ctaTagline">{c.ctaTagline}</EditRich>}
               label={<EditRich edit={edit} path="footer.ctaLabel">{c.ctaLabel}</EditRich>}
-              onClick={onCheckout}
+              onClick={scrollToLeadForm}
             />
         </Reveal>
         <Reveal delay={160}>

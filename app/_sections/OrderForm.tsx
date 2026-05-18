@@ -76,9 +76,9 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           <EditRich edit={edit} path="order.description" multiline>{order.description}</EditRich>
         </p>
         <form onSubmit={onSubmit} aria-label="Order">
-          <label htmlFor="email" className="visually-hidden">Email</label>
+          <label htmlFor="lead-email-input" className="visually-hidden">Email</label>
           <input
-            id="email"
+            id="lead-email-input"
             name="email"
             type="email"
             required

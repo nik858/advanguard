@@ -7,8 +7,9 @@ import { RepeatableList } from "../_editor/RepeatableList";
 import { MediaSlot } from "../_editor/MediaSlot";
 import type { OnlySystemContent } from "@/types/content";
 import { mediaUrl } from "@/types/content";
+import { scrollToLeadForm } from "@/lib/landing/scroll-to-lead-form";
 
-export function OnlySystem({ content: c, onCheckout, edit = false, style }: { content: OnlySystemContent; onCheckout?: () => void; edit?: boolean; style?: React.CSSProperties }) {
+export function OnlySystem({ content: c, edit = false, style }: { content: OnlySystemContent; edit?: boolean; style?: React.CSSProperties }) {
   return (
     <section className="ac-only" aria-labelledby="only-h2" style={style}>
       <div className="ac-only__inner">
@@ -119,9 +120,9 @@ export function OnlySystem({ content: c, onCheckout, edit = false, style }: { co
             edit={edit}
             tag={<EditRich edit={edit} path="onlySystem.ctaTagline">{c.ctaTagline}</EditRich>}
             label={<EditRich edit={edit} path="onlySystem.ctaLabel">{c.ctaLabel}</EditRich>}
-            onClick={onCheckout}
+            onClick={scrollToLeadForm}
           />
-          <a className="ac-only__cta-sub" href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+          <a className="ac-only__cta-sub" href="#top" onClick={(e) => { e.preventDefault(); scrollToLeadForm(); }}>
             <EditRich edit={edit} path="onlySystem.ctaSubLink">{c.ctaSubLink}</EditRich>
           </a>
           <div className="ac-only__guarantee-row">
