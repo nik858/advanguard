@@ -5,6 +5,7 @@ import { StatusBadge } from "./StatusBadge";
 import { LEAD_STATUSES, type Lead, type LeadStatus } from "@/lib/db/schema";
 import { CLINIC_TYPES, CLINIC_TYPE_LABELS, type ClinicType } from "@/lib/leads/clinic-types";
 import { InlineEditableField } from "./InlineEditableField";
+import type { Enrichment } from "@/types/audit";
 
 type Props = {
   lead: Lead | null;
@@ -127,6 +128,32 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
                   <div className={styles.kvValue}>{new Date(lead.createdAt).toLocaleString()}</div>
                 </div>
               </div>
+
+              {(() => {
+                const enr = lead.enrichment as Enrichment | null | undefined;
+                if (!enr || typeof enr !== "object" || Object.keys(enr).length === 0) return null;
+                const rows: Array<[string, React.ReactNode]> = [];
+                if (enr.businessName) rows.push(["Business", enr.businessName]);
+                if (enr.phone) rows.push(["Phone (site)", enr.phone]);
+                if (enr.address) rows.push(["Address", enr.address]);
+                if (enr.instagram) rows.push(["Instagram", <a key="ig" href={enr.instagram} target="_blank" rel="noreferrer" style={{ color: "#1c7bfd" }}>{enr.instagram.replace(/^https?:\/\//, "")}</a>]);
+                if (enr.facebook) rows.push(["Facebook", <a key="fb" href={enr.facebook} target="_blank" rel="noreferrer" style={{ color: "#1c7bfd" }}>{enr.facebook.replace(/^https?:\/\//, "")}</a>]);
+                if (enr.bookingUrl) rows.push(["Booking URL", <a key="bk" href={enr.bookingUrl} target="_blank" rel="noreferrer" style={{ color: "#1c7bfd" }}>{enr.bookingUrl}</a>]);
+                if (rows.length === 0) return null;
+                return (
+                  <div>
+                    <div className={styles.sectionTitle}>
+                      ✨ Enrichment <span style={{ fontSize: 11, color: "#71717a", fontWeight: 400 }}>(auto-detected from website)</span>
+                    </div>
+                    <div className={styles.kv}>
+                      {rows.flatMap(([k, v], i) => [
+                        <div key={`k${i}`} className={styles.kvKey}>{k}</div>,
+                        <div key={`v${i}`} className={styles.kvValue}>{v}</div>,
+                      ])}
+                    </div>
+                  </div>
+                );
+              })()}
 
               <div>
                 <div className={styles.sectionTitle}>Status</div>
