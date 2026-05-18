@@ -38,8 +38,8 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
   useEffect(() => {
     const rect = range.getBoundingClientRect();
     if (rect.width === 0 && rect.height === 0) return;
-    const top = window.scrollY + rect.top - 44;
-    const left = Math.max(8, window.scrollX + rect.left + rect.width / 2 - 110);
+    const top = rect.top - 44;
+    const left = Math.max(8, rect.left + rect.width / 2 - 110);
     setPos({ top, left });
   }, [range]);
 
@@ -80,7 +80,7 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
       tabIndex={-1}
       onMouseDown={(e) => e.preventDefault()}
       style={{
-        position: "absolute",
+        position: "fixed",
         top: pos.top,
         left: pos.left,
         zIndex: 200,
