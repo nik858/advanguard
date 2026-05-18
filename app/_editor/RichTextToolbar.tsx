@@ -1,11 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { RICHTEXT_PALETTE } from "@/lib/richtext/palette";
-import {
-  wrapSelection,
-  unwrapAroundSelection,
-  isSelectionWrappedBy,
-} from "@/lib/richtext/selection";
 
 type Props = {
   range: Range;
@@ -30,6 +25,45 @@ const btnActive: React.CSSProperties = {
   color: "#fff",
 };
 
+function runExecCommand(command: string, value?: string): boolean {
+  // Try/catch because some browsers throw on unrecognized commands.
+  try {
+    return document.execCommand(command, false, value);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Walks the selection's start/end containers up to `host` and removes any
+ * inline `color:` rules along the way. Used for the "clear color" action
+ * since execCommand has no native equivalent for unsetting fore-color.
+ */
+function clearColorAroundSelection(range: Range, host: HTMLElement): void {
+  const nodesToClean = new Set<Element>();
+  function walkUp(node: Node) {
+    let cur: Node | null = node;
+    while (cur && cur !== host) {
+      if (cur.nodeType === 1) nodesToClean.add(cur as Element);
+      cur = cur.parentNode;
+    }
+  }
+  walkUp(range.startContainer);
+  walkUp(range.endContainer);
+  for (const el of nodesToClean) {
+    if (el.tagName.toLowerCase() === "font") el.removeAttribute("color");
+    if (el.hasAttribute("style")) {
+      const next = (el.getAttribute("style") || "")
+        .split(";")
+        .map((r) => r.trim())
+        .filter((r) => r && !/^color\s*:/i.test(r))
+        .join("; ");
+      if (next) el.setAttribute("style", next);
+      else el.removeAttribute("style");
+    }
+  }
+}
+
 export function RichTextToolbar({ range, host, onMutated }: Props) {
   const [view, setView] = useState<"main" | "color">("main");
   const ref = useRef<HTMLDivElement | null>(null);
@@ -39,8 +73,6 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
     function reposition() {
       let rect = range.getBoundingClientRect();
       if (rect.width === 0 && rect.height === 0) {
-        // Fallback for cases where the Range itself reports no rect (e.g., crossing
-        // element boundaries mid-drag) — use the start container's parent element.
         const startNode = range.startContainer;
         const el = startNode.nodeType === 1 ? (startNode as Element) : startNode.parentElement;
         if (el) rect = el.getBoundingClientRect();
@@ -55,35 +87,43 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
     return () => window.removeEventListener("scroll", reposition);
   }, [range]);
 
-  function applyToggle(tag: "strong" | "em" | "u") {
-    if (isSelectionWrappedBy(range, tag, host)) {
-      unwrapAroundSelection(range, tag, host);
-    } else {
-      wrapSelection(range, tag);
+  function applyFormat(command: string, value?: string) {
+    // Re-anchor selection (safety): if the document selection has drifted away
+    // from the range we know about, restore it before invoking execCommand.
+    const sel = window.getSelection();
+    if (sel) {
+      sel.removeAllRanges();
+      sel.addRange(range);
     }
+    runExecCommand(command, value);
     onMutated();
   }
 
+  function applyBold() { applyFormat("bold"); }
+  function applyItalic() { applyFormat("italic"); }
+  function applyUnderline() { applyFormat("underline"); }
+
   function applyColor(hex: string) {
-    if (isSelectionWrappedBy(range, "span", host)) {
-      unwrapAroundSelection(range, "span", host);
+    const sel = window.getSelection();
+    if (sel) {
+      sel.removeAllRanges();
+      sel.addRange(range);
     }
-    wrapSelection(range, "span", { style: `color:${hex}` });
+    runExecCommand("foreColor", hex);
     setView("main");
     onMutated();
   }
 
   function clearColor() {
-    if (isSelectionWrappedBy(range, "span", host)) {
-      unwrapAroundSelection(range, "span", host);
-    }
+    clearColorAroundSelection(range, host);
     setView("main");
     onMutated();
   }
 
-  const activeBold = isSelectionWrappedBy(range, "strong", host);
-  const activeItalic = isSelectionWrappedBy(range, "em", host);
-  const activeUnder = isSelectionWrappedBy(range, "u", host);
+  // Query commands give true cross-browser toggle state.
+  const activeBold = typeof document !== "undefined" && document.queryCommandState?.("bold");
+  const activeItalic = typeof document !== "undefined" && document.queryCommandState?.("italic");
+  const activeUnder = typeof document !== "undefined" && document.queryCommandState?.("underline");
 
   if (!pos) return null;
 
@@ -111,9 +151,9 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
     >
       {view === "main" && (
         <>
-          <button data-rich-text-toolbar="true" type="button" style={activeBold ? btnActive : btn} onClick={() => applyToggle("strong")}>B</button>
-          <button data-rich-text-toolbar="true" type="button" style={{ ...(activeItalic ? btnActive : btn), fontStyle: "italic" }} onClick={() => applyToggle("em")}>I</button>
-          <button data-rich-text-toolbar="true" type="button" style={{ ...(activeUnder ? btnActive : btn), textDecoration: "underline" }} onClick={() => applyToggle("u")}>U</button>
+          <button data-rich-text-toolbar="true" type="button" style={activeBold ? btnActive : btn} onClick={applyBold}>B</button>
+          <button data-rich-text-toolbar="true" type="button" style={{ ...(activeItalic ? btnActive : btn), fontStyle: "italic" }} onClick={applyItalic}>I</button>
+          <button data-rich-text-toolbar="true" type="button" style={{ ...(activeUnder ? btnActive : btn), textDecoration: "underline" }} onClick={applyUnderline}>U</button>
           <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("color")}>color</button>
         </>
       )}

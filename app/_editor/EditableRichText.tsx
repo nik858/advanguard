@@ -33,6 +33,10 @@ export function EditableRichText({
     if (!editing || !ref.current) return;
     ref.current.innerHTML = value;
     ref.current.focus();
+    // Make execCommand emit semantic <b>/<i>/<u>/<font color> instead of
+    // <span style="font-weight:bold"> — semantic tags normalize cleanly
+    // in sanitizeRichText.
+    try { document.execCommand("styleWithCSS", false, "false"); } catch { /* noop */ }
   }, [editing, value]);
 
   useEffect(() => {
@@ -129,3 +133,4 @@ export function EditableRichText({
     </>
   );
 }
+
