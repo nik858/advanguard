@@ -1,7 +1,6 @@
 import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { Stars } from "./_shared/Stars";
-import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
@@ -37,7 +36,7 @@ export function Testimonials({ content: c, edit = false, style }: { content: Tes
         <Reveal className="ac-testi__head">
           <div className="ac-testi__rating">
             <span className="ac-testi__rating-text">
-              <Edit edit={edit} path="testimonials.rating">{c.rating}</Edit>
+              <EditRich edit={edit} path="testimonials.rating">{c.rating}</EditRich>
             </span>
             <span className="ac-testi__rating-stars" aria-label="5 out of 5"><Stars/></span>
           </div>
@@ -63,12 +62,12 @@ export function Testimonials({ content: c, edit = false, style }: { content: Tes
                   <VideoPlayer src={t.videoUrl} poster={t.videoPoster} label={t.name} edit={edit}/>
                   <div className="ac-testi-card__video-foot">
                     <div className="ac-testi-card__name">
-                      <Edit edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</Edit>
+                      <EditRich edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</EditRich>
                     </div>
                     <div className="ac-testi-card__role">
-                      <Edit edit={edit} path={`testimonials.items.${i}.role`}>{t.role}</Edit>
+                      <EditRich edit={edit} path={`testimonials.items.${i}.role`}>{t.role}</EditRich>
                     </div>
-                    <div className="ac-testi-card__video-quote">&quot;<Edit edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</Edit>&quot;</div>
+                    <div className="ac-testi-card__video-quote">&quot;<EditRich edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</EditRich>&quot;</div>
                   </div>
                 </div>
               ) : (
@@ -84,17 +83,17 @@ export function Testimonials({ content: c, edit = false, style }: { content: Tes
                     )}
                     <div>
                       <div className="ac-testi-card__name">
-                        <Edit edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</Edit>
+                        <EditRich edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</EditRich>
                       </div>
                       <div className="ac-testi-card__role">
-                        <Edit edit={edit} path={`testimonials.items.${i}.role`}>{t.role}</Edit>
+                        <EditRich edit={edit} path={`testimonials.items.${i}.role`}>{t.role}</EditRich>
                       </div>
                     </div>
                   </div>
                   <div className="ac-testi-card__stars" aria-label="5 stars"><Stars/></div>
                   <p className="ac-testi-card__quote">
                     {edit
-                      ? <Edit edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</Edit>
+                      ? <EditRich edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</EditRich>
                       : highlightQuote(t.quote, t.highlights)}
                   </p>
                 </div>

@@ -3,7 +3,6 @@ import { Reveal } from "./_shared/Reveal";
 import { CTA } from "./_shared/CTA";
 import { Book } from "./_shared/Book";
 import { Icons } from "./_shared/Icons";
-import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
@@ -45,21 +44,21 @@ export function Stack({ content: c, onCheckout, edit = false, style }: { content
                 </div>
                 <div className="ac-stack-card__title-block">
                   <div className="ac-stack-card__title">
-                    <Edit edit={edit} path={`stack.items.${i}.title`}>{it.title}</Edit>
+                    <EditRich edit={edit} path={`stack.items.${i}.title`}>{it.title}</EditRich>
                   </div>
                   <div className="ac-stack-card__sub">
-                    <Edit edit={edit} path={`stack.items.${i}.sub`}>{it.sub}</Edit>
+                    <EditRich edit={edit} path={`stack.items.${i}.sub`}>{it.sub}</EditRich>
                   </div>
                 </div>
                 <p className="ac-stack-card__body">
-                  <Edit edit={edit} path={`stack.items.${i}.body`} multiline>{it.body}</Edit>
+                  <EditRich edit={edit} path={`stack.items.${i}.body`} multiline>{it.body}</EditRich>
                 </p>
                 <div className="ac-stack-card__foot">
-                  <span className="ac-stack-card__access"><Icons.Download/><Edit edit={edit} path={`stack.items.${i}.access`}>{it.access}</Edit></span>
+                  <span className="ac-stack-card__access"><Icons.Download/><EditRich edit={edit} path={`stack.items.${i}.access`}>{it.access}</EditRich></span>
                   <span className="ac-stack-card__price">
-                    <span className="ac-stack-card__price-was">Price: <Edit edit={edit} path={`stack.items.${i}.priceWas`}>{it.priceWas}</Edit></span>
+                    <span className="ac-stack-card__price-was">Price: <EditRich edit={edit} path={`stack.items.${i}.priceWas`}>{it.priceWas}</EditRich></span>
                     <span className="ac-stack-card__price-now">
-                      <Edit edit={edit} path={`stack.items.${i}.priceNow`}>{it.priceNow}</Edit>
+                      <EditRich edit={edit} path={`stack.items.${i}.priceNow`}>{it.priceNow}</EditRich>
                     </span>
                   </span>
                 </div>
@@ -71,8 +70,8 @@ export function Stack({ content: c, onCheckout, edit = false, style }: { content
         <Reveal className="ac-only__cta-wrap" delay={200}>
           <CTA
             edit={edit}
-            tag={<Edit edit={edit} path="stack.ctaTagline">{c.ctaTagline}</Edit>}
-            label={<Edit edit={edit} path="stack.ctaLabel">{c.ctaLabel}</Edit>}
+            tag={<EditRich edit={edit} path="stack.ctaTagline">{c.ctaTagline}</EditRich>}
+            label={<EditRich edit={edit} path="stack.ctaLabel">{c.ctaLabel}</EditRich>}
             onClick={onCheckout}
           />
           <div className="ac-only__guarantee-row">

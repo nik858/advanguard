@@ -2,7 +2,6 @@
 import { Reveal } from "./_shared/Reveal";
 import { CTA } from "./_shared/CTA";
 import { Book } from "./_shared/Book";
-import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { MediaSlot } from "../_editor/MediaSlot";
@@ -30,10 +29,10 @@ export function OnlySystem({ content: c, onCheckout, edit = false, style }: { co
             {c.leftFeatures.map((f, i) => (
               <div key={i}>
                 <div className="ac-only__feat-title">
-                  <Edit edit={edit} path={`onlySystem.leftFeatures.${i}.title`}>{f.title}</Edit>
+                  <EditRich edit={edit} path={`onlySystem.leftFeatures.${i}.title`}>{f.title}</EditRich>
                 </div>
                 <div className="ac-only__feat-body">
-                  <Edit edit={edit} path={`onlySystem.leftFeatures.${i}.body`}>{f.body}</Edit>
+                  <EditRich edit={edit} path={`onlySystem.leftFeatures.${i}.body`}>{f.body}</EditRich>
                 </div>
               </div>
             ))}
@@ -62,7 +61,7 @@ export function OnlySystem({ content: c, onCheckout, edit = false, style }: { co
                     <div key={i} className={`ac-only__paper ${p.cls}`} style={{ transform: p.transform }}>
                       <div className="ac-only__paper-bar"></div>
                       <div className="ac-only__paper-title">
-                        <Edit edit={edit} path={`onlySystem.paperTitles.${i}`}>{c.paperTitles?.[i] ?? p.defaultTitle}</Edit>
+                        <EditRich edit={edit} path={`onlySystem.paperTitles.${i}`}>{c.paperTitles?.[i] ?? p.defaultTitle}</EditRich>
                       </div>
                       <div className="ac-only__paper-body">{Array.from({ length: 9 }).map((_, j) => <div key={j} className="ac-only__paper-line"/>)}</div>
                     </div>
@@ -91,10 +90,10 @@ export function OnlySystem({ content: c, onCheckout, edit = false, style }: { co
             {c.rightFeatures.map((f, i) => (
               <div key={i}>
                 <div className="ac-only__feat-title">
-                  <Edit edit={edit} path={`onlySystem.rightFeatures.${i}.title`}>{f.title}</Edit>
+                  <EditRich edit={edit} path={`onlySystem.rightFeatures.${i}.title`}>{f.title}</EditRich>
                 </div>
                 <div className="ac-only__feat-body">
-                  <Edit edit={edit} path={`onlySystem.rightFeatures.${i}.body`}>{f.body}</Edit>
+                  <EditRich edit={edit} path={`onlySystem.rightFeatures.${i}.body`}>{f.body}</EditRich>
                 </div>
               </div>
             ))}
@@ -106,10 +105,10 @@ export function OnlySystem({ content: c, onCheckout, edit = false, style }: { co
           {c.stats.map((s, i) => (
             <div className="ac-only__stat" key={i}>
               <div className="ac-only__stat-value">
-                <Edit edit={edit} path={`onlySystem.stats.${i}.value`}>{s.value}</Edit>
+                <EditRich edit={edit} path={`onlySystem.stats.${i}.value`}>{s.value}</EditRich>
               </div>
               <div className="ac-only__stat-label">
-                <Edit edit={edit} path={`onlySystem.stats.${i}.label`}>{s.label}</Edit>
+                <EditRich edit={edit} path={`onlySystem.stats.${i}.label`}>{s.label}</EditRich>
               </div>
             </div>
           ))}
@@ -118,16 +117,16 @@ export function OnlySystem({ content: c, onCheckout, edit = false, style }: { co
         <Reveal className="ac-only__cta-wrap" delay={200}>
           <CTA
             edit={edit}
-            tag={<Edit edit={edit} path="onlySystem.ctaTagline">{c.ctaTagline}</Edit>}
-            label={<Edit edit={edit} path="onlySystem.ctaLabel">{c.ctaLabel}</Edit>}
+            tag={<EditRich edit={edit} path="onlySystem.ctaTagline">{c.ctaTagline}</EditRich>}
+            label={<EditRich edit={edit} path="onlySystem.ctaLabel">{c.ctaLabel}</EditRich>}
             onClick={onCheckout}
           />
           <a className="ac-only__cta-sub" href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
-            <Edit edit={edit} path="onlySystem.ctaSubLink">{c.ctaSubLink}</Edit>
+            <EditRich edit={edit} path="onlySystem.ctaSubLink">{c.ctaSubLink}</EditRich>
           </a>
           <div className="ac-only__guarantee-row">
             <div className="ac-only__guarantee-text">
-              <Edit edit={edit} path="onlySystem.guaranteeText">{c.guaranteeText}</Edit>
+              <EditRich edit={edit} path="onlySystem.guaranteeText">{c.guaranteeText}</EditRich>
             </div>
           </div>
         </Reveal>

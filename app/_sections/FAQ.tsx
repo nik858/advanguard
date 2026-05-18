@@ -1,6 +1,5 @@
 import { Reveal } from "./_shared/Reveal";
 import { Icons } from "./_shared/Icons";
-import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import type { FaqContent } from "@/types/content";
@@ -24,11 +23,11 @@ export function FAQ({ content: c, edit = false, style }: { content: FaqContent; 
               <div className="ac-faq__q">
                 <span className="ac-faq__q-icon" aria-hidden="true"><Icons.Question/></span>
                 <span className="ac-faq__q-text">
-                  <Edit edit={edit} path={`faq.items.${i}.q`}>{q.q}</Edit>
+                  <EditRich edit={edit} path={`faq.items.${i}.q`}>{q.q}</EditRich>
                 </span>
               </div>
               <p className="ac-faq__a">
-                <Edit edit={edit} path={`faq.items.${i}.a`} multiline>{q.a}</Edit>
+                <EditRich edit={edit} path={`faq.items.${i}.a`} multiline>{q.a}</EditRich>
               </p>
             </Reveal>
           ))}

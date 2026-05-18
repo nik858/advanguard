@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { CTA } from "./_shared/CTA";
-import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { MediaSlot } from "../_editor/MediaSlot";
@@ -58,19 +57,19 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
       </div>
       <div className="ac-order__inner">
         <div className="ac-order__limited">
-          <Edit edit={edit} path="order.limitedTime">{order.limitedTime}</Edit>
+          <EditRich edit={edit} path="order.limitedTime">{order.limitedTime}</EditRich>
         </div>
         <div className="ac-order__price-row">
           <div>
             <span className="ac-order__price-was">
-              <Edit edit={edit} path="order.priceWas">{order.priceWas}</Edit>
+              <EditRich edit={edit} path="order.priceWas">{order.priceWas}</EditRich>
             </span>
             <span className="ac-order__price">
-              <Edit edit={edit} path="order.priceNow">{order.priceNow}</Edit>
+              <EditRich edit={edit} path="order.priceNow">{order.priceNow}</EditRich>
             </span>
           </div>
           <div className="ac-order__price-sub">
-            <Edit edit={edit} path="order.priceSubLine">{order.priceSubLine}</Edit>
+            <EditRich edit={edit} path="order.priceSubLine">{order.priceSubLine}</EditRich>
           </div>
         </div>
         <p className="ac-order__desc">
@@ -123,10 +122,10 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           <CTA
             type={edit ? "button" : "submit"}
             edit={edit}
-            tag={<Edit edit={edit} path="order.ctaTagline">{order.ctaTagline}</Edit>}
+            tag={<EditRich edit={edit} path="order.ctaTagline">{order.ctaTagline}</EditRich>}
             label={status === "busy"
               ? "Sending…"
-              : <Edit edit={edit} path="order.ctaLabel">{order.ctaLabel}</Edit>}
+              : <EditRich edit={edit} path="order.ctaLabel">{order.ctaLabel}</EditRich>}
             ariaLabel={order.ctaLabel}
           />
           {status === "err" && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
@@ -134,7 +133,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
         </form>
         <div className="ac-order__secure">
           <span className="ac-order__check" aria-hidden="true">✓</span>
-          <span><Edit edit={edit} path="order.secureText">{order.secureText}</Edit></span>
+          <span><EditRich edit={edit} path="order.secureText">{order.secureText}</EditRich></span>
         </div>
         <div className="ac-order__guarantee-row">
           <div className="ac-order__guarantee-text">
@@ -143,7 +142,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
         </div>
         <div className="ac-order__rating">
           <span className="ac-order__rating-text">
-            <Edit edit={edit} path="order.ratingText">{order.ratingText}</Edit>
+            <EditRich edit={edit} path="order.ratingText">{order.ratingText}</EditRich>
           </span>
         </div>
         <div className="ac-order__mini-testimonials">
@@ -157,12 +156,12 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
               <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
               <div>
                 <div className="ac-order__mini-name">
-                  <Edit edit={edit} path={`order.miniTestimonials.${i}.name`}>{t.name}</Edit>
+                  <EditRich edit={edit} path={`order.miniTestimonials.${i}.name`}>{t.name}</EditRich>
                 </div>
                 <div className="ac-order__mini-role">
-                  <Edit edit={edit} path={`order.miniTestimonials.${i}.role`}>{t.role}</Edit>
+                  <EditRich edit={edit} path={`order.miniTestimonials.${i}.role`}>{t.role}</EditRich>
                 </div>
-                <div className="ac-order__mini-quote">&quot;<Edit edit={edit} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</Edit>&quot;</div>
+                <div className="ac-order__mini-quote">&quot;<EditRich edit={edit} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</EditRich>&quot;</div>
               </div>
             </div>
           ))}

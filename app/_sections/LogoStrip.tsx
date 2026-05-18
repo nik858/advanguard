@@ -1,5 +1,5 @@
 import { Reveal } from "./_shared/Reveal";
-import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { mediaUrl, type AuthorityContent } from "@/types/content";
@@ -25,7 +25,7 @@ export function LogoStrip({ content: c, edit = false, style }: { content: Author
     <section className="ac-authority" aria-label="Featured in" style={style}>
       <Reveal>
         <div className="ac-authority__title">
-          <Edit edit={edit} path="authority.title">{c.title}</Edit>
+          <EditRich edit={edit} path="authority.title">{c.title}</EditRich>
         </div>
         <div className={`ac-authority__viewport${edit ? " ac-authority__viewport--edit" : ""}`}>
           <div className={`ac-authority__row${edit ? " ac-authority__row--edit" : ""}`}>

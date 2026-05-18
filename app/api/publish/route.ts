@@ -5,59 +5,28 @@ import { migrateContent } from "@/types/content";
 import { loadDraft, deleteDraft } from "@/lib/blob";
 import { getFile, putFile } from "@/lib/github";
 import { sanitizeRichText } from "@/lib/richtext/sanitize";
-import { RICHTEXT_FIELD_PATHS } from "@/lib/richtext/migrated-fields";
 
-function getByPath(obj: unknown, path: string): unknown {
-  return path.split(".").reduce<unknown>((acc, k) => {
-    if (acc == null || typeof acc !== "object") return undefined;
-    return (acc as Record<string, unknown>)[k];
-  }, obj);
-}
-
-function setByPath(obj: any, path: string, value: unknown): void {
-  const parts = path.split(".");
-  let cur = obj;
-  for (let i = 0; i < parts.length - 1; i++) {
-    cur = cur[parts[i]];
-    if (cur == null) return;
+function sanitizeAllStrings(obj: any): void {
+  if (obj == null) return;
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      const v = obj[i];
+      if (typeof v === "string") obj[i] = sanitizeRichText(v);
+      else if (typeof v === "object") sanitizeAllStrings(v);
+    }
+    return;
   }
-  cur[parts[parts.length - 1]] = value;
+  if (typeof obj === "object") {
+    for (const key of Object.keys(obj)) {
+      const v = obj[key];
+      if (typeof v === "string") obj[key] = sanitizeRichText(v);
+      else if (typeof v === "object") sanitizeAllStrings(v);
+    }
+  }
 }
 
 function sanitizeMigratedFields(content: any): void {
-  // footer is top-level in v2
-  for (const p of RICHTEXT_FIELD_PATHS) {
-    if (!p.startsWith("footer.")) continue;
-    const v = getByPath(content, p);
-    if (typeof v === "string") setByPath(content, p, sanitizeRichText(v));
-  }
-
-  // Everything else lives under content.sections[N].data.<sectionType>.<field>
-  if (!Array.isArray(content.sections)) return;
-  for (const s of content.sections) {
-    if (!s?.type || !s.data) continue;
-
-    // Each section's primary data key matches its type. Find paths that target
-    // this section type and sanitize the field inside s.data[s.type].
-    const prefix = s.type + ".";
-    for (const p of RICHTEXT_FIELD_PATHS) {
-      if (!p.startsWith(prefix)) continue;
-      const localKey = p.slice(prefix.length);
-      const v = getByPath(s.data[s.type], localKey);
-      if (typeof v === "string") setByPath(s.data[s.type], localKey, sanitizeRichText(v));
-    }
-
-    // Hero sections uniquely also contain `order` data — sanitize order.* paths
-    // inside s.data.order.
-    if (s.type === "hero" && s.data.order) {
-      for (const p of RICHTEXT_FIELD_PATHS) {
-        if (!p.startsWith("order.")) continue;
-        const localKey = p.slice("order.".length);
-        const v = getByPath(s.data.order, localKey);
-        if (typeof v === "string") setByPath(s.data.order, localKey, sanitizeRichText(v));
-      }
-    }
-  }
+  sanitizeAllStrings(content);
 }
 
 export async function POST() {

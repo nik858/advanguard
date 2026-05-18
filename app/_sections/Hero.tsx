@@ -1,7 +1,6 @@
 import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { OrderForm } from "./OrderForm";
-import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import type { HeroContent, OrderContent } from "@/types/content";
@@ -17,7 +16,7 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
               <VideoPlayer src={hero.videoUrl} poster={hero.videoPoster} label={hero.videoLabel} edit={edit}/>
             </div>
             <p className="ac-hero__video-label">
-              <Edit edit={edit} path="hero.videoLabel">{hero.videoLabel}</Edit>
+              <EditRich edit={edit} path="hero.videoLabel">{hero.videoLabel}</EditRich>
             </p>
           </Reveal>
           <Reveal delay={80}>
