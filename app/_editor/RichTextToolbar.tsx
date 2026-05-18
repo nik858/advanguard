@@ -33,11 +33,18 @@ const btnActive: React.CSSProperties = {
 export function RichTextToolbar({ range, host, onMutated }: Props) {
   const [view, setView] = useState<"main" | "color">("main");
   const ref = useRef<HTMLDivElement | null>(null);
-  const [pos, setPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
+  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
 
   useEffect(() => {
     function reposition() {
-      const rect = range.getBoundingClientRect();
+      let rect = range.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) {
+        // Fallback for cases where the Range itself reports no rect (e.g., crossing
+        // element boundaries mid-drag) — use the start container's parent element.
+        const startNode = range.startContainer;
+        const el = startNode.nodeType === 1 ? (startNode as Element) : startNode.parentElement;
+        if (el) rect = el.getBoundingClientRect();
+      }
       if (rect.width === 0 && rect.height === 0) return;
       const top = rect.top - 44;
       const left = Math.max(8, rect.left + rect.width / 2 - 110);
@@ -50,7 +57,7 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
 
   function applyToggle(tag: "strong" | "em" | "u") {
     if (isSelectionWrappedBy(range, tag, host)) {
-      unwrapAroundSelection(range, tag);
+      unwrapAroundSelection(range, tag, host);
     } else {
       wrapSelection(range, tag);
     }
@@ -59,7 +66,7 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
 
   function applyColor(hex: string) {
     if (isSelectionWrappedBy(range, "span", host)) {
-      unwrapAroundSelection(range, "span");
+      unwrapAroundSelection(range, "span", host);
     }
     wrapSelection(range, "span", { style: `color:${hex}` });
     setView("main");
@@ -68,7 +75,7 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
 
   function clearColor() {
     if (isSelectionWrappedBy(range, "span", host)) {
-      unwrapAroundSelection(range, "span");
+      unwrapAroundSelection(range, "span", host);
     }
     setView("main");
     onMutated();
@@ -77,6 +84,8 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
   const activeBold = isSelectionWrappedBy(range, "strong", host);
   const activeItalic = isSelectionWrappedBy(range, "em", host);
   const activeUnder = isSelectionWrappedBy(range, "u", host);
+
+  if (!pos) return null;
 
   return (
     <div

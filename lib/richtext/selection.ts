@@ -20,11 +20,12 @@ export function wrapSelection(range: Range, tag: string, attrs?: Record<string, 
 }
 
 /**
- * If the range sits inside an element of the named `tag` (closest ancestor),
- * unwraps that element — replacing it with its children. Otherwise no-op.
+ * If the range sits inside an element of the named `tag` (closest ancestor
+ * within `root`), unwraps that element — replacing it with its children.
+ * The `root` element itself is NEVER unwrapped, even if it matches the tag.
  */
-export function unwrapAroundSelection(range: Range, tag: string): void {
-  const ancestor = findAncestor(range.commonAncestorContainer, tag);
+export function unwrapAroundSelection(range: Range, tag: string, root: Element): void {
+  const ancestor = findAncestor(range.commonAncestorContainer, tag, root);
   if (!ancestor) return;
   const parent = ancestor.parentNode;
   if (!parent) return;
@@ -36,19 +37,25 @@ export function unwrapAroundSelection(range: Range, tag: string): void {
 
 /**
  * Returns true if the full range is contained within an element of `tag`
- * that itself lives inside `root`. Used to drive toolbar "active" state.
+ * that itself lives strictly inside `root` (the host is NEVER counted as
+ * a wrapping ancestor of itself).
  */
 export function isSelectionWrappedBy(range: Range, tag: string, root: Element): boolean {
-  const start = findAncestor(range.startContainer, tag);
-  const end = findAncestor(range.endContainer, tag);
+  const start = findAncestor(range.startContainer, tag, root);
+  const end = findAncestor(range.endContainer, tag, root);
   if (!start || !end) return false;
-  if (start !== end) return false;
-  return root.contains(start);
+  return start === end;
 }
 
-function findAncestor(node: Node, tag: string): Element | null {
+/**
+ * Walks up from `node` looking for the nearest ancestor with the given tag.
+ * If `stopAt` is provided, the walk stops BEFORE visiting `stopAt` so the
+ * function never returns `stopAt` itself (used to protect the editor host
+ * from being unwrapped when the host's tag happens to match).
+ */
+function findAncestor(node: Node, tag: string, stopAt?: Element): Element | null {
   let cur: Node | null = node;
-  while (cur) {
+  while (cur && cur !== stopAt) {
     if (cur.nodeType === 1 && (cur as Element).tagName.toLowerCase() === tag) {
       return cur as Element;
     }

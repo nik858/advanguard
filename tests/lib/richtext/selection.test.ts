@@ -46,7 +46,7 @@ describe("unwrapAroundSelection", () => {
     const inside = host.querySelector("strong")!.firstChild as Text;
     range.setStart(inside, 0);
     range.setEnd(inside, 5);
-    unwrapAroundSelection(range, "strong");
+    unwrapAroundSelection(range, "strong", host);
     expect(host.innerHTML).toBe("hello world");
   });
 
@@ -58,8 +58,22 @@ describe("unwrapAroundSelection", () => {
     const inside = host.querySelector("span")!.firstChild as Text;
     range.setStart(inside, 0);
     range.setEnd(inside, 5);
-    unwrapAroundSelection(range, "span");
+    unwrapAroundSelection(range, "span", host);
     expect(host.innerHTML).toBe("hello");
+  });
+
+  it("does NOT unwrap the root itself when the root matches the tag", () => {
+    const host = document.createElement("span");
+    host.innerHTML = "hello world";
+    document.body.appendChild(host);
+    const range = document.createRange();
+    const text = host.firstChild as Text;
+    range.setStart(text, 0);
+    range.setEnd(text, 5);
+    unwrapAroundSelection(range, "span", host);
+    // host must still be in the DOM with its content
+    expect(document.body.contains(host)).toBe(true);
+    expect(host.innerHTML).toBe("hello world");
   });
 });
 
@@ -90,5 +104,17 @@ describe("isSelectionWrappedBy", () => {
     range.setStart(inside, 0);
     range.setEnd(after, 3);
     expect(isSelectionWrappedBy(range, "strong", host)).toBe(false);
+  });
+
+  it("returns false when the matching ancestor IS the root", () => {
+    const host = document.createElement("span");
+    host.innerHTML = "hello";
+    document.body.appendChild(host);
+    const range = document.createRange();
+    const text = host.firstChild as Text;
+    range.setStart(text, 0);
+    range.setEnd(text, 5);
+    // The host itself is a span, but it should not count as a wrapping ancestor of itself.
+    expect(isSelectionWrappedBy(range, "span", host)).toBe(false);
   });
 });
