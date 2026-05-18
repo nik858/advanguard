@@ -1,4 +1,4 @@
-// @vitest-environment happy-dom
+// @vitest-environment node
 import { describe, it, expect } from "vitest";
 import { sanitizeRichText } from "@/lib/richtext/sanitize";
 
