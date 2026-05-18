@@ -355,12 +355,12 @@ export function MediaSlot({
           position: "absolute",
           inset: 0,
           zIndex: 9,
-          pointerEvents: "auto",
-          cursor: "pointer",
+          pointerEvents: compact ? (dragActive ? "auto" : "none") : "auto",
+          cursor: compact ? undefined : "pointer",
           border: dragActive ? "2px dashed #1c7bfd" : "2px dashed transparent",
           background: dragActive
             ? "rgba(28,123,253,0.12)"
-            : hovered
+            : (hovered && !compact)
               ? "rgba(0,0,0,0.4)"
               : "transparent",
           display: "grid",
