@@ -9,6 +9,7 @@ export function CTA({
   ariaLabel,
   onClick,
   type = "button",
+  edit = false,
 }: {
   tag?: ReactNode;
   label: ReactNode;
@@ -16,8 +17,23 @@ export function CTA({
   ariaLabel?: string;
   onClick?: () => void;
   type?: "button" | "submit";
+  edit?: boolean;
 }) {
   const ariaFallback = typeof label === "string" ? label : undefined;
+
+  if (edit) {
+    return (
+      <div
+        className={`ac-cta ${compact ? "ac-cta--compact" : ""}`}
+        role="button"
+        aria-label={ariaLabel || ariaFallback}
+      >
+        {tag && <span className="ac-cta__tag">{tag}</span>}
+        <span className="ac-cta__label">{label}<span className="ac-cta__arrow"><Icons.ArrowRight/></span></span>
+      </div>
+    );
+  }
+
   return (
     <button
       className={`ac-cta ${compact ? "ac-cta--compact" : ""}`}
