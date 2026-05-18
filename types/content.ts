@@ -251,16 +251,18 @@ export type ContentV1 = z.infer<typeof ContentSchemaV1>;
 
 /* ---------- v2 (reorderable section list) ---------- */
 
+const SectionStyleSchema = z.object({ mt: z.number().optional(), mb: z.number().optional() }).optional();
+
 export const SectionSchema = z.discriminatedUnion("type", [
-  z.object({ id: z.string(), type: z.literal("headline"), hidden: z.boolean().optional(), data: z.object({ headline: HeadlineSchema }) }),
-  z.object({ id: z.string(), type: z.literal("hero"), hidden: z.boolean().optional(), data: z.object({ hero: HeroSchema, order: OrderSchema }) }),
-  z.object({ id: z.string(), type: z.literal("authority"), hidden: z.boolean().optional(), data: z.object({ authority: AuthoritySchema }) }),
-  z.object({ id: z.string(), type: z.literal("onlySystem"), hidden: z.boolean().optional(), data: z.object({ onlySystem: OnlySystemSchema }) }),
-  z.object({ id: z.string(), type: z.literal("demo"), hidden: z.boolean().optional(), data: z.object({ demo: DemoSchema }) }),
-  z.object({ id: z.string(), type: z.literal("testimonials"), hidden: z.boolean().optional(), data: z.object({ testimonials: TestimonialsSchema }) }),
-  z.object({ id: z.string(), type: z.literal("stack"), hidden: z.boolean().optional(), data: z.object({ stack: StackSchema }) }),
-  z.object({ id: z.string(), type: z.literal("guarantee"), hidden: z.boolean().optional(), data: z.object({ guarantee: GuaranteeSchema }) }),
-  z.object({ id: z.string(), type: z.literal("faq"), hidden: z.boolean().optional(), data: z.object({ faq: FaqSchema }) }),
+  z.object({ id: z.string(), type: z.literal("headline"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ headline: HeadlineSchema }) }),
+  z.object({ id: z.string(), type: z.literal("hero"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ hero: HeroSchema, order: OrderSchema }) }),
+  z.object({ id: z.string(), type: z.literal("authority"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ authority: AuthoritySchema }) }),
+  z.object({ id: z.string(), type: z.literal("onlySystem"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ onlySystem: OnlySystemSchema }) }),
+  z.object({ id: z.string(), type: z.literal("demo"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ demo: DemoSchema }) }),
+  z.object({ id: z.string(), type: z.literal("testimonials"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ testimonials: TestimonialsSchema }) }),
+  z.object({ id: z.string(), type: z.literal("stack"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ stack: StackSchema }) }),
+  z.object({ id: z.string(), type: z.literal("guarantee"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ guarantee: GuaranteeSchema }) }),
+  z.object({ id: z.string(), type: z.literal("faq"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ faq: FaqSchema }) }),
 ]);
 export type Section = z.infer<typeof SectionSchema>;
 export type SectionType = Section["type"];

@@ -78,6 +78,12 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
       const sections = state.draft.sections.filter((s) => s.id !== action.id);
       return withDraft(state, { ...state.draft, sections });
     }
+    case "setSectionStyle": {
+      const sections = state.draft.sections.map((s) =>
+        s.id === action.id ? { ...s, style: action.style } : s
+      );
+      return withDraft(state, { ...state.draft, sections });
+    }
   }
 }
 
@@ -92,6 +98,7 @@ type EditorContextValue = {
   addSection: (type: SectionType) => void;
   duplicateSection: (id: string) => void;
   removeSection: (id: string) => void;
+  setSectionStyle: (id: string, style: { mt?: number; mb?: number }) => void;
 };
 
 const Ctx = createContext<EditorContextValue | null>(null);
@@ -180,6 +187,7 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
     addSection: (type) => dispatch({ type: "addSection", section: createSection(type) }),
     duplicateSection: (id) => dispatch({ type: "duplicateSection", id }),
     removeSection: (id) => dispatch({ type: "removeSection", id }),
+    setSectionStyle: (id, style) => dispatch({ type: "setSectionStyle", id, style }),
   }), [state]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

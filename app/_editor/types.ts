@@ -19,4 +19,5 @@ export type EditorAction =
   | { type: "setSectionHidden"; id: string; hidden: boolean }
   | { type: "addSection"; section: Section }
   | { type: "duplicateSection"; id: string }
-  | { type: "removeSection"; id: string };
+  | { type: "removeSection"; id: string }
+  | { type: "setSectionStyle"; id: string; style: { mt?: number; mb?: number } };

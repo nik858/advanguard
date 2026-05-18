@@ -20,9 +20,10 @@ const menuItemStyle: React.CSSProperties = {
 };
 
 export function SectionRow({ section, handle }: { section: Section; handle: SortableHandle }) {
-  const { setSectionHidden, duplicateSection, removeSection } = useEditor();
+  const { setSectionHidden, duplicateSection, removeSection, setSectionStyle } = useEditor();
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [spacingOpen, setSpacingOpen] = useState(false);
   const hidden = Boolean(section.hidden);
 
   return (
@@ -103,11 +104,51 @@ export function SectionRow({ section, handle }: { section: Section; handle: Sort
               </button>
               <button
                 type="button"
+                onClick={() => { setMenuOpen(false); setSpacingOpen(true); }}
+                style={menuItemStyle}
+              >
+                Spacing...
+              </button>
+              <button
+                type="button"
                 onClick={() => { setMenuOpen(false); setConfirmOpen(true); }}
                 style={{ ...menuItemStyle, color: "#c62828" }}
               >
                 Delete
               </button>
+            </div>
+          )}
+          {spacingOpen && (
+            <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "#fff", border: "1px solid var(--adv-border, #e7e7ea)", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,.12)", padding: 12, marginTop: 4, zIndex: 25 }}>
+              <div style={{ marginBottom: 8 }}>
+                <label style={{ display: "block", fontSize: 11, color: "#71717a", marginBottom: 4 }}>
+                  Top margin: {section.style?.mt ?? 0}px
+                </label>
+                <input
+                  type="range"
+                  min={0}
+                  max={200}
+                  step={8}
+                  value={section.style?.mt ?? 0}
+                  onChange={(e) => setSectionStyle(section.id, { ...section.style, mt: Number(e.target.value) })}
+                  style={{ width: "100%" }}
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: 11, color: "#71717a", marginBottom: 4 }}>
+                  Bottom margin: {section.style?.mb ?? 0}px
+                </label>
+                <input
+                  type="range"
+                  min={0}
+                  max={200}
+                  step={8}
+                  value={section.style?.mb ?? 0}
+                  onChange={(e) => setSectionStyle(section.id, { ...section.style, mb: Number(e.target.value) })}
+                  style={{ width: "100%" }}
+                />
+              </div>
+              <button type="button" onClick={() => setSpacingOpen(false)} style={{ marginTop: 8, background: "transparent", border: 0, color: "#71717a", fontSize: 12, cursor: "pointer", padding: 0 }}>Close</button>
             </div>
           )}
         </div>

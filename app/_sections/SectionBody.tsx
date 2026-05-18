@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { Section } from "@/types/content";
 import { Headline } from "./Headline";
 import { Hero } from "./Hero";
@@ -10,24 +11,37 @@ import { GuaranteeSection } from "./GuaranteeSection";
 import { FAQ } from "./FAQ";
 
 export function SectionBody({ section, edit = false }: { section: Section; edit?: boolean }) {
+  const mt = section.style?.mt;
+  const mb = section.style?.mb;
+  const wrapperStyle =
+    mt !== undefined || mb !== undefined
+      ? {
+          marginTop: mt !== undefined ? `${mt}px` : undefined,
+          marginBottom: mb !== undefined ? `${mb}px` : undefined,
+        }
+      : undefined;
+
+  let body: ReactNode = null;
   switch (section.type) {
     case "headline":
-      return <Headline content={section.data.headline} edit={edit} />;
+      body = <Headline content={section.data.headline} edit={edit} />; break;
     case "hero":
-      return <Hero hero={section.data.hero} order={section.data.order} edit={edit} />;
+      body = <Hero hero={section.data.hero} order={section.data.order} edit={edit} />; break;
     case "authority":
-      return <LogoStrip content={section.data.authority} edit={edit} />;
+      body = <LogoStrip content={section.data.authority} edit={edit} />; break;
     case "onlySystem":
-      return <OnlySystem content={section.data.onlySystem} edit={edit} />;
+      body = <OnlySystem content={section.data.onlySystem} edit={edit} />; break;
     case "demo":
-      return <Demo content={section.data.demo} edit={edit} />;
+      body = <Demo content={section.data.demo} edit={edit} />; break;
     case "testimonials":
-      return <Testimonials content={section.data.testimonials} edit={edit} />;
+      body = <Testimonials content={section.data.testimonials} edit={edit} />; break;
     case "stack":
-      return <Stack content={section.data.stack} edit={edit} />;
+      body = <Stack content={section.data.stack} edit={edit} />; break;
     case "guarantee":
-      return <GuaranteeSection content={section.data.guarantee} edit={edit} />;
+      body = <GuaranteeSection content={section.data.guarantee} edit={edit} />; break;
     case "faq":
-      return <FAQ content={section.data.faq} edit={edit} />;
+      body = <FAQ content={section.data.faq} edit={edit} />; break;
   }
+
+  return wrapperStyle ? <div style={wrapperStyle}>{body}</div> : <>{body}</>;
 }
