@@ -20,4 +20,4 @@ export type EditorAction =
   | { type: "addSection"; section: Section }
   | { type: "duplicateSection"; id: string }
   | { type: "removeSection"; id: string }
-  | { type: "setSectionStyle"; id: string; style: { mt?: number; mb?: number } };
+  | { type: "setSectionStyle"; id: string; style: { pt?: number; pb?: number } };

@@ -15,14 +15,14 @@ function logoAlt(logo: AuthorityContent["logos"][number]): string {
   return typeof logo === "object" && logo ? (logo.alt ?? "") : "";
 }
 
-export function LogoStrip({ content: c, edit = false }: { content: AuthorityContent; edit?: boolean }) {
+export function LogoStrip({ content: c, edit = false, style }: { content: AuthorityContent; edit?: boolean; style?: React.CSSProperties }) {
   // On mobile, non-edit mode renders a sliding carousel. The CSS animates a
   // track that contains the logos twice; this duplicate (aria-hidden, no
   // editor wiring) is what makes the loop seamless. In edit mode we skip the
   // duplicate so the wrap layout stays clean and editable.
   const visibleLogos = !edit ? c.logos.filter((l) => logoSrc(l)) : [];
   return (
-    <section className="ac-authority" aria-label="Featured in">
+    <section className="ac-authority" aria-label="Featured in" style={style}>
       <Reveal>
         <div className="ac-authority__title">
           <Edit edit={edit} path="authority.title">{c.title}</Edit>

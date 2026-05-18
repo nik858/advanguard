@@ -5,9 +5,9 @@ import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import type { DemoContent } from "@/types/content";
 
-export function Demo({ content: c, edit = false }: { content: DemoContent; edit?: boolean }) {
+export function Demo({ content: c, edit = false, style }: { content: DemoContent; edit?: boolean; style?: React.CSSProperties }) {
   return (
-    <section className="ac-demo" aria-labelledby="demo-h2">
+    <section className="ac-demo" aria-labelledby="demo-h2" style={style}>
       <div className="ac-demo__inner">
         <Reveal>
           <h2 className="ac-demo__h2" id="demo-h2">

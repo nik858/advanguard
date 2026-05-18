@@ -98,7 +98,7 @@ type EditorContextValue = {
   addSection: (type: SectionType) => void;
   duplicateSection: (id: string) => void;
   removeSection: (id: string) => void;
-  setSectionStyle: (id: string, style: { mt?: number; mb?: number }) => void;
+  setSectionStyle: (id: string, style: { pt?: number; pb?: number }) => void;
 };
 
 const Ctx = createContext<EditorContextValue | null>(null);

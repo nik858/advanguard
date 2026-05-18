@@ -30,9 +30,9 @@ function highlightQuote(quote: string, highlights: string[]): ReactNode {
   return parts.map((p, i) => p.hl ? <span className="ac-testi-card__hl" key={i}>{p.text}</span> : <span key={i}>{p.text}</span>);
 }
 
-export function Testimonials({ content: c, edit = false }: { content: TestimonialsContent; edit?: boolean }) {
+export function Testimonials({ content: c, edit = false, style }: { content: TestimonialsContent; edit?: boolean; style?: React.CSSProperties }) {
   return (
-    <section className="ac-testi" aria-labelledby="testi-h2">
+    <section className="ac-testi" aria-labelledby="testi-h2" style={style}>
       <div className="ac-testi__inner">
         <Reveal className="ac-testi__head">
           <div className="ac-testi__rating">

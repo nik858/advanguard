@@ -251,7 +251,7 @@ export type ContentV1 = z.infer<typeof ContentSchemaV1>;
 
 /* ---------- v2 (reorderable section list) ---------- */
 
-const SectionStyleSchema = z.object({ mt: z.number().optional(), mb: z.number().optional() }).optional();
+const SectionStyleSchema = z.object({ pt: z.number().optional(), pb: z.number().optional() }).optional();
 
 export const SectionSchema = z.discriminatedUnion("type", [
   z.object({ id: z.string(), type: z.literal("headline"), hidden: z.boolean().optional(), style: SectionStyleSchema, data: z.object({ headline: HeadlineSchema }) }),

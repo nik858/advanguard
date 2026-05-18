@@ -9,9 +9,9 @@ import { MediaSlot } from "../_editor/MediaSlot";
 import type { OnlySystemContent } from "@/types/content";
 import { mediaUrl } from "@/types/content";
 
-export function OnlySystem({ content: c, onCheckout, edit = false }: { content: OnlySystemContent; onCheckout?: () => void; edit?: boolean }) {
+export function OnlySystem({ content: c, onCheckout, edit = false, style }: { content: OnlySystemContent; onCheckout?: () => void; edit?: boolean; style?: React.CSSProperties }) {
   return (
-    <section className="ac-only" aria-labelledby="only-h2">
+    <section className="ac-only" aria-labelledby="only-h2" style={style}>
       <div className="ac-only__inner">
         <Reveal className="ac-only__header">
           <span className="ac-headline__eyebrow" style={{ ["--dot-color" as string]: c.eyebrowDotColor } as React.CSSProperties}>

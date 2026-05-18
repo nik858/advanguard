@@ -5,9 +5,9 @@ import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import type { FaqContent } from "@/types/content";
 
-export function FAQ({ content: c, edit = false }: { content: FaqContent; edit?: boolean }) {
+export function FAQ({ content: c, edit = false, style }: { content: FaqContent; edit?: boolean; style?: React.CSSProperties }) {
   return (
-    <section className="ac-faq" aria-labelledby="faq-h2">
+    <section className="ac-faq" aria-labelledby="faq-h2" style={style}>
       <div className="ac-faq__inner">
         <Reveal className="ac-faq__head">
           <h2 className="ac-faq__h2" id="faq-h2">

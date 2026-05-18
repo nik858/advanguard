@@ -11,9 +11,9 @@ import { mediaUrl, type StackContent } from "@/types/content";
 
 function shortLabel(s: string): string { return s.split(" ").slice(0, 2).join(" "); }
 
-export function Stack({ content: c, onCheckout, edit = false }: { content: StackContent; onCheckout?: () => void; edit?: boolean }) {
+export function Stack({ content: c, onCheckout, edit = false, style }: { content: StackContent; onCheckout?: () => void; edit?: boolean; style?: React.CSSProperties }) {
   return (
-    <section className="ac-stack" aria-labelledby="stack-h2">
+    <section className="ac-stack" aria-labelledby="stack-h2" style={style}>
       <div className="ac-stack__inner">
         <Reveal>
           <h2 className="ac-stack__h2" id="stack-h2">

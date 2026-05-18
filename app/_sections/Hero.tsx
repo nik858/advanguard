@@ -6,9 +6,9 @@ import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import type { HeroContent, OrderContent } from "@/types/content";
 
-export function Hero({ hero, order, edit = false }: { hero: HeroContent; order: OrderContent; edit?: boolean }) {
+export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; order: OrderContent; edit?: boolean; style?: React.CSSProperties }) {
   return (
-    <section className="ac-hero" aria-labelledby="what-is-h2">
+    <section className="ac-hero" aria-labelledby="what-is-h2" style={style}>
       <div className="ac-hero__grid">
         <div className="ac-hero__copy">
           <Reveal className="ac-hero__video-wrap">
