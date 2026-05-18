@@ -40,9 +40,12 @@ export const HeaderSchema = z.object({
 export type HeaderContent = z.infer<typeof HeaderSchema>;
 
 export const HeadlineSchema = z.object({
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   eyebrow: z.string(),
   eyebrowDotColor: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   h1: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   sub: z.string(),
 });
 export type HeadlineContent = z.infer<typeof HeadlineSchema>;
@@ -51,7 +54,9 @@ export const HeroSchema = z.object({
   videoLabel: z.string(),
   videoUrl: z.string(),
   videoPoster: MediaRefSchema,
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   sectionTitle: z.string(),
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   sectionBody: z.string(),
 });
 export type HeroContent = z.infer<typeof HeroSchema>;

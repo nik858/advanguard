@@ -2,6 +2,7 @@ import { Reveal } from "./_shared/Reveal";
 import { VideoPlayer } from "./_shared/VideoPlayer";
 import { OrderForm } from "./OrderForm";
 import { Edit } from "../_editor/Edit";
+import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import type { HeroContent, OrderContent } from "@/types/content";
 
@@ -21,12 +22,12 @@ export function Hero({ hero, order, edit = false }: { hero: HeroContent; order: 
           </Reveal>
           <Reveal delay={80}>
             <h2 className="ac-hero__what-h2" id="what-is-h2">
-              <Edit edit={edit} path="hero.sectionTitle">{hero.sectionTitle}</Edit>
+              <EditRich edit={edit} path="hero.sectionTitle">{hero.sectionTitle}</EditRich>
             </h2>
           </Reveal>
           <Reveal delay={120}>
             <p className="ac-hero__what-body">
-              <Edit edit={edit} path="hero.sectionBody" multiline>{hero.sectionBody}</Edit>
+              <EditRich edit={edit} path="hero.sectionBody" multiline>{hero.sectionBody}</EditRich>
             </p>
           </Reveal>
         </div>
