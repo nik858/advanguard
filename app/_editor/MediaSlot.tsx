@@ -69,6 +69,7 @@ export function MediaSlot({
   const [dragActive, setDragActive] = useState(false);
   const [urlInput, setUrlInput] = useState("");
   const [altInput, setAltInput] = useState("");
+  const [hovered, setHovered] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -339,8 +340,11 @@ export function MediaSlot({
 
   return (
     <>
-      {/* Drop overlay — only intercepts events while a file drag is active */}
+      {/* Drop overlay — hover-aware; always intercepts pointer events */}
       <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onClick={(e) => { e.stopPropagation(); setOpen(true); setView("menu"); }}
         onDragOver={(e) => { e.preventDefault(); }}
         onDrop={(e) => {
           e.preventDefault();
@@ -351,19 +355,44 @@ export function MediaSlot({
           position: "absolute",
           inset: 0,
           zIndex: 9,
-          pointerEvents: dragActive ? "auto" : "none",
+          pointerEvents: "auto",
+          cursor: "pointer",
           border: dragActive ? "2px dashed #1c7bfd" : "2px dashed transparent",
-          background: dragActive ? "rgba(28,123,253,0.12)" : "transparent",
+          background: dragActive
+            ? "rgba(28,123,253,0.12)"
+            : hovered
+              ? "rgba(0,0,0,0.4)"
+              : "transparent",
           display: "grid",
           placeItems: "center",
           fontFamily: "var(--adv-font, system-ui, sans-serif)",
           fontSize: 13,
           fontWeight: 600,
-          color: "#1c7bfd",
+          color: dragActive ? "#1c7bfd" : "#fff",
           borderRadius: 8,
+          transition: "background 150ms ease-in-out",
         }}
       >
-        {dragActive ? `Drop to replace this ${accept}` : null}
+        {dragActive
+          ? `Drop to replace this ${accept}`
+          : hovered && !compact
+            ? (
+              <span style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                background: "#fff",
+                color: "#18181b",
+                padding: "8px 16px",
+                borderRadius: 999,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                fontSize: 14,
+                fontWeight: 600,
+              }}>
+                <Icons.Pencil /> Change
+              </span>
+            )
+            : null}
       </div>
 
       {/* Corner button */}
