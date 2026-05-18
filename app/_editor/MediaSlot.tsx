@@ -195,7 +195,7 @@ export function MediaSlot({
             onClick={(e) => e.stopPropagation()}
             style={{
               position: "absolute",
-              top: popoverTop,
+              top: 132,
               right: compact ? 4 : 10,
               zIndex: 11,
               width: 280,
