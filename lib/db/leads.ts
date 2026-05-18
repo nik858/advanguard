@@ -68,14 +68,20 @@ export async function updateLeadStatus({ id, status }: { id: string; status: Lea
 
 export type UpdateLeadFieldsInput = {
   id: string;
+  email?: string;
   firstName?: string | null;
   phone?: string | null;
+  domain?: string | null;
+  clinicType?: ClinicType | null;
 };
 
 export async function updateLeadFields(input: UpdateLeadFieldsInput): Promise<void> {
   const patch: Record<string, unknown> = { updatedAt: new Date() };
+  if (input.email !== undefined) patch.email = input.email;
   if (input.firstName !== undefined) patch.firstName = input.firstName;
   if (input.phone !== undefined) patch.phone = input.phone;
+  if (input.domain !== undefined) patch.domain = input.domain;
+  if (input.clinicType !== undefined) patch.clinicType = input.clinicType;
   await getDb().update(leads).set(patch).where(eq(leads.id, input.id));
 }
 

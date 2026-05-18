@@ -4,6 +4,7 @@ import { z } from "zod";
 import { verifySession, SESSION_CONFIG } from "@/lib/auth";
 import { deleteLead, getLead, updateLeadFields, updateLeadStatus } from "@/lib/db/leads";
 import { LEAD_STATUSES, type LeadStatus } from "@/lib/db/schema";
+import { CLINIC_TYPES } from "@/lib/leads/clinic-types";
 
 export const runtime = "nodejs";
 
@@ -15,11 +16,21 @@ async function requireSession() {
 
 const PatchBody = z.object({
   status: z.enum(LEAD_STATUSES).optional(),
+  email: z.string().email().optional(),
   first_name: z.string().trim().optional().nullable(),
   phone: z.string().trim().optional().nullable(),
-}).refine((b) => b.status !== undefined || b.first_name !== undefined || b.phone !== undefined, {
-  message: "no fields to update",
-});
+  domain: z.string().trim().optional().nullable(),
+  clinic_type: z.enum(CLINIC_TYPES).optional().nullable(),
+}).refine(
+  (b) =>
+    b.status !== undefined ||
+    b.email !== undefined ||
+    b.first_name !== undefined ||
+    b.phone !== undefined ||
+    b.domain !== undefined ||
+    b.clinic_type !== undefined,
+  { message: "no fields to update" },
+);
 
 const UuidSchema = z.string().uuid();
 
@@ -47,11 +58,20 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (parsed.data.status) {
     await updateLeadStatus({ id, status: parsed.data.status as LeadStatus });
   }
-  if (parsed.data.first_name !== undefined || parsed.data.phone !== undefined) {
+  if (
+    parsed.data.email !== undefined ||
+    parsed.data.first_name !== undefined ||
+    parsed.data.phone !== undefined ||
+    parsed.data.domain !== undefined ||
+    parsed.data.clinic_type !== undefined
+  ) {
     await updateLeadFields({
       id,
-      firstName: parsed.data.first_name ?? null,
-      phone: parsed.data.phone ?? null,
+      ...(parsed.data.email !== undefined ? { email: parsed.data.email } : {}),
+      ...(parsed.data.first_name !== undefined ? { firstName: parsed.data.first_name } : {}),
+      ...(parsed.data.phone !== undefined ? { phone: parsed.data.phone } : {}),
+      ...(parsed.data.domain !== undefined ? { domain: parsed.data.domain } : {}),
+      ...(parsed.data.clinic_type !== undefined ? { clinicType: parsed.data.clinic_type } : {}),
     });
   }
 
