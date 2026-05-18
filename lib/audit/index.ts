@@ -7,12 +7,14 @@ import { generateAuditEmail } from "@/lib/audit/ai";
 import { generateFallbackEmail } from "@/lib/audit/fallback";
 import { sendAuditEmail } from "@/lib/email";
 import { updateLeadAudit } from "@/lib/db/leads";
+import { parseEnrichment } from "@/lib/audit/enrichment";
 
 export type PipelineResult = {
   email: AuditEmail;
   signals: Signals | null;       // null if the pipeline failed before building signals
   outcome: "success" | "fallback";
   reason?: string;               // why it fell back — for logging / preview display
+  enrichment?: import("@/types/audit").Enrichment | null;
 };
 
 /**
@@ -27,12 +29,12 @@ export async function runAuditPipeline(lead: Lead, promptsOverride?: Prompts): P
     const url = await resolveReachableUrl(lead.domain);
     if (!url) {
       console.warn("[audit] unreachable domain", { domain: lead.domain });
-      return { email: generateFallbackEmail(lead, "site unreachable"), signals: null, outcome: "fallback", reason: "site unreachable" };
+      return { email: generateFallbackEmail(lead, "site unreachable"), signals: null, outcome: "fallback", reason: "site unreachable", enrichment: null };
     }
     const html = await fetchHtml(url);
     if (!html) {
       console.warn("[audit] could not fetch HTML", { url });
-      return { email: generateFallbackEmail(lead, "could not fetch HTML"), signals: null, outcome: "fallback", reason: "could not fetch HTML" };
+      return { email: generateFallbackEmail(lead, "could not fetch HTML"), signals: null, outcome: "fallback", reason: "could not fetch HTML", enrichment: null };
     }
     const [htmlSignals, pagespeed] = await Promise.all([
       Promise.resolve(parseSignals(html, url)),
@@ -44,17 +46,18 @@ export async function runAuditPipeline(lead: Lead, promptsOverride?: Prompts): P
       html: htmlSignals,
       pagespeed,
     };
+    const enrichment = parseEnrichment(html);
     try {
       const email = await generateAuditEmail(signals, lead, promptsOverride);
       console.info("[audit] success", { domain: lead.domain, url });
-      return { email, signals, outcome: "success" };
+      return { email, signals, outcome: "success", enrichment };
     } catch (e) {
       console.error("[audit] AI generation failed", { domain: lead.domain, error: String(e) });
-      return { email: generateFallbackEmail(lead, "AI generation failed"), signals, outcome: "fallback", reason: "AI generation failed" };
+      return { email: generateFallbackEmail(lead, "AI generation failed"), signals, outcome: "fallback", reason: "AI generation failed", enrichment };
     }
   } catch (e) {
     console.error("[audit] pipeline error", { domain: lead.domain, error: String(e) });
-    return { email: generateFallbackEmail(lead, "pipeline error"), signals, outcome: "fallback", reason: "pipeline error" };
+    return { email: generateFallbackEmail(lead, "pipeline error"), signals, outcome: "fallback", reason: "pipeline error", enrichment: null };
   }
 }
 
@@ -73,6 +76,7 @@ export async function runAudit(lead: Lead): Promise<void> {
       outcome: result.outcome,
       reason: result.reason ?? null,
       signals: result.signals,
+      enrichment: result.enrichment ?? null,
     });
   } catch (e) {
     console.error("[audit] db update failed", { id: lead.id, error: String(e) });
