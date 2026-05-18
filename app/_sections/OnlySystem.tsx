@@ -68,7 +68,20 @@ export function OnlySystem({ content: c, onCheckout, edit = false, style }: { co
                     </div>
                   ))}
                 </div>
-                <div className="ac-only__book"><Book/></div>
+                <div className="ac-only__book">
+                  <Book
+                    title={
+                      <EditRich edit={edit} path="onlySystem.bookTitle" multiline>
+                        {c.bookTitle ?? "Automatic\nClients"}
+                      </EditRich>
+                    }
+                    quoteLines={[0, 1, 2].map((i) => (
+                      <EditRich key={i} edit={edit} path={`onlySystem.bookQuoteLines.${i}`}>
+                        {c.bookQuoteLines?.[i] ?? ["Copy & paste automated process", "that allows you to acquire", "customers for free"][i]}
+                      </EditRich>
+                    ))}
+                  />
+                </div>
                 {edit && <MediaSlot path="onlySystem.centerImage" accept="image" compact />}
               </>
             )}

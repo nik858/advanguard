@@ -111,6 +111,8 @@ export const OnlySystemSchema = z.object({
   leftFeatures: z.array(z.object({ title: z.string(), body: z.string() })),
   rightFeatures: z.array(z.object({ title: z.string(), body: z.string() })),
   stats: z.array(z.object({ value: z.string(), label: z.string() })),
+  bookTitle: z.string().optional(),
+  bookQuoteLines: z.array(z.string()).optional(),
   ctaTagline: z.string(),
   ctaLabel: z.string(),
   ctaSubLink: z.string(),
