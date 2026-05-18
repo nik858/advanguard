@@ -25,18 +25,36 @@ function setByPath(obj: any, path: string, value: unknown): void {
 }
 
 function sanitizeMigratedFields(content: any): void {
+  // footer is top-level in v2
   for (const p of RICHTEXT_FIELD_PATHS) {
+    if (!p.startsWith("footer.")) continue;
     const v = getByPath(content, p);
     if (typeof v === "string") setByPath(content, p, sanitizeRichText(v));
   }
-  if (Array.isArray(content.sections)) {
-    for (const s of content.sections) {
-      if (s?.type === "hero" && s.data) {
-        for (const p of RICHTEXT_FIELD_PATHS) {
-          if (!p.startsWith("hero.") && !p.startsWith("order.")) continue;
-          const v = getByPath(s.data, p);
-          if (typeof v === "string") setByPath(s.data, p, sanitizeRichText(v));
-        }
+
+  // Everything else lives under content.sections[N].data.<sectionType>.<field>
+  if (!Array.isArray(content.sections)) return;
+  for (const s of content.sections) {
+    if (!s?.type || !s.data) continue;
+
+    // Each section's primary data key matches its type. Find paths that target
+    // this section type and sanitize the field inside s.data[s.type].
+    const prefix = s.type + ".";
+    for (const p of RICHTEXT_FIELD_PATHS) {
+      if (!p.startsWith(prefix)) continue;
+      const localKey = p.slice(prefix.length);
+      const v = getByPath(s.data[s.type], localKey);
+      if (typeof v === "string") setByPath(s.data[s.type], localKey, sanitizeRichText(v));
+    }
+
+    // Hero sections uniquely also contain `order` data — sanitize order.* paths
+    // inside s.data.order.
+    if (s.type === "hero" && s.data.order) {
+      for (const p of RICHTEXT_FIELD_PATHS) {
+        if (!p.startsWith("order.")) continue;
+        const localKey = p.slice("order.".length);
+        const v = getByPath(s.data.order, localKey);
+        if (typeof v === "string") setByPath(s.data.order, localKey, sanitizeRichText(v));
       }
     }
   }
