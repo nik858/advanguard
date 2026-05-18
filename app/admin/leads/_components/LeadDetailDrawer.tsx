@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import styles from "../leads.module.css";
 import { StatusBadge } from "./StatusBadge";
 import { LEAD_STATUSES, type Lead, type LeadStatus } from "@/lib/db/schema";
-import { CLINIC_TYPE_LABELS, type ClinicType } from "@/lib/leads/clinic-types";
+import { CLINIC_TYPES, CLINIC_TYPE_LABELS, type ClinicType } from "@/lib/leads/clinic-types";
+import { InlineEditableField } from "./InlineEditableField";
 
 type Props = {
   lead: Lead | null;
@@ -23,22 +24,30 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [lead, onClose]);
 
-  async function changeStatus(status: LeadStatus) {
-    if (!lead) return;
-    setBusy(true);
+  async function patch(body: Record<string, unknown>): Promise<{ ok: true } | { ok: false; error: string }> {
+    if (!lead) return { ok: false, error: "no lead" };
     try {
       const res = await fetch(`/api/admin/leads/${lead.id}`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify(body),
       });
-      if (res.ok) {
-        const { row } = await res.json();
-        onUpdate(row);
+      if (!res.ok) {
+        const b = await res.json().catch(() => ({}));
+        return { ok: false, error: b.error || "Save failed" };
       }
-    } finally {
-      setBusy(false);
+      const { row } = await res.json();
+      onUpdate(row);
+      return { ok: true };
+    } catch {
+      return { ok: false, error: "Network error" };
     }
+  }
+
+  async function changeStatus(status: LeadStatus) {
+    setBusy(true);
+    await patch({ status });
+    setBusy(false);
   }
 
   async function remove() {
@@ -65,7 +74,14 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
         {lead && (
           <>
             <div className={styles.drawerHeader}>
-              <div className={styles.drawerTitle}>{lead.email}</div>
+              <div className={styles.drawerTitle}>
+                <InlineEditableField
+                  value={lead.email}
+                  type="email"
+                  allowEmpty={false}
+                  onSave={(v) => patch({ email: v })}
+                />
+              </div>
               <button className={styles.drawerClose} onClick={onClose} aria-label="Close">×</button>
             </div>
             <div className={styles.drawerBody}>
@@ -73,14 +89,37 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
                 <div className={styles.sectionTitle}>Contact</div>
                 <div className={styles.kv}>
                   <div className={styles.kvKey}>Name</div>
-                  <div className={styles.kvValue}>{lead.firstName ?? "—"}</div>
+                  <div className={styles.kvValue}>
+                    <InlineEditableField
+                      value={lead.firstName}
+                      type="text"
+                      onSave={(v) => patch({ first_name: v })}
+                    />
+                  </div>
                   <div className={styles.kvKey}>Phone</div>
-                  <div className={styles.kvValue}>{lead.phone ?? "—"}</div>
+                  <div className={styles.kvValue}>
+                    <InlineEditableField
+                      value={lead.phone}
+                      type="tel"
+                      onSave={(v) => patch({ phone: v })}
+                    />
+                  </div>
                   <div className={styles.kvKey}>Domain</div>
-                  <div className={styles.kvValue}>{lead.domain ?? "—"}</div>
+                  <div className={styles.kvValue}>
+                    <InlineEditableField
+                      value={lead.domain}
+                      type="text"
+                      onSave={(v) => patch({ domain: v })}
+                    />
+                  </div>
                   <div className={styles.kvKey}>Clinic</div>
                   <div className={styles.kvValue}>
-                    {lead.clinicType ? CLINIC_TYPE_LABELS[lead.clinicType as ClinicType] : "—"}
+                    <InlineEditableField
+                      value={lead.clinicType}
+                      type="select"
+                      options={CLINIC_TYPES.map((v) => ({ value: v, label: CLINIC_TYPE_LABELS[v] }))}
+                      onSave={(v) => patch({ clinic_type: v })}
+                    />
                   </div>
                   <div className={styles.kvKey}>Source</div>
                   <div className={styles.kvValue}>{lead.source}</div>
