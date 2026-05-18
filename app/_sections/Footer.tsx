@@ -21,7 +21,12 @@ export function Footer({ content: c, header: h, onCheckout, edit = false }: {
           </p>
         </Reveal>
         <Reveal delay={80} className="ac-footer__stack">
-          <CTA tag={c.ctaTagline} label={c.ctaLabel} onClick={onCheckout}/>
+          <CTA
+              edit={edit}
+              tag={<Edit edit={edit} path="footer.ctaTagline">{c.ctaTagline}</Edit>}
+              label={<Edit edit={edit} path="footer.ctaLabel">{c.ctaLabel}</Edit>}
+              onClick={onCheckout}
+            />
         </Reveal>
         <Reveal delay={160}>
           <p className="ac-footer__earnings">

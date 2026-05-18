@@ -76,7 +76,12 @@ export function OnlySystem({ content: c, onCheckout, edit = false }: { content: 
           </RepeatableList>
         </Reveal>
         <Reveal className="ac-only__cta-wrap" delay={200}>
-          <CTA tag={c.ctaTagline} label={c.ctaLabel} onClick={onCheckout}/>
+          <CTA
+            edit={edit}
+            tag={<Edit edit={edit} path="onlySystem.ctaTagline">{c.ctaTagline}</Edit>}
+            label={<Edit edit={edit} path="onlySystem.ctaLabel">{c.ctaLabel}</Edit>}
+            onClick={onCheckout}
+          />
           <a className="ac-only__cta-sub" href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
             <Edit edit={edit} path="onlySystem.ctaSubLink">{c.ctaSubLink}</Edit>
           </a>

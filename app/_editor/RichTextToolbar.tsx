@@ -83,9 +83,15 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
         if (el) rect = el.getBoundingClientRect();
       }
       if (rect.width === 0 && rect.height === 0) return;
-      // Clamp top so the toolbar never escapes the viewport.
-      const rawTop = rect.top - 44;
-      const top = Math.max(8, Math.min(window.innerHeight - 48, rawTop));
+      // Prefer placing above the selection. If there's not enough room (top
+      // margin would clip), place below the selection bottom instead so the
+      // toolbar never overlaps the selected text.
+      const TOOLBAR_HEIGHT = 40;
+      const GAP = 8;
+      const rawTopAbove = rect.top - TOOLBAR_HEIGHT - GAP;
+      const top = rawTopAbove >= 8
+        ? rawTopAbove
+        : Math.min(window.innerHeight - TOOLBAR_HEIGHT - 8, rect.bottom + GAP);
       // Clamp left so a ~220px-wide toolbar always fits.
       const rawLeft = rect.left + rect.width / 2 - 110;
       const left = Math.max(8, Math.min(window.innerWidth - 228, rawLeft));

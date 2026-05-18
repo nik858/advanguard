@@ -69,7 +69,12 @@ export function Stack({ content: c, onCheckout, edit = false }: { content: Stack
           </RepeatableList>
         </div>
         <Reveal className="ac-only__cta-wrap" delay={200}>
-          <CTA tag={c.ctaTagline} label={c.ctaLabel} onClick={onCheckout}/>
+          <CTA
+            edit={edit}
+            tag={<Edit edit={edit} path="stack.ctaTagline">{c.ctaTagline}</Edit>}
+            label={<Edit edit={edit} path="stack.ctaLabel">{c.ctaLabel}</Edit>}
+            onClick={onCheckout}
+          />
           <div className="ac-only__guarantee-row">
             <div className="ac-only__guarantee-text">
               <EditRich edit={edit} path="stack.guaranteeText">{c.guaranteeText}</EditRich>
