@@ -83,16 +83,14 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
         if (el) rect = el.getBoundingClientRect();
       }
       if (rect.width === 0 && rect.height === 0) return;
-      // Prefer placing above the selection. If there's not enough room (top
-      // margin would clip), place below the selection bottom instead so the
-      // toolbar never overlaps the selected text.
+      // Always place the toolbar just above the selection — never below.
+      // If the selection is too close to the viewport top, the toolbar can
+      // clip above the fold; user accepts that trade-off over the toolbar
+      // jumping around.
       const TOOLBAR_HEIGHT = 40;
       const GAP = 8;
-      const rawTopAbove = rect.top - TOOLBAR_HEIGHT - GAP;
-      const top = rawTopAbove >= 8
-        ? rawTopAbove
-        : Math.min(window.innerHeight - TOOLBAR_HEIGHT - 8, rect.bottom + GAP);
-      // Clamp left so a ~220px-wide toolbar always fits.
+      const top = rect.top - TOOLBAR_HEIGHT - GAP;
+      // Clamp left so a ~220px-wide toolbar always fits horizontally.
       const rawLeft = rect.left + rect.width / 2 - 110;
       const left = Math.max(8, Math.min(window.innerWidth - 228, rawLeft));
       setPos({ top, left });
