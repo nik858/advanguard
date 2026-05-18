@@ -4,6 +4,43 @@ import { verifySession, SESSION_CONFIG } from "@/lib/auth";
 import { migrateContent } from "@/types/content";
 import { loadDraft, deleteDraft } from "@/lib/blob";
 import { getFile, putFile } from "@/lib/github";
+import { sanitizeRichText } from "@/lib/richtext/sanitize";
+import { RICHTEXT_FIELD_PATHS } from "@/lib/richtext/migrated-fields";
+
+function getByPath(obj: unknown, path: string): unknown {
+  return path.split(".").reduce<unknown>((acc, k) => {
+    if (acc == null || typeof acc !== "object") return undefined;
+    return (acc as Record<string, unknown>)[k];
+  }, obj);
+}
+
+function setByPath(obj: any, path: string, value: unknown): void {
+  const parts = path.split(".");
+  let cur = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    cur = cur[parts[i]];
+    if (cur == null) return;
+  }
+  cur[parts[parts.length - 1]] = value;
+}
+
+function sanitizeMigratedFields(content: any): void {
+  for (const p of RICHTEXT_FIELD_PATHS) {
+    const v = getByPath(content, p);
+    if (typeof v === "string") setByPath(content, p, sanitizeRichText(v));
+  }
+  if (Array.isArray(content.sections)) {
+    for (const s of content.sections) {
+      if (s?.type === "hero" && s.data) {
+        for (const p of RICHTEXT_FIELD_PATHS) {
+          if (!p.startsWith("hero.") && !p.startsWith("order.")) continue;
+          const v = getByPath(s.data, p);
+          if (typeof v === "string") setByPath(s.data, p, sanitizeRichText(v));
+        }
+      }
+    }
+  }
+}
 
 export async function POST() {
   const c = await cookies();
@@ -20,6 +57,8 @@ export async function POST() {
   } catch (e) {
     return NextResponse.json({ error: "Invalid content", detail: (e as Error).message }, { status: 400 });
   }
+
+  sanitizeMigratedFields(migrated);
 
   let current;
   try {
