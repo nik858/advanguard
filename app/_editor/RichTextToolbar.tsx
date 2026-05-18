@@ -71,20 +71,33 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
 
   useEffect(() => {
     function reposition() {
-      let rect = range.getBoundingClientRect();
+      // Prefer the LIVE selection (post-mutation accurate) over the prop range
+      // (which may be stale after execCommand wraps text in a new element).
+      const sel = window.getSelection();
+      const liveRange = sel && sel.rangeCount > 0 && !sel.isCollapsed ? sel.getRangeAt(0) : null;
+      const sourceRange = liveRange ?? range;
+      let rect = sourceRange.getBoundingClientRect();
       if (rect.width === 0 && rect.height === 0) {
-        const startNode = range.startContainer;
-        const el = startNode.nodeType === 1 ? (startNode as Element) : startNode.parentElement;
+        const node = sourceRange.startContainer;
+        const el = node.nodeType === 1 ? (node as Element) : node.parentElement;
         if (el) rect = el.getBoundingClientRect();
       }
       if (rect.width === 0 && rect.height === 0) return;
-      const top = rect.top - 44;
-      const left = Math.max(8, rect.left + rect.width / 2 - 110);
+      // Clamp top so the toolbar never escapes the viewport.
+      const rawTop = rect.top - 44;
+      const top = Math.max(8, Math.min(window.innerHeight - 48, rawTop));
+      // Clamp left so a ~220px-wide toolbar always fits.
+      const rawLeft = rect.left + rect.width / 2 - 110;
+      const left = Math.max(8, Math.min(window.innerWidth - 228, rawLeft));
       setPos({ top, left });
     }
     reposition();
     window.addEventListener("scroll", reposition, { passive: true });
-    return () => window.removeEventListener("scroll", reposition);
+    document.addEventListener("selectionchange", reposition);
+    return () => {
+      window.removeEventListener("scroll", reposition);
+      document.removeEventListener("selectionchange", reposition);
+    };
   }, [range]);
 
   function applyFormat(command: string, value?: string) {
