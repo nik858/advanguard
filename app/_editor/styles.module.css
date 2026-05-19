@@ -138,6 +138,34 @@
   position: relative;
 }
 
+/* When the wrapper has a non-default size ("Bigger" / "Full width"), force
+   its descendants to fill that wrapper — otherwise the inner <img> / <video>
+   keeps its own CSS max-width (e.g. .ac-stack__hero-img max-width: 800px)
+   and the size buttons appear inert. `!important` is required because the
+   inner rules are loaded from landing.css and the data-size attribute alone
+   doesn't beat the specificity of .ac-stack__hero-img. The "default" size
+   has no override so the original layout is untouched. */
+.resizable[data-size="bigger"] :global(.ac-stack__hero-img),
+.resizable[data-size="bigger"] :global(.ac-only__center-img),
+.resizable[data-size="bigger"] :global(.ac-hero__video-wrap),
+.resizable[data-size="bigger"] :global(.ac-hero__video),
+.resizable[data-size="bigger"] :global(.ac-demo__video),
+.resizable[data-size="bigger"] img,
+.resizable[data-size="bigger"] video,
+.resizable[data-size="bigger"] iframe,
+.resizable[data-size="full"] :global(.ac-stack__hero-img),
+.resizable[data-size="full"] :global(.ac-only__center-img),
+.resizable[data-size="full"] :global(.ac-hero__video-wrap),
+.resizable[data-size="full"] :global(.ac-hero__video),
+.resizable[data-size="full"] :global(.ac-demo__video),
+.resizable[data-size="full"] img,
+.resizable[data-size="full"] video,
+.resizable[data-size="full"] iframe {
+  max-width: 100% !important;
+  width: 100% !important;
+  max-height: none !important;
+}
+
 .resizableToolbar {
   position: absolute;
   bottom: 12px;

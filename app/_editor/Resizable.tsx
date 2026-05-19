@@ -47,7 +47,7 @@ export function Resizable({ path, children, className, label }: ResizableProps) 
 
   if (!edit) {
     return (
-      <div className={className} style={sizeStyle}>
+      <div className={`${className ?? ""} ${styles.resizable}`.trim()} data-size={size} style={sizeStyle}>
         {children}
       </div>
     );
@@ -83,6 +83,7 @@ function ResizableEditing({
   return (
     <div
       className={`${className ?? ""} ${styles.resizable}`.trim()}
+      data-size={currentSize}
       style={{ ...sizeStyle, position: "relative" }}
     >
       {children}
