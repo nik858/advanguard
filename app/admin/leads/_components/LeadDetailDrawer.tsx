@@ -6,6 +6,7 @@ import { LEAD_STATUSES, type Lead, type LeadStatus } from "@/lib/db/schema";
 import { CLINIC_TYPES, CLINIC_TYPE_LABELS, type ClinicType } from "@/lib/leads/clinic-types";
 import { InlineEditableField } from "./InlineEditableField";
 import type { Enrichment } from "@/types/audit";
+import type { ScheduledEmail } from "@/lib/db/leads";
 
 type Props = {
   lead: Lead | null;
@@ -49,6 +50,21 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
     setBusy(true);
     await patch({ status });
     setBusy(false);
+  }
+
+  async function stopSequence() {
+    if (!lead) return;
+    if (!confirm(`Stop the remaining scheduled emails for ${lead.email}?`)) return;
+    setBusy(true);
+    try {
+      const res = await fetch(`/api/admin/leads/${lead.id}/stop-sequence`, { method: "POST" });
+      if (res.ok) {
+        const { row } = await res.json();
+        if (row) onUpdate(row);
+      }
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function remove() {
@@ -194,6 +210,57 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
                   </>
                 )}
               </div>
+
+              {(() => {
+                const scheduled = (lead.scheduledEmails ?? null) as ScheduledEmail[] | null;
+                if (!scheduled || scheduled.length === 0) return null;
+                const stopped = !!lead.sequenceStopped;
+                const remaining = scheduled.filter((e) => e.status === "scheduled").length;
+                return (
+                  <div>
+                    <div className={styles.sectionTitle} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                      <span>Mail sequence</span>
+                      {!stopped && remaining > 0 && (
+                        <button
+                          onClick={stopSequence}
+                          disabled={busy}
+                          style={{
+                            border: "1px solid #e7e7ea",
+                            background: "#fff",
+                            color: "#dc2626",
+                            padding: "4px 10px",
+                            borderRadius: 6,
+                            fontSize: 12,
+                            fontWeight: 500,
+                            cursor: busy ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Stop sequence
+                        </button>
+                      )}
+                      {stopped && (
+                        <span style={{ color: "#71717a", fontSize: 11, fontWeight: 400 }}>Stopped</span>
+                      )}
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 13 }}>
+                      {scheduled.map((entry) => {
+                        const when = new Date(entry.scheduled_for);
+                        const color = entry.status === "sent" ? "#16a34a"
+                          : entry.status === "scheduled" ? "#2563eb"
+                          : entry.status === "cancelled" ? "#71717a"
+                          : "#dc2626";
+                        return (
+                          <div key={entry.tab} style={{ display: "grid", gridTemplateColumns: "60px 80px 1fr", gap: 8, alignItems: "center" }}>
+                            <strong style={{ color: "#18181b" }}>Mail {entry.tab}</strong>
+                            <span style={{ color, fontWeight: 500, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.04em" }}>{entry.status}</span>
+                            <span style={{ color: "#71717a" }}>{when.toLocaleString()}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })()}
 
               {lead.signals !== null && (
                 <details>

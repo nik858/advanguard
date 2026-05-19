@@ -116,6 +116,61 @@ export type Signals = {
   isHttps: boolean;
   html: HtmlSignals;
   pagespeed: PageSpeedSignals | null;   // null if PageSpeed failed
+  v2?: SignalsV2;           // optional richer v2 structure attached to the same row
+};
+
+// ---------- SignalsV2 — multi-page, threshold-based ----------
+
+export type TrackingMissing = "meta_pixel" | "google_ads" | "google_analytics";
+
+export type SignalsV2 = {
+  url: string;
+  is_https: boolean;
+  pages_crawled: number;
+  service_page_urls: string[];
+
+  // Email 1 signals (1-6)
+  before_after: { case_count: number; pass: boolean };
+  booking_widget: {
+    homepage: boolean;
+    service_pages: { url: string; pass: boolean }[];
+    pass: boolean;
+    booking_homepage_only: boolean;
+    missing_pages: string[];
+  };
+  testimonials: { onsite_count: number; pass: boolean };
+  live_chat: { platform: string | null; pass: boolean };
+  mobile_responsive: { score: number | null; pass: boolean; critical: boolean };
+  tracking: {
+    meta_pixel: boolean;
+    google_ads: boolean;
+    google_analytics: boolean;
+    missing: TrackingMissing[];
+    pass: boolean;
+  };
+
+  // Email 2 signals (7-10)
+  images_per_service_page: {
+    pages: { url: string; count: number; pass: boolean }[];
+    pass: boolean;
+    no_individual_service_pages: boolean;
+  };
+  pricing: { pass: boolean; gated: boolean; free_consult_offered: boolean };
+  homepage_video: { pass: boolean };
+  page_speed: { score: number | null; pass: boolean; critical: boolean };
+
+  // Email 3 signals (11-16)
+  team_credentials: {
+    has_named_provider: boolean;
+    has_photo: boolean;
+    has_credential: boolean;
+    pass: boolean;
+  };
+  ssl: { pass: boolean };
+  schema_local_business: { pass: boolean; types_found: string[] };
+  multilingual: { pass: boolean };
+  financing_partners: { detected: string[]; pass: boolean };
+  faq: { pass: boolean };
 };
 
 export type AuditEmail = {

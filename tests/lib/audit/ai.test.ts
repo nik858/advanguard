@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Signals, Lead } from "@/types/audit";
+import type { PromptsV2 } from "@/types/prompts";
 
 const lead: Lead = { id: "00000000-0000-0000-0000-000000000001", email: "matt@brightsmile.com", firstName: "Matt", domain: "brightsmile.com" };
 const signals: Signals = {
@@ -19,13 +20,23 @@ const signals: Signals = {
   pagespeed: null,
 };
 
-const PROMPTS = {
-  version: 1, system_prompt: "sys", email_instructions: "email instr",
-  subject_instructions: "subj instr", tone: "warm", signature: "The Advanguard Team",
+const PROMPTS: PromptsV2 = {
+  version: 2,
+  shared: { system_prompt: "sys", tone: "warm", signature: "Nik" },
+  html_template: "<html><body>{{body_html}}</body></html>",
+  emails: {
+    mail_1: { delay_hours: 0, email_instructions: "instr 1", subject_instructions: "subj 1" },
+    mail_2: { delay_hours: 24, email_instructions: "instr 2", subject_instructions: "subj 2" },
+    mail_3: { delay_hours: 48, email_instructions: "instr 3", subject_instructions: "subj 3" },
+  },
 };
 
-describe("generateAuditEmail", () => {
-  beforeEach(() => { vi.resetModules(); vi.restoreAllMocks(); process.env.ANTHROPIC_API_KEY = "test-key"; });
+describe("generateAuditEmail (legacy, single mail)", () => {
+  beforeEach(() => {
+    vi.resetModules();
+    vi.restoreAllMocks();
+    process.env.ANTHROPIC_API_KEY = "test-key";
+  });
 
   it("returns the parsed subject and body from Claude's JSON response", async () => {
     vi.doMock("@/lib/audit/prompts", () => ({ loadPrompts: async () => PROMPTS }));
@@ -58,5 +69,54 @@ describe("generateAuditEmail", () => {
     vi.doMock("@/lib/audit/prompts", () => ({ loadPrompts: async () => PROMPTS }));
     const { generateAuditEmail } = await import("@/lib/audit/ai");
     await expect(generateAuditEmail(signals, lead)).rejects.toThrow();
+  });
+});
+
+describe("generateAuditEmails (3-mail sequence)", () => {
+  beforeEach(() => {
+    vi.resetModules();
+    vi.restoreAllMocks();
+    process.env.ANTHROPIC_API_KEY = "test-key";
+  });
+
+  it("runs 3 Claude calls in parallel and returns one email per mail key", async () => {
+    vi.doMock("@/lib/audit/prompts", () => ({ loadPrompts: async () => PROMPTS }));
+    const createMock = vi.fn().mockImplementation(async ({ messages }: { messages: { content: string }[] }) => {
+      const which = messages[0].content.includes("#1") ? "1" : messages[0].content.includes("#2") ? "2" : "3";
+      return { content: [{ type: "text", text: `{"subject":"S${which}","body":"B${which}"}` }] };
+    });
+    vi.doMock("@anthropic-ai/sdk", () => ({
+      default: vi.fn().mockImplementation(function () {
+        return { messages: { create: createMock } };
+      }),
+    }));
+    const { generateAuditEmails } = await import("@/lib/audit/ai");
+    const r = await generateAuditEmails(signals, lead);
+    expect(createMock).toHaveBeenCalledTimes(3);
+    expect(r.emails.mail_1?.subject).toBe("S1");
+    expect(r.emails.mail_2?.subject).toBe("S2");
+    expect(r.emails.mail_3?.subject).toBe("S3");
+    expect(r.errors.mail_1).toBeNull();
+  });
+
+  it("returns a null email + error message for any mail whose parse fails", async () => {
+    vi.doMock("@/lib/audit/prompts", () => ({ loadPrompts: async () => PROMPTS }));
+    const createMock = vi.fn().mockImplementation(async ({ messages }: { messages: { content: string }[] }) => {
+      if (messages[0].content.includes("#2")) {
+        return { content: [{ type: "text", text: "not json" }] };
+      }
+      return { content: [{ type: "text", text: '{"subject":"S","body":"B"}' }] };
+    });
+    vi.doMock("@anthropic-ai/sdk", () => ({
+      default: vi.fn().mockImplementation(function () {
+        return { messages: { create: createMock } };
+      }),
+    }));
+    const { generateAuditEmails } = await import("@/lib/audit/ai");
+    const r = await generateAuditEmails(signals, lead);
+    expect(r.emails.mail_2).toBeNull();
+    expect(r.errors.mail_2).not.toBeNull();
+    expect(r.emails.mail_1).not.toBeNull();
+    expect(r.emails.mail_3).not.toBeNull();
   });
 });

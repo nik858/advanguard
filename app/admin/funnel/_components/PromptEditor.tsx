@@ -3,62 +3,69 @@ import { useEffect, useMemo, useState } from "react";
 import { useToast } from "../../../_components/Toast";
 import { ConfirmDialog } from "../../../_components/ConfirmDialog";
 import styles from "./funnel.module.css";
+import { renderHtmlTemplate, SAMPLE_TEMPLATE_VARS } from "@/lib/audit/template";
 
-type Prompts = {
-  version: number;
-  system_prompt: string;
+type MailConfig = {
+  delay_hours: number;
   email_instructions: string;
   subject_instructions: string;
-  tone: string;
-  signature: string;
 };
 
-type FieldKey = keyof Omit<Prompts, "version">;
-type Field = { key: FieldKey; label: string; hint: string; rows: number };
-type Group = { id: string; label: string; title: string; fields: Field[] };
+type PromptsV2 = {
+  version: 2;
+  shared: {
+    system_prompt: string;
+    tone: string;
+    signature: string;
+  };
+  html_template: string;
+  emails: {
+    mail_1: MailConfig;
+    mail_2: MailConfig;
+    mail_3: MailConfig;
+  };
+};
 
-const GROUPS: Group[] = [
-  {
-    id: "identity",
-    label: "01",
-    title: "Identity & instructions",
-    fields: [
-      { key: "system_prompt", label: "System prompt", hint: "Who Claude is and how it should think about the audit.", rows: 5 },
-      { key: "email_instructions", label: "Email body instructions", hint: "How the email body should be structured and written.", rows: 5 },
-      { key: "subject_instructions", label: "Subject line instructions", hint: "How the subject line should be written.", rows: 3 },
-    ],
-  },
-  {
-    id: "voice",
-    label: "02",
-    title: "Voice",
-    fields: [
-      { key: "tone", label: "Tone", hint: "The voice of the email.", rows: 2 },
-      { key: "signature", label: "Signature", hint: "How the email signs off.", rows: 1 },
-    ],
-  },
-];
+type MailKey = "mail_1" | "mail_2" | "mail_3";
+
+type PreviewMail = {
+  tab: 1 | 2 | 3;
+  delay_hours: number;
+  subject: string;
+  body: string;
+  html: string;
+  fallback: boolean;
+  reason?: string | null;
+};
 
 type PreviewResult = {
   outcome: "success" | "fallback";
   reason: string | null;
   signals: unknown | null;
-  email: { subject: string; body: string };
+  enrichment: unknown | null;
+  mails: PreviewMail[];
 };
 
-type Tab = "prompts" | "preview";
+const MAIL_KEYS: MailKey[] = ["mail_1", "mail_2", "mail_3"];
+const TAB_LABELS: Record<MailKey, string> = {
+  mail_1: "Mail 1",
+  mail_2: "Mail 2",
+  mail_3: "Mail 3",
+};
 
 export function PromptEditor() {
   const { toast } = useToast();
-  const [prompts, setPrompts] = useState<Prompts | null>(null);
-  const [baseline, setBaseline] = useState<Prompts | null>(null);
+  const [prompts, setPrompts] = useState<PromptsV2 | null>(null);
+  const [baseline, setBaseline] = useState<PromptsV2 | null>(null);
   const [saving, setSaving] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const [previewEmail, setPreviewEmail] = useState("");
   const [previewing, setPreviewing] = useState(false);
   const [previewResult, setPreviewResult] = useState<PreviewResult | null>(null);
   const [signalsOpen, setSignalsOpen] = useState(false);
-  const [tab, setTab] = useState<Tab>("prompts");
+  const [activeMail, setActiveMail] = useState<MailKey>("mail_1");
+  const [activePreviewMail, setActivePreviewMail] = useState<1 | 2 | 3>(1);
+  const [previewMode, setPreviewMode] = useState<"rendered" | "plain">("rendered");
 
   useEffect(() => {
     fetch("/api/prompts")
@@ -75,16 +82,25 @@ export function PromptEditor() {
     return JSON.stringify(prompts) !== JSON.stringify(baseline);
   }, [prompts, baseline]);
 
-  async function save(next: Prompts) {
+  const templatePreviewHtml = useMemo(() => {
+    if (!prompts) return "";
+    return renderHtmlTemplate(prompts.html_template, {
+      ...SAMPLE_TEMPLATE_VARS,
+      signature: prompts.shared.signature || SAMPLE_TEMPLATE_VARS.signature,
+    });
+  }, [prompts]);
+
+  async function save() {
+    if (!prompts) return;
     setSaving(true);
     const res = await fetch("/api/prompts", {
       method: "PUT",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(next),
+      body: JSON.stringify(prompts),
     });
     setSaving(false);
     if (res.ok) {
-      setBaseline(next);
+      setBaseline(prompts);
       toast("success", "Prompts saved — the next audit will use them");
     } else {
       toast("error", "Could not save the prompts");
@@ -121,6 +137,7 @@ export function PromptEditor() {
       }
       const b = (await res.json()) as PreviewResult;
       setPreviewResult(b);
+      setActivePreviewMail(1);
     } catch {
       toast("error", "Could not run the preview");
     } finally {
@@ -128,226 +145,307 @@ export function PromptEditor() {
     }
   }
 
+  function updateShared(key: keyof PromptsV2["shared"], value: string) {
+    if (!prompts) return;
+    setPrompts({ ...prompts, shared: { ...prompts.shared, [key]: value } });
+  }
+
+  function updateMail(key: MailKey, patch: Partial<MailConfig>) {
+    if (!prompts) return;
+    setPrompts({
+      ...prompts,
+      emails: { ...prompts.emails, [key]: { ...prompts.emails[key], ...patch } },
+    });
+  }
+
   if (!prompts) return <p style={{ color: "#71717a" }}>Loading…</p>;
 
+  const currentMail = prompts.emails[activeMail];
+  const currentPreviewMail = previewResult?.mails.find((m) => m.tab === activePreviewMail) ?? null;
+
   return (
-    <div>
-      {/* Tabs */}
-      <div className={styles.tabs}>
-        <div className={styles.tabsTrack} data-active={tab}>
-          <div className={styles.tabsIndicator} aria-hidden="true" />
-          <button
-            type="button"
-            className={styles.tabBtn}
-            data-active={tab === "prompts"}
-            onClick={() => setTab("prompts")}
-          >
-            Edit prompts
-          </button>
-          <button
-            type="button"
-            className={styles.tabBtn}
-            data-active={tab === "preview"}
-            onClick={() => setTab("preview")}
-          >
-            Preview
-          </button>
+    <div className={styles.editorRoot}>
+      {/* ───── 1. CONFIGURATION (HTML template) ───── */}
+      <section className={styles.group}>
+        <div className={styles.groupHead}>
+          <div className={styles.groupLabel}>Configuration</div>
+          <div className={styles.groupTitle}>HTML template (used by all 3 mails)</div>
+          <div className={styles.fieldHint} style={{ marginTop: 4 }}>
+            Placeholders: <code>{"{{body_html}}"}</code>, <code>{"{{subject}}"}</code>,{" "}
+            <code>{"{{first_name}}"}</code>, <code>{"{{signature}}"}</code>, <code>{"{{domain}}"}</code>.
+          </div>
         </div>
-        <span className={styles.tabStatus} data-dirty={dirty}>
-          <span className={styles.tabStatusDot} aria-hidden="true" />
-          {dirty ? "Unsaved changes" : "All changes saved"}
-        </span>
-      </div>
-
-      {/* Panels — key={tab} re-mounts and replays the fade-in keyframe on switch */}
-      <div key={tab} className={styles.panel}>
-        {tab === "prompts" ? (
-          <PromptsPanel
-            prompts={prompts}
-            setPrompts={setPrompts}
-            saving={saving}
-            dirty={dirty}
-            onSave={() => save(prompts)}
-            onReset={() => setConfirmReset(true)}
+        <div className={styles.templateSplit}>
+          <textarea
+            className={styles.templateEditor}
+            value={prompts.html_template}
+            onChange={(e) =>
+              setPrompts({ ...prompts, html_template: e.target.value })
+            }
+            spellCheck={false}
           />
-        ) : (
-          <PreviewPanel
-            email={previewEmail}
-            setEmail={setPreviewEmail}
-            previewing={previewing}
-            result={previewResult}
-            signalsOpen={signalsOpen}
-            setSignalsOpen={setSignalsOpen}
-            onRun={runPreview}
+          <div className={styles.templatePreviewWrap}>
+            <div className={styles.templatePreviewLabel}>Live preview (sample variables)</div>
+            <iframe
+              className={styles.templatePreview}
+              title="HTML template preview"
+              srcDoc={templatePreviewHtml}
+              sandbox=""
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ───── 2. SHARED PROMPTS ───── */}
+      <section className={styles.group}>
+        <div className={styles.groupHead}>
+          <div className={styles.groupLabel}>Shared</div>
+          <div className={styles.groupTitle}>Voice + system prompt (used by all 3 mails)</div>
+        </div>
+        <div className={styles.field}>
+          <div className={styles.fieldHead}>
+            <label className={styles.fieldLabel}>System prompt</label>
+          </div>
+          <textarea
+            className={styles.textarea}
+            rows={5}
+            value={prompts.shared.system_prompt}
+            onChange={(e) => updateShared("system_prompt", e.target.value)}
           />
-        )}
-      </div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 14 }}>
+          <div className={styles.field}>
+            <label className={styles.fieldLabel}>Tone</label>
+            <input
+              className={styles.input}
+              value={prompts.shared.tone}
+              onChange={(e) => updateShared("tone", e.target.value)}
+            />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.fieldLabel}>Signature</label>
+            <input
+              className={styles.input}
+              value={prompts.shared.signature}
+              onChange={(e) => updateShared("signature", e.target.value)}
+            />
+          </div>
+        </div>
+      </section>
 
-      <ConfirmDialog
-        open={confirmReset}
-        title="Reset to the default prompts?"
-        description="This deletes your customized prompts and restores the built-in defaults. Any unsaved edits in the editor are also discarded."
-        confirmLabel="Reset to default"
-        cancelLabel="Keep my prompts"
-        destructive
-        onConfirm={resetToDefault}
-        onCancel={() => setConfirmReset(false)}
-      />
-    </div>
-  );
-}
+      {/* ───── 3. MAIL TABS ───── */}
+      <section className={styles.group}>
+        <div className={styles.groupHead}>
+          <div className={styles.groupLabel}>Sequence</div>
+          <div className={styles.groupTitle}>Per-mail prompts and delays</div>
+        </div>
+        <div className={styles.mailTabsRow}>
+          {MAIL_KEYS.map((key) => (
+            <button
+              key={key}
+              type="button"
+              className={styles.mailTab}
+              data-active={activeMail === key}
+              onClick={() => setActiveMail(key)}
+            >
+              <span>{TAB_LABELS[key]}</span>
+              <span className={styles.mailTabDelay}>
+                {prompts.emails[key].delay_hours === 0 ? "instant" : `+${prompts.emails[key].delay_hours}h`}
+              </span>
+            </button>
+          ))}
+        </div>
 
-function PromptsPanel({
-  prompts,
-  setPrompts,
-  saving,
-  dirty,
-  onSave,
-  onReset,
-}: {
-  prompts: Prompts;
-  setPrompts: (p: Prompts) => void;
-  saving: boolean;
-  dirty: boolean;
-  onSave: () => void;
-  onReset: () => void;
-}) {
-  return (
-    <>
-      <div className={styles.groups}>
-        {GROUPS.map((g) => (
-          <section key={g.id} className={styles.group}>
-            <div className={styles.groupHead}>
-              <div className={styles.groupLabel}>{g.label}</div>
-              <div className={styles.groupTitle}>{g.title}</div>
-            </div>
-            {g.fields.map((f) => (
-              <div key={f.key} className={styles.field}>
-                <div className={styles.fieldHead}>
-                  <label htmlFor={`f-${f.key}`} className={styles.fieldLabel}>
-                    {f.label}
-                  </label>
-                </div>
-                <div className={styles.fieldHint}>{f.hint}</div>
-                <textarea
-                  id={`f-${f.key}`}
-                  className={styles.textarea}
-                  value={prompts[f.key]}
-                  rows={f.rows}
-                  onChange={(e) => setPrompts({ ...prompts, [f.key]: e.target.value })}
-                />
-              </div>
-            ))}
-          </section>
-        ))}
-      </div>
+        <div className={styles.field}>
+          <label className={styles.fieldLabel}>Delay (hours after T0)</label>
+          <input
+            type="number"
+            min={0}
+            max={72}
+            step={1}
+            className={styles.input}
+            value={currentMail.delay_hours}
+            onChange={(e) =>
+              updateMail(activeMail, {
+                delay_hours: Math.max(0, Math.min(72, Number(e.target.value) || 0)),
+              })
+            }
+            style={{ maxWidth: 140 }}
+          />
+          <div className={styles.fieldHint}>Resend allows scheduled sends up to 72h ahead.</div>
+        </div>
 
-      <div className={styles.actionBar}>
-        <span className={styles.actionBarMessage}>
-          {dirty ? "You have unsaved changes." : "All changes saved."}
-        </span>
-        <button type="button" onClick={onReset} className={styles.btnGhost}>
-          Reset to default
-        </button>
-        <button type="button" onClick={onSave} disabled={saving || !dirty} className={styles.btnPrimary}>
-          {saving ? "Saving…" : "Save prompts"}
-        </button>
-      </div>
-    </>
-  );
-}
+        <div className={styles.field}>
+          <label className={styles.fieldLabel}>Subject prompt</label>
+          <textarea
+            className={styles.textarea}
+            rows={3}
+            value={currentMail.subject_instructions}
+            onChange={(e) => updateMail(activeMail, { subject_instructions: e.target.value })}
+          />
+        </div>
 
-function PreviewPanel({
-  email,
-  setEmail,
-  previewing,
-  result,
-  signalsOpen,
-  setSignalsOpen,
-  onRun,
-}: {
-  email: string;
-  setEmail: (s: string) => void;
-  previewing: boolean;
-  result: PreviewResult | null;
-  signalsOpen: boolean;
-  setSignalsOpen: (b: boolean) => void;
-  onRun: () => void;
-}) {
-  const signalsJson = result?.signals != null ? JSON.stringify(result.signals, null, 2) : "";
-  return (
-    <>
-      <div className={styles.previewRunner}>
+        <div className={styles.field}>
+          <label className={styles.fieldLabel}>Email body prompt</label>
+          <textarea
+            className={styles.textarea}
+            rows={8}
+            value={currentMail.email_instructions}
+            onChange={(e) => updateMail(activeMail, { email_instructions: e.target.value })}
+          />
+        </div>
+      </section>
+
+      {/* ───── 4. TEST PREVIEW ───── */}
+      <section className={styles.previewRunner}>
         <div className={styles.previewHead}>
-          <div className={styles.previewTitle}>Test an email</div>
+          <div className={styles.previewTitle}>🧪 Test preview</div>
           <div className={styles.previewSub}>
-            Runs the real audit pipeline against this email using the prompts currently in the
-            editor. Nothing is sent — no webhook, no email.
+            Run the full pipeline (crawl + PageSpeed + 3 Claude calls) on a real domain. Nothing is sent.
           </div>
         </div>
         <div className={styles.previewRow}>
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="owner@clinic.com"
+            placeholder="owner@theirclinic.com"
             className={styles.input}
+            value={previewEmail}
+            onChange={(e) => setPreviewEmail(e.target.value)}
           />
           <button
             type="button"
-            onClick={onRun}
-            disabled={previewing || !email}
             className={styles.btnPrimary}
+            onClick={runPreview}
+            disabled={previewing || !previewEmail || !/^\S+@\S+\.\S+$/.test(previewEmail)}
           >
-            {previewing ? "Running…" : "Run preview"}
+            {previewing ? "Generating…" : "Run preview"}
           </button>
         </div>
         {previewing && (
-          <span className={styles.previewRunning}>
-            <span className={styles.previewRunningDot} aria-hidden="true" />
-            Running the real audit — this takes up to a minute…
-          </span>
+          <div className={styles.previewRunning}>
+            <span className={styles.previewRunningDot} />
+            Generating 3 mails… this can take 20–40 seconds.
+          </div>
         )}
-      </div>
 
-      {result && (
-        <div className={styles.previewResults}>
-          {result.outcome === "fallback" && (
-            <div className={styles.fallbackBanner}>
-              The pipeline fell back ({result.reason ?? "unknown reason"}) — here is the fallback
-              email that would be sent.
+        {previewResult && (
+          <div className={styles.previewResults}>
+            {previewResult.outcome === "fallback" && (
+              <div className={styles.fallbackBanner}>
+                Pipeline returned at least one fallback mail
+                {previewResult.reason ? ` — ${previewResult.reason}` : ""}.
+              </div>
+            )}
+
+            <div className={styles.mailTabsRow}>
+              {previewResult.mails.map((m) => (
+                <button
+                  key={m.tab}
+                  type="button"
+                  className={styles.mailTab}
+                  data-active={activePreviewMail === m.tab}
+                  onClick={() => setActivePreviewMail(m.tab)}
+                >
+                  <span>Mail {m.tab}</span>
+                  <span className={styles.mailTabDelay}>
+                    {m.delay_hours === 0 ? "instant" : `+${m.delay_hours}h`}
+                  </span>
+                  {m.fallback && <span className={styles.mailTabFallback}>fallback</span>}
+                </button>
+              ))}
             </div>
-          )}
-          <article className={styles.emailCard}>
-            <header className={styles.emailCardHead}>
-              <div className={styles.emailEyebrow}>Generated email</div>
-              <div className={styles.emailSubject}>{result.email.subject}</div>
-            </header>
-            <pre className={styles.emailBody}>{result.email.body}</pre>
-          </article>
-          {result.signals != null && (
-            <div className={styles.signalsCard}>
-              <button
-                type="button"
-                className={styles.signalsToggle}
-                onClick={() => setSignalsOpen(!signalsOpen)}
-                aria-expanded={signalsOpen}
-              >
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
-                  <span className={styles.signalsChevron} data-open={signalsOpen} aria-hidden="true">
+
+            {currentPreviewMail && (
+              <div className={styles.emailCard}>
+                <div className={styles.emailCardHead}>
+                  <div className={styles.emailEyebrow}>Subject</div>
+                  <div className={styles.emailSubject}>{currentPreviewMail.subject}</div>
+                </div>
+                <div className={styles.previewModeRow}>
+                  <button
+                    type="button"
+                    className={styles.previewModeBtn}
+                    data-active={previewMode === "rendered"}
+                    onClick={() => setPreviewMode("rendered")}
+                  >
+                    Rendered
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.previewModeBtn}
+                    data-active={previewMode === "plain"}
+                    onClick={() => setPreviewMode("plain")}
+                  >
+                    Plain text
+                  </button>
+                </div>
+                {previewMode === "rendered" ? (
+                  <iframe
+                    className={styles.emailHtmlPreview}
+                    title={`Mail ${currentPreviewMail.tab} preview`}
+                    srcDoc={currentPreviewMail.html}
+                    sandbox=""
+                  />
+                ) : (
+                  <pre className={styles.emailBody}>{currentPreviewMail.body}</pre>
+                )}
+              </div>
+            )}
+
+            {previewResult.signals !== null && (
+              <div className={styles.signalsCard}>
+                <button
+                  type="button"
+                  className={styles.signalsToggle}
+                  onClick={() => setSignalsOpen((o) => !o)}
+                >
+                  <span>Raw signals JSON</span>
+                  <span className={styles.signalsChevron} data-open={signalsOpen}>
                     ›
                   </span>
-                  Extracted signals
-                </span>
-                <span className={styles.signalsCount}>
-                  {signalsJson ? `${signalsJson.split("\n").length} lines` : ""}
-                </span>
-              </button>
-              {signalsOpen && <pre className={styles.signalsBody}>{signalsJson}</pre>}
-            </div>
-          )}
+                </button>
+                {signalsOpen && (
+                  <pre className={styles.signalsBody}>
+                    {JSON.stringify(previewResult.signals, null, 2)}
+                  </pre>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* Sticky save bar */}
+      <div className={styles.actionBar}>
+        <div className={styles.actionBarMessage}>
+          {dirty ? "Unsaved changes" : saving ? "Saving…" : "All changes saved"}
         </div>
-      )}
-    </>
+        <button
+          type="button"
+          className={styles.btnGhost}
+          onClick={() => setConfirmReset(true)}
+          disabled={saving}
+        >
+          Reset to default
+        </button>
+        <button
+          type="button"
+          className={styles.btnPrimary}
+          onClick={save}
+          disabled={saving || !dirty}
+        >
+          {saving ? "Saving…" : "Save"}
+        </button>
+      </div>
+
+      <ConfirmDialog
+        open={confirmReset}
+        title="Reset all prompts and template?"
+        description="This restores the bundled defaults for the system prompt, tone, signature, HTML template, and all 3 mail tabs. This cannot be undone."
+        confirmLabel="Reset"
+        onConfirm={resetToDefault}
+        onCancel={() => setConfirmReset(false)}
+      />
+    </div>
   );
 }

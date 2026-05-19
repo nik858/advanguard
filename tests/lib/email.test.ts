@@ -115,7 +115,7 @@ describe("lib/email — sendAuditEmail", () => {
     p.catch(() => {});
     await vi.advanceTimersByTimeAsync(1000);
 
-    await expect(p).resolves.toBeUndefined();
+    await expect(p).resolves.toBe("ok");
     expect(mockSend).toHaveBeenCalledTimes(2);
   });
 
@@ -135,7 +135,7 @@ describe("lib/email — sendAuditEmail", () => {
     await vi.advanceTimersByTimeAsync(1000);
     await vi.advanceTimersByTimeAsync(3000);
 
-    await expect(p).resolves.toBeUndefined();
+    await expect(p).resolves.toBe("ok");
     expect(mockSend).toHaveBeenCalledTimes(3);
   });
 });

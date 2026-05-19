@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifySession, SESSION_CONFIG } from "@/lib/auth";
-import { PromptsSchema } from "@/types/prompts";
+import { PromptsV2Schema } from "@/types/prompts";
 import { loadPrompts } from "@/lib/audit/prompts";
 import { savePrompts, deletePrompts } from "@/lib/blob";
 
@@ -20,7 +20,7 @@ export async function GET() {
 export async function PUT(req: Request) {
   if (!(await requireSession())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const body = await req.json().catch(() => null);
-  const parsed = PromptsSchema.safeParse(body);
+  const parsed = PromptsV2Schema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid prompts", issues: parsed.error.issues }, { status: 400 });
   }
@@ -32,6 +32,6 @@ export async function PUT(req: Request) {
 export async function DELETE() {
   if (!(await requireSession())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   await deletePrompts();
-  const prompts = await loadPrompts(); // now returns the bundled default
+  const prompts = await loadPrompts();
   return NextResponse.json({ ok: true, prompts });
 }

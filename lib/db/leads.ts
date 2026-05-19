@@ -21,6 +21,18 @@ export async function insertLead(input: InsertLeadInput): Promise<Lead> {
   return rows[0];
 }
 
+export type ScheduledEmailStatus = "scheduled" | "sent" | "cancelled" | "failed";
+
+export type ScheduledEmail = {
+  tab: 1 | 2 | 3;
+  resend_id: string | null;
+  scheduled_for: string; // ISO timestamp
+  status: ScheduledEmailStatus;
+  subject: string;
+  body: string;
+  reason?: string | null; // why this entry is in fallback / failed state
+};
+
 export type UpdateLeadAuditInput = {
   id: string;
   subject: string;
@@ -29,6 +41,7 @@ export type UpdateLeadAuditInput = {
   reason?: string | null;
   signals?: unknown | null;
   enrichment?: Enrichment | null;
+  scheduledEmails?: ScheduledEmail[] | null;
 };
 
 export async function updateLeadAudit(input: UpdateLeadAuditInput): Promise<void> {
@@ -41,9 +54,21 @@ export async function updateLeadAudit(input: UpdateLeadAuditInput): Promise<void
       auditReason: input.reason ?? null,
       signals: (input.signals ?? null) as Lead["signals"],
       enrichment: (input.enrichment ?? null) as Lead["enrichment"],
+      scheduledEmails: (input.scheduledEmails ?? null) as Lead["scheduledEmails"],
       updatedAt: new Date(),
     })
     .where(eq(leads.id, input.id));
+}
+
+export async function markSequenceStopped(id: string, scheduledEmails: ScheduledEmail[]): Promise<void> {
+  await getDb()
+    .update(leads)
+    .set({
+      sequenceStopped: true,
+      scheduledEmails: scheduledEmails as Lead["scheduledEmails"],
+      updatedAt: new Date(),
+    })
+    .where(eq(leads.id, id));
 }
 
 export async function listLeads({ limit, offset }: { limit: number; offset: number }): Promise<Lead[]> {

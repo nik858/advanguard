@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import { verifySession, SESSION_CONFIG } from "@/lib/auth";
-import { PromptsSchema } from "@/types/prompts";
+import { PromptsV2Schema } from "@/types/prompts";
 import { extractDomain } from "@/lib/audit/domain";
 import { runAuditPipeline } from "@/lib/audit/index";
 import type { Lead } from "@/types/audit";
 
-// The preview runs the full real pipeline (scrape + PageSpeed + Claude) synchronously.
+// The preview runs the full real pipeline (crawl + PageSpeed + 3x Claude) synchronously.
 export const maxDuration = 300;
 
 async function requireSession() {
@@ -18,7 +18,7 @@ async function requireSession() {
 
 const BodySchema = z.object({
   email: z.string().email(),
-  prompts: PromptsSchema.optional(),
+  prompts: PromptsV2Schema.optional(),
 });
 
 export async function POST(req: Request) {
@@ -33,18 +33,18 @@ export async function POST(req: Request) {
   }
 
   const lead: Lead = {
-    id: "", // preview runs are not persisted to the leads table
+    id: "",
     email: parsed.data.email,
     firstName: "",
     domain: extractDomain(parsed.data.email),
   };
 
-  // runAuditPipeline never throws — safe to await directly.
   const result = await runAuditPipeline(lead, parsed.data.prompts);
   return NextResponse.json({
     outcome: result.outcome,
     reason: result.reason ?? null,
     signals: result.signals,
-    email: result.email,
+    enrichment: result.enrichment,
+    mails: result.mails,
   });
 }

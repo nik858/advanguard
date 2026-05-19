@@ -1,29 +1,21 @@
 import "server-only";
 import { Resend, type ErrorResponse } from "resend";
+import { bodyToHtml } from "@/lib/audit/template";
 
-export const RESEND_FROM = "nik@booking-leak.com";
+export { bodyToHtml };
+
+export const RESEND_FROM = "nik@bookingleak.com";
 
 export type SendAuditEmailInput = {
   to: string;
   subject: string;
+  /** Plain-text body. Used both as the `text` field and to derive a default HTML body when `html` is not provided. */
   body: string;
+  /** Optional pre-rendered HTML. When set, replaces the auto-paragraph wrap. */
+  html?: string;
+  /** When set, Resend schedules the send for this moment (max ~72h ahead). */
+  scheduledAt?: Date;
 };
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-export function bodyToHtml(body: string): string {
-  return body
-    .replace(/\r\n?/g, "\n")
-    .split(/\n\n+/)
-    .map((p) => `<p>${escapeHtml(p).replace(/\n/g, "<br>")}</p>`)
-    .join("");
-}
 
 const MAX_ATTEMPTS = 3;
 const BACKOFFS_MS = [1000, 3000];
@@ -36,17 +28,20 @@ function formatError(error: ErrorResponse): string {
   return `Resend ${error.statusCode ?? "network"}: ${error.message ?? error.name}`;
 }
 
-/**
- * Sends the audit email through Resend. Retries up to 3 times on 5xx, network,
- * and thrown-from-SDK errors with backoff (1s, 3s). Fails fast on 4xx. Throws
- * on missing API key. Callers wrap this in their own try/catch — the lead has
- * already received a 200 from /api/lead by the time this runs.
- */
-export async function sendAuditEmail(input: SendAuditEmailInput): Promise<void> {
+function getClient(): Resend {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) throw new Error("RESEND_API_KEY not set");
-  const client = new Resend(apiKey);
+  return new Resend(apiKey);
+}
 
+/**
+ * Sends an audit email through Resend (immediately or scheduled). Returns the
+ * Resend email id on success. Retries up to 3 times on 5xx, network, and
+ * thrown-from-SDK errors with backoff (1s, 3s). Fails fast on 4xx. Throws
+ * on missing API key.
+ */
+export async function sendAuditEmail(input: SendAuditEmailInput): Promise<string> {
+  const client = getClient();
   let lastErr: Error | null = null;
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -57,9 +52,11 @@ export async function sendAuditEmail(input: SendAuditEmailInput): Promise<void> 
         to: input.to,
         subject: input.subject,
         text: input.body,
-        html: bodyToHtml(input.body),
+        html: input.html ?? bodyToHtml(input.body),
+        ...(input.scheduledAt ? { scheduledAt: input.scheduledAt.toISOString() } : {}),
       });
       error = res.error;
+      if (!error && res.data?.id) return res.data.id;
     } catch (e) {
       lastErr = e instanceof Error ? e : new Error(String(e));
       if (attempt < MAX_ATTEMPTS) {
@@ -68,17 +65,35 @@ export async function sendAuditEmail(input: SendAuditEmailInput): Promise<void> 
       continue;
     }
 
-    if (!error) return;
-
-    if (!isRetriable(error)) {
+    if (!error) {
+      // No error but no id either — treat as unexpected and fall through to retry.
+      lastErr = new Error("Resend returned no id");
+    } else if (!isRetriable(error)) {
       throw new Error(formatError(error));
+    } else {
+      lastErr = new Error(formatError(error));
     }
 
-    lastErr = new Error(formatError(error));
     if (attempt < MAX_ATTEMPTS) {
       await new Promise((r) => setTimeout(r, BACKOFFS_MS[attempt - 1]));
     }
   }
 
   throw lastErr ?? new Error("Resend send failed");
+}
+
+/**
+ * Cancels a previously-scheduled Resend email. Throws on API failure. Callers
+ * should iterate over scheduled ids and catch per-id errors — one cancel failing
+ * shouldn't prevent the others from being attempted.
+ */
+export async function cancelScheduledEmail(id: string): Promise<void> {
+  const client = getClient();
+  const res = await client.emails.cancel(id);
+  if (res.error) {
+    // Resend returns a 404 if the email was already sent or never scheduled —
+    // treat that as a no-op so callers don't need to special-case it.
+    if (res.error.statusCode === 404) return;
+    throw new Error(formatError(res.error));
+  }
 }

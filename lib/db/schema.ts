@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, jsonb, timestamp, index } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, jsonb, timestamp, index, boolean } from "drizzle-orm/pg-core";
 
 export const leads = pgTable(
   "leads",
@@ -17,6 +17,8 @@ export const leads = pgTable(
     signals: jsonb("signals"),
     enrichment: jsonb("enrichment"),
     clinicType: text("clinic_type"),
+    scheduledEmails: jsonb("scheduled_emails"),
+    sequenceStopped: boolean("sequence_stopped").notNull().default(false),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
