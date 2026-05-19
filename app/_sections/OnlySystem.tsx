@@ -6,6 +6,7 @@ import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { Erasable } from "../_editor/Erasable";
+import { Resizable } from "../_editor/Resizable";
 import type { OnlySystemContent } from "@/types/content";
 import { mediaUrl } from "@/types/content";
 import { scrollToLeadForm } from "@/lib/landing/scroll-to-lead-form";
@@ -46,9 +47,9 @@ export function OnlySystem({ content: c, edit = false, style }: { content: OnlyS
             ))}
             </RepeatableList>
           </div>
-          <div className="ac-only__book-stage" style={{ position: "relative" }}>
+          <Resizable path="onlySystem.centerImage" label="center image size" className="ac-only__book-stage">
             {mediaUrl(c.centerImage) ? (
-              <>
+              <div style={{ position: "relative" }}>
                 <img
                   src={mediaUrl(c.centerImage)}
                   alt={typeof c.centerImage === "object" && c.centerImage ? (c.centerImage.alt ?? "") : ""}
@@ -56,7 +57,7 @@ export function OnlySystem({ content: c, edit = false, style }: { content: OnlyS
                   style={{ maxWidth: "100%", maxHeight: 480, objectFit: "contain", display: "block", margin: "0 auto" }}
                 />
                 {edit && <MediaSlot path="onlySystem.centerImage" accept="image" compact />}
-              </>
+              </div>
             ) : (
               <>
                 <div className="ac-only__papers" aria-hidden={edit ? undefined : "true"}>
@@ -92,7 +93,7 @@ export function OnlySystem({ content: c, edit = false, style }: { content: OnlyS
                 {edit && <MediaSlot path="onlySystem.centerImage" accept="image" compact />}
               </>
             )}
-          </div>
+          </Resizable>
           <div className="ac-only__col ac-only__col--right">
             <RepeatableList path="onlySystem.rightFeatures" newItem={{ title: "New feature", body: "" }} edit={edit}>
             {c.rightFeatures.map((f, i) => (

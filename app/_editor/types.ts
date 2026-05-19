@@ -16,6 +16,7 @@ export type EditorState = {
 export type EditorAction =
   | { type: "set"; path: string; value: unknown }
   | { type: "setFieldHidden"; path: string; hidden: boolean }
+  | { type: "setImageSize"; path: string; size: "default" | "bigger" | "full" }
   | { type: "reset" }
   | { type: "setDraft"; draft: Content }
   | { type: "savedAt"; at: number }

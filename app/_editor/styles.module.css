@@ -131,3 +131,42 @@
   outline: 2px solid #1c7bfd;
   outline-offset: 2px;
 }
+
+/* ─── Resizable wrapper + size picker ─────────────────────────────────────── */
+
+.resizable {
+  position: relative;
+}
+
+.resizableToolbar {
+  position: absolute;
+  bottom: -42px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #18181b;
+  border-radius: 999px;
+  padding: 4px;
+  display: inline-flex;
+  gap: 2px;
+  z-index: 40;
+  box-shadow: 0 8px 22px -6px rgba(24, 24, 27, 0.4), 0 1px 2px rgba(24, 24, 27, 0.06);
+}
+
+.resizableBtn {
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font: 600 11.5px/1 var(--adv-font, system-ui);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: color 140ms ease, background 140ms ease;
+}
+.resizableBtn:hover {
+  color: #ffffff;
+}
+.resizableBtn[data-active="true"] {
+  background: #ffffff;
+  color: #18181b;
+}

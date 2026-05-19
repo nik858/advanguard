@@ -285,6 +285,13 @@ export const ContentSchemaV2 = z.object({
    * this via the editor's "Delete" affordance and can be undone with Cmd+Z.
    */
   hiddenFields: z.array(z.string()).default([]),
+  /**
+   * Per-image size overrides. Keyed by the same stable path used for
+   * hiddenFields. Each value picks one of three sizes — "default" leaves
+   * the section's CSS untouched; "bigger" caps width at 1200px; "full"
+   * spans the container.
+   */
+  imageSizes: z.record(z.string(), z.enum(["default", "bigger", "full"])).default({}),
 });
 export type ContentV2 = z.infer<typeof ContentSchemaV2>;
 
@@ -329,6 +336,7 @@ export function migrateContent(raw: unknown): ContentV2 {
     sections,
     admin: DEFAULT_ADMIN,
     hiddenFields: [],
+    imageSizes: {},
   });
 }
 

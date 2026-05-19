@@ -55,6 +55,13 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
       const next = { ...state.draft, hiddenFields: [...current] };
       return withDraft(state, next);
     }
+    case "setImageSize": {
+      const current = { ...(state.draft.imageSizes ?? {}) };
+      if (action.size === "default") delete current[action.path];
+      else current[action.path] = action.size;
+      const next = { ...state.draft, imageSizes: current };
+      return withDraft(state, next);
+    }
     case "reset":
       // Reset clears history — the draft just snapped back to baseline.
       return { ...state, draft: state.baseline, dirty: false, history: [], future: [] };
@@ -124,6 +131,8 @@ type EditorContextValue = {
   setField: (path: string, value: unknown) => void;
   setFieldHidden: (path: string, hidden: boolean) => void;
   isFieldHidden: (path: string) => boolean;
+  setImageSize: (path: string, size: "default" | "bigger" | "full") => void;
+  getImageSize: (path: string) => "default" | "bigger" | "full";
   resetDraft: () => void;
   togglePreview: () => void;
   publish: () => Promise<{ ok: true; commit_sha?: string } | { ok: false; error: string }>;
@@ -225,6 +234,8 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
     setField: (path, value) => dispatch({ type: "set", path, value }),
     setFieldHidden: (path, hidden) => dispatch({ type: "setFieldHidden", path, hidden }),
     isFieldHidden: (path) => (state.draft.hiddenFields ?? []).includes(path),
+    setImageSize: (path, size) => dispatch({ type: "setImageSize", path, size }),
+    getImageSize: (path) => (state.draft.imageSizes ?? {})[path] ?? "default",
     resetDraft: () => {
       dispatch({ type: "reset" });
       localStorage.removeItem(STORAGE_KEY);

@@ -4,6 +4,7 @@ import { OrderForm } from "./OrderForm";
 import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { Erasable } from "../_editor/Erasable";
+import { Resizable } from "../_editor/Resizable";
 import type { HeroContent, OrderContent } from "@/types/content";
 
 export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; order: OrderContent; edit?: boolean; style?: React.CSSProperties }) {
@@ -12,17 +13,19 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
       <div className="ac-hero__grid">
         <div className="ac-hero__copy">
           <Erasable path="hero.videoUrl" label="hero video">
-            <Reveal className="ac-hero__video-wrap">
-              <div className="ac-hero__video" style={{ position: "relative" }}>
-                {edit && <MediaSlot path="hero.videoUrl" accept="video" />}
-                <VideoPlayer src={hero.videoUrl} poster={hero.videoPoster} label={hero.videoLabel} edit={edit}/>
-              </div>
-              <Erasable path="hero.videoLabel" label="video label">
-                <p className="ac-hero__video-label">
-                  <EditRich edit={edit} path="hero.videoLabel">{hero.videoLabel}</EditRich>
-                </p>
-              </Erasable>
-            </Reveal>
+            <Resizable path="hero.videoUrl" label="hero video size">
+              <Reveal className="ac-hero__video-wrap">
+                <div className="ac-hero__video" style={{ position: "relative" }}>
+                  {edit && <MediaSlot path="hero.videoUrl" accept="video" />}
+                  <VideoPlayer src={hero.videoUrl} poster={hero.videoPoster} label={hero.videoLabel} edit={edit}/>
+                </div>
+                <Erasable path="hero.videoLabel" label="video label">
+                  <p className="ac-hero__video-label">
+                    <EditRich edit={edit} path="hero.videoLabel">{hero.videoLabel}</EditRich>
+                  </p>
+                </Erasable>
+              </Reveal>
+            </Resizable>
           </Erasable>
           <Erasable path="hero.sectionTitle" label="section title">
             <Reveal delay={80}>

@@ -7,6 +7,7 @@ import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { Erasable } from "../_editor/Erasable";
+import { Resizable } from "../_editor/Resizable";
 import { mediaUrl, type StackContent } from "@/types/content";
 import { scrollToLeadForm } from "@/lib/landing/scroll-to-lead-form";
 
@@ -24,12 +25,14 @@ export function Stack({ content: c, edit = false, style }: { content: StackConte
           </Reveal>
         </Erasable>
         <Erasable path="stack.bigStackImg" label="big stack image">
-          <Reveal delay={120}>
-            <div style={{ position: "relative" }}>
-              {edit && <MediaSlot path="stack.bigStackImg" accept="image" />}
-              <img className="ac-stack__hero-img" src={mediaUrl(c.bigStackImg)} alt="Everything you're getting in the bundle" width={800} height={334} loading="lazy" decoding="async"/>
-            </div>
-          </Reveal>
+          <Resizable path="stack.bigStackImg" label="image size">
+            <Reveal delay={120}>
+              <div style={{ position: "relative" }}>
+                {edit && <MediaSlot path="stack.bigStackImg" accept="image" />}
+                <img className="ac-stack__hero-img" src={mediaUrl(c.bigStackImg)} alt="Everything you're getting in the bundle" width={800} height={334} loading="lazy" decoding="async"/>
+              </div>
+            </Reveal>
+          </Resizable>
         </Erasable>
         <div className="ac-stack__grid">
           <RepeatableList

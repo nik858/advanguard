@@ -17,7 +17,7 @@ export function LandingTree() {
     <ToastProvider>
       <PublishBar />
       <StructurePanel />
-      <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], edit: true }}>
+      <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], imageSizes: c.imageSizes ?? {}, edit: true }}>
         <Header content={c.header} edit />
         <main id="main">
           {c.sections.map((s, i) => (

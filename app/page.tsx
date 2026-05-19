@@ -61,7 +61,7 @@ export default async function Home() {
     <>
       <JsonLd data={productJsonLd} />
       <JsonLd data={faqJsonLd} />
-      <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], edit: false }}>
+      <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], imageSizes: c.imageSizes ?? {}, edit: false }}>
         <Header content={c.header} />
         <main id="main">
           {c.sections

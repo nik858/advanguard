@@ -4,6 +4,7 @@ import { Edit } from "../_editor/Edit";
 import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { Erasable } from "../_editor/Erasable";
+import { Resizable } from "../_editor/Resizable";
 import type { DemoContent } from "@/types/content";
 
 export function Demo({ content: c, edit = false, style }: { content: DemoContent; edit?: boolean; style?: React.CSSProperties }) {
@@ -18,12 +19,14 @@ export function Demo({ content: c, edit = false, style }: { content: DemoContent
           </Reveal>
         </Erasable>
         <Erasable path="demo.videoUrl" label="demo video">
-          <Reveal delay={120}>
-            <div className="ac-demo__video" style={{ position: "relative" }}>
-              {edit && <MediaSlot path="demo.videoUrl" accept="video" />}
-              <VideoPlayer src={c.videoUrl} poster={c.videoPoster} label="Demo video" edit={edit}/>
-            </div>
-          </Reveal>
+          <Resizable path="demo.videoUrl" label="demo video size">
+            <Reveal delay={120}>
+              <div className="ac-demo__video" style={{ position: "relative" }}>
+                {edit && <MediaSlot path="demo.videoUrl" accept="video" />}
+                <VideoPlayer src={c.videoUrl} poster={c.videoPoster} label="Demo video" edit={edit}/>
+              </div>
+            </Reveal>
+          </Resizable>
         </Erasable>
       </div>
     </section>
