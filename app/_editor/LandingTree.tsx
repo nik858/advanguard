@@ -8,6 +8,7 @@ import { SectionContextProvider } from "./SectionContext";
 import { SectionHoverFrame } from "./SectionHoverFrame";
 import { StructurePanel } from "./StructurePanel";
 import { PublishBar } from "./PublishBar";
+import { RenderContextProvider } from "./RenderContext";
 
 export function LandingTree() {
   const { state } = useEditor();
@@ -16,17 +17,19 @@ export function LandingTree() {
     <ToastProvider>
       <PublishBar />
       <StructurePanel />
-      <Header content={c.header} edit />
-      <main id="main">
-        {c.sections.map((s, i) => (
-          <SectionContextProvider key={s.id} value={{ basePath: `sections.${i}.data` }}>
-            <SectionHoverFrame type={s.type}>
-              <SectionBody section={s} edit />
-            </SectionHoverFrame>
-          </SectionContextProvider>
-        ))}
-      </main>
-      <Footer content={c.footer} header={c.header} edit />
+      <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], edit: true }}>
+        <Header content={c.header} edit />
+        <main id="main">
+          {c.sections.map((s, i) => (
+            <SectionContextProvider key={s.id} value={{ basePath: `sections.${i}.data`, sectionId: s.id }}>
+              <SectionHoverFrame type={s.type}>
+                <SectionBody section={s} edit />
+              </SectionHoverFrame>
+            </SectionContextProvider>
+          ))}
+        </main>
+        <Footer content={c.footer} header={c.header} edit />
+      </RenderContextProvider>
     </ToastProvider>
   );
 }

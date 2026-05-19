@@ -63,7 +63,7 @@ export function MediaSlot({
 }) {
   const { setField, state } = useEditor();
   const fullPath = useSectionPath(path);
-  const { uploadFile, busy, error } = useMediaUpload();
+  const { uploadFile, busy, progress, error } = useMediaUpload();
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<View>("menu");
   const [dragActive, setDragActive] = useState(false);
@@ -154,6 +154,40 @@ export function MediaSlot({
   if (isEmpty && !compact) {
     return (
       <>
+        {busy && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 20,
+              display: "grid",
+              placeItems: "center",
+              background: "rgba(255,255,255,0.92)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
+              borderRadius: 8,
+              color: "#18181b",
+              fontFamily: "var(--adv-font, system-ui, sans-serif)",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, width: "70%", maxWidth: 320 }}>
+              <div style={{ fontSize: 14, fontWeight: 600 }}>
+                Uploading {accept}…{typeof progress === "number" ? ` ${Math.round(progress)}%` : ""}
+              </div>
+              <div style={{ width: "100%", height: 6, background: "rgba(0,0,0,0.08)", borderRadius: 999, overflow: "hidden" }}>
+                <div
+                  style={{
+                    width: `${typeof progress === "number" ? Math.max(2, progress) : 8}%`,
+                    height: "100%",
+                    background: "#1c7bfd",
+                    transition: "width 200ms ease-out",
+                  }}
+                />
+              </div>
+              <div style={{ fontSize: 11, color: "#71717a" }}>Don&apos;t close this tab — keep waiting until it&apos;s done.</div>
+            </div>
+          </div>
+        )}
         <button
           ref={triggerRef}
           type="button"
@@ -340,6 +374,42 @@ export function MediaSlot({
 
   return (
     <>
+      {/* Upload progress overlay — large, unmissable while a file is uploading */}
+      {busy && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 20,
+            display: "grid",
+            placeItems: "center",
+            background: "rgba(255,255,255,0.92)",
+            backdropFilter: "blur(4px)",
+            WebkitBackdropFilter: "blur(4px)",
+            borderRadius: 8,
+            color: "#18181b",
+            fontFamily: "var(--adv-font, system-ui, sans-serif)",
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, width: "70%", maxWidth: 320 }}>
+            <div style={{ fontSize: 14, fontWeight: 600 }}>
+              Uploading {accept}…{typeof progress === "number" ? ` ${Math.round(progress)}%` : ""}
+            </div>
+            <div style={{ width: "100%", height: 6, background: "rgba(0,0,0,0.08)", borderRadius: 999, overflow: "hidden" }}>
+              <div
+                style={{
+                  width: `${typeof progress === "number" ? Math.max(2, progress) : 8}%`,
+                  height: "100%",
+                  background: "#1c7bfd",
+                  transition: "width 200ms ease-out",
+                }}
+              />
+            </div>
+            <div style={{ fontSize: 11, color: "#71717a" }}>Don&apos;t close this tab — keep waiting until it&apos;s done.</div>
+          </div>
+        </div>
+      )}
+
       {/* Drop overlay — hover-aware; always intercepts pointer events */}
       <div
         onMouseEnter={() => setHovered(true)}

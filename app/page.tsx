@@ -7,6 +7,8 @@ import { Footer } from "./_sections/Footer";
 import { SectionBody } from "./_sections/SectionBody";
 import { EditorProvider } from "./_editor/EditorProvider";
 import { LandingTree } from "./_editor/LandingTree";
+import { RenderContextProvider } from "./_editor/RenderContext";
+import { SectionContextProvider } from "./_editor/SectionContext";
 
 export default async function Home() {
   const h = await headers();
@@ -59,15 +61,19 @@ export default async function Home() {
     <>
       <JsonLd data={productJsonLd} />
       <JsonLd data={faqJsonLd} />
-      <Header content={c.header} />
-      <main id="main">
-        {c.sections
-          .filter((s) => !s.hidden)
-          .map((s) => (
-            <SectionBody key={s.id} section={s} />
-          ))}
-      </main>
-      <Footer content={c.footer} header={c.header} />
+      <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], edit: false }}>
+        <Header content={c.header} />
+        <main id="main">
+          {c.sections
+            .filter((s) => !s.hidden)
+            .map((s) => (
+              <SectionContextProvider key={s.id} value={{ basePath: "", sectionId: s.id }}>
+                <SectionBody section={s} />
+              </SectionContextProvider>
+            ))}
+        </main>
+        <Footer content={c.footer} header={c.header} />
+      </RenderContextProvider>
     </>
   );
 }

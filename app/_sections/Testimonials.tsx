@@ -5,6 +5,7 @@ import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { TestimonialTypeToggle } from "../_editor/TestimonialTypeToggle";
+import { Erasable } from "../_editor/Erasable";
 import { mediaUrl, type TestimonialsContent } from "@/types/content";
 import type { ReactNode } from "react";
 
@@ -34,18 +35,24 @@ export function Testimonials({ content: c, edit = false, style }: { content: Tes
     <section className="ac-testi" aria-labelledby="testi-h2" style={style}>
       <div className="ac-testi__inner">
         <Reveal className="ac-testi__head">
-          <div className="ac-testi__rating">
-            <span className="ac-testi__rating-text">
-              <EditRich edit={edit} path="testimonials.rating">{c.rating}</EditRich>
-            </span>
-            <span className="ac-testi__rating-stars" aria-label="5 out of 5"><Stars/></span>
-          </div>
-          <h2 className="ac-testi__h2" id="testi-h2">
-            <EditRich edit={edit} path="testimonials.h2">{c.h2}</EditRich>
-          </h2>
-          <p className="ac-testi__pull">
-            <EditRich edit={edit} path="testimonials.pullQuote">{c.pullQuote}</EditRich>
-          </p>
+          <Erasable path="testimonials.rating" label="rating">
+            <div className="ac-testi__rating">
+              <span className="ac-testi__rating-text">
+                <EditRich edit={edit} path="testimonials.rating">{c.rating}</EditRich>
+              </span>
+              <span className="ac-testi__rating-stars" aria-label="5 out of 5"><Stars/></span>
+            </div>
+          </Erasable>
+          <Erasable path="testimonials.h2" label="title">
+            <h2 className="ac-testi__h2" id="testi-h2">
+              <EditRich edit={edit} path="testimonials.h2">{c.h2}</EditRich>
+            </h2>
+          </Erasable>
+          <Erasable path="testimonials.pullQuote" label="pull quote">
+            <p className="ac-testi__pull">
+              <EditRich edit={edit} path="testimonials.pullQuote">{c.pullQuote}</EditRich>
+            </p>
+          </Erasable>
         </Reveal>
         <div className="ac-testi__grid">
           <RepeatableList
@@ -73,29 +80,39 @@ export function Testimonials({ content: c, edit = false, style }: { content: Tes
               ) : (
                 <div className="ac-testi-card">
                   <div className="ac-testi-card__head">
-                    {edit ? (
-                      <div className="ac-testi-card__avatar-slot" style={{ position: "relative" }}>
-                        <MediaSlot path={`testimonials.items.${i}.avatar`} accept="image" />
+                    <Erasable path={`testimonials.items.${i}.avatar`} label="avatar">
+                      {edit ? (
+                        <div className="ac-testi-card__avatar-slot" style={{ position: "relative" }}>
+                          <MediaSlot path={`testimonials.items.${i}.avatar`} accept="image" />
+                          <div className="ac-testi-card__avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
+                        </div>
+                      ) : (
                         <div className="ac-testi-card__avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
-                      </div>
-                    ) : (
-                      <div className="ac-testi-card__avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
-                    )}
+                      )}
+                    </Erasable>
                     <div>
-                      <div className="ac-testi-card__name">
-                        <EditRich edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</EditRich>
-                      </div>
-                      <div className="ac-testi-card__role">
-                        <EditRich edit={edit} path={`testimonials.items.${i}.role`}>{t.role}</EditRich>
-                      </div>
+                      <Erasable path={`testimonials.items.${i}.name`} label="name">
+                        <div className="ac-testi-card__name">
+                          <EditRich edit={edit} path={`testimonials.items.${i}.name`}>{t.name}</EditRich>
+                        </div>
+                      </Erasable>
+                      <Erasable path={`testimonials.items.${i}.role`} label="role">
+                        <div className="ac-testi-card__role">
+                          <EditRich edit={edit} path={`testimonials.items.${i}.role`}>{t.role}</EditRich>
+                        </div>
+                      </Erasable>
                     </div>
                   </div>
-                  <div className="ac-testi-card__stars" aria-label="5 stars"><Stars/></div>
-                  <p className="ac-testi-card__quote">
-                    {edit
-                      ? <EditRich edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</EditRich>
-                      : highlightQuote(t.quote, t.highlights)}
-                  </p>
+                  <Erasable path={`testimonials.items.${i}.stars`} label="stars" as="div" className="ac-testi-card__stars">
+                    <Stars />
+                  </Erasable>
+                  <Erasable path={`testimonials.items.${i}.quote`} label="quote">
+                    <p className="ac-testi-card__quote">
+                      {edit
+                        ? <EditRich edit={edit} path={`testimonials.items.${i}.quote`} multiline>{t.quote}</EditRich>
+                        : highlightQuote(t.quote, t.highlights)}
+                    </p>
+                  </Erasable>
                 </div>
               )}
             </Reveal>

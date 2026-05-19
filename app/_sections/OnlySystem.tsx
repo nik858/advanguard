@@ -5,6 +5,7 @@ import { Book } from "./_shared/Book";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { MediaSlot } from "../_editor/MediaSlot";
+import { Erasable } from "../_editor/Erasable";
 import type { OnlySystemContent } from "@/types/content";
 import { mediaUrl } from "@/types/content";
 import { scrollToLeadForm } from "@/lib/landing/scroll-to-lead-form";
@@ -14,15 +15,21 @@ export function OnlySystem({ content: c, edit = false, style }: { content: OnlyS
     <section className="ac-only" aria-labelledby="only-h2" style={style}>
       <div className="ac-only__inner">
         <Reveal className="ac-only__header">
-          <span className="ac-headline__eyebrow" style={{ ["--dot-color" as string]: c.eyebrowDotColor } as React.CSSProperties}>
-            <EditRich edit={edit} path="onlySystem.eyebrow">{c.eyebrow}</EditRich>
-          </span>
-          <h2 className="ac-only__h2" id="only-h2">
-            <EditRich edit={edit} path="onlySystem.h2" multiline>{c.h2}</EditRich>
-          </h2>
-          <p className="ac-only__body">
-            <EditRich edit={edit} path="onlySystem.body">{c.body}</EditRich>
-          </p>
+          <Erasable path="onlySystem.eyebrow" label="eyebrow" as="span">
+            <span className="ac-headline__eyebrow" style={{ ["--dot-color" as string]: c.eyebrowDotColor } as React.CSSProperties}>
+              <EditRich edit={edit} path="onlySystem.eyebrow">{c.eyebrow}</EditRich>
+            </span>
+          </Erasable>
+          <Erasable path="onlySystem.h2" label="title">
+            <h2 className="ac-only__h2" id="only-h2">
+              <EditRich edit={edit} path="onlySystem.h2" multiline>{c.h2}</EditRich>
+            </h2>
+          </Erasable>
+          <Erasable path="onlySystem.body" label="body">
+            <p className="ac-only__body">
+              <EditRich edit={edit} path="onlySystem.body">{c.body}</EditRich>
+            </p>
+          </Erasable>
         </Reveal>
         <Reveal className="ac-only__features" delay={120}>
           <div className="ac-only__col ac-only__col--left">
@@ -115,22 +122,28 @@ export function OnlySystem({ content: c, edit = false, style }: { content: OnlyS
           ))}
           </RepeatableList>
         </Reveal>
-        <Reveal className="ac-only__cta-wrap" delay={200}>
-          <CTA
-            edit={edit}
-            tag={<EditRich edit={edit} path="onlySystem.ctaTagline">{c.ctaTagline}</EditRich>}
-            label={<EditRich edit={edit} path="onlySystem.ctaLabel">{c.ctaLabel}</EditRich>}
-            onClick={scrollToLeadForm}
-          />
-          <a className="ac-only__cta-sub" href="#top" onClick={(e) => { e.preventDefault(); scrollToLeadForm(); }}>
-            <EditRich edit={edit} path="onlySystem.ctaSubLink">{c.ctaSubLink}</EditRich>
-          </a>
-          <div className="ac-only__guarantee-row">
-            <div className="ac-only__guarantee-text">
-              <EditRich edit={edit} path="onlySystem.guaranteeText">{c.guaranteeText}</EditRich>
-            </div>
-          </div>
-        </Reveal>
+        <Erasable path="onlySystem.cta" label="CTA">
+          <Reveal className="ac-only__cta-wrap" delay={200}>
+            <CTA
+              edit={edit}
+              tag={<EditRich edit={edit} path="onlySystem.ctaTagline">{c.ctaTagline}</EditRich>}
+              label={<EditRich edit={edit} path="onlySystem.ctaLabel">{c.ctaLabel}</EditRich>}
+              onClick={scrollToLeadForm}
+            />
+            <Erasable path="onlySystem.ctaSubLink" label="sub link" as="span">
+              <a className="ac-only__cta-sub" href="#top" onClick={(e) => { e.preventDefault(); scrollToLeadForm(); }}>
+                <EditRich edit={edit} path="onlySystem.ctaSubLink">{c.ctaSubLink}</EditRich>
+              </a>
+            </Erasable>
+            <Erasable path="onlySystem.guaranteeText" label="guarantee text">
+              <div className="ac-only__guarantee-row">
+                <div className="ac-only__guarantee-text">
+                  <EditRich edit={edit} path="onlySystem.guaranteeText">{c.guaranteeText}</EditRich>
+                </div>
+              </div>
+            </Erasable>
+          </Reveal>
+        </Erasable>
       </div>
     </section>
   );

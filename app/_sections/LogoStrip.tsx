@@ -2,6 +2,7 @@ import { Reveal } from "./_shared/Reveal";
 import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { RepeatableList } from "../_editor/RepeatableList";
+import { Erasable } from "../_editor/Erasable";
 import { mediaUrl, type AuthorityContent } from "@/types/content";
 
 /** A logo is an uploaded image. Legacy string labels (pre-image migration) are
@@ -24,9 +25,9 @@ export function LogoStrip({ content: c, edit = false, style }: { content: Author
   return (
     <section className="ac-authority" aria-label="Featured in" style={style}>
       <Reveal>
-        <div className="ac-authority__title">
+        <Erasable path="authority.title" label="logo strip title" as="div" className="ac-authority__title">
           <EditRich edit={edit} path="authority.title">{c.title}</EditRich>
-        </div>
+        </Erasable>
         <div className={`ac-authority__viewport${edit ? " ac-authority__viewport--edit" : ""}`}>
           <div className={`ac-authority__row${edit ? " ac-authority__row--edit" : ""}`}>
             <RepeatableList path="authority.logos" newItem={{ url: "", alt: "" }} edit={edit}>

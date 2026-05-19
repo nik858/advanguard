@@ -205,6 +205,9 @@ export const FooterSchema = z.object({
   earnings: z.string(),
   logoText: z.string(),
   copyright: z.string(),
+  /** Privacy policy link. Editable from the inline editor. */
+  privacyLabel: z.string().default("Privacy Policy"),
+  privacyUrl: z.string().default(""),
 });
 export type FooterContent = z.infer<typeof FooterSchema>;
 
@@ -276,6 +279,12 @@ export const ContentSchemaV2 = z.object({
   footer: FooterSchema,
   sections: z.array(SectionSchema),
   admin: AdminSchema.default(DEFAULT_ADMIN),
+  /**
+   * Per-field hide list. When a path is present here, the matching block in
+   * the rendered page is omitted entirely so the layout reflows. Edits set
+   * this via the editor's "Delete" affordance and can be undone with Cmd+Z.
+   */
+  hiddenFields: z.array(z.string()).default([]),
 });
 export type ContentV2 = z.infer<typeof ContentSchemaV2>;
 
@@ -319,6 +328,7 @@ export function migrateContent(raw: unknown): ContentV2 {
     footer: v1.footer,
     sections,
     admin: DEFAULT_ADMIN,
+    hiddenFields: [],
   });
 }
 
