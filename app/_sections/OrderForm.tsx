@@ -180,7 +180,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           >
           {order.miniTestimonials.map((t, i) => (
             <div className="ac-order__mini-card" key={i}>
-              <Erasable path={`order.miniTestimonials.${i}.avatar`} label="avatar" as="div" className="ac-order__mini-avatar">
+              <Erasable path={`order.miniTestimonials.${i}.avatar`} label="avatar">
                 <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
               </Erasable>
               <div>

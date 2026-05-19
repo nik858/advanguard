@@ -26,15 +26,24 @@ type ErasableProps = {
  * `hiddenFields`, the block disappears — the layout below reflows. Cmd+Z
  * restores it.
  *
- * In production, this component renders the children with NO extra DOM —
- * we don't want the editor chrome leaking into the live page's layout.
+ * In production this is a no-op unless the caller passed `className` or `as`
+ * — those signal that the Erasable IS the section's structural wrapper
+ * (e.g. `<Erasable as="div" className="ac-header__left">`) and dropping it
+ * would lose the CSS class the rest of the page depends on.
  */
 export function Erasable(props: ErasableProps) {
-  const { path, children } = props;
+  const { path, children, as, className } = props;
   const { hiddenFields, edit } = useRenderContext();
   const key = useStableFieldKey(path);
   if (hiddenFields.includes(key)) return null;
-  if (!edit) return <>{children}</>;
+  if (!edit) {
+    // Caller is using Erasable as the structural wrapper — preserve it.
+    if (className || as) {
+      const Tag = (as ?? "div") as ElementType;
+      return <Tag className={className}>{children}</Tag>;
+    }
+    return <>{children}</>;
+  }
   return <ErasableEditing {...props} stableKey={key} />;
 }
 
