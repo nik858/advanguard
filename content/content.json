@@ -53,37 +53,37 @@
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
-          "productName": "[INSERT PRODUCT NAME]",
-          "productSubtitle": "[INSERT SHORT PRODUCT TAGLINE HERE]",
-          "image": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779210070268-hf_20260519_165526_047b9cf1-fafa-40b3-b0e8-4d70dfef95a4-anENY3I8oaApLlDExFPY6wUcv169y8.png",
-          "limitedTime": "Limited Time Offer",
-          "priceWas": "$327.00",
-          "priceNow": "$27.00",
-          "priceSubLine": "Save $300.00 today",
-          "description": "Download The eBook For $327 Just $27.00! Delivered instantly. Start reading in the next 2 minutes.",
-          "ctaTagline": "Get Your eBook Now!",
-          "ctaLabel": "Go to step #2",
-          "secureText": "100% Secure Checkout by Stripe",
-          "guaranteeText": "Backed by our 30-day money back guarantee. You'll love the book or we'll give you your money back AND let you keep your copy.",
-          "ratingText": "Excellent based on 456 reviews",
+          "productName": "Patient-Leak System ",
+          "productSubtitle": "FREE Today",
+          "image": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779215222331-hf_20260519_170725_4628a615-de91-423f-af99-55a69e53a75a-FsP9e2tRwLeYiF64SAV3Q97h2Ls1ts.png",
+          "limitedTime": "",
+          "priceWas": "",
+          "priceNow": "",
+          "priceSubLine": "",
+          "description": "Drop your work email, select your vertical, and press SEND.",
+          "ctaTagline": "Get Your Diagnosis In 3-Minutes",
+          "ctaLabel": "SEND ",
+          "secureText": "100% Secure Provide",
+          "guaranteeText": "<em>Your first personalized finding lands in your inbox within minutes.</em>",
+          "ratingText": "⭐ 4.9 rating from 71+ audits delivered (Updated)",
           "miniTestimonials": [
             {
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "[Insert short testimonial here]"
+              "name": "Mark P.",
+              "role": "Owner of Lumière Aesthetics, Miami FL",
+              "quote": "Genuinely useful, and free. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would."
             },
             {
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "[Insert short testimonial here]"
+              "name": "Dr. James Okonkwo",
+              "role": "All-on-4 Specialist, Toronto",
+              "quote": "Pure value without any upsell tactics"
             },
             {
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "[Insert short testimonial here]"
+              "name": "Dr. Lisa V.",
+              "role": "Med Spa Owner, Palm Beach FL",
+              "quote": "Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free."
             }
           ]
         }
