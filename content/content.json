@@ -46,7 +46,7 @@
       "data": {
         "hero": {
           "videoLabel": "Hit Play on The Video",
-          "videoUrl": "",
+          "videoUrl": "https://vimeo.com/1193670382?share=copy&amp;fl=sv&amp;fe=ci",
           "videoPoster": "/assets/video-thumbnail.png",
           "sectionTitle": "What is the [INSERT YOUR PRODUCT NAME]?",
           "sectionBody": "[INSERT PRODUCT NAME] is a counterintuitive approach to [INSERT DESIRED RESULT], that allows you to [DESCRIBE TOP BENEFITS] without [DESCRIBE THINGS THEY WANT TO AVOID].\n\nWe achieve this by [EXPLAIN HOW YOU ACHIEVE IT] without [EXPLAIN WHAT YOU DON'T DO THAT THEY WANT TO AVOID DOING].\n\nAnd as a result… this frees you up to [INSERT WHAT THEY'D RATHER DO INSTEAD] — this is the [INSERT YOUR PRODUCT NAME].\n\nSed varius facilisis dui sit amet imperdiet. Quisque ut ex urna. Integer nec nulla auctor, congue lacus eget, gravida felis. Suspendisse potenti.\n\nSuspendisse gravida lorem id massa pretium imperdiet nec consectetur urna. Nulla mi dui, lobortis ut lacinia sit amet, porta ac justo. Donec at ullamcorper ex. Sed sagittis dictum elementum.\n\nCurabitur nec ligula lacus. Pellentesque eu odio tincidunt, laoreet elit id, mattis enim. Praesent quis lobortis dolor. Praesent nunc magna, viverra nec rhoncus vel, viverra vitae diam. Maecenas pretium ornare interdum…"
@@ -55,6 +55,7 @@
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
           "productName": "[INSERT PRODUCT NAME]",
           "productSubtitle": "[INSERT SHORT PRODUCT TAGLINE HERE]",
+          "image": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779210070268-hf_20260519_165526_047b9cf1-fafa-40b3-b0e8-4d70dfef95a4-anENY3I8oaApLlDExFPY6wUcv169y8.png",
           "limitedTime": "Limited Time Offer",
           "priceWas": "$327.00",
           "priceNow": "$27.00",
