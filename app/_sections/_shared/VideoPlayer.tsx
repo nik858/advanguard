@@ -22,9 +22,21 @@ export function VideoPlayer({ src, poster, label, edit = false }: { src: string;
     // either there's no poster, or we're in the editor — so editing the page
     // shows the actual uploaded video, not a stale poster thumbnail.
     if (isFile && (!posterUrl || edit)) {
+      // `key={src}` forces React to remount the <video> when the operator
+      // uploads a replacement — without it the browser keeps the cached
+      // metadata of the previous src and the preview thumb never refreshes.
+      // In edit mode we drop the poster so the new clip's first frame is
+      // visible immediately as confirmation of a successful upload.
       return (
         <div className="ac-player">
-          <video src={src} poster={posterUrl || undefined} controls preload="metadata" playsInline />
+          <video
+            key={src}
+            src={src}
+            poster={edit ? undefined : (posterUrl || undefined)}
+            controls
+            preload="metadata"
+            playsInline
+          />
         </div>
       );
     }
@@ -43,5 +55,5 @@ export function VideoPlayer({ src, poster, label, edit = false }: { src: string;
   if (isVimeo(src)) {
     return <iframe src={`https://player.vimeo.com/video/${vimeoId(src)}?autoplay=1`} title={label || "Video"} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />;
   }
-  return <video src={src} poster={posterUrl} controls autoPlay playsInline />;
+  return <video key={src} src={src} poster={posterUrl} controls autoPlay playsInline />;
 }

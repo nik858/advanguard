@@ -140,23 +140,35 @@
 
 .resizableToolbar {
   position: absolute;
-  bottom: -42px;
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  background: #18181b;
+  background: rgba(24, 24, 27, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: 999px;
   padding: 4px;
   display: inline-flex;
   gap: 2px;
   z-index: 40;
-  box-shadow: 0 8px 22px -6px rgba(24, 24, 27, 0.4), 0 1px 2px rgba(24, 24, 27, 0.06);
+  box-shadow: 0 8px 22px -6px rgba(24, 24, 27, 0.5), 0 1px 2px rgba(24, 24, 27, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+/* Show on wrapper hover OR when hovering the toolbar itself.
+   Because the toolbar lives inside the wrapper, mouse-over the toolbar
+   keeps the parent in :hover state — no flicker, no escape gap. */
+.resizable:hover .resizableToolbar {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .resizableBtn {
   border: 0;
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
-  padding: 5px 12px;
+  padding: 6px 14px;
   border-radius: 999px;
   font: 600 11.5px/1 var(--adv-font, system-ui);
   letter-spacing: 0.01em;

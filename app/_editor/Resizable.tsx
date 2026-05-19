@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useEditor } from "./EditorProvider";
 import { useStableFieldKey } from "./SectionContext";
 import { useRenderContext, type ImageSize } from "./RenderContext";
@@ -77,37 +77,35 @@ function ResizableEditing({
   path: string;
 }) {
   const { setImageSize } = useEditor();
-  const [hover, setHover] = useState(false);
+  // Hover visibility is purely CSS (`:hover` on the wrapper). This keeps the
+  // toolbar visible when the cursor moves onto it — a JS `mouseleave` would
+  // hide the toolbar the moment the cursor crosses its bounding box.
   return (
     <div
       className={`${className ?? ""} ${styles.resizable}`.trim()}
       style={{ ...sizeStyle, position: "relative" }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
     >
       {children}
-      {hover && (
-        <div
-          className={styles.resizableToolbar}
-          onMouseDown={(e) => e.stopPropagation()}
-          title={`Size of ${label ?? path}`}
-        >
-          {SIZE_ORDER.map((s) => (
-            <button
-              key={s}
-              type="button"
-              className={styles.resizableBtn}
-              data-active={currentSize === s}
-              onClick={(e) => {
-                e.stopPropagation();
-                setImageSize(stableKey, s);
-              }}
-            >
-              {SIZE_LABEL[s]}
-            </button>
-          ))}
-        </div>
-      )}
+      <div
+        className={styles.resizableToolbar}
+        onMouseDown={(e) => e.stopPropagation()}
+        title={`Size of ${label ?? path}`}
+      >
+        {SIZE_ORDER.map((s) => (
+          <button
+            key={s}
+            type="button"
+            className={styles.resizableBtn}
+            data-active={currentSize === s}
+            onClick={(e) => {
+              e.stopPropagation();
+              setImageSize(stableKey, s);
+            }}
+          >
+            {SIZE_LABEL[s]}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
