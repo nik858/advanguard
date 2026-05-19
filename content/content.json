@@ -28,12 +28,15 @@
     {
       "id": "headline",
       "type": "headline",
+      "style": {
+        "pb": 0
+      },
       "data": {
         "headline": {
-          "eyebrow": "For Anyone Looking To [INSERT DESIRED OUTCOME]",
+          "eyebrow": "For Clinic Owners Looking To Add More Booked Patients Online",
           "eyebrowDotColor": "rgb(28,127,255)",
-          "h1": "blablab",
-          "sub": "While also [INSERT BENEFIT #1], [INSERT BENEFIT #2], [INSERT BENEFIT #3]"
+          "h1": "A Free Patient-Leak System That Reveals Exactly How To Add <span style=\"color:#1c7fff\">30% More Patients</span> To Your Calendar Without Spending Extra $ On Ads",
+          "sub": "Get a custom breakdown of what's leaking patients from your website, <u>delivered straight to your inbox within minutes</u>. 100% personalized to your clinic, without calls or sales pitches."
         }
       }
     },
@@ -49,7 +52,7 @@
           "sectionBody": "[INSERT PRODUCT NAME] is a counterintuitive approach to [INSERT DESIRED RESULT], that allows you to [DESCRIBE TOP BENEFITS] without [DESCRIBE THINGS THEY WANT TO AVOID].\n\nWe achieve this by [EXPLAIN HOW YOU ACHIEVE IT] without [EXPLAIN WHAT YOU DON'T DO THAT THEY WANT TO AVOID DOING].\n\nAnd as a result… this frees you up to [INSERT WHAT THEY'D RATHER DO INSTEAD] — this is the [INSERT YOUR PRODUCT NAME].\n\nSed varius facilisis dui sit amet imperdiet. Quisque ut ex urna. Integer nec nulla auctor, congue lacus eget, gravida felis. Suspendisse potenti.\n\nSuspendisse gravida lorem id massa pretium imperdiet nec consectetur urna. Nulla mi dui, lobortis ut lacinia sit amet, porta ac justo. Donec at ullamcorper ex. Sed sagittis dictum elementum.\n\nCurabitur nec ligula lacus. Pellentesque eu odio tincidunt, laoreet elit id, mattis enim. Praesent quis lobortis dolor. Praesent nunc magna, viverra nec rhoncus vel, viverra vitae diam. Maecenas pretium ornare interdum…"
         },
         "order": {
-          "badge": "NOW AVAILABLE FOR INSTANT DIGITAL DOWNLOAD",
+          "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
           "productName": "[INSERT PRODUCT NAME]",
           "productSubtitle": "[INSERT SHORT PRODUCT TAGLINE HERE]",
           "limitedTime": "Limited Time Offer",
