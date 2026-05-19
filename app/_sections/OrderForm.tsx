@@ -4,6 +4,7 @@ import { CTA } from "./_shared/CTA";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { MediaSlot } from "../_editor/MediaSlot";
+import { Erasable } from "../_editor/Erasable";
 import { mediaUrl, type OrderContent } from "@/types/content";
 import { CLINIC_TYPES, CLINIC_TYPE_LABELS } from "@/lib/leads/clinic-types";
 
@@ -32,49 +33,69 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
 
   return (
     <aside className="ac-order" aria-label="Order form">
-      <div className="ac-order__strip">
-        <EditRich edit={edit} path="order.badge">{order.badge}</EditRich>
-      </div>
-      {(mediaUrl(order.image) || edit) && (
-        <div className="ac-order__image" style={{ position: "relative" }}>
-          {mediaUrl(order.image) && (
-            <img
-              src={mediaUrl(order.image)}
-              alt={typeof order.image === "object" && order.image ? (order.image.alt ?? "") : ""}
-              className="ac-order__image-img"
-            />
-          )}
-          {edit && <MediaSlot path="order.image" accept="image" compact />}
+      <Erasable path="order.badge" label="badge">
+        <div className="ac-order__strip">
+          <EditRich edit={edit} path="order.badge">{order.badge}</EditRich>
         </div>
-      )}
+      </Erasable>
+      <Erasable path="order.image" label="order image">
+        {(mediaUrl(order.image) || edit) && (
+          <div className="ac-order__image" style={{ position: "relative" }}>
+            {mediaUrl(order.image) && (
+              <img
+                src={mediaUrl(order.image)}
+                alt={typeof order.image === "object" && order.image ? (order.image.alt ?? "") : ""}
+                className="ac-order__image-img"
+              />
+            )}
+            {edit && <MediaSlot path="order.image" accept="image" compact />}
+          </div>
+        )}
+      </Erasable>
       <div className="ac-order__product">
-        <div className="ac-order__product-name">
-          <EditRich edit={edit} path="order.productName">{order.productName}</EditRich>
-        </div>
-        <div className="ac-order__product-sub">
-          <EditRich edit={edit} path="order.productSubtitle">{order.productSubtitle}</EditRich>
-        </div>
+        <Erasable path="order.productName" label="product name">
+          <div className="ac-order__product-name">
+            <EditRich edit={edit} path="order.productName">{order.productName}</EditRich>
+          </div>
+        </Erasable>
+        <Erasable path="order.productSubtitle" label="product subtitle">
+          <div className="ac-order__product-sub">
+            <EditRich edit={edit} path="order.productSubtitle">{order.productSubtitle}</EditRich>
+          </div>
+        </Erasable>
       </div>
       <div className="ac-order__inner">
-        <div className="ac-order__limited">
-          <EditRich edit={edit} path="order.limitedTime">{order.limitedTime}</EditRich>
-        </div>
-        <div className="ac-order__price-row">
-          <div>
-            <span className="ac-order__price-was">
-              <EditRich edit={edit} path="order.priceWas">{order.priceWas}</EditRich>
-            </span>
-            <span className="ac-order__price">
-              <EditRich edit={edit} path="order.priceNow">{order.priceNow}</EditRich>
-            </span>
+        <Erasable path="order.limitedTime" label="limited time">
+          <div className="ac-order__limited">
+            <EditRich edit={edit} path="order.limitedTime">{order.limitedTime}</EditRich>
           </div>
-          <div className="ac-order__price-sub">
-            <EditRich edit={edit} path="order.priceSubLine">{order.priceSubLine}</EditRich>
+        </Erasable>
+        <Erasable path="order.priceRow" label="price row">
+          <div className="ac-order__price-row">
+            <div>
+              <Erasable path="order.priceWas" label="old price" as="span">
+                <span className="ac-order__price-was">
+                  <EditRich edit={edit} path="order.priceWas">{order.priceWas}</EditRich>
+                </span>
+              </Erasable>
+              <Erasable path="order.priceNow" label="current price" as="span">
+                <span className="ac-order__price">
+                  <EditRich edit={edit} path="order.priceNow">{order.priceNow}</EditRich>
+                </span>
+              </Erasable>
+            </div>
+            <Erasable path="order.priceSubLine" label="price subline">
+              <div className="ac-order__price-sub">
+                <EditRich edit={edit} path="order.priceSubLine">{order.priceSubLine}</EditRich>
+              </div>
+            </Erasable>
           </div>
-        </div>
-        <p className="ac-order__desc">
-          <EditRich edit={edit} path="order.description" multiline>{order.description}</EditRich>
-        </p>
+        </Erasable>
+        <Erasable path="order.description" label="description">
+          <p className="ac-order__desc">
+            <EditRich edit={edit} path="order.description" multiline>{order.description}</EditRich>
+          </p>
+        </Erasable>
         <form onSubmit={onSubmit} aria-label="Order">
           <label htmlFor="lead-email-input" className="visually-hidden">Email</label>
           <input
@@ -131,20 +152,26 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           {status === "err" && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
           {status === "ok" && <p style={{ color: "#15803d", fontSize: 13, marginTop: 8 }}>Thanks, we&apos;ll be in touch!</p>}
         </form>
-        <div className="ac-order__secure">
-          <span className="ac-order__check" aria-hidden="true">✓</span>
-          <span><EditRich edit={edit} path="order.secureText">{order.secureText}</EditRich></span>
-        </div>
-        <div className="ac-order__guarantee-row">
-          <div className="ac-order__guarantee-text">
-            <EditRich edit={edit} path="order.guaranteeText">{order.guaranteeText}</EditRich>
+        <Erasable path="order.secureText" label="secure text">
+          <div className="ac-order__secure">
+            <span className="ac-order__check" aria-hidden="true">✓</span>
+            <span><EditRich edit={edit} path="order.secureText">{order.secureText}</EditRich></span>
           </div>
-        </div>
-        <div className="ac-order__rating">
-          <span className="ac-order__rating-text">
-            <EditRich edit={edit} path="order.ratingText">{order.ratingText}</EditRich>
-          </span>
-        </div>
+        </Erasable>
+        <Erasable path="order.guaranteeText" label="guarantee text">
+          <div className="ac-order__guarantee-row">
+            <div className="ac-order__guarantee-text">
+              <EditRich edit={edit} path="order.guaranteeText">{order.guaranteeText}</EditRich>
+            </div>
+          </div>
+        </Erasable>
+        <Erasable path="order.ratingText" label="rating text">
+          <div className="ac-order__rating">
+            <span className="ac-order__rating-text">
+              <EditRich edit={edit} path="order.ratingText">{order.ratingText}</EditRich>
+            </span>
+          </div>
+        </Erasable>
         <div className="ac-order__mini-testimonials">
           <RepeatableList
             path="order.miniTestimonials"
@@ -153,15 +180,23 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           >
           {order.miniTestimonials.map((t, i) => (
             <div className="ac-order__mini-card" key={i}>
-              <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
+              <Erasable path={`order.miniTestimonials.${i}.avatar`} label="avatar" as="div" className="ac-order__mini-avatar">
+                <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
+              </Erasable>
               <div>
-                <div className="ac-order__mini-name">
-                  <EditRich edit={edit} path={`order.miniTestimonials.${i}.name`}>{t.name}</EditRich>
-                </div>
-                <div className="ac-order__mini-role">
-                  <EditRich edit={edit} path={`order.miniTestimonials.${i}.role`}>{t.role}</EditRich>
-                </div>
-                <div className="ac-order__mini-quote">&quot;<EditRich edit={edit} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</EditRich>&quot;</div>
+                <Erasable path={`order.miniTestimonials.${i}.name`} label="name">
+                  <div className="ac-order__mini-name">
+                    <EditRich edit={edit} path={`order.miniTestimonials.${i}.name`}>{t.name}</EditRich>
+                  </div>
+                </Erasable>
+                <Erasable path={`order.miniTestimonials.${i}.role`} label="role">
+                  <div className="ac-order__mini-role">
+                    <EditRich edit={edit} path={`order.miniTestimonials.${i}.role`}>{t.role}</EditRich>
+                  </div>
+                </Erasable>
+                <Erasable path={`order.miniTestimonials.${i}.quote`} label="quote">
+                  <div className="ac-order__mini-quote">&quot;<EditRich edit={edit} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</EditRich>&quot;</div>
+                </Erasable>
               </div>
             </div>
           ))}
