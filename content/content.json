@@ -28,6 +28,7 @@
     {
       "id": "headline",
       "type": "headline",
+      "hidden": false,
       "style": {
         "pb": 0
       },
@@ -43,6 +44,7 @@
     {
       "id": "hero",
       "type": "hero",
+      "hidden": false,
       "data": {
         "hero": {
           "videoLabel": "Hit Play on The Video",
@@ -92,6 +94,10 @@
     {
       "id": "authority",
       "type": "authority",
+      "hidden": false,
+      "style": {
+        "pt": 52
+      },
       "data": {
         "authority": {
           "title": "Features [INSERT LOGOS BELOW IF YOU HAVE OTHERWISE DELETE THIS SECTION]",
@@ -123,6 +129,7 @@
     {
       "id": "onlySystem",
       "type": "onlySystem",
+      "hidden": false,
       "data": {
         "onlySystem": {
           "eyebrow": "Limited Time Special — Download The Digital Version For Only $27.00",
@@ -183,6 +190,26 @@
           "ctaLabel": "Download Now for only $27.00",
           "ctaSubLink": "Click Here To Download Your Automatic Clients Book Now",
           "guaranteeText": "Backed By Our Unconditional 60 Day Money Back Guarantee"
+        }
+      }
+    },
+    {
+      "id": "07529357-b00d-4a3d-a525-67a462ee2ddd",
+      "type": "onlySystem",
+      "hidden": false,
+      "data": {
+        "onlySystem": {
+          "eyebrow": "",
+          "eyebrowDotColor": "rgb(28,127,255)",
+          "h2": "Heading",
+          "body": "",
+          "leftFeatures": [],
+          "rightFeatures": [],
+          "stats": [],
+          "ctaTagline": "",
+          "ctaLabel": "Buy now",
+          "ctaSubLink": "",
+          "guaranteeText": ""
         }
       }
     },
@@ -419,6 +446,7 @@
     {
       "id": "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc",
       "type": "stack",
+      "hidden": false,
       "data": {
         "stack": {
           "h2": "What you get",
