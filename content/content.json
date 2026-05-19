@@ -117,10 +117,6 @@
             {
               "url": "",
               "alt": ""
-            },
-            {
-              "url": "",
-              "alt": ""
             }
           ]
         }
@@ -130,12 +126,15 @@
       "id": "onlySystem",
       "type": "onlySystem",
       "hidden": false,
+      "style": {
+        "pt": 16
+      },
       "data": {
         "onlySystem": {
-          "eyebrow": "Limited Time Special — Download The Digital Version For Only $27.00",
+          "eyebrow": "<br>",
           "eyebrowDotColor": "rgb(236,39,74)",
-          "h2": "The Only System You'll Ever Need To\n[INSERT OUTCOME HERE]",
-          "body": "We put everything we've learned, everything we use ourselves in this book so that you can learn from our mistakes, our wins, as well as benefitting from all the time, effort, and money that has gone into the experiences that made their way into this book.",
+          "h2": "",
+          "body": "",
           "leftFeatures": [
             {
               "title": "Build A High Performing Team",
@@ -190,26 +189,6 @@
           "ctaLabel": "Download Now for only $27.00",
           "ctaSubLink": "Click Here To Download Your Automatic Clients Book Now",
           "guaranteeText": "Backed By Our Unconditional 60 Day Money Back Guarantee"
-        }
-      }
-    },
-    {
-      "id": "07529357-b00d-4a3d-a525-67a462ee2ddd",
-      "type": "onlySystem",
-      "hidden": false,
-      "data": {
-        "onlySystem": {
-          "eyebrow": "",
-          "eyebrowDotColor": "rgb(28,127,255)",
-          "h2": "Heading",
-          "body": "",
-          "leftFeatures": [],
-          "rightFeatures": [],
-          "stats": [],
-          "ctaTagline": "",
-          "ctaLabel": "Buy now",
-          "ctaSubLink": "",
-          "guaranteeText": ""
         }
       }
     },
@@ -306,6 +285,14 @@
                 "egestas arcu mauris dictum",
                 "odio quis"
               ]
+            },
+            {
+              "type": "text",
+              "avatar": "",
+              "name": "Name",
+              "role": "Role",
+              "quote": "New testimonial quote.",
+              "highlights": []
             },
             {
               "type": "text",
