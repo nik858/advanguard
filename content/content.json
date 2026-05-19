@@ -9,7 +9,7 @@
     "ogImage": "/assets/video-thumbnail.png"
   },
   "header": {
-    "orderByPhone": "Order By Phone [Enter Your Phone Number Here]",
+    "orderByPhone": "Order By Phone 06",
     "needHelp": "Need help? support@yourdomain.com",
     "logoLight": "/assets/advanguard-logo-white.png",
     "logoDark": "/assets/advanguard-logo-dark.png",
@@ -200,7 +200,7 @@
         "testimonials": {
           "rating": "Excellent based on 456 reviews",
           "h2": "What Are Others Saying About Our Model?",
-          "pullQuote": "\"The AC Model Allowed Me To Scale My Business Beyond 7-Figures. Thanks Automatic Clients!\"",
+          "pullQuote": "&quot;The AC Model Allowed Me To Scale My Business Beyond 7-Figures. Thanks Automatic Clients!&quot;",
           "items": [
             {
               "type": "video",
@@ -300,7 +300,7 @@
               "kind": "book",
               "title": "340 Page AC Book",
               "sub": "(Digital PDF Download)",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.",
+              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
               "access": "Instant Access",
               "priceWas": "$37",
               "priceNow": "Free"
@@ -309,7 +309,7 @@
               "kind": "ipad",
               "title": "Fast-Start Series",
               "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.",
+              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
               "access": "Instant Access",
               "priceWas": "$37",
               "priceNow": "Free"
@@ -318,7 +318,7 @@
               "kind": "ipad",
               "title": "Fast-Start Series",
               "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.",
+              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
               "access": "Instant Access",
               "priceWas": "$37",
               "priceNow": "Free"
@@ -327,7 +327,7 @@
               "kind": "ipad",
               "title": "Fast-Start Series",
               "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.",
+              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
               "access": "Instant Access",
               "priceWas": "$37",
               "priceNow": "Free"
@@ -336,7 +336,7 @@
               "kind": "ipad",
               "title": "Fast-Start Series",
               "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.",
+              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
               "access": "Instant Access",
               "priceWas": "$37",
               "priceNow": "Free"
@@ -345,7 +345,7 @@
               "kind": "ipad",
               "title": "Fast-Start Series",
               "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers & clients automatically.",
+              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
               "access": "Instant Access",
               "priceWas": "$37",
               "priceNow": "Free"
@@ -372,7 +372,7 @@
       "data": {
         "guarantee": {
           "h2": "Your Purchase Is Backed By Our\nUnconditional Money Back Guarantee",
-          "body": "I know that before I get into anything… I'd like to know what I'm buying and that it's backed by a solid money-back guarantee.\n\nAnd I want you to be comfortable with this purchase.\n\nAnd even though it's only $27.00 — you worked for that money and it counts.\n\nLike my grandpa used to say, \"Test drive the car before you drive it off the lot\"…\n\nSo here's what I've arranged:\n\nDownload the eBook, read it, but more importantly apply what you learn in there.\n\nAnd if you're not blown away by what you learn — just shoot us an email at support@yourdomain.com and request a refund within 30 days.\n\nWe'll refund you your $27.00 and let you keep the Automatic Clients book free of charge.\n\nHow's that for a money back guarantee? I'd say pretty good!"
+          "body": "I know that before I get into anything… I'd like to know what I'm buying and that it's backed by a solid money-back guarantee.\n\nAnd I want you to be comfortable with this purchase.\n\nAnd even though it's only $27.00 — you worked for that money and it counts.\n\nLike my grandpa used to say, &quot;Test drive the car before you drive it off the lot&quot;…\n\nSo here's what I've arranged:\n\nDownload the eBook, read it, but more importantly apply what you learn in there.\n\nAnd if you're not blown away by what you learn — just shoot us an email at support@yourdomain.com and request a refund within 30 days.\n\nWe'll refund you your $27.00 and let you keep the Automatic Clients book free of charge.\n\nHow's that for a money back guarantee? I'd say pretty good!"
         }
       }
     },
@@ -390,7 +390,7 @@
             },
             {
               "q": "Do you offer more in depth help?",
-              "a": "Yes. Nothing was held back while writing this book but for the people that want to further assistance we do offer opportunities to \"upgrade\" your order after purchasing. We also have our group of private clients (by application only) if you want us to help you implement everything."
+              "a": "Yes. Nothing was held back while writing this book but for the people that want to further assistance we do offer opportunities to &quot;upgrade&quot; your order after purchasing. We also have our group of private clients (by application only) if you want us to help you implement everything."
             },
             {
               "q": "Is there a physical book available?",
@@ -406,7 +406,7 @@
             },
             {
               "q": "Is there a guarantee?",
-              "a": "Yes, you get a 30 day \"no questions asked\" money back guarantee in case it's not for you. We even let you keep the book."
+              "a": "Yes, you get a 30 day &quot;no questions asked&quot; money back guarantee in case it's not for you. We even let you keep the book."
             }
           ]
         }
