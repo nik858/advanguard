@@ -18,16 +18,16 @@ export function Demo({ content: c, edit = false, style }: { content: DemoContent
             </h2>
           </Reveal>
         </Erasable>
-        <Erasable path="demo.videoUrl" label="demo video">
-          <Resizable path="demo.videoUrl" label="demo video size">
+        <Resizable path="demo.videoUrl" label="demo video size">
+          <Erasable path="demo.videoUrl" label="demo video">
             <Reveal delay={120}>
               <div className="ac-demo__video" style={{ position: "relative" }}>
                 {edit && <MediaSlot path="demo.videoUrl" accept="video" />}
                 <VideoPlayer src={c.videoUrl} poster={c.videoPoster} label="Demo video" edit={edit}/>
               </div>
             </Reveal>
-          </Resizable>
-        </Erasable>
+          </Erasable>
+        </Resizable>
       </div>
     </section>
   );

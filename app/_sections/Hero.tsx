@@ -12,8 +12,8 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
     <section className="ac-hero" aria-labelledby="what-is-h2" style={style}>
       <div className="ac-hero__grid">
         <div className="ac-hero__copy">
-          <Erasable path="hero.videoUrl" label="hero video">
-            <Resizable path="hero.videoUrl" label="hero video size">
+          <Resizable path="hero.videoUrl" label="hero video size">
+            <Erasable path="hero.videoUrl" label="hero video">
               <Reveal className="ac-hero__video-wrap">
                 <div className="ac-hero__video" style={{ position: "relative" }}>
                   {edit && <MediaSlot path="hero.videoUrl" accept="video" />}
@@ -27,8 +27,8 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
                   </Erasable>
                 )}
               </Reveal>
-            </Resizable>
-          </Erasable>
+            </Erasable>
+          </Resizable>
           <Erasable path="hero.sectionTitle" label="section title">
             <Reveal delay={80}>
               <h2 className="ac-hero__what-h2" id="what-is-h2">
