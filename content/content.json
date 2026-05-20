@@ -248,206 +248,25 @@
           "centerImage": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779290448658-hf_20260513_144543_1d28118c-0edb-4f8d-aeda-51c834b3b9af%20%281%29-LhPQ68AhWkhVUDhiETXEqYOjfIpx6S.png",
           "leftFeatures": [],
           "rightFeatures": [],
-          "stats": [
-            {
-              "value": "0",
-              "label": "Label"
-            }
-          ],
+          "stats": [],
           "ctaTagline": "",
-          "ctaLabel": "Buy now",
+          "ctaLabel": "AUDIT MY CLINIC",
           "ctaSubLink": "",
           "guaranteeText": ""
         }
       }
     },
     {
-      "id": "onlySystem",
-      "type": "onlySystem",
-      "hidden": false,
+      "id": "63cbc035-b2ec-466b-ad5b-854c85e3b3df",
+      "type": "guarantee",
       "style": {
-        "pt": 16
+        "pt": 0,
+        "pb": 0
       },
       "data": {
-        "onlySystem": {
-          "eyebrow": "<br>",
-          "eyebrowDotColor": "rgb(236,39,74)",
-          "h2": "",
-          "body": "",
-          "leftFeatures": [
-            {
-              "title": "Build A High Performing Team",
-              "body": ""
-            },
-            {
-              "title": "Create An Automatic Marketing Machine",
-              "body": ""
-            },
-            {
-              "title": "Generate Recurring Revenue",
-              "body": ""
-            },
-            {
-              "title": "Create Effective Upsells",
-              "body": ""
-            }
-          ],
-          "rightFeatures": [
-            {
-              "title": "Create A 7-Figure Digital Business",
-              "body": ""
-            },
-            {
-              "title": "Build A Community",
-              "body": ""
-            },
-            {
-              "title": "Sell High Ticket Coaching and Consulting",
-              "body": ""
-            },
-            {
-              "title": "Create Effective Upsells",
-              "body": ""
-            }
-          ],
-          "stats": [
-            {
-              "value": "21 Chapters",
-              "label": "Theory + Chapters"
-            },
-            {
-              "value": "340 Pages",
-              "label": "Everything you need to know to start Automatic Clients."
-            },
-            {
-              "value": "1 System",
-              "label": "Do what we outline and it works in any niche."
-            }
-          ],
-          "ctaTagline": "Get Your eBook Now!",
-          "ctaLabel": "Download Now for only $27.00",
-          "ctaSubLink": "Click Here To Download Your Automatic Clients Book Now",
-          "guaranteeText": "Backed By Our Unconditional 60 Day Money Back Guarantee"
-        }
-      }
-    },
-    {
-      "id": "authority",
-      "type": "authority",
-      "hidden": false,
-      "style": {
-        "pt": 108
-      },
-      "data": {
-        "authority": {
-          "title": "Features [INSERT LOGOS BELOW IF YOU HAVE OTHERWISE DELETE THIS SECTION]",
-          "logos": [
-            {
-              "url": "",
-              "alt": ""
-            },
-            {
-              "url": "",
-              "alt": ""
-            },
-            {
-              "url": "",
-              "alt": ""
-            },
-            {
-              "url": "",
-              "alt": ""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "demo",
-      "type": "demo",
-      "data": {
-        "demo": {
-          "h2": "Check out Step-by-Step Demo of How [Insert Product / Mechanics Name] Works…",
-          "videoUrl": "",
-          "videoPoster": "/assets/video-thumbnail.png"
-        }
-      }
-    },
-    {
-      "id": "stack",
-      "type": "stack",
-      "data": {
-        "stack": {
-          "h2": "Here's Everything You're Getting For Only $27.00 Today",
-          "bigStackImg": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1778793435816-Capture%20d%E2%80%99e%CC%81cran%202026-05-10%20a%CC%80%2021.37.35-hOyS0nPLPj2iMHc2WJ5Kh0YBKAX7LP.png",
-          "items": [
-            {
-              "kind": "book",
-              "title": "340 Page AC Book",
-              "sub": "(Digital PDF Download)",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
-              "access": "Instant Access",
-              "priceWas": "$37",
-              "priceNow": "Free"
-            },
-            {
-              "kind": "ipad",
-              "title": "Fast-Start Series",
-              "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
-              "access": "Instant Access",
-              "priceWas": "$37",
-              "priceNow": "Free"
-            },
-            {
-              "kind": "ipad",
-              "title": "Fast-Start Series",
-              "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
-              "access": "Instant Access",
-              "priceWas": "$37",
-              "priceNow": "Free"
-            },
-            {
-              "kind": "ipad",
-              "title": "Fast-Start Series",
-              "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
-              "access": "Instant Access",
-              "priceWas": "$37",
-              "priceNow": "Free"
-            },
-            {
-              "kind": "ipad",
-              "title": "Fast-Start Series",
-              "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
-              "access": "Instant Access",
-              "priceWas": "$37",
-              "priceNow": "Free"
-            },
-            {
-              "kind": "ipad",
-              "title": "Fast-Start Series",
-              "sub": "6+ Hours Online Course",
-              "body": "21 chapters. 7 bonus chapters. All focused on one thing: helping you acquire new customers &amp; clients automatically.",
-              "access": "Instant Access",
-              "priceWas": "$37",
-              "priceNow": "Free"
-            },
-            {
-              "kind": "book",
-              "title": "New item",
-              "sub": "",
-              "body": "",
-              "access": "Instant Access",
-              "priceWas": "",
-              "priceNow": "Free"
-            }
-          ],
-          "ctaTagline": "Get Your eBook Now!",
-          "ctaLabel": "Download Now for only $27.00",
-          "guaranteeText": "Backed By Our Unconditional 60 Day Money Back Guarantee"
+        "guarantee": {
+          "h2": "Here's What We<span style=\"color:#1c7fff\"> Guarantee\n</span>",
+          "body": "Your diagnosis will be specific to your clinic's case. It will name the exact signals missing from your site, benchmark them against clinics in your vertical, and tell you what to fix first.\n\nIf it reads like something that could have been written for any clinic on the internet - call us out on it. We mean that."
         }
       }
     },
