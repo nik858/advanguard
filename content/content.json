@@ -32,7 +32,7 @@
       "type": "headline",
       "hidden": false,
       "style": {
-        "pt": 64,
+        "pt": 36,
         "pb": 0
       },
       "data": {
@@ -49,6 +49,7 @@
       "type": "hero",
       "hidden": false,
       "style": {
+        "pt": 56,
         "pb": 0
       },
       "data": {
