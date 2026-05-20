@@ -7,13 +7,16 @@ export const DEFAULT_HTML_TEMPLATE = [
   `    <meta charset="utf-8" />`,
   `    <meta name="viewport" content="width=device-width,initial-scale=1" />`,
   `    <title>{{subject}}</title>`,
+  `    <style>a { color: {{accent_color}}; }</style>`,
   `  </head>`,
-  `  <body style="margin:0;padding:24px;background:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;color:#18181b;">`,
-  `    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:12px;">`,
+  `  <body style="margin:0;padding:24px;background:{{background_color}};font-family:{{font_family_css}};color:#18181b;">`,
+  `    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:{{container_width}}px;margin:0 auto;background:#ffffff;border-radius:12px;">`,
   `      <tr>`,
   `        <td style="padding:32px;font-size:15px;line-height:1.55;">`,
+  `          {{header_logo_html}}`,
   `          {{body_html}}`,
-  `          <p style="margin:24px 0 0;color:#71717a;font-size:13px;">{{signature}}</p>`,
+  `          <hr style="border:0;border-top:1px solid {{accent_color}};opacity:0.15;margin:24px 0 16px;" />`,
+  `          <p style="margin:0;color:#71717a;font-size:13px;">{{signature}}</p>`,
   `        </td>`,
   `      </tr>`,
   `    </table>`,
@@ -40,10 +43,39 @@ const SharedSchema = z.object({
   signature: z.string().min(1),
 });
 
+/**
+ * High-level visual knobs Nik can tune without touching HTML. Each value is
+ * substituted into the html_template at render time so a non-technical
+ * operator can rebrand the email without touching code.
+ */
+export const TEMPLATE_FONT_FAMILIES = ["system", "serif", "modern", "humanist"] as const;
+export type TemplateFontFamily = (typeof TEMPLATE_FONT_FAMILIES)[number];
+
+const TemplateStylesSchema = z.object({
+  /** Hex color used for links + the divider above the signature. */
+  accent_color: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#18181b"),
+  /** Maps to a curated CSS font stack. */
+  font_family: z.enum(TEMPLATE_FONT_FAMILIES).default("system"),
+  /** Background color of the body around the email card. */
+  background_color: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#f5f5f5"),
+  /** Max width of the email card in pixels. */
+  container_width: z.number().min(360).max(720).default(560),
+  /** Optional brand logo shown above the body. Blob URL or external. */
+  header_logo_url: z.string().default(""),
+});
+export type TemplateStyles = z.infer<typeof TemplateStylesSchema>;
+
 export const PromptsV2Schema = z.object({
   version: z.literal(2),
   shared: SharedSchema,
   html_template: HtmlTemplateSchema,
+  template_styles: TemplateStylesSchema.default({
+    accent_color: "#18181b",
+    font_family: "system",
+    background_color: "#f5f5f5",
+    container_width: 560,
+    header_logo_url: "",
+  }),
   emails: z.object({
     mail_1: MailConfigSchema,
     mail_2: MailConfigSchema,
@@ -79,6 +111,13 @@ function migrateV1ToV2(v1: z.infer<typeof PromptsV1Schema>): PromptsV2 {
       signature: v1.signature,
     },
     html_template: DEFAULT_HTML_TEMPLATE,
+    template_styles: {
+      accent_color: "#18181b",
+      font_family: "system",
+      background_color: "#f5f5f5",
+      container_width: 560,
+      header_logo_url: "",
+    },
     emails: {
       mail_1: {
         delay_hours: 0,

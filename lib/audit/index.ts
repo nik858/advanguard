@@ -45,6 +45,7 @@ function fallbackMail(lead: Lead, key: MailKey, reason: string, prompts: Prompts
     first_name: lead.firstName || "",
     signature: prompts.shared.signature,
     domain: lead.domain,
+    styles: prompts.template_styles,
   });
   return {
     tab: tabFor(key),
@@ -64,6 +65,7 @@ function renderMail(lead: Lead, key: MailKey, email: AuditEmail, prompts: Prompt
     first_name: lead.firstName || "",
     signature: prompts.shared.signature,
     domain: lead.domain,
+    styles: prompts.template_styles,
   });
   return {
     tab: tabFor(key),

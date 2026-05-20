@@ -24,6 +24,7 @@ const PROMPTS: PromptsV2 = {
   version: 2,
   shared: { system_prompt: "sys", tone: "warm", signature: "Nik" },
   html_template: "<html><body>{{body_html}}</body></html>",
+  template_styles: { accent_color: "#18181b", font_family: "system", background_color: "#f5f5f5", container_width: 560, header_logo_url: "" },
   emails: {
     mail_1: { delay_hours: 0, email_instructions: "instr 1", subject_instructions: "subj 1" },
     mail_2: { delay_hours: 24, email_instructions: "instr 2", subject_instructions: "subj 2" },

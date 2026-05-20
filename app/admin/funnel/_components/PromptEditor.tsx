@@ -3,7 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useToast } from "../../../_components/Toast";
 import { ConfirmDialog } from "../../../_components/ConfirmDialog";
 import styles from "./funnel.module.css";
-import { renderHtmlTemplate, SAMPLE_TEMPLATE_VARS } from "@/lib/audit/template";
+import { renderHtmlTemplate, SAMPLE_TEMPLATE_VARS, FONT_LABELS } from "@/lib/audit/template";
+import type { TemplateFontFamily, TemplateStyles } from "@/types/prompts";
+
+const FONT_OPTIONS: TemplateFontFamily[] = ["system", "serif", "modern", "humanist"];
 
 type MailConfig = {
   delay_hours: number;
@@ -19,6 +22,7 @@ type PromptsV2 = {
     signature: string;
   };
   html_template: string;
+  template_styles: TemplateStyles;
   emails: {
     mail_1: MailConfig;
     mail_2: MailConfig;
@@ -63,6 +67,7 @@ export function PromptEditor() {
   const [previewing, setPreviewing] = useState(false);
   const [previewResult, setPreviewResult] = useState<PreviewResult | null>(null);
   const [signalsOpen, setSignalsOpen] = useState(false);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
   const [activeMail, setActiveMail] = useState<MailKey>("mail_1");
   const [activePreviewMail, setActivePreviewMail] = useState<1 | 2 | 3>(1);
   const [previewMode, setPreviewMode] = useState<"rendered" | "plain">("rendered");
@@ -87,6 +92,7 @@ export function PromptEditor() {
     return renderHtmlTemplate(prompts.html_template, {
       ...SAMPLE_TEMPLATE_VARS,
       signature: prompts.shared.signature || SAMPLE_TEMPLATE_VARS.signature,
+      styles: prompts.template_styles,
     });
   }, [prompts]);
 
@@ -101,9 +107,9 @@ export function PromptEditor() {
     setSaving(false);
     if (res.ok) {
       setBaseline(prompts);
-      toast("success", "Prompts saved — the next audit will use them");
+      toast("success", "Saved — your next audit uses these settings");
     } else {
-      toast("error", "Could not save the prompts");
+      toast("error", "Could not save");
     }
   }
 
@@ -114,9 +120,9 @@ export function PromptEditor() {
       const b = await res.json();
       setPrompts(b.prompts);
       setBaseline(b.prompts);
-      toast("success", "Reset to the default prompts");
+      toast("success", "Reset to defaults");
     } else {
-      toast("error", "Could not reset the prompts");
+      toast("error", "Could not reset");
     }
   }
 
@@ -150,6 +156,11 @@ export function PromptEditor() {
     setPrompts({ ...prompts, shared: { ...prompts.shared, [key]: value } });
   }
 
+  function updateStyles(patch: Partial<TemplateStyles>) {
+    if (!prompts) return;
+    setPrompts({ ...prompts, template_styles: { ...prompts.template_styles, ...patch } });
+  }
+
   function updateMail(key: MailKey, patch: Partial<MailConfig>) {
     if (!prompts) return;
     setPrompts({
@@ -162,30 +173,152 @@ export function PromptEditor() {
 
   const currentMail = prompts.emails[activeMail];
   const currentPreviewMail = previewResult?.mails.find((m) => m.tab === activePreviewMail) ?? null;
+  const t = prompts.template_styles;
 
   return (
     <div className={styles.editorRoot}>
-      {/* ───── 1. CONFIGURATION (HTML template) ───── */}
+      {/* ───── 1. VISUAL STYLE ───── */}
       <section className={styles.group}>
         <div className={styles.groupHead}>
-          <div className={styles.groupLabel}>Configuration</div>
-          <div className={styles.groupTitle}>HTML template (used by all 3 mails)</div>
-          <div className={styles.fieldHint} style={{ marginTop: 4 }}>
-            Placeholders: <code>{"{{body_html}}"}</code>, <code>{"{{subject}}"}</code>,{" "}
-            <code>{"{{first_name}}"}</code>, <code>{"{{signature}}"}</code>, <code>{"{{domain}}"}</code>.
+          <div className={styles.groupLabel}>Step 01 · Style</div>
+          <div className={styles.groupTitle}>How every email looks</div>
+          <div className={styles.fieldHint} style={{ marginTop: 6 }}>
+            These visual settings apply to every mail in the sequence. Live preview on the right updates as you change them.
           </div>
         </div>
-        <div className={styles.templateSplit}>
-          <textarea
-            className={styles.templateEditor}
-            value={prompts.html_template}
-            onChange={(e) =>
-              setPrompts({ ...prompts, html_template: e.target.value })
-            }
-            spellCheck={false}
-          />
-          <div className={styles.templatePreviewWrap}>
-            <div className={styles.templatePreviewLabel}>Live preview (sample variables)</div>
+
+        <div className={styles.styleSplit}>
+          <div className={styles.styleForm}>
+            <div className={styles.colorRow}>
+              <div className={styles.field}>
+                <label className={styles.fieldLabel}>Accent color</label>
+                <div className={styles.colorInputRow}>
+                  <input
+                    type="color"
+                    className={styles.colorPicker}
+                    value={t.accent_color}
+                    onChange={(e) => updateStyles({ accent_color: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    className={styles.colorHex}
+                    value={t.accent_color}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (/^#[0-9a-fA-F]{6}$/.test(v)) updateStyles({ accent_color: v });
+                      else updateStyles({ accent_color: v });
+                    }}
+                    placeholder="#18181b"
+                    maxLength={7}
+                  />
+                </div>
+                <div className={styles.fieldHint}>Used for links and the divider above the signature.</div>
+              </div>
+
+              <div className={styles.field}>
+                <label className={styles.fieldLabel}>Background</label>
+                <div className={styles.colorInputRow}>
+                  <input
+                    type="color"
+                    className={styles.colorPicker}
+                    value={t.background_color}
+                    onChange={(e) => updateStyles({ background_color: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    className={styles.colorHex}
+                    value={t.background_color}
+                    onChange={(e) => updateStyles({ background_color: e.target.value })}
+                    placeholder="#f5f5f5"
+                    maxLength={7}
+                  />
+                </div>
+                <div className={styles.fieldHint}>Color around the email card.</div>
+              </div>
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.fieldLabel}>Font family</label>
+              <select
+                className={styles.input}
+                value={t.font_family}
+                onChange={(e) => updateStyles({ font_family: e.target.value as TemplateFontFamily })}
+              >
+                {FONT_OPTIONS.map((f) => (
+                  <option key={f} value={f}>{FONT_LABELS[f]}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.fieldLabel}>Container width — {t.container_width}px</label>
+              <input
+                type="range"
+                min={360}
+                max={720}
+                step={20}
+                value={t.container_width}
+                className={styles.rangeInput}
+                onChange={(e) => updateStyles({ container_width: Number(e.target.value) })}
+              />
+              <div className={styles.rangeMarks}>
+                <span>Narrow</span><span>Wide</span>
+              </div>
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.fieldLabel}>Header logo URL (optional)</label>
+              <input
+                type="url"
+                className={styles.input}
+                value={t.header_logo_url}
+                onChange={(e) => updateStyles({ header_logo_url: e.target.value })}
+                placeholder="https://your-domain.com/logo.png"
+              />
+              <div className={styles.fieldHint}>Paste an image URL. Shown above the body in every email.</div>
+            </div>
+
+            <button
+              type="button"
+              className={styles.advancedToggle}
+              onClick={() => setAdvancedOpen((o) => !o)}
+              aria-expanded={advancedOpen}
+            >
+              <span className={styles.advancedChevron} data-open={advancedOpen}>›</span>
+              {advancedOpen ? "Hide" : "Show"} raw HTML
+              <span className={styles.advancedNote}>For developers only</span>
+            </button>
+
+            {advancedOpen && (
+              <div className={styles.advancedPanel}>
+                <div className={styles.fieldHint} style={{ marginBottom: 8 }}>
+                  Available placeholders:{" "}
+                  <code>{"{{body_html}}"}</code>{" "}
+                  <code>{"{{subject}}"}</code>{" "}
+                  <code>{"{{first_name}}"}</code>{" "}
+                  <code>{"{{signature}}"}</code>{" "}
+                  <code>{"{{domain}}"}</code>{" "}
+                  <code>{"{{accent_color}}"}</code>{" "}
+                  <code>{"{{background_color}}"}</code>{" "}
+                  <code>{"{{font_family_css}}"}</code>{" "}
+                  <code>{"{{container_width}}"}</code>{" "}
+                  <code>{"{{header_logo_html}}"}</code>
+                </div>
+                <textarea
+                  className={styles.templateEditor}
+                  value={prompts.html_template}
+                  onChange={(e) => setPrompts({ ...prompts, html_template: e.target.value })}
+                  spellCheck={false}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className={styles.stylePreviewWrap}>
+            <div className={styles.previewBadge}>
+              <span className={styles.previewBadgeDot} />
+              Live preview · sample content
+            </div>
             <iframe
               className={styles.templatePreview}
               title="HTML template preview"
@@ -199,13 +332,14 @@ export function PromptEditor() {
       {/* ───── 2. SHARED PROMPTS ───── */}
       <section className={styles.group}>
         <div className={styles.groupHead}>
-          <div className={styles.groupLabel}>Shared</div>
-          <div className={styles.groupTitle}>Voice + system prompt (used by all 3 mails)</div>
+          <div className={styles.groupLabel}>Step 02 · Voice</div>
+          <div className={styles.groupTitle}>Tone, system prompt, signature</div>
+          <div className={styles.fieldHint} style={{ marginTop: 6 }}>
+            Shared by every mail in the sequence. Only edit if you want to change the overall voice.
+          </div>
         </div>
         <div className={styles.field}>
-          <div className={styles.fieldHead}>
-            <label className={styles.fieldLabel}>System prompt</label>
-          </div>
+          <label className={styles.fieldLabel}>System prompt</label>
           <textarea
             className={styles.textarea}
             rows={5}
@@ -213,7 +347,7 @@ export function PromptEditor() {
             onChange={(e) => updateShared("system_prompt", e.target.value)}
           />
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 14 }}>
+        <div className={styles.rowSplit}>
           <div className={styles.field}>
             <label className={styles.fieldLabel}>Tone</label>
             <input
@@ -236,8 +370,11 @@ export function PromptEditor() {
       {/* ───── 3. MAIL TABS ───── */}
       <section className={styles.group}>
         <div className={styles.groupHead}>
-          <div className={styles.groupLabel}>Sequence</div>
-          <div className={styles.groupTitle}>Per-mail prompts and delays</div>
+          <div className={styles.groupLabel}>Step 03 · Sequence</div>
+          <div className={styles.groupTitle}>Three mails, three angles</div>
+          <div className={styles.fieldHint} style={{ marginTop: 6 }}>
+            Each mail focuses on a different group of audit signals. Edit the prompts to change what Claude writes about.
+          </div>
         </div>
         <div className={styles.mailTabsRow}>
           {MAIL_KEYS.map((key) => (
@@ -250,14 +387,14 @@ export function PromptEditor() {
             >
               <span>{TAB_LABELS[key]}</span>
               <span className={styles.mailTabDelay}>
-                {prompts.emails[key].delay_hours === 0 ? "instant" : `+${prompts.emails[key].delay_hours}h`}
+                {prompts.emails[key].delay_hours === 0 ? "Instant" : `+${prompts.emails[key].delay_hours}h`}
               </span>
             </button>
           ))}
         </div>
 
         <div className={styles.field}>
-          <label className={styles.fieldLabel}>Delay (hours after T0)</label>
+          <label className={styles.fieldLabel}>Delay (hours after the first mail)</label>
           <input
             type="number"
             min={0}
@@ -272,7 +409,7 @@ export function PromptEditor() {
             }
             style={{ maxWidth: 140 }}
           />
-          <div className={styles.fieldHint}>Resend allows scheduled sends up to 72h ahead.</div>
+          <div className={styles.fieldHint}>0 = send immediately. Max 72 hours (Resend limit).</div>
         </div>
 
         <div className={styles.field}>
@@ -299,9 +436,10 @@ export function PromptEditor() {
       {/* ───── 4. TEST PREVIEW ───── */}
       <section className={styles.previewRunner}>
         <div className={styles.previewHead}>
-          <div className={styles.previewTitle}>🧪 Test preview</div>
+          <div className={styles.groupLabel}>Step 04 · Test</div>
+          <div className={styles.previewTitle}>Try the full pipeline on a real domain</div>
           <div className={styles.previewSub}>
-            Run the full pipeline (crawl + PageSpeed + 3 Claude calls) on a real domain. Nothing is sent.
+            Runs the crawl + 3 Claude calls + renders all three mails. Nothing is sent — this is sandbox only.
           </div>
         </div>
         <div className={styles.previewRow}>
@@ -348,7 +486,7 @@ export function PromptEditor() {
                 >
                   <span>Mail {m.tab}</span>
                   <span className={styles.mailTabDelay}>
-                    {m.delay_hours === 0 ? "instant" : `+${m.delay_hours}h`}
+                    {m.delay_hours === 0 ? "Instant" : `+${m.delay_hours}h`}
                   </span>
                   {m.fallback && <span className={styles.mailTabFallback}>fallback</span>}
                 </button>
@@ -418,7 +556,8 @@ export function PromptEditor() {
       {/* Sticky save bar */}
       <div className={styles.actionBar}>
         <div className={styles.actionBarMessage}>
-          {dirty ? "Unsaved changes" : saving ? "Saving…" : "All changes saved"}
+          <span className={styles.savedDot} data-state={saving ? "saving" : dirty ? "dirty" : "saved"} />
+          {saving ? "Saving…" : dirty ? "Unsaved changes" : "All changes saved"}
         </div>
         <button
           type="button"
@@ -440,8 +579,8 @@ export function PromptEditor() {
 
       <ConfirmDialog
         open={confirmReset}
-        title="Reset all prompts and template?"
-        description="This restores the bundled defaults for the system prompt, tone, signature, HTML template, and all 3 mail tabs. This cannot be undone."
+        title="Reset everything to default?"
+        description="Restores the bundled defaults for the style, system prompt, tone, signature, HTML template, and all 3 mail tabs. This cannot be undone."
         confirmLabel="Reset"
         onConfirm={resetToDefault}
         onCancel={() => setConfirmReset(false)}
