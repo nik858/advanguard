@@ -147,7 +147,8 @@
       "id": "testimonials",
       "type": "testimonials",
       "style": {
-        "pt": 36
+        "pt": 36,
+        "pb": 0
       },
       "data": {
         "testimonials": {
@@ -157,63 +158,121 @@
           "items": [
             {
               "type": "video",
-              "videoUrl": "",
-              "videoPoster": "/assets/video-thumbnail.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
+              "videoUrl": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779289398305-NikRak-P052QkNKvFlcfszVMpPDYpFLgemU8z.mp4",
+              "videoPoster": "",
+              "name": "Gary M., ",
+              "role": "Owner, Aesthetics Clinic Triplas",
+              "quote": ""
             },
             {
               "type": "text",
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing. Interdum ut nulla cum mi quisque feugiat turpis lacinia orci.",
+              "name": "Dr. Sarah H.",
+              "role": "Implantology Clinic, Phoenix AZ",
+              "quote": "&quot;The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.&quot;",
               "highlights": [
                 "egestas arcu mauris dictum",
                 "feugiat turpis lacinia orci"
               ]
             },
             {
+              "type": "video",
+              "videoUrl": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779289780586-IMG_1366%20%281%29-dC0wzTI1KBTXDwTHTq96bZ4a6AB7a5.MOV",
+              "videoPoster": "/assets/video-thumbnail.png",
+              "name": "Adam N.",
+              "role": "Outsourced CMO for Healthcare Clinics",
+              "quote": ""
+            },
+            {
               "type": "text",
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
+              "name": "Lisa V.",
+              "role": "Med Spa Owner, Palm Beach FL",
+              "quote": "&quot;I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free. Confirmed.&quot;",
               "highlights": [
                 "adipiscing"
               ]
             },
             {
-              "type": "video",
-              "videoUrl": "",
-              "videoPoster": "/assets/video-thumbnail.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Mark P.",
+              "role": "Owner of Lumière Aesthetics, Miami FL",
+              "quote": "Genuinely useful, and free. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
+              "highlights": [
+                "egestas arcu mauris dictum",
+                "odio quis"
+              ]
             },
             {
               "type": "text",
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Risus tincidunt ut in leo. Pharetra aliquam est elit integer dis nisi eu cras. Mattis imperdiet aenean nunc nullam aliquet arcu lacinia phasellus. Consequat nibh nunc amet donec habitant gravida quis eleifend donec.",
-              "highlights": []
-            },
+              "name": "Dr. Clemente H.",
+              "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
+              "quote": "&quot;In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.&quot;",
+              "highlights": [
+                "tristique aliquet pulvinar"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "b3489b9c-85be-4694-8ee9-99b936472074",
+      "type": "testimonials",
+      "style": {
+        "pt": 0
+      },
+      "data": {
+        "testimonials": {
+          "rating": "Excellent based on 71 reviews",
+          "h2": "What Are Others Saying About Our Model?",
+          "pullQuote": "“The Model Allowed Me to Scale My Clinic from 2 to 5 Employees Thanks to the Patient-Leak System”",
+          "items": [
             {
               "type": "video",
-              "videoUrl": "",
-              "videoPoster": "/assets/video-thumbnail.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
+              "videoUrl": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779289398305-NikRak-P052QkNKvFlcfszVMpPDYpFLgemU8z.mp4",
+              "videoPoster": "",
+              "name": "Gary M., ",
+              "role": "Owner, Aesthetics Clinic Triplas",
+              "quote": ""
             },
             {
               "type": "text",
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
+              "name": "Lisa V.",
+              "role": "Med Spa Owner, Palm Beach FL",
+              "quote": "&quot;I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free. Confirmed.&quot;",
+              "highlights": [
+                "adipiscing"
+              ]
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Dr. Sarah H.",
+              "role": "Implantology Clinic, Phoenix AZ",
+              "quote": "&quot;The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.&quot;",
+              "highlights": [
+                "egestas arcu mauris dictum",
+                "feugiat turpis lacinia orci"
+              ]
+            },
+            {
+              "type": "video",
+              "videoUrl": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779289780586-IMG_1366%20%281%29-dC0wzTI1KBTXDwTHTq96bZ4a6AB7a5.MOV",
+              "videoPoster": "/assets/video-thumbnail.png",
+              "name": "Adam N.",
+              "role": "Outsourced CMO for Healthcare Clinics",
+              "quote": ""
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Dr. Clemente H.",
+              "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
+              "quote": "&quot;In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.&quot;",
               "highlights": [
                 "tristique aliquet pulvinar"
               ]
@@ -221,9 +280,9 @@
             {
               "type": "text",
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
+              "name": "Mark P.",
+              "role": "Owner of Lumière Aesthetics, Miami FL",
+              "quote": "Genuinely useful, and free. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
               "highlights": [
                 "egestas arcu mauris dictum",
                 "odio quis"
@@ -505,7 +564,9 @@
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.h2",
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.eyebrow",
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.cta",
-    "testimonials:testimonials.rating"
+    "testimonials:testimonials.rating",
+    "testimonials:testimonials.items.7.name",
+    "testimonials:testimonials.items.7.role"
   ],
   "imageSizes": {}
 }
