@@ -170,7 +170,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Dr. Sarah H.",
               "role": "Implantology Clinic, Phoenix AZ",
-              "quote": "&quot;The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.&quot;",
+              "quote": "The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.",
               "highlights": [
                 "egestas arcu mauris dictum",
                 "feugiat turpis lacinia orci"
@@ -189,7 +189,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Lisa V.",
               "role": "Med Spa Owner, Palm Beach FL",
-              "quote": "&quot;I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free. Confirmed.&quot;",
+              "quote": "I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free. Confirmed.",
               "highlights": [
                 "adipiscing"
               ]
@@ -210,7 +210,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Dr. Clemente H.",
               "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
-              "quote": "&quot;In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.&quot;",
+              "quote": "In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.",
               "highlights": [
                 "tristique aliquet pulvinar"
               ]
@@ -279,8 +279,8 @@
       },
       "data": {
         "faq": {
-          "h2": "Frequently Asked Questions",
-          "sub": "Need help? Nik@booking-leak.com",
+          "h2": "Frequently Asked <span style=\"color:#1c7fff\">Questions</span>",
+          "sub": "Need help? nik@booking-leak.com",
           "items": [
             {
               "q": "Who is this for?",
