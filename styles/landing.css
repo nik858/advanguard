@@ -395,7 +395,7 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
   color: var(--color-brand-blue-2);
 }
 .ac-player__play-icon svg { width: 30px; height: 30px; margin-left: 4px; }
-.ac-player video, .ac-player iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: inherit; }
+.ac-player video, .ac-player iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: inherit; object-fit: contain; background: #000; }
 
 /* ─── Testimonials ─── */
 .ac-testi { background: #fff; padding: 64px 32px; }
@@ -567,3 +567,29 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
 .ac-admin-list__item { border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; background: rgb(252,252,255); }
 .ac-admin-list__row { display: flex; align-items: center; justify-content: space-between; }
 .ac-admin-list__btnrow { display: flex; gap: 6px; }
+
+/* ─── Mobile section rhythm ──────────────────────────────────────────────
+   Vertical padding and per-section gaps tuned for narrow viewports.
+   The defaults (64px section padding, 32px hero gap, 44px FAQ-head margin)
+   read fine at 1280px+ but pile up to entire screen heights of empty space
+   on a phone. Everything here just trims that rhythm; nothing structural. */
+@media (max-width: 700px) {
+  .ac-headline { padding: 24px 16px 12px; }
+  .ac-hero { padding: 12px 16px 24px; }
+  .ac-hero__copy { gap: 18px; }
+  .ac-hero__video-wrap { gap: 10px; }
+  .ac-authority { padding: 24px 16px; }
+  .ac-only { padding: 32px 16px; }
+  .ac-demo { padding: 16px 16px 32px; }
+  .ac-testi { padding: 32px 16px; }
+  .ac-testi__head { margin-bottom: 20px; gap: 12px; }
+  .ac-stack { padding: 32px 16px; }
+  .ac-guarantee { padding: 32px 16px; }
+  .ac-guarantee__inner { gap: 16px; }
+  .ac-faq { padding: 32px 16px; }
+  .ac-faq__head { margin-bottom: 20px; gap: 12px; }
+  .ac-faq__grid { gap: 18px; }
+  .ac-faq__item { gap: 8px; }
+  .ac-footer { padding: 28px 16px; }
+  .ac-footer__inner { gap: 20px; }
+}

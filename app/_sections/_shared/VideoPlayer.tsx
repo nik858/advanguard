@@ -52,11 +52,27 @@ export function VideoPlayer({ src, poster, label, edit = false }: { src: string;
       </div>
     );
   }
+  // Wrap the playing element in `.ac-player` so the CSS contracts that scope
+  // `width:100% height:100% object-fit:contain` apply — without it a vertical
+  // video keeps its intrinsic size and overflows the layout (worst case it
+  // covers the whole viewport on mobile).
   if (isYouTube(src)) {
-    return <iframe src={`https://www.youtube.com/embed/${youTubeId(src)}?autoplay=1&rel=0`} title={label || "Video"} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />;
+    return (
+      <div className="ac-player ac-player--playing">
+        <iframe src={`https://www.youtube.com/embed/${youTubeId(src)}?autoplay=1&rel=0&playsinline=1`} title={label || "Video"} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+      </div>
+    );
   }
   if (isVimeo(src)) {
-    return <iframe src={`https://player.vimeo.com/video/${vimeoId(src)}?autoplay=1`} title={label || "Video"} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />;
+    return (
+      <div className="ac-player ac-player--playing">
+        <iframe src={`https://player.vimeo.com/video/${vimeoId(src)}?autoplay=1&playsinline=1`} title={label || "Video"} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
+      </div>
+    );
   }
-  return <video key={src} src={src} poster={posterUrl} controls autoPlay playsInline />;
+  return (
+    <div className="ac-player ac-player--playing">
+      <video key={src} src={src} poster={posterUrl} controls autoPlay playsInline />
+    </div>
+  );
 }

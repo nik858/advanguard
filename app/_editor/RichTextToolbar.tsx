@@ -67,7 +67,7 @@ function clearColorAroundSelection(range: Range, host: HTMLElement): void {
 }
 
 export function RichTextToolbar({ range, host, onMutated }: Props) {
-  const [view, setView] = useState<"main" | "color">("main");
+  const [view, setView] = useState<"main" | "color" | "size">("main");
   const ref = useRef<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
 
@@ -161,6 +161,7 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
       else el.removeAttribute("style");
     });
     runExecCommand("insertHTML", `<span style="font-size:${px}px">${tmp.innerHTML}</span>`);
+    setView("main");
     onMutated();
   }
 
@@ -226,29 +227,41 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
           <button data-rich-text-toolbar="true" type="button" style={activeBold ? btnActive : btn} onClick={applyBold}>B</button>
           <button data-rich-text-toolbar="true" type="button" style={{ ...(activeItalic ? btnActive : btn), fontStyle: "italic" }} onClick={applyItalic}>I</button>
           <button data-rich-text-toolbar="true" type="button" style={{ ...(activeUnder ? btnActive : btn), textDecoration: "underline" }} onClick={applyUnderline}>U</button>
-          <select
-            data-rich-text-toolbar="true"
-            aria-label="Font size"
-            value=""
-            // stopPropagation so the toolbar's onMouseDown preventDefault
-            // doesn't block the native dropdown from opening.
-            onMouseDown={(e) => e.stopPropagation()}
-            onChange={(e) => {
-              const v = e.target.value;
-              e.target.value = "";
-              if (!v) return;
-              if (v === "clear") clearFontSize();
-              else applyFontSize(Number(v));
-            }}
-            style={{ ...btn, padding: "4px 6px", border: "1px solid #e7e7ea", cursor: "pointer" }}
-          >
-            <option value="" disabled hidden>Size</option>
-            <option value="clear">Default</option>
-            {FONT_SIZE_OPTIONS.map((px) => (
-              <option key={px} value={px}>{px} px</option>
-            ))}
-          </select>
+          <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("size")}>size</button>
           <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("color")}>color</button>
+        </>
+      )}
+      {view === "size" && (
+        <>
+          <div
+            data-rich-text-toolbar="true"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              padding: 4,
+              maxHeight: 220,
+              overflowY: "auto",
+              minWidth: 120,
+            }}
+          >
+            {FONT_SIZE_OPTIONS.map((px) => (
+              <button
+                key={px}
+                data-rich-text-toolbar="true"
+                type="button"
+                aria-label={`Font size ${px} px`}
+                onClick={() => applyFontSize(px)}
+                style={{ ...btn, textAlign: "left", padding: "6px 10px" }}
+              >
+                {px} px
+              </button>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 4, padding: "0 4px 4px" }}>
+            <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => { clearFontSize(); setView("main"); }}>x Clear</button>
+            <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("main")}>back</button>
+          </div>
         </>
       )}
       {view === "color" && (
