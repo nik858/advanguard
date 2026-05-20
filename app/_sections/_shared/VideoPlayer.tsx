@@ -4,9 +4,12 @@ import { Icons } from "./Icons";
 import { mediaUrl, type MediaRef } from "@/types/content";
 
 function isYouTube(u: string) { return /youtube\.com\/watch|youtu\.be\//.test(u); }
-function isVimeo(u: string)   { return /vimeo\.com\//.test(u); }
+function isVimeo(u: string)   { return /(?:player\.)?vimeo\.com\//.test(u); }
 function youTubeId(u: string) { const m = u.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/); return m ? m[1] : ""; }
-function vimeoId(u: string)   { const m = u.match(/vimeo\.com\/(\d+)/); return m ? m[1] : ""; }
+function vimeoId(u: string)   {
+  const m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return m ? m[1] : "";
+}
 
 export function VideoPlayer({ src, poster, label, edit = false }: { src: string; poster: MediaRef; label?: string; edit?: boolean }) {
   const [playing, setPlaying] = useState(false);

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { RICHTEXT_PALETTE } from "@/lib/richtext/palette";
+import { FONT_SIZE_PRESETS } from "@/lib/richtext/font-sizes";
 
 type Props = {
   range: Range;
@@ -66,7 +67,7 @@ function clearColorAroundSelection(range: Range, host: HTMLElement): void {
 }
 
 export function RichTextToolbar({ range, host, onMutated }: Props) {
-  const [view, setView] = useState<"main" | "color">("main");
+  const [view, setView] = useState<"main" | "color" | "size">("main");
   const ref = useRef<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
 
@@ -138,6 +139,57 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
     onMutated();
   }
 
+  function applyFontSize(px: number) {
+    const sel = window.getSelection();
+    if (!sel) return;
+    sel.removeAllRanges();
+    sel.addRange(range);
+    const r = sel.getRangeAt(0);
+    if (r.collapsed) return;
+    const frag = r.cloneContents();
+    const tmp = document.createElement("div");
+    tmp.appendChild(frag);
+    // Strip any nested font-size spans inside the selection so we don't
+    // produce stacked overrides — the outer span is the source of truth.
+    tmp.querySelectorAll("span[style]").forEach((el) => {
+      const style = (el.getAttribute("style") || "")
+        .split(";")
+        .map((d) => d.trim())
+        .filter((d) => d && !/^font-size\s*:/i.test(d))
+        .join("; ");
+      if (style) el.setAttribute("style", style);
+      else el.removeAttribute("style");
+    });
+    runExecCommand("insertHTML", `<span style="font-size:${px}px">${tmp.innerHTML}</span>`);
+    setView("main");
+    onMutated();
+  }
+
+  function clearFontSize() {
+    const nodesToClean = new Set<Element>();
+    function walkUp(node: Node) {
+      let cur: Node | null = node;
+      while (cur && cur !== host) {
+        if (cur.nodeType === 1) nodesToClean.add(cur as Element);
+        cur = cur.parentNode;
+      }
+    }
+    walkUp(range.startContainer);
+    walkUp(range.endContainer);
+    for (const el of nodesToClean) {
+      if (!el.hasAttribute("style")) continue;
+      const next = (el.getAttribute("style") || "")
+        .split(";")
+        .map((d) => d.trim())
+        .filter((d) => d && !/^font-size\s*:/i.test(d))
+        .join("; ");
+      if (next) el.setAttribute("style", next);
+      else el.removeAttribute("style");
+    }
+    setView("main");
+    onMutated();
+  }
+
   // Query commands give true cross-browser toggle state.
   const activeBold = typeof document !== "undefined" && document.queryCommandState?.("bold");
   const activeItalic = typeof document !== "undefined" && document.queryCommandState?.("italic");
@@ -166,7 +218,7 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
         boxShadow: "0 8px 24px rgba(0,0,0,.16)",
         padding: 4,
         display: "flex",
-        flexDirection: view === "color" ? "column" : "row",
+        flexDirection: view === "main" ? "row" : "column",
         gap: 4,
         fontFamily: "var(--adv-font, system-ui, sans-serif)",
       }}
@@ -176,7 +228,30 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
           <button data-rich-text-toolbar="true" type="button" style={activeBold ? btnActive : btn} onClick={applyBold}>B</button>
           <button data-rich-text-toolbar="true" type="button" style={{ ...(activeItalic ? btnActive : btn), fontStyle: "italic" }} onClick={applyItalic}>I</button>
           <button data-rich-text-toolbar="true" type="button" style={{ ...(activeUnder ? btnActive : btn), textDecoration: "underline" }} onClick={applyUnderline}>U</button>
+          <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("size")}>size</button>
           <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("color")}>color</button>
+        </>
+      )}
+      {view === "size" && (
+        <>
+          <div style={{ display: "flex", gap: 4, padding: 4, flexWrap: "wrap", maxWidth: 240 }}>
+            {FONT_SIZE_PRESETS.map((s) => (
+              <button
+                key={s.px}
+                data-rich-text-toolbar="true"
+                type="button"
+                aria-label={`Font size ${s.label} (${s.px}px)`}
+                onClick={() => applyFontSize(s.px)}
+                style={{ ...btn, padding: "4px 10px", border: "1px solid #e7e7ea", fontSize: Math.min(14, s.px), lineHeight: 1 }}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 4, padding: "0 4px 4px" }}>
+            <button data-rich-text-toolbar="true" type="button" style={btn} onClick={clearFontSize}>x Clear</button>
+            <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("main")}>back</button>
+          </div>
         </>
       )}
       {view === "color" && (

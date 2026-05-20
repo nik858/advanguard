@@ -20,10 +20,12 @@ export function EditRich({
   if (!edit) {
     const Tag = (as ?? "span") as ElementType;
     const html = typeof children === "string" ? children : "";
+    if (!html.trim()) return null;
     return (
       <Tag
         className={className}
         style={{ whiteSpace: multiline ? "pre-line" : undefined }}
+        // Content is sanitized server-side via sanitizeRichText before persistence.
         dangerouslySetInnerHTML={{ __html: html }}
       />
     );

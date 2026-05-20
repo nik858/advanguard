@@ -28,7 +28,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         return {
           allowedContentTypes: ALLOWED,
           addRandomSuffix: true,
-          maximumSizeInBytes: 100 * 1024 * 1024,
+          maximumSizeInBytes: 500 * 1024 * 1024,
           tokenPayload: JSON.stringify({ sub: session.sub, pathname }),
         };
       },

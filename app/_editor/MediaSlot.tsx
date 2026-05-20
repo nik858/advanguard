@@ -129,10 +129,15 @@ export function MediaSlot({
   const popoverTop = compact ? 30 : 44;
 
   function applyUrl(url: string) {
+    // Accept a full <iframe ...> embed snippet (e.g. Vimeo's "Embed" copy)
+    // and extract its src so the user doesn't have to clean it up by hand.
+    const trimmed = url.trim();
+    const iframeMatch = trimmed.match(/<iframe[^>]*\bsrc=["']([^"']+)["']/i);
+    const finalUrl = iframeMatch ? iframeMatch[1] : trimmed;
     if (typeof current === "object" && current !== null) {
-      setField(fullPath, { ...(current as object), url });
+      setField(fullPath, { ...(current as object), url: finalUrl });
     } else {
-      setField(fullPath, url);
+      setField(fullPath, finalUrl);
     }
     setOpen(false);
     setView("menu");
@@ -281,7 +286,7 @@ export function MediaSlot({
                 <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
                 <input
                   type="url"
-                  placeholder={accept === "video" ? "https://… (YouTube, Vimeo, .mp4)" : "https://…/image.jpg"}
+                  placeholder={accept === "video" ? "URL or <iframe …> (YouTube, Vimeo, .mp4)" : "https://…/image.jpg"}
                   value={urlInput}
                   onChange={(e) => setUrlInput(e.target.value)}
                   style={popInput}

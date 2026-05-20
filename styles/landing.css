@@ -24,7 +24,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ─── Header ─── */
 .ac-header {
-  position: sticky; top: 0; z-index: 50;
   height: 64px;
   background: rgba(255,255,255,0.92);
   backdrop-filter: saturate(180%) blur(6px);
@@ -56,7 +55,16 @@ img { max-width: 100%; height: auto; display: block; }
 .ac-headline__eyebrow::before {
   content: ""; width: 20px; height: 20px; border-radius: 50%;
   background: var(--dot-color, var(--color-brand-blue));
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 20%, transparent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 55%, transparent);
+  animation: ac-dot-pulse 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes ac-dot-pulse {
+  0%   { box-shadow: 0 0 0 0   color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 55%, transparent); transform: scale(1); }
+  70%  { box-shadow: 0 0 0 14px color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 0%, transparent);  transform: scale(1.05); }
+  100% { box-shadow: 0 0 0 0   color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 0%, transparent);  transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ac-headline__eyebrow::before { animation: none; box-shadow: 0 0 0 6px color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 20%, transparent); }
 }
 .ac-headline__h1 {
   font: 800 48px/1.1 var(--font-display);

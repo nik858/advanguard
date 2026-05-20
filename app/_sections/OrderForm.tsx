@@ -65,32 +65,36 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
         </Erasable>
       </div>
       <div className="ac-order__inner">
-        <Erasable path="order.limitedTime" label="limited time">
-          <div className="ac-order__limited">
-            <EditRich edit={edit} path="order.limitedTime">{order.limitedTime}</EditRich>
-          </div>
-        </Erasable>
-        <Erasable path="order.priceRow" label="price row">
-          <div className="ac-order__price-row">
-            <div>
-              <Erasable path="order.priceWas" label="old price" as="span">
-                <span className="ac-order__price-was">
-                  <EditRich edit={edit} path="order.priceWas">{order.priceWas}</EditRich>
-                </span>
-              </Erasable>
-              <Erasable path="order.priceNow" label="current price" as="span">
-                <span className="ac-order__price">
-                  <EditRich edit={edit} path="order.priceNow">{order.priceNow}</EditRich>
-                </span>
+        {(edit || (order.limitedTime ?? "").trim()) && (
+          <Erasable path="order.limitedTime" label="limited time">
+            <div className="ac-order__limited">
+              <EditRich edit={edit} path="order.limitedTime">{order.limitedTime}</EditRich>
+            </div>
+          </Erasable>
+        )}
+        {(edit || (order.priceWas ?? "").trim() || (order.priceNow ?? "").trim() || (order.priceSubLine ?? "").trim()) && (
+          <Erasable path="order.priceRow" label="price row">
+            <div className="ac-order__price-row">
+              <div>
+                <Erasable path="order.priceWas" label="old price" as="span">
+                  <span className="ac-order__price-was">
+                    <EditRich edit={edit} path="order.priceWas">{order.priceWas}</EditRich>
+                  </span>
+                </Erasable>
+                <Erasable path="order.priceNow" label="current price" as="span">
+                  <span className="ac-order__price">
+                    <EditRich edit={edit} path="order.priceNow">{order.priceNow}</EditRich>
+                  </span>
+                </Erasable>
+              </div>
+              <Erasable path="order.priceSubLine" label="price subline">
+                <div className="ac-order__price-sub">
+                  <EditRich edit={edit} path="order.priceSubLine">{order.priceSubLine}</EditRich>
+                </div>
               </Erasable>
             </div>
-            <Erasable path="order.priceSubLine" label="price subline">
-              <div className="ac-order__price-sub">
-                <EditRich edit={edit} path="order.priceSubLine">{order.priceSubLine}</EditRich>
-              </div>
-            </Erasable>
-          </div>
-        </Erasable>
+          </Erasable>
+        )}
         <Erasable path="order.description" label="description">
           <p className="ac-order__desc">
             <EditRich edit={edit} path="order.description" multiline>{order.description}</EditRich>

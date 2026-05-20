@@ -19,11 +19,13 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
                   {edit && <MediaSlot path="hero.videoUrl" accept="video" />}
                   <VideoPlayer src={hero.videoUrl} poster={hero.videoPoster} label={hero.videoLabel} edit={edit}/>
                 </div>
-                <Erasable path="hero.videoLabel" label="video label">
-                  <p className="ac-hero__video-label">
-                    <EditRich edit={edit} path="hero.videoLabel">{hero.videoLabel}</EditRich>
-                  </p>
-                </Erasable>
+                {(edit || (hero.videoLabel ?? "").trim()) && (
+                  <Erasable path="hero.videoLabel" label="video label">
+                    <p className="ac-hero__video-label">
+                      <EditRich edit={edit} path="hero.videoLabel">{hero.videoLabel}</EditRich>
+                    </p>
+                  </Erasable>
+                )}
               </Reveal>
             </Resizable>
           </Erasable>

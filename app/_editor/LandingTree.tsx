@@ -13,22 +13,36 @@ import { RenderContextProvider } from "./RenderContext";
 export function LandingTree() {
   const { state } = useEditor();
   const c = state.draft;
+  // Preview mode renders the page exactly as a visitor sees it: no editor
+  // chrome (Add buttons, delete X's, resize toolbars, section hover frames)
+  // and every section receives edit={false} so the inline editors are inert.
+  const editing = !state.previewMode;
   return (
     <ToastProvider>
       <PublishBar />
       <StructurePanel />
-      <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], imageSizes: c.imageSizes ?? {}, edit: true }}>
-        <Header content={c.header} edit />
+      <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], imageSizes: c.imageSizes ?? {}, edit: editing }}>
+        <Header content={c.header} edit={editing} />
         <main id="main">
-          {c.sections.map((s, i) => (
-            <SectionContextProvider key={s.id} value={{ basePath: `sections.${i}.data`, sectionId: s.id }}>
-              <SectionHoverFrame type={s.type}>
-                <SectionBody section={s} edit />
-              </SectionHoverFrame>
-            </SectionContextProvider>
-          ))}
+          {c.sections.map((s, i) => {
+            // Preview hides sections marked `hidden` so the page matches what
+            // visitors see; edit mode keeps them so the operator can still
+            // toggle visibility from the structure panel.
+            if (!editing && s.hidden) return null;
+            return (
+              <SectionContextProvider key={s.id} value={{ basePath: `sections.${i}.data`, sectionId: s.id }}>
+                {editing ? (
+                  <SectionHoverFrame type={s.type}>
+                    <SectionBody section={s} edit />
+                  </SectionHoverFrame>
+                ) : (
+                  <SectionBody section={s} edit={false} />
+                )}
+              </SectionContextProvider>
+            );
+          })}
         </main>
-        <Footer content={c.footer} header={c.header} edit />
+        <Footer content={c.footer} header={c.header} edit={editing} />
       </RenderContextProvider>
     </ToastProvider>
   );
