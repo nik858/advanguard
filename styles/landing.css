@@ -51,25 +51,31 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ─── Headline ─── */
 .ac-headline { background: #fff; padding: 48px 32px 32px; text-align: center; }
-.ac-headline__eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 700 22px/1 var(--font-body); color: #000; }
-.ac-headline__eyebrow::before {
-  content: ""; width: 20px; height: 20px; border-radius: 50%;
+.ac-headline__eyebrow { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; font: 700 22px/1 var(--font-body); color: #000; }
+.ac-headline__eyebrow-dot {
+  display: inline-block;
+  width: 20px; height: 20px; border-radius: 50%;
   /* The eyebrow is a flex container that wraps a long sentence beside the
-     dot — without flex-shrink:0 the browser squishes the pseudo-element
-     when the line is too narrow, turning the circle into an oval. */
+     dot — without flex-shrink:0 the browser squishes the element when the
+     line is too narrow, turning the circle into an oval. */
   flex: 0 0 20px;
   aspect-ratio: 1;
   background: var(--dot-color, var(--color-brand-blue));
   box-shadow: 0 0 0 0 color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 55%, transparent);
   animation: ac-dot-pulse 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
+/* The text sibling — allow it to shrink and wrap inside the inline-flex
+   layout. Without `min-width: 0` flex items refuse to break below their
+   `min-content` width, so the inline-flex container overflows on narrow
+   viewports and the dot ends up flush against the screen edge. */
+.ac-headline__eyebrow-text { min-width: 0; text-align: left; line-height: 1.25; }
 @keyframes ac-dot-pulse {
   0%   { box-shadow: 0 0 0 0   color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 55%, transparent); transform: scale(1); }
   70%  { box-shadow: 0 0 0 14px color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 0%, transparent);  transform: scale(1.05); }
   100% { box-shadow: 0 0 0 0   color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 0%, transparent);  transform: scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ac-headline__eyebrow::before { animation: none; box-shadow: 0 0 0 6px color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 20%, transparent); }
+  .ac-headline__eyebrow-dot { animation: none; box-shadow: 0 0 0 6px color-mix(in srgb, var(--dot-color, var(--color-brand-blue)) 20%, transparent); }
 }
 .ac-headline__h1 {
   font: 800 48px/1.1 var(--font-display);
