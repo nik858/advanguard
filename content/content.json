@@ -9,8 +9,8 @@
     "ogImage": "/assets/video-thumbnail.png"
   },
   "header": {
-    "orderByPhone": "Order By Phone 06",
-    "needHelp": "Need help? support@yourdomain.com",
+    "orderByPhone": "Excellent based on 71+ reviews",
+    "needHelp": "Need help? nik@booking-leak.com",
     "logoLight": "/assets/advanguard-logo-white.png",
     "logoDark": "/assets/advanguard-logo-dark.png",
     "logoText": "ADVANGUARD",
@@ -22,7 +22,9 @@
     "ctaTagline": "Get Your eBook Now!",
     "earnings": "[insert earnings disclaimer]",
     "logoText": "ADVANGUARD",
-    "copyright": "© 2026 Advanguard. All rights reserved."
+    "copyright": "© 2026 Advanguard. All rights reserved.",
+    "privacyLabel": "Privacy Policy",
+    "privacyUrl": ""
   },
   "sections": [
     {
@@ -30,6 +32,7 @@
       "type": "headline",
       "hidden": false,
       "style": {
+        "pt": 64,
         "pb": 0
       },
       "data": {
@@ -45,10 +48,13 @@
       "id": "hero",
       "type": "hero",
       "hidden": false,
+      "style": {
+        "pb": 0
+      },
       "data": {
         "hero": {
           "videoLabel": "Hit Play on The Video",
-          "videoUrl": "https://vimeo.com/1193670382?share=copy&amp;fl=sv&amp;fe=ci",
+          "videoUrl": "https://vimeo.com/1193670382?fl=pl&amp;fe=sh",
           "videoPoster": "/assets/video-thumbnail.png",
           "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
           "sectionBody": "The Patient-Leak System is a <u>counterintuitive approach that analyses and provides personalised solutions</u> for clinic-specific cases (like yours).\n\nWe achieve this by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals, without generic templates that have nothing to do with getting clinics more patients.\n\nAs a result, this allows you to raise your booking appointment rates by up to 20% without spending more on ads or other marketing activities.\n\n"
@@ -80,12 +86,164 @@
               "name": "Dr. James Okonkwo",
               "role": "All-on-4 Specialist, Toronto",
               "quote": "Pure value without any upsell tactics"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "guarantee",
+      "type": "guarantee",
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "guarantee": {
+          "h2": "The PATIENT-LEAK SYSTEM is a <span style=\"color:#1c7fff\">Shortcut</span>",
+          "body": "Before we created the Patient-Leak System, increasing the appointment booking rate for clinics was a lottery for most clinic owners.\nThey came to us with a list of changes they made, or agency report templates providing the same solutions for everyone.\n\nWe were shocked. But at the same time, we saw an opportunity in it.\n\nHow could we provide clinic owners with true value without guesswork or burning another thousand bucks on a PDF template?\n\n<strong>So we decided to find a different way.\n</strong>\nAfter spending €550,000+ on different patient funnel approaches, we were able to build a system that shows you exactly what we spent years learning.\n\nOur Patient-Leak System allows you to use all our knowledge tailored to your clinic’s specific case, free of charge.\n\nCombined with smart AI conclusions, it analyses your clinic based on 14 crucial signals and delivers a personalized action plan from 3 separate angles that address challenges and turn them into opportunities for growth.\n\nSee below to learn how it works in detail, but here’s a snapshot of how it works:"
+        }
+      }
+    },
+    {
+      "id": "6c542949-3e87-47f0-b731-537a75b899e2",
+      "type": "onlySystem",
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "onlySystem": {
+          "eyebrow": "",
+          "eyebrowDotColor": "rgb(28,127,255)",
+          "h2": "Heading",
+          "body": "",
+          "centerImage": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779287495193-hf_20260519_192238_87413306-a991-4b9b-8a25-7e7b7d07d55a%20%281%29-pZCryJVlDP1D2rIDvb1XGBfQTpaEOK.png",
+          "leftFeatures": [],
+          "rightFeatures": [],
+          "stats": [],
+          "ctaTagline": "",
+          "ctaLabel": "Buy now",
+          "ctaSubLink": "",
+          "guaranteeText": ""
+        }
+      }
+    },
+    {
+      "id": "35038ad9-15ec-4e3e-bda2-203113b00cba",
+      "type": "guarantee",
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "guarantee": {
+          "h2": "Here’s <span style=\"color:#1c7fff\">What That Means For You</span> And Your Clinic<span style=\"color:#1c7fff\"></span>",
+          "body": "Every clinic is built on one thing and one thing only - its ability to generate revenue.\nAnd revenue is largely based on the ability to get patients.\n\n<strong>Generating patients is also the #1 expense a clinic will incur on its path to growth.</strong>\n\nThat’s why we developed the Patient-Leak System model to allow you to generate patients for free (while breaking even)…\n… and in turn, transform those patients into high-paying ones.\n\nHow far you scale is up to you.\n\n<em>Here are a few of our clients and their stories of what they’ve been able to accomplish with the help of the Patient-Leak System.</em>\n"
+        }
+      }
+    },
+    {
+      "id": "testimonials",
+      "type": "testimonials",
+      "style": {
+        "pt": 36
+      },
+      "data": {
+        "testimonials": {
+          "rating": "Excellent based on 71 reviews",
+          "h2": "What Are Others Saying About Our Model?",
+          "pullQuote": "&quot;The AC Model Allowed Me To Scale My Business Beyond 7-Figures. Thanks Automatic Clients!&quot;",
+          "items": [
+            {
+              "type": "video",
+              "videoUrl": "",
+              "videoPoster": "/assets/video-thumbnail.png",
+              "name": "Full Name",
+              "role": "Put person position here",
+              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
             },
             {
+              "type": "text",
               "avatar": "/assets/avatar-placeholder.png",
-              "name": "Dr. Lisa V.",
-              "role": "Med Spa Owner, Palm Beach FL",
-              "quote": "Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free."
+              "name": "Full Name",
+              "role": "Put person position here",
+              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing. Interdum ut nulla cum mi quisque feugiat turpis lacinia orci.",
+              "highlights": [
+                "egestas arcu mauris dictum",
+                "feugiat turpis lacinia orci"
+              ]
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Full Name",
+              "role": "Put person position here",
+              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
+              "highlights": [
+                "adipiscing"
+              ]
+            },
+            {
+              "type": "video",
+              "videoUrl": "",
+              "videoPoster": "/assets/video-thumbnail.png",
+              "name": "Full Name",
+              "role": "Put person position here",
+              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Full Name",
+              "role": "Put person position here",
+              "quote": "Risus tincidunt ut in leo. Pharetra aliquam est elit integer dis nisi eu cras. Mattis imperdiet aenean nunc nullam aliquet arcu lacinia phasellus. Consequat nibh nunc amet donec habitant gravida quis eleifend donec.",
+              "highlights": []
+            },
+            {
+              "type": "video",
+              "videoUrl": "",
+              "videoPoster": "/assets/video-thumbnail.png",
+              "name": "Full Name",
+              "role": "Put person position here",
+              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Full Name",
+              "role": "Put person position here",
+              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
+              "highlights": [
+                "tristique aliquet pulvinar"
+              ]
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Full Name",
+              "role": "Put person position here",
+              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
+              "highlights": [
+                "egestas arcu mauris dictum",
+                "odio quis"
+              ]
+            },
+            {
+              "type": "text",
+              "avatar": "",
+              "name": "Name",
+              "role": "Role",
+              "quote": "New testimonial quote.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "",
+              "name": "Name",
+              "role": "Role",
+              "quote": "New testimonial quote.",
+              "highlights": []
             }
           ]
         }
@@ -96,7 +254,7 @@
       "type": "authority",
       "hidden": false,
       "style": {
-        "pt": 52
+        "pt": 108
       },
       "data": {
         "authority": {
@@ -204,109 +362,6 @@
       }
     },
     {
-      "id": "testimonials",
-      "type": "testimonials",
-      "data": {
-        "testimonials": {
-          "rating": "Excellent based on 456 reviews",
-          "h2": "What Are Others Saying About Our Model?",
-          "pullQuote": "&quot;The AC Model Allowed Me To Scale My Business Beyond 7-Figures. Thanks Automatic Clients!&quot;",
-          "items": [
-            {
-              "type": "video",
-              "videoUrl": "",
-              "videoPoster": "/assets/video-thumbnail.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing. Interdum ut nulla cum mi quisque feugiat turpis lacinia orci.",
-              "highlights": [
-                "egestas arcu mauris dictum",
-                "feugiat turpis lacinia orci"
-              ]
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
-              "highlights": [
-                "adipiscing"
-              ]
-            },
-            {
-              "type": "video",
-              "videoUrl": "",
-              "videoPoster": "/assets/video-thumbnail.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Risus tincidunt ut in leo. Pharetra aliquam est elit integer dis nisi eu cras. Mattis imperdiet aenean nunc nullam aliquet arcu lacinia phasellus. Consequat nibh nunc amet donec habitant gravida quis eleifend donec.",
-              "highlights": []
-            },
-            {
-              "type": "video",
-              "videoUrl": "",
-              "videoPoster": "/assets/video-thumbnail.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Best Results [NICHE] Ever [CUSTOMER RESULT] In The Last [TIMELINE]"
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
-              "highlights": [
-                "tristique aliquet pulvinar"
-              ]
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Full Name",
-              "role": "Put person position here",
-              "quote": "Et sollicitudin egestas arcu mauris dictum. Ut vestibulum tristique aliquet pulvinar tincidunt urna odio quis adipiscing.",
-              "highlights": [
-                "egestas arcu mauris dictum",
-                "odio quis"
-              ]
-            },
-            {
-              "type": "text",
-              "avatar": "",
-              "name": "Name",
-              "role": "Role",
-              "quote": "New testimonial quote.",
-              "highlights": []
-            },
-            {
-              "type": "text",
-              "avatar": "",
-              "name": "Name",
-              "role": "Role",
-              "quote": "New testimonial quote.",
-              "highlights": []
-            }
-          ]
-        }
-      }
-    },
-    {
       "id": "stack",
       "type": "stack",
       "data": {
@@ -385,16 +440,6 @@
       }
     },
     {
-      "id": "guarantee",
-      "type": "guarantee",
-      "data": {
-        "guarantee": {
-          "h2": "Your Purchase Is Backed By Our\nUnconditional Money Back Guarantee",
-          "body": "I know that before I get into anything… I'd like to know what I'm buying and that it's backed by a solid money-back guarantee.\n\nAnd I want you to be comfortable with this purchase.\n\nAnd even though it's only $27.00 — you worked for that money and it counts.\n\nLike my grandpa used to say, &quot;Test drive the car before you drive it off the lot&quot;…\n\nSo here's what I've arranged:\n\nDownload the eBook, read it, but more importantly apply what you learn in there.\n\nAnd if you're not blown away by what you learn — just shoot us an email at support@yourdomain.com and request a refund within 30 days.\n\nWe'll refund you your $27.00 and let you keep the Automatic Clients book free of charge.\n\nHow's that for a money back guarantee? I'd say pretty good!"
-        }
-      }
-    },
-    {
       "id": "faq",
       "type": "faq",
       "data": {
@@ -452,5 +497,15 @@
       "title": "Every lead in one place.",
       "tooltip": "Inbound submissions land here automatically. Add manual leads with the + New lead button. Click any row for details."
     }
-  }
+  },
+  "hiddenFields": [
+    "hero:order.priceWas",
+    "header.phoneIcon",
+    "onlySystem:onlySystem.eyebrow",
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.h2",
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.eyebrow",
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.cta",
+    "testimonials:testimonials.rating"
+  ],
+  "imageSizes": {}
 }
