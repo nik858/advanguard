@@ -1,16 +1,18 @@
 /**
- * Whitelisted font-sizes for inline text overrides. The sanitiser only keeps
- * `font-size:` declarations whose pixel value matches one of these — anything
- * else (em, rem, calc, unknown px) is dropped so untrusted input can't pump
- * arbitrary type sizes into the page.
+ * Allowed pixel range for inline font-size overrides. The sanitiser keeps a
+ * `font-size:` declaration only if its integer-px value falls inside this
+ * range — keeps untrusted input from pumping arbitrary type sizes into the
+ * page (and prevents fractional/calc/em values from sneaking through).
  */
-export const FONT_SIZE_PRESETS = [
-  { label: "XS", px: 12 },
-  { label: "S", px: 14 },
-  { label: "M", px: 18 },
-  { label: "L", px: 24 },
-  { label: "XL", px: 32 },
-  { label: "XXL", px: 48 },
-] as const;
+export const FONT_SIZE_MIN_PX = 8;
+export const FONT_SIZE_MAX_PX = 72;
 
-export const FONT_SIZE_PX_SET: ReadonlySet<number> = new Set(FONT_SIZE_PRESETS.map((s) => s.px));
+/** Ordered list of selectable px values shown in the rich-text toolbar dropdown. */
+export const FONT_SIZE_OPTIONS: ReadonlyArray<number> = Array.from(
+  { length: FONT_SIZE_MAX_PX - FONT_SIZE_MIN_PX + 1 },
+  (_, i) => FONT_SIZE_MIN_PX + i,
+);
+
+export function isAllowedFontSize(px: number): boolean {
+  return Number.isInteger(px) && px >= FONT_SIZE_MIN_PX && px <= FONT_SIZE_MAX_PX;
+}

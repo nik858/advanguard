@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import type { AnyNode, Element as CheerioElement } from "domhandler";
 import { PALETTE_HEX_SET } from "./palette";
-import { FONT_SIZE_PX_SET } from "./font-sizes";
+import { isAllowedFontSize } from "./font-sizes";
 
 // Canonical (output) allowlist
 const ALLOWED_TAGS = new Set(["strong", "em", "u", "br", "span"]);
@@ -65,7 +65,7 @@ function styleFontSizeFromAttr(style: string): number | null {
     const m = decl.slice(idx + 1).match(/^\s*(\d+(?:\.\d+)?)\s*px\s*$/i);
     if (!m) return null;
     const px = Math.round(parseFloat(m[1]));
-    if (FONT_SIZE_PX_SET.has(px)) return px;
+    if (isAllowedFontSize(px)) return px;
     return null;
   }
   return null;

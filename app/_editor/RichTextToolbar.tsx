@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { RICHTEXT_PALETTE } from "@/lib/richtext/palette";
-import { FONT_SIZE_PRESETS } from "@/lib/richtext/font-sizes";
+import { FONT_SIZE_OPTIONS } from "@/lib/richtext/font-sizes";
 
 type Props = {
   range: Range;
@@ -67,7 +67,7 @@ function clearColorAroundSelection(range: Range, host: HTMLElement): void {
 }
 
 export function RichTextToolbar({ range, host, onMutated }: Props) {
-  const [view, setView] = useState<"main" | "color" | "size">("main");
+  const [view, setView] = useState<"main" | "color">("main");
   const ref = useRef<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
 
@@ -161,7 +161,6 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
       else el.removeAttribute("style");
     });
     runExecCommand("insertHTML", `<span style="font-size:${px}px">${tmp.innerHTML}</span>`);
-    setView("main");
     onMutated();
   }
 
@@ -186,7 +185,6 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
       if (next) el.setAttribute("style", next);
       else el.removeAttribute("style");
     }
-    setView("main");
     onMutated();
   }
 
@@ -228,30 +226,29 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
           <button data-rich-text-toolbar="true" type="button" style={activeBold ? btnActive : btn} onClick={applyBold}>B</button>
           <button data-rich-text-toolbar="true" type="button" style={{ ...(activeItalic ? btnActive : btn), fontStyle: "italic" }} onClick={applyItalic}>I</button>
           <button data-rich-text-toolbar="true" type="button" style={{ ...(activeUnder ? btnActive : btn), textDecoration: "underline" }} onClick={applyUnderline}>U</button>
-          <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("size")}>size</button>
-          <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("color")}>color</button>
-        </>
-      )}
-      {view === "size" && (
-        <>
-          <div style={{ display: "flex", gap: 4, padding: 4, flexWrap: "wrap", maxWidth: 240 }}>
-            {FONT_SIZE_PRESETS.map((s) => (
-              <button
-                key={s.px}
-                data-rich-text-toolbar="true"
-                type="button"
-                aria-label={`Font size ${s.label} (${s.px}px)`}
-                onClick={() => applyFontSize(s.px)}
-                style={{ ...btn, padding: "4px 10px", border: "1px solid #e7e7ea", fontSize: Math.min(14, s.px), lineHeight: 1 }}
-              >
-                {s.label}
-              </button>
+          <select
+            data-rich-text-toolbar="true"
+            aria-label="Font size"
+            value=""
+            // stopPropagation so the toolbar's onMouseDown preventDefault
+            // doesn't block the native dropdown from opening.
+            onMouseDown={(e) => e.stopPropagation()}
+            onChange={(e) => {
+              const v = e.target.value;
+              e.target.value = "";
+              if (!v) return;
+              if (v === "clear") clearFontSize();
+              else applyFontSize(Number(v));
+            }}
+            style={{ ...btn, padding: "4px 6px", border: "1px solid #e7e7ea", cursor: "pointer" }}
+          >
+            <option value="" disabled hidden>Size</option>
+            <option value="clear">Default</option>
+            {FONT_SIZE_OPTIONS.map((px) => (
+              <option key={px} value={px}>{px} px</option>
             ))}
-          </div>
-          <div style={{ display: "flex", gap: 4, padding: "0 4px 4px" }}>
-            <button data-rich-text-toolbar="true" type="button" style={btn} onClick={clearFontSize}>x Clear</button>
-            <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("main")}>back</button>
-          </div>
+          </select>
+          <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("color")}>color</button>
         </>
       )}
       {view === "color" && (
