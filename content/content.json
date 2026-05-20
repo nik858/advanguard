@@ -52,7 +52,7 @@
           "videoLabel": "",
           "videoUrl": "https://vimeo.com/1193670382?share=copy&amp;fl=sv&amp;fe=ci",
           "videoPoster": "/assets/video-thumbnail.png",
-          "sectionTitle": "The <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM </span>is a shortcut.",
+          "sectionTitle": "<span style=\"font-size:38px\">The <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM </span>is a shortcut.</span>",
           "sectionBody": "The Patient-Leak System is a <u>counterintuitive approach that analyses and provides personalised solutions</u> for clinic-specific cases (like yours).\n\nWe achieve this by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals, without generic templates that have nothing to do with getting clinics more patients.\n\nAs a result, this allows you to raise your booking appointment rates by up to 20% without spending more on ads or other marketing activities.\n\n"
         },
         "order": {
@@ -261,7 +261,7 @@
             },
             {
               "type": "video",
-              "videoUrl": "",
+              "videoUrl": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779305589462-7065842-uhd_2160_3840_24fps-4mP9T6ICQDO1mDDy9Q7jBc4OqUrnJC.mp4",
               "videoPoster": "/assets/video-thumbnail.png",
               "name": "Full Name",
               "role": "Put person position here",
