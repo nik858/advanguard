@@ -5,6 +5,7 @@ import { ConfirmDialog } from "../../../_components/ConfirmDialog";
 import styles from "./funnel.module.css";
 import { renderHtmlTemplate, SAMPLE_TEMPLATE_VARS, FONT_LABELS } from "@/lib/audit/template";
 import type { TemplateFontFamily, TemplateStyles } from "@/types/prompts";
+import { LogoUploader } from "./LogoUploader";
 
 const FONT_OPTIONS: TemplateFontFamily[] = ["system", "serif", "modern", "humanist"];
 
@@ -189,52 +190,46 @@ export function PromptEditor() {
 
         <div className={styles.styleSplit}>
           <div className={styles.styleForm}>
-            <div className={styles.colorRow}>
-              <div className={styles.field}>
-                <label className={styles.fieldLabel}>Accent color</label>
-                <div className={styles.colorInputRow}>
-                  <input
-                    type="color"
-                    className={styles.colorPicker}
-                    value={t.accent_color}
-                    onChange={(e) => updateStyles({ accent_color: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    className={styles.colorHex}
-                    value={t.accent_color}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      if (/^#[0-9a-fA-F]{6}$/.test(v)) updateStyles({ accent_color: v });
-                      else updateStyles({ accent_color: v });
-                    }}
-                    placeholder="#18181b"
-                    maxLength={7}
-                  />
-                </div>
-                <div className={styles.fieldHint}>Used for links and the divider above the signature.</div>
+            <div className={styles.field}>
+              <label className={styles.fieldLabel}>Accent color</label>
+              <div className={styles.colorInputRow}>
+                <input
+                  type="color"
+                  className={styles.colorPicker}
+                  value={t.accent_color}
+                  onChange={(e) => updateStyles({ accent_color: e.target.value })}
+                />
+                <input
+                  type="text"
+                  className={styles.colorHex}
+                  value={t.accent_color}
+                  onChange={(e) => updateStyles({ accent_color: e.target.value })}
+                  placeholder="#18181b"
+                  maxLength={7}
+                />
               </div>
+              <div className={styles.fieldHint}>Used for links and the divider above the signature.</div>
+            </div>
 
-              <div className={styles.field}>
-                <label className={styles.fieldLabel}>Background</label>
-                <div className={styles.colorInputRow}>
-                  <input
-                    type="color"
-                    className={styles.colorPicker}
-                    value={t.background_color}
-                    onChange={(e) => updateStyles({ background_color: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    className={styles.colorHex}
-                    value={t.background_color}
-                    onChange={(e) => updateStyles({ background_color: e.target.value })}
-                    placeholder="#f5f5f5"
-                    maxLength={7}
-                  />
-                </div>
-                <div className={styles.fieldHint}>Color around the email card.</div>
+            <div className={styles.field}>
+              <label className={styles.fieldLabel}>Background</label>
+              <div className={styles.colorInputRow}>
+                <input
+                  type="color"
+                  className={styles.colorPicker}
+                  value={t.background_color}
+                  onChange={(e) => updateStyles({ background_color: e.target.value })}
+                />
+                <input
+                  type="text"
+                  className={styles.colorHex}
+                  value={t.background_color}
+                  onChange={(e) => updateStyles({ background_color: e.target.value })}
+                  placeholder="#f5f5f5"
+                  maxLength={7}
+                />
               </div>
+              <div className={styles.fieldHint}>Color around the email card.</div>
             </div>
 
             <div className={styles.field}>
@@ -267,15 +262,12 @@ export function PromptEditor() {
             </div>
 
             <div className={styles.field}>
-              <label className={styles.fieldLabel}>Header logo URL (optional)</label>
-              <input
-                type="url"
-                className={styles.input}
+              <label className={styles.fieldLabel}>Header logo (optional)</label>
+              <LogoUploader
                 value={t.header_logo_url}
-                onChange={(e) => updateStyles({ header_logo_url: e.target.value })}
-                placeholder="https://your-domain.com/logo.png"
+                onChange={(url) => updateStyles({ header_logo_url: url })}
               />
-              <div className={styles.fieldHint}>Paste an image URL. Shown above the body in every email.</div>
+              <div className={styles.fieldHint}>Upload a file or paste a URL. Shown above the body in every email.</div>
             </div>
 
             <button
@@ -286,7 +278,6 @@ export function PromptEditor() {
             >
               <span className={styles.advancedChevron} data-open={advancedOpen}>›</span>
               {advancedOpen ? "Hide" : "Show"} raw HTML
-              <span className={styles.advancedNote}>For developers only</span>
             </button>
 
             {advancedOpen && (
@@ -376,40 +367,43 @@ export function PromptEditor() {
             Each mail focuses on a different group of audit signals. Edit the prompts to change what Claude writes about.
           </div>
         </div>
-        <div className={styles.mailTabsRow}>
-          {MAIL_KEYS.map((key) => (
-            <button
-              key={key}
-              type="button"
-              className={styles.mailTab}
-              data-active={activeMail === key}
-              onClick={() => setActiveMail(key)}
-            >
-              <span>{TAB_LABELS[key]}</span>
-              <span className={styles.mailTabDelay}>
-                {prompts.emails[key].delay_hours === 0 ? "Instant" : `+${prompts.emails[key].delay_hours}h`}
-              </span>
-            </button>
-          ))}
+        <div className={styles.mailTabsBar}>
+          <div className={styles.mailTabsRow}>
+            {MAIL_KEYS.map((key) => (
+              <button
+                key={key}
+                type="button"
+                className={styles.mailTab}
+                data-active={activeMail === key}
+                onClick={() => setActiveMail(key)}
+              >
+                <span>{TAB_LABELS[key]}</span>
+                <span className={styles.mailTabDelay}>
+                  {prompts.emails[key].delay_hours === 0 ? "Instant" : `+${prompts.emails[key].delay_hours}h`}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className={styles.mailDelayInline}>
+            <label className={styles.mailDelayLabel}>Send after</label>
+            <input
+              type="number"
+              min={0}
+              max={72}
+              step={1}
+              className={styles.mailDelayInput}
+              value={currentMail.delay_hours}
+              onChange={(e) =>
+                updateMail(activeMail, {
+                  delay_hours: Math.max(0, Math.min(72, Number(e.target.value) || 0)),
+                })
+              }
+            />
+            <span className={styles.mailDelayUnit}>hours</span>
+          </div>
         </div>
-
-        <div className={styles.field}>
-          <label className={styles.fieldLabel}>Delay (hours after the first mail)</label>
-          <input
-            type="number"
-            min={0}
-            max={72}
-            step={1}
-            className={styles.input}
-            value={currentMail.delay_hours}
-            onChange={(e) =>
-              updateMail(activeMail, {
-                delay_hours: Math.max(0, Math.min(72, Number(e.target.value) || 0)),
-              })
-            }
-            style={{ maxWidth: 140 }}
-          />
-          <div className={styles.fieldHint}>0 = send immediately. Max 72 hours (Resend limit).</div>
+        <div className={styles.fieldHint} style={{ marginTop: -8 }}>
+          0 = send immediately. Max 72 hours (Resend limit).
         </div>
 
         <div className={styles.field}>

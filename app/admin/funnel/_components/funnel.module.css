@@ -526,12 +526,6 @@
   gap: 18px;
 }
 
-.colorRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
 .colorInputRow {
   display: flex;
   align-items: center;
@@ -594,7 +588,7 @@
   gap: 14px;
 }
 @media (max-width: 720px) {
-  .rowSplit, .colorRow {
+  .rowSplit {
     grid-template-columns: 1fr;
   }
 }
@@ -663,16 +657,6 @@
   color: #a1a1aa;
 }
 .advancedChevron[data-open="true"] { transform: rotate(90deg); }
-.advancedNote {
-  font: 500 10.5px/1 var(--adv-font, system-ui);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #a1a1aa;
-  background: #f4f4f5;
-  padding: 4px 8px;
-  border-radius: 999px;
-  margin-left: 4px;
-}
 .advancedPanel {
   border: 1px solid #e7e7ea;
   background: #fafafa;
@@ -791,4 +775,168 @@
   border-top: 1px solid #f4f4f5;
   background: #fff;
   margin-top: 10px;
+}
+
+/* ─── Mail tabs + inline delay ────────────────────────────────────────────── */
+
+.mailTabsBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px;
+  background: #fafafa;
+  border: 1px solid #e7e7ea;
+  border-radius: 12px;
+}
+
+.mailDelayInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  margin-left: auto;
+}
+.mailDelayLabel {
+  font: 600 11px/1 var(--adv-font, system-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #71717a;
+}
+.mailDelayInput {
+  width: 72px;
+  padding: 8px 10px;
+  text-align: center;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  font: 600 14px/1 var(--adv-font, system-ui);
+  color: #18181b;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+.mailDelayInput:focus {
+  border-color: #18181b;
+  box-shadow: 0 0 0 4px rgba(24, 24, 27, 0.08);
+}
+.mailDelayUnit {
+  font: 500 12.5px/1 var(--adv-font, system-ui);
+  color: #71717a;
+}
+
+/* ─── Logo uploader ───────────────────────────────────────────────────────── */
+
+.logoUploader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.logoUploaderRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.logoPreview {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  flex-shrink: 0;
+  border: 1px dashed #d4d4d8;
+  border-radius: 10px;
+  background: #fafafa;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+.logoPreview[data-empty="false"] {
+  border-style: solid;
+  border-color: #e7e7ea;
+  background: #ffffff;
+}
+.logoPreview[data-drag="true"] {
+  border-color: #1c7bfd;
+  background: rgba(28, 123, 253, 0.08);
+}
+.logoPreview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.logoPlaceholder {
+  font: 500 11px/1 var(--adv-font, system-ui);
+  letter-spacing: 0.04em;
+  color: #a1a1aa;
+}
+.logoControls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.logoButtonRow {
+  display: inline-flex;
+  gap: 6px;
+}
+.logoBtn,
+.logoBtnGhost {
+  border: 0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: 600 12.5px/1 var(--adv-font, system-ui);
+  cursor: pointer;
+  transition: background 140ms ease, transform 160ms cubic-bezier(0.22, 1, 0.36, 1), color 140ms ease;
+}
+.logoBtn {
+  background: #18181b;
+  color: #ffffff;
+}
+.logoBtn:hover { background: #000; transform: translateY(-1px); }
+.logoBtn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+.logoBtnGhost {
+  background: transparent;
+  color: #71717a;
+  border: 1px solid #e7e7ea;
+}
+.logoBtnGhost:hover { color: #dc2626; border-color: #dc2626; }
+
+.logoUploaderError {
+  font: 500 12px/1.45 var(--adv-font, system-ui);
+  color: #c62828;
+  padding: 6px 10px;
+  background: rgba(198, 40, 40, 0.08);
+  border-radius: 6px;
+}
+
+.logoUploadingOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+}
+.logoUploadingText {
+  font: 600 11.5px/1 var(--adv-font, system-ui);
+  color: #18181b;
+}
+.logoUploadingBar {
+  width: 80%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.logoUploadingBarFill {
+  height: 100%;
+  background: #1c7bfd;
+  transition: width 200ms ease-out;
 }
