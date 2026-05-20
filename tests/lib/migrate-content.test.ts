@@ -11,6 +11,11 @@ function toV1Shape(v2: unknown): Record<string, unknown> {
   const doc = v2 as { meta: unknown; header: unknown; footer: unknown; sections: { data: Record<string, unknown> }[] };
   const flat: Record<string, unknown> = { meta: doc.meta, header: doc.header, footer: doc.footer };
   for (const section of doc.sections) Object.assign(flat, section.data);
+  // Fallbacks for v1-required sections that the current v2 doc may have
+  // dropped (the operator can reorder/delete sections freely in v2).
+  if (!flat.authority) flat.authority = { title: "Featured in", logos: [] };
+  if (!flat.demo) flat.demo = { h2: "Demo", videoUrl: "", videoPoster: "" };
+  if (!flat.stack) flat.stack = { h2: "", bigStackImg: "", items: [], ctaTagline: "", ctaLabel: "", guaranteeText: "" };
   return flat;
 }
 
