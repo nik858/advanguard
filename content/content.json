@@ -219,123 +219,45 @@
       }
     },
     {
-      "id": "b3489b9c-85be-4694-8ee9-99b936472074",
-      "type": "testimonials",
+      "id": "faac4f00-a451-4fd5-b1c0-464134a94ae8",
+      "type": "guarantee",
       "style": {
-        "pt": 0
+        "pt": 0,
+        "pb": 0
       },
       "data": {
-        "testimonials": {
-          "rating": "Excellent based on 71 reviews",
-          "h2": "What Are Others Saying About Our Model?",
-          "pullQuote": "“The Model Allowed Me to Scale My Clinic from 2 to 5 Employees Thanks to the Patient-Leak System”",
-          "items": [
-            {
-              "type": "video",
-              "videoUrl": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779289398305-NikRak-P052QkNKvFlcfszVMpPDYpFLgemU8z.mp4",
-              "videoPoster": "",
-              "name": "Gary M., ",
-              "role": "Owner, Aesthetics Clinic Triplas",
-              "quote": ""
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Lisa V.",
-              "role": "Med Spa Owner, Palm Beach FL",
-              "quote": "&quot;I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free. Confirmed.&quot;",
-              "highlights": [
-                "adipiscing"
-              ]
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Dr. Sarah H.",
-              "role": "Implantology Clinic, Phoenix AZ",
-              "quote": "&quot;The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.&quot;",
-              "highlights": [
-                "egestas arcu mauris dictum",
-                "feugiat turpis lacinia orci"
-              ]
-            },
-            {
-              "type": "video",
-              "videoUrl": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779289780586-IMG_1366%20%281%29-dC0wzTI1KBTXDwTHTq96bZ4a6AB7a5.MOV",
-              "videoPoster": "/assets/video-thumbnail.png",
-              "name": "Adam N.",
-              "role": "Outsourced CMO for Healthcare Clinics",
-              "quote": ""
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Dr. Clemente H.",
-              "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
-              "quote": "&quot;In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.&quot;",
-              "highlights": [
-                "tristique aliquet pulvinar"
-              ]
-            },
-            {
-              "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
-              "name": "Mark P.",
-              "role": "Owner of Lumière Aesthetics, Miami FL",
-              "quote": "Genuinely useful, and free. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
-              "highlights": [
-                "egestas arcu mauris dictum",
-                "odio quis"
-              ]
-            },
-            {
-              "type": "text",
-              "avatar": "",
-              "name": "Name",
-              "role": "Role",
-              "quote": "New testimonial quote.",
-              "highlights": []
-            },
-            {
-              "type": "text",
-              "avatar": "",
-              "name": "Name",
-              "role": "Role",
-              "quote": "New testimonial quote.",
-              "highlights": []
-            }
-          ]
+        "guarantee": {
+          "h2": "The Only System <span style=\"color:#1c7fff\">You’ll Need </span>To Acquire Patients<span style=\"color:#1c7fff\"></span>",
+          "body": "This system exists because we ran the same clinics through every possible approach first, so that you can learn from our mistakes, our wins, and benefit from all the time, effort, and money that went into the experiences behind the Patient-Leak System.\n\nWhat’s left are the 14 most important signals, packed into 3 separate angles inside the Patient-Leak System, that show you the real reasons why patients are dropping off your page before booking an actual appointment."
         }
       }
     },
     {
-      "id": "authority",
-      "type": "authority",
-      "hidden": false,
+      "id": "e8d0cdf8-6117-4d39-96de-2a7733e7121c",
+      "type": "onlySystem",
       "style": {
-        "pt": 108
+        "pt": 20,
+        "pb": 0
       },
       "data": {
-        "authority": {
-          "title": "Features [INSERT LOGOS BELOW IF YOU HAVE OTHERWISE DELETE THIS SECTION]",
-          "logos": [
+        "onlySystem": {
+          "eyebrow": "",
+          "eyebrowDotColor": "rgb(28,127,255)",
+          "h2": "The Only System <span style=\"color:#1c7fff\">You’ll Need To </span>Acquire Patients",
+          "body": "",
+          "centerImage": "https://a1lzsr7g3nwwslob.public.blob.vercel-storage.com/media/1779290448658-hf_20260513_144543_1d28118c-0edb-4f8d-aeda-51c834b3b9af%20%281%29-LhPQ68AhWkhVUDhiETXEqYOjfIpx6S.png",
+          "leftFeatures": [],
+          "rightFeatures": [],
+          "stats": [
             {
-              "url": "",
-              "alt": ""
-            },
-            {
-              "url": "",
-              "alt": ""
-            },
-            {
-              "url": "",
-              "alt": ""
-            },
-            {
-              "url": "",
-              "alt": ""
+              "value": "0",
+              "label": "Label"
             }
-          ]
+          ],
+          "ctaTagline": "",
+          "ctaLabel": "Buy now",
+          "ctaSubLink": "",
+          "guaranteeText": ""
         }
       }
     },
@@ -406,6 +328,37 @@
           "ctaLabel": "Download Now for only $27.00",
           "ctaSubLink": "Click Here To Download Your Automatic Clients Book Now",
           "guaranteeText": "Backed By Our Unconditional 60 Day Money Back Guarantee"
+        }
+      }
+    },
+    {
+      "id": "authority",
+      "type": "authority",
+      "hidden": false,
+      "style": {
+        "pt": 108
+      },
+      "data": {
+        "authority": {
+          "title": "Features [INSERT LOGOS BELOW IF YOU HAVE OTHERWISE DELETE THIS SECTION]",
+          "logos": [
+            {
+              "url": "",
+              "alt": ""
+            },
+            {
+              "url": "",
+              "alt": ""
+            },
+            {
+              "url": "",
+              "alt": ""
+            },
+            {
+              "url": "",
+              "alt": ""
+            }
+          ]
         }
       }
     },
@@ -566,7 +519,12 @@
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.cta",
     "testimonials:testimonials.rating",
     "testimonials:testimonials.items.7.name",
-    "testimonials:testimonials.items.7.role"
+    "testimonials:testimonials.items.7.role",
+    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.eyebrow",
+    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.h2"
   ],
-  "imageSizes": {}
+  "imageSizes": {
+    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "bigger",
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.centerImage": "bigger"
+  }
 }
