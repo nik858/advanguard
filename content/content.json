@@ -354,6 +354,7 @@
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "bigger",
-    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.centerImage": "bigger"
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.centerImage": "bigger",
+    "hero:hero.videoUrl": "bigger"
   }
 }
