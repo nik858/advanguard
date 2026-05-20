@@ -1,6 +1,7 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaUpload } from "../../../_editor/useMediaUpload";
+import { MediaLibraryPopover } from "../../../_editor/MediaLibraryPopover";
 import styles from "./funnel.module.css";
 
 type Props = {
@@ -10,20 +11,44 @@ type Props = {
 
 /**
  * Self-contained logo picker for the PromptEditor — uploads to Vercel Blob via
- * the same client hook MediaSlot uses, OR accepts a pasted URL. Decoupled from
- * the EditorProvider draft context because PromptEditor manages its own state
- * shape (prompts.template_styles) and doesn't share the landing-page draft.
+ * the same client hook MediaSlot uses, OR accepts a pasted URL, OR lets the
+ * operator pick from the existing media library. Decoupled from the
+ * EditorProvider draft context because PromptEditor manages its own state
+ * shape (prompts.template_styles).
  */
 export function LogoUploader({ value, onChange }: Props) {
   const { uploadFile, busy, progress, error } = useMediaUpload();
   const [dragActive, setDragActive] = useState(false);
+  const [libraryOpen, setLibraryOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const libraryRef = useRef<HTMLDivElement | null>(null);
+  const libraryBtnRef = useRef<HTMLButtonElement | null>(null);
 
   async function handleFile(f: File | undefined | null) {
     if (!f) return;
     const url = await uploadFile(f);
     if (url) onChange(url);
   }
+
+  // Close library popover on outside click or Escape.
+  useEffect(() => {
+    if (!libraryOpen) return;
+    function onDown(e: MouseEvent) {
+      const t = e.target as Node;
+      if (libraryRef.current?.contains(t)) return;
+      if (libraryBtnRef.current?.contains(t)) return;
+      setLibraryOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setLibraryOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [libraryOpen]);
 
   return (
     <div className={styles.logoUploader}>
@@ -71,6 +96,43 @@ export function LogoUploader({ value, onChange }: Props) {
             >
               {value ? "Replace" : "Upload"}
             </button>
+            <div style={{ position: "relative" }}>
+              <button
+                ref={libraryBtnRef}
+                type="button"
+                className={styles.logoBtnGhost}
+                onClick={() => setLibraryOpen((o) => !o)}
+                disabled={busy}
+              >
+                Library
+              </button>
+              {libraryOpen && (
+                <div
+                  ref={libraryRef}
+                  className={styles.libraryPopover}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className={styles.libraryPopoverHead}>
+                    <span>Pick a logo from the library</span>
+                    <button
+                      type="button"
+                      className={styles.libraryClose}
+                      onClick={() => setLibraryOpen(false)}
+                      aria-label="Close"
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <MediaLibraryPopover
+                    accept="image"
+                    onSelect={(url) => {
+                      onChange(url);
+                      setLibraryOpen(false);
+                    }}
+                  />
+                </div>
+              )}
+            </div>
             {value && (
               <button
                 type="button"
