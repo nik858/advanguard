@@ -183,9 +183,6 @@ export function PromptEditor() {
         <div className={styles.groupHead}>
           <div className={styles.groupLabel}>Step 01 · Style</div>
           <div className={styles.groupTitle}>How every email looks</div>
-          <div className={styles.fieldHint} style={{ marginTop: 6 }}>
-            These visual settings apply to every mail in the sequence. Live preview on the right updates as you change them.
-          </div>
         </div>
 
         <div className={styles.styleSplit}>
@@ -325,9 +322,6 @@ export function PromptEditor() {
         <div className={styles.groupHead}>
           <div className={styles.groupLabel}>Step 02 · Voice</div>
           <div className={styles.groupTitle}>Tone, system prompt, signature</div>
-          <div className={styles.fieldHint} style={{ marginTop: 6 }}>
-            Shared by every mail in the sequence. Only edit if you want to change the overall voice.
-          </div>
         </div>
         <div className={styles.field}>
           <label className={styles.fieldLabel}>System prompt</label>
@@ -363,9 +357,6 @@ export function PromptEditor() {
         <div className={styles.groupHead}>
           <div className={styles.groupLabel}>Step 03 · Sequence</div>
           <div className={styles.groupTitle}>Three mails, three angles</div>
-          <div className={styles.fieldHint} style={{ marginTop: 6 }}>
-            Each mail focuses on a different group of audit signals. Edit the prompts to change what Claude writes about.
-          </div>
         </div>
         <div className={styles.mailTabsBar}>
           <div className={styles.mailTabsRow}>
@@ -430,11 +421,8 @@ export function PromptEditor() {
       {/* ───── 4. TEST PREVIEW ───── */}
       <section className={styles.previewRunner}>
         <div className={styles.previewHead}>
-          <div className={styles.groupLabel}>Step 04 · Test</div>
+          <div className={styles.groupLabel}>Step 04 · Sandbox · Nothing sent</div>
           <div className={styles.previewTitle}>Try the full pipeline on a real domain</div>
-          <div className={styles.previewSub}>
-            Runs the crawl + 3 Claude calls + renders all three mails. Nothing is sent — this is sandbox only.
-          </div>
         </div>
         <div className={styles.previewRow}>
           <input
