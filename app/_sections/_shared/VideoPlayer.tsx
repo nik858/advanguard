@@ -1,6 +1,4 @@
 "use client";
-import { useCallback, useState } from "react";
-import { Icons } from "./Icons";
 import { mediaUrl, type MediaRef } from "@/types/content";
 
 function isYouTube(u: string) { return /youtube\.com\/watch|youtu\.be\//.test(u); }
@@ -11,68 +9,70 @@ function vimeoId(u: string)   {
   return m ? m[1] : "";
 }
 
-export function VideoPlayer({ src, poster, label, edit = false }: { src: string; poster: MediaRef; label?: string; edit?: boolean }) {
-  const [playing, setPlaying] = useState(false);
+/**
+ * Single, unified video surface used by hero / demo / testimonials.
+ *
+ * We deliberately skip the legacy "poster image + custom play overlay" flow:
+ * every player now renders the real source straight away, so what the visitor
+ * sees before clicking IS the video (file → first frame via `preload="metadata"`,
+ * Vimeo/YouTube → their own thumbnail and chrome). Fullscreen, captions and
+ * timeline scrubbing come for free from the native browser / platform controls.
+ *
+ * `poster` is kept in the props for backward compatibility with existing
+ * content but is now only used as a fallback when the file itself has no
+ * frame to extract yet.
+ */
+export function VideoPlayer({ src, poster, label }: { src: string; poster?: MediaRef; label?: string; edit?: boolean }) {
   const posterUrl = mediaUrl(poster);
-  const onActivate = useCallback(() => { if (src) setPlaying(true); }, [src]);
-  const onKey = useCallback((e: React.KeyboardEvent) => {
-    if ((e.key === "Enter" || e.key === " ") && src) { e.preventDefault(); setPlaying(true); }
-  }, [src]);
 
-  if (!playing) {
-    const isFile = !!src && !isYouTube(src) && !isVimeo(src);
-    // Render the <video> element directly when there's a real file to show and
-    // either there's no poster, or we're in the editor — so editing the page
-    // shows the actual uploaded video, not a stale poster thumbnail.
-    if (isFile && (!posterUrl || edit)) {
-      // `key={src}` forces React to remount the <video> when the operator
-      // uploads a replacement — without it the browser keeps the cached
-      // metadata of the previous src and the preview thumb never refreshes.
-      // In edit mode we drop the poster so the new clip's first frame is
-      // visible immediately as confirmation of a successful upload.
-      return (
-        <div className="ac-player">
-          <video
-            key={src}
-            src={src}
-            poster={edit ? undefined : (posterUrl || undefined)}
-            controls
-            preload="metadata"
-            playsInline
-          />
-        </div>
-      );
-    }
+  if (!src) {
     return (
-      <div className="ac-player" role="button" tabIndex={src ? 0 : -1} aria-label={label || "Play video"} onClick={onActivate} onKeyDown={onKey}>
-        {posterUrl
-          ? <img className="ac-player__poster" src={posterUrl} alt={label || "Video preview"} loading="lazy" decoding="async" width={1280} height={720} />
-          : <div className="ac-player__poster ac-player__poster--empty" aria-hidden="true" />}
-        {src && <div className="ac-player__play"><div className="ac-player__play-icon"><Icons.Play/></div></div>}
+      <div className="ac-player">
+        <div className="ac-player__poster ac-player__poster--empty" aria-hidden="true" />
       </div>
     );
   }
-  // Wrap the playing element in `.ac-player` so the CSS contracts that scope
-  // `width:100% height:100% object-fit:contain` apply — without it a vertical
-  // video keeps its intrinsic size and overflows the layout (worst case it
-  // covers the whole viewport on mobile).
+
   if (isYouTube(src)) {
     return (
-      <div className="ac-player ac-player--playing">
-        <iframe src={`https://www.youtube.com/embed/${youTubeId(src)}?autoplay=1&rel=0&playsinline=1`} title={label || "Video"} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+      <div className="ac-player">
+        <iframe
+          src={`https://www.youtube.com/embed/${youTubeId(src)}?rel=0&playsinline=1`}
+          title={label || "Video"}
+          loading="lazy"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
       </div>
     );
   }
+
   if (isVimeo(src)) {
     return (
-      <div className="ac-player ac-player--playing">
-        <iframe src={`https://player.vimeo.com/video/${vimeoId(src)}?autoplay=1&playsinline=1`} title={label || "Video"} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
+      <div className="ac-player">
+        <iframe
+          src={`https://player.vimeo.com/video/${vimeoId(src)}?playsinline=1`}
+          title={label || "Video"}
+          loading="lazy"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
       </div>
     );
   }
+
+  // File (mp4 / webm / mov). preload="metadata" pulls just enough bytes for
+  // the browser to display the first frame as the natural preview.
   return (
-    <div className="ac-player ac-player--playing">
-      <video key={src} src={src} poster={posterUrl} controls autoPlay playsInline />
+    <div className="ac-player">
+      <video
+        key={src}
+        src={src}
+        poster={posterUrl || undefined}
+        controls
+        preload="metadata"
+        playsInline
+      />
     </div>
   );
 }
