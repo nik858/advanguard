@@ -81,6 +81,9 @@ export const OrderSchema = z.object({
   /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   guaranteeText: z.string(),
   ratingText: z.string(),
+  /** Rich text (HTML) shown after a successful lead submission. Optional —
+   *  falls back to a generic copy when missing. */
+  successMessage: z.string().optional().default("Success. Your Patient-Leak Findings will be emailed in 3-minutes"),
   miniTestimonials: z.array(
     z.object({
       avatar: MediaRefSchema,
@@ -378,7 +381,7 @@ export function createSection(type: SectionType): Section {
         id, type,
         data: {
           hero: { videoLabel: "Watch the video", videoUrl: "", videoPoster: "", sectionTitle: "Section title", sectionBody: "Body text" },
-          order: { badge: "", productName: "Product", productSubtitle: "", limitedTime: "", priceWas: "", priceNow: "", priceSubLine: "", description: "", ctaTagline: "", ctaLabel: "Buy now", secureText: "", guaranteeText: "", ratingText: "", miniTestimonials: [] },
+          order: { badge: "", productName: "Product", productSubtitle: "", limitedTime: "", priceWas: "", priceNow: "", priceSubLine: "", description: "", ctaTagline: "", ctaLabel: "Buy now", secureText: "", guaranteeText: "", ratingText: "", successMessage: "Success. Your Patient-Leak Findings will be emailed in 3-minutes", miniTestimonials: [] },
         },
       };
     case "authority":

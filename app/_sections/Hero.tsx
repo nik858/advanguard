@@ -44,7 +44,7 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
             </Reveal>
           </Erasable>
         </div>
-        <Reveal as="aside" className="ac-order-wrap">
+        <Reveal as="div" className="ac-order-wrap">
           <OrderForm content={order} edit={edit} />
         </Reveal>
       </div>

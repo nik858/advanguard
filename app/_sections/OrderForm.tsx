@@ -31,8 +31,27 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
     }
   }
 
+  // In the editor we want to preview the banner with its real copy and let
+  // the operator edit it inline — without having to fake a submitted form.
+  const showSuccessBanner = status === "ok" || edit;
+
   return (
-    <aside className="ac-order" aria-label="Order form">
+    <>
+      {showSuccessBanner && (
+        <Erasable path="order.successMessage" label="success message">
+          <div className="ac-order__success" role="status" aria-live="polite">
+            <span className="ac-order__success-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+            <span className="ac-order__success-text">
+              <EditRich edit={edit} path="order.successMessage">{order.successMessage || "Success. Your Patient-Leak Findings will be emailed in 3-minutes"}</EditRich>
+            </span>
+          </div>
+        </Erasable>
+      )}
+      <aside className="ac-order" aria-label="Order form">
       <Erasable path="order.badge" label="badge">
         <div className="ac-order__strip">
           <EditRich edit={edit} path="order.badge">{order.badge}</EditRich>
@@ -154,7 +173,6 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
             ariaLabel={order.ctaLabel}
           />
           {status === "err" && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
-          {status === "ok" && <p style={{ color: "#15803d", fontSize: 13, marginTop: 8 }}>Thanks, we&apos;ll be in touch!</p>}
         </form>
         <Erasable path="order.secureText" label="secure text">
           <div className="ac-order__secure">
@@ -207,6 +225,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           </RepeatableList>
         </div>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }

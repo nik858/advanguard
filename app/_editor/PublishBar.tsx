@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useEditor } from "./EditorProvider";
 import { ConfirmDialog } from "../_components/ConfirmDialog";
 import { Icons } from "../_sections/_shared/Icons";
@@ -33,12 +33,35 @@ function formatAgo(ms: number): string {
 }
 
 export function PublishBar() {
-  const { state, resetDraft, publish, togglePreview } = useEditor();
+  const { state, resetDraft, publish, togglePreview, setField } = useEditor();
   const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(null);
   const [busy, setBusy] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [tick, setTick] = useState(0);
+  const [metaOpen, setMetaOpen] = useState(false);
   const diffs = countDiff(state.draft, state.baseline);
+  const metaBtnRef = useRef<HTMLButtonElement | null>(null);
+  const metaPopRef = useRef<HTMLDivElement | null>(null);
+
+  // Close the page-meta popover on outside click or Escape.
+  useEffect(() => {
+    if (!metaOpen) return;
+    function onDown(e: MouseEvent) {
+      const t = e.target as Node;
+      if (metaBtnRef.current?.contains(t)) return;
+      if (metaPopRef.current?.contains(t)) return;
+      setMetaOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setMetaOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [metaOpen]);
 
   // Re-render every 10s so "il y a Xs" stays current
   useEffect(() => {
@@ -234,6 +257,103 @@ export function PublishBar() {
           <Icons.Eye />
           {isPreview ? "Resume editing" : "Preview"}
         </button>
+
+        {/* Page meta (browser-tab title + description) */}
+        <div style={{ position: "relative" }}>
+          <button
+            ref={metaBtnRef}
+            type="button"
+            onClick={() => setMetaOpen((o) => !o)}
+            title="Edit the browser-tab title and meta description"
+            aria-expanded={metaOpen}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              background: metaOpen ? "#f5f5f7" : "transparent",
+              border: "1px solid transparent",
+              color: "var(--adv-text-muted, #71717a)",
+              padding: "5px 10px",
+              borderRadius: 6,
+              cursor: "pointer",
+              fontSize: 13,
+              fontFamily: "inherit",
+            }}
+          >
+            <Icons.FileText />
+            Page
+          </button>
+          {metaOpen && (
+            <div
+              ref={metaPopRef}
+              style={{
+                position: "absolute",
+                top: "calc(100% + 6px)",
+                left: 0,
+                zIndex: 110,
+                width: 320,
+                background: "#fff",
+                border: "1px solid var(--adv-border, #e7e7ea)",
+                borderRadius: 10,
+                boxShadow: "0 12px 32px rgba(0,0,0,0.16)",
+                padding: 12,
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+                fontSize: 13,
+              }}
+            >
+              <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <span style={{ fontSize: 11, fontWeight: 600, color: "var(--adv-text-muted, #71717a)", textTransform: "uppercase", letterSpacing: 0.4 }}>
+                  Page title <span style={{ textTransform: "none", letterSpacing: 0, fontWeight: 400 }}>(browser tab)</span>
+                </span>
+                <input
+                  type="text"
+                  value={state.draft.meta.title ?? ""}
+                  onChange={(e) => setField("meta.title", e.target.value)}
+                  placeholder="My landing page · Brand"
+                  style={{
+                    width: "100%",
+                    padding: "8px 10px",
+                    border: "1px solid var(--adv-border, #e7e7ea)",
+                    borderRadius: 6,
+                    fontSize: 13,
+                    fontFamily: "inherit",
+                    color: "#18181b",
+                    background: "#fff",
+                    boxSizing: "border-box",
+                  }}
+                />
+              </label>
+              <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <span style={{ fontSize: 11, fontWeight: 600, color: "var(--adv-text-muted, #71717a)", textTransform: "uppercase", letterSpacing: 0.4 }}>
+                  Meta description
+                </span>
+                <textarea
+                  value={state.draft.meta.description ?? ""}
+                  onChange={(e) => setField("meta.description", e.target.value)}
+                  rows={3}
+                  placeholder="Short summary used by Google and social previews."
+                  style={{
+                    width: "100%",
+                    padding: "8px 10px",
+                    border: "1px solid var(--adv-border, #e7e7ea)",
+                    borderRadius: 6,
+                    fontSize: 13,
+                    fontFamily: "inherit",
+                    color: "#18181b",
+                    background: "#fff",
+                    boxSizing: "border-box",
+                    resize: "vertical",
+                  }}
+                />
+              </label>
+              <p style={{ margin: 0, fontSize: 11, color: "var(--adv-text-muted, #71717a)" }}>
+                These are applied to <code>&lt;title&gt;</code> and <code>&lt;meta name=&quot;description&quot;&gt;</code> after publish.
+              </p>
+            </div>
+          )}
+        </div>
 
         {/* Diff chip */}
         {diffs > 0 && (
