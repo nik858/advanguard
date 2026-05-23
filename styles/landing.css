@@ -608,14 +608,31 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
   .ac-hero { padding: 12px 16px 24px; }
   .ac-hero__copy { gap: 18px; }
   .ac-hero__video-wrap { gap: 10px; }
+  /* Mobile stacks the hero into a single column; the desktop 24px gap
+     between the copy and the order card reads as a chasm above the
+     'GET YOUR INSTANT CLINIC DIAGNOSIS' strip. Tighten it. */
+  .ac-hero__grid { gap: 12px; }
   .ac-authority { padding: 24px 16px; }
   .ac-only { padding: 32px 16px; }
+  /* Trims the chunky 40px gap stack inside the onlySystem flow so the
+     CTA ("RECEIVE MY AUDIT") sits closer to the block above it. */
+  .ac-only__inner { gap: 20px; }
+  /* When the operator empties the stats / features arrays, the wrapping
+     Reveal still occupies a flex slot, pushing the CTA further down.
+     Drop these slots when they have no rendered children. */
+  .ac-only__stats:empty,
+  .ac-only__features:empty { display: none; }
   .ac-demo { padding: 16px 16px 32px; }
   .ac-testi { padding: 32px 16px; }
   .ac-testi__head { margin-bottom: 20px; gap: 12px; }
   .ac-stack { padding: 32px 16px; }
   .ac-guarantee { padding: 32px 16px; }
-  .ac-guarantee__inner { gap: 16px; }
+  .ac-guarantee__inner { gap: 12px; }
+  /* Kill the default <h2> top margin + default <p> margins so two
+     successive guarantee blocks (e.g. 'Shortcut' body → 'Here's what
+     that means…' title) sit close instead of double-spaced. */
+  .ac-guarantee__h2 { margin-top: 0; }
+  .ac-guarantee__body { margin: 0; }
   .ac-faq { padding: 32px 16px; }
   .ac-faq__head { margin-bottom: 20px; gap: 12px; }
   .ac-faq__grid { gap: 18px; }
