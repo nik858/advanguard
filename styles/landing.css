@@ -521,8 +521,8 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
 @media (max-width: 900px) { .ac-faq__grid { grid-template-columns: 1fr; } .ac-faq__h2 { font-size: 30px; } }
 .ac-faq__item { display: flex; flex-direction: column; gap: 16px; }
 .ac-faq__q { display: flex; align-items: center; gap: 8px; }
-.ac-faq__q-icon { width: 32px; height: 32px; display: grid; place-items: center; flex: 0 0 auto; color: rgb(44,36,36); }
-.ac-faq__q-icon svg { width: 26px; height: 26px; }
+.ac-faq__q-icon { width: 32px; height: 32px; display: grid; place-items: center; flex: 0 0 auto; color: var(--color-brand-blue-2); }
+.ac-faq__q-icon svg { width: 24px; height: 24px; }
 .ac-faq__q-text { font: 700 24px/1.1 var(--font-body); color: var(--color-text-primary); opacity: 0.9; }
 .ac-faq__a { font: 400 18px/1.4 var(--font-body); color: var(--color-text-primary); opacity: 0.8; margin: 0; }
 
@@ -616,7 +616,7 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
   .ac-only { padding: 32px 16px; }
   /* Trims the chunky 40px gap stack inside the onlySystem flow so the
      CTA ("RECEIVE MY AUDIT") sits closer to the block above it. */
-  .ac-only__inner { gap: 20px; }
+  .ac-only__inner { gap: 14px; }
   /* When the operator empties the stats / features arrays, the wrapping
      Reveal still occupies a flex slot, pushing the CTA further down.
      Drop these slots when they have no rendered children. */
@@ -627,12 +627,16 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
   .ac-testi__head { margin-bottom: 20px; gap: 12px; }
   .ac-stack { padding: 32px 16px; }
   .ac-guarantee { padding: 32px 16px; }
-  .ac-guarantee__inner { gap: 12px; }
-  /* Kill the default <h2> top margin + default <p> margins so two
-     successive guarantee blocks (e.g. 'Shortcut' body → 'Here's what
-     that means…' title) sit close instead of double-spaced. */
-  .ac-guarantee__h2 { margin-top: 0; }
+  .ac-guarantee__inner { gap: 8px; }
+  /* Small top margin gives the guarantee title some breathing room above
+     (was 0, which made 'The PATIENT-LEAK SYSTEM is a Shortcut' bump into
+     the section above it). Body margin stays 0 so the text below sits
+     tight against the next section. */
+  .ac-guarantee__h2 { margin-top: 8px; }
   .ac-guarantee__body { margin: 0; }
+  /* Trim the hero copy's last paragraph too — its default <p> bottom
+     margin pushed the order card further down than it needed to be. */
+  .ac-hero__what-body { margin: 0; }
   .ac-faq { padding: 32px 16px; }
   .ac-faq__head { margin-bottom: 20px; gap: 12px; }
   .ac-faq__grid { gap: 18px; }
