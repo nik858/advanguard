@@ -155,6 +155,15 @@ img { max-width: 100%; height: auto; display: block; }
 @media (prefers-reduced-motion: reduce) {
   .ac-order__success { animation: none; }
 }
+/* Two-variant render: the same banner is mounted twice — once above the
+   card (.--top), once inside the form below SEND (.--inline). CSS shows
+   only one at a time based on viewport so the user always sees a single,
+   well-placed banner without us having to portal it through the DOM. */
+.ac-order__success--inline { display: none; }
+@media (max-width: 700px) {
+  .ac-order__success--top { display: none; }
+  .ac-order__success--inline { display: flex; margin: 4px 0 0; }
+}
 .ac-order {
   position: sticky; top: 84px;
   background: #fff;

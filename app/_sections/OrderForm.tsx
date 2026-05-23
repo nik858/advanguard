@@ -35,22 +35,28 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
   // the operator edit it inline — without having to fake a submitted form.
   const showSuccessBanner = status === "ok" || edit;
 
+  const successMessageNode = (variant: "top" | "inline") => (
+    <Erasable path="order.successMessage" label="success message">
+      <div
+        className={`ac-order__success ac-order__success--${variant}`}
+        role="status"
+        aria-live="polite"
+      >
+        <span className="ac-order__success-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 13l4 4L19 7" />
+          </svg>
+        </span>
+        <span className="ac-order__success-text">
+          <EditRich edit={edit} path="order.successMessage">{order.successMessage || "Success. Your Patient-Leak Findings will be emailed in 3-minutes"}</EditRich>
+        </span>
+      </div>
+    </Erasable>
+  );
+
   return (
     <>
-      {showSuccessBanner && (
-        <Erasable path="order.successMessage" label="success message">
-          <div className="ac-order__success" role="status" aria-live="polite">
-            <span className="ac-order__success-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 13l4 4L19 7" />
-              </svg>
-            </span>
-            <span className="ac-order__success-text">
-              <EditRich edit={edit} path="order.successMessage">{order.successMessage || "Success. Your Patient-Leak Findings will be emailed in 3-minutes"}</EditRich>
-            </span>
-          </div>
-        </Erasable>
-      )}
+      {showSuccessBanner && successMessageNode("top")}
       <aside className="ac-order" aria-label="Order form">
       <Erasable path="order.badge" label="badge">
         <div className="ac-order__strip">
@@ -172,6 +178,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
               : <EditRich edit={edit} path="order.ctaLabel">{order.ctaLabel}</EditRich>}
             ariaLabel={order.ctaLabel}
           />
+          {showSuccessBanner && successMessageNode("inline")}
           {status === "err" && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
         </form>
         <Erasable path="order.secureText" label="secure text">
