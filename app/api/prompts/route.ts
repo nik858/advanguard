@@ -45,6 +45,33 @@ export async function GET() {
   return NextResponse.json({ prompts });
 }
 
+/**
+ * Tries to write to the Blob but never throws. The blob is the fast/runtime
+ * path; the git commit (below) is the durable source of truth — losing the
+ * blob write only delays propagation by ~1 deploy, it doesn't lose data.
+ */
+async function trySaveBlob(prompts: PromptsV2): Promise<{ ok: boolean; reason?: string }> {
+  try {
+    await savePrompts(prompts);
+    return { ok: true };
+  } catch (e) {
+    const reason = (e as Error).message;
+    console.warn("[prompts] blob save skipped:", reason);
+    return { ok: false, reason };
+  }
+}
+
+async function tryDeleteBlob(): Promise<{ ok: boolean; reason?: string }> {
+  try {
+    await deletePrompts();
+    return { ok: true };
+  } catch (e) {
+    const reason = (e as Error).message;
+    console.warn("[prompts] blob delete skipped:", reason);
+    return { ok: false, reason };
+  }
+}
+
 export async function PUT(req: Request) {
   const session = await requireSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -53,9 +80,19 @@ export async function PUT(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid prompts", issues: parsed.error.issues }, { status: 400 });
   }
-  await savePrompts(parsed.data);
+  // Save to both targets — even if one fails the other still preserves the
+  // user's edit. Save is considered successful as long as at least one of
+  // them landed (so a paused Blob store does not prevent the operator from
+  // working — the git commit + next deploy makes the change live).
+  const blob = await trySaveBlob(parsed.data);
   const git = await commitPromptsToGit(parsed.data, session.sub);
-  return NextResponse.json({ ok: true, git });
+  if (!blob.ok && !git.committed) {
+    return NextResponse.json(
+      { error: "Save failed", blob: blob.reason, git: git.reason },
+      { status: 500 },
+    );
+  }
+  return NextResponse.json({ ok: true, blob, git });
 }
 
 // Reset to the bundled default: clear the Blob (loadPrompts falls back) and
@@ -63,8 +100,8 @@ export async function PUT(req: Request) {
 export async function DELETE() {
   const session = await requireSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  await deletePrompts();
+  const blob = await tryDeleteBlob();
   const defaults = PromptsV2Schema.parse(bundledDefault);
-  await commitPromptsToGit(defaults, `${session.sub} (reset)`);
-  return NextResponse.json({ ok: true, prompts: defaults });
+  const git = await commitPromptsToGit(defaults, `${session.sub} (reset)`);
+  return NextResponse.json({ ok: true, prompts: defaults, blob, git });
 }
