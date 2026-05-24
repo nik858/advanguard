@@ -109,9 +109,22 @@ export function PromptEditor() {
     if (res.ok) {
       setBaseline(prompts);
       toast("success", "Saved — your next audit uses these settings");
-    } else {
-      toast("error", "Could not save");
+      return;
     }
+    // Surface the actual rejection reason instead of a generic toast — most
+    // failures are Zod validation errors caused by an empty required field
+    // (signature, tone, any of the 3 mail instructions/subject lines).
+    const body = await res.json().catch(() => null);
+    type ZodIssue = { path: (string | number)[]; message: string };
+    const issues: ZodIssue[] | undefined = body?.issues;
+    if (Array.isArray(issues) && issues.length > 0) {
+      const first = issues[0];
+      const fieldPath = first.path.join(".");
+      toast("error", `Save failed — ${fieldPath || "field"}: ${first.message}`);
+      console.warn("[prompts] validation issues", issues);
+      return;
+    }
+    toast("error", `Save failed — ${body?.error || res.statusText || "server error"}`);
   }
 
   async function resetToDefault() {
