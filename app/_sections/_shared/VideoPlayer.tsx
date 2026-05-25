@@ -119,10 +119,31 @@ export function VideoPlayer({ src, poster, label, priority = false }: { src: str
  */
 function VimeoPriorityPlayer({ videoId, label }: { videoId: string; label?: string }) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  // Using `any` here only inside the file scope — the SDK has its own types
-  // but importing them eagerly would defeat the lazy import.
   const playerRef = useRef<{ play: () => Promise<unknown>; setVolume: (v: number) => Promise<unknown>; setMuted: (m: boolean) => Promise<unknown>; pause: () => Promise<unknown>; setCurrentTime: (t: number) => Promise<unknown>; ready: () => Promise<unknown> } | null>(null);
   const [overlayHidden, setOverlayHidden] = useState(false);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
+
+  // Fetch the real thumbnail from Vimeo's oEmbed API. vumbnail.com is
+  // unreliable for some free-tier videos (returns a 1 KB placeholder),
+  // whereas the official oEmbed endpoint always exposes the canonical
+  // i.vimeocdn.com URL. We upgrade the size from the default 295×166 to a
+  // full hero-sized version by rewriting the dimension suffix.
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`, { cache: "force-cache" })
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (cancelled) return;
+        const small: string | undefined = data?.thumbnail_url;
+        if (!small) return;
+        // The oEmbed URL ends in `_<w>x<h>?...` — bump the dimensions so
+        // the image isn't pixelated on a 700-1100 px wide hero player.
+        const big = small.replace(/_\d+x\d+(\?|$)/, "_1280x720$1");
+        setThumbnailUrl(big);
+      })
+      .catch(() => { /* keep overlay black */ });
+    return () => { cancelled = true; };
+  }, [videoId]);
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -175,9 +196,7 @@ function VimeoPriorityPlayer({ videoId, label }: { videoId: string; label?: stri
           onClick={onPlayClick}
           aria-label={label ? `Play ${label}` : "Play video"}
           className="ac-player__overlay"
-          style={{
-            backgroundImage: `url(https://vumbnail.com/${videoId}_large.jpg)`,
-          }}
+          style={thumbnailUrl ? { backgroundImage: `url(${thumbnailUrl})` } : undefined}
         >
           <span className="ac-player__overlay-play" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
