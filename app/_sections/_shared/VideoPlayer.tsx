@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { mediaUrl, type MediaRef } from "@/types/content";
 
 function isYouTube(u: string) { return /youtube\.com\/watch|youtu\.be\//.test(u); }
@@ -100,25 +100,29 @@ export function VideoPlayer({ src, poster, label, priority = false }: { src: str
 }
 
 /**
- * Hero-only Vimeo embed that uses the Player.js SDK to pre-buffer the first
- * seconds of video without showing motion to the visitor. Flow:
+ * Hero-only Vimeo embed: shows the video's own poster as a static
+ * thumbnail overlay, while pre-buffering the first seconds of video in the
+ * background via the Player.js SDK. When the visitor clicks our play
+ * button the overlay fades out and Vimeo plays instantly because the
+ * bytes are already decoded.
  *
- *   1. iframe mounts with the standard Vimeo URL — Vimeo shows its thumbnail.
- *   2. Right after mount, we lazy-import `@vimeo/player`, instantiate a
- *      Player against the iframe, force-mute, start playing, then pause as
- *      soon as the first frame has decoded.
- *   3. Vimeo's pipeline keeps the decoded chunks in its buffer. When the
- *      visitor clicks play (using Vimeo's own play button) the video starts
- *      instantly — the bytes are already in memory.
+ * Why an explicit overlay: Vimeo's default poster sometimes shows black
+ * (no custom thumbnail set, fade-in opening, etc.) and our play()+pause()
+ * pre-buffer can leave the player paused on the first decoded frame
+ * rather than the configured poster. The overlay sidesteps both issues
+ * by always showing the canonical thumbnail (served by Vimeo's vumbnail
+ * CDN, ~50-100 KB, browser-cached).
  *
- * The brief play/pause cycle is muted and lasts a single render tick, so
- * the visitor sees the thumbnail the entire time. Falls back gracefully to
- * a normal eager-loaded iframe if autoplay is blocked or the SDK fails to
- * load. Bandwidth cost is roughly the first 2-4 seconds of video per
- * visitor (much smaller than a full play).
+ * Fallback: if the SDK fails to load or autoplay is blocked, the overlay
+ * still shows; clicking it removes the overlay and the visitor sees
+ * Vimeo's own player (which they can press play on directly).
  */
 function VimeoPriorityPlayer({ videoId, label }: { videoId: string; label?: string }) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  // Using `any` here only inside the file scope — the SDK has its own types
+  // but importing them eagerly would defeat the lazy import.
+  const playerRef = useRef<{ play: () => Promise<unknown>; setVolume: (v: number) => Promise<unknown>; setMuted: (m: boolean) => Promise<unknown>; pause: () => Promise<unknown>; setCurrentTime: (t: number) => Promise<unknown>; ready: () => Promise<unknown> } | null>(null);
+  const [overlayHidden, setOverlayHidden] = useState(false);
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -130,25 +134,28 @@ function VimeoPriorityPlayer({ videoId, label }: { videoId: string; label?: stri
         const { default: Player } = await import("@vimeo/player");
         if (cancelled) return;
         const player = new Player(iframe);
+        playerRef.current = player;
         await player.ready();
         await player.setVolume(0);
         await player.setMuted(true);
         await player.play();
-        // Pause on the very next tick — Vimeo keeps the prefetched buffer
-        // around so the click-to-play that follows starts instantly.
         await player.pause();
         await player.setCurrentTime(0);
-        // Restore the unmuted state so the visitor's click plays with sound.
         await player.setMuted(false);
         await player.setVolume(1);
       } catch {
-        /* autoplay blocked or SDK error — iframe still works as a normal,
-           eager-loaded Vimeo player; click-to-play is just slightly slower. */
+        /* autoplay blocked or SDK error — overlay click still works,
+           Vimeo's own player will simply have a bit of buffering. */
       }
     })();
 
     return () => { cancelled = true; };
   }, []);
+
+  function onPlayClick() {
+    setOverlayHidden(true);
+    playerRef.current?.play().catch(() => { /* visitor can press Vimeo's own play */ });
+  }
 
   return (
     <div className="ac-player">
@@ -162,6 +169,23 @@ function VimeoPriorityPlayer({ videoId, label }: { videoId: string; label?: stri
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
       />
+      {!overlayHidden && (
+        <button
+          type="button"
+          onClick={onPlayClick}
+          aria-label={label ? `Play ${label}` : "Play video"}
+          className="ac-player__overlay"
+          style={{
+            backgroundImage: `url(https://vumbnail.com/${videoId}_large.jpg)`,
+          }}
+        >
+          <span className="ac-player__overlay-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </button>
+      )}
     </div>
   );
 }

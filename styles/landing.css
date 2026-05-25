@@ -435,6 +435,31 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
 .ac-player { position: relative; width: 100%; height: 100%; border-radius: inherit; }
 .ac-player__poster--empty { width: 100%; height: 100%; background: #000; border-radius: inherit; }
 .ac-player video, .ac-player iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: inherit; object-fit: contain; background: #000; }
+/* Thumbnail overlay used by the priority Vimeo embed. Sits on top of the
+   iframe with the video's real poster image, dismissed on click. */
+.ac-player__overlay {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0; padding: 0; margin: 0;
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: grid; place-items: center;
+  border-radius: inherit;
+  z-index: 2;
+}
+.ac-player__overlay-play {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(255,255,255,0.96);
+  color: var(--color-brand-blue-2, #1c7bfd);
+  display: grid; place-items: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  transition: transform 160ms ease;
+}
+.ac-player__overlay:hover .ac-player__overlay-play { transform: scale(1.05); }
+.ac-player__overlay-play svg { margin-left: 4px; }
 
 /* ─── Testimonials ─── */
 .ac-testi { background: #fff; padding: 64px 32px; }
