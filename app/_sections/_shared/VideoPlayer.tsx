@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useRef } from "react";
 import { mediaUrl, type MediaRef } from "@/types/content";
 
 function isYouTube(u: string) { return /youtube\.com\/watch|youtu\.be\//.test(u); }
@@ -63,6 +64,9 @@ export function VideoPlayer({ src, poster, label, priority = false }: { src: str
   }
 
   if (isVimeo(src)) {
+    if (priority) {
+      return <VimeoPriorityPlayer videoId={vimeoId(src)} label={label} />;
+    }
     return (
       <div className="ac-player">
         <iframe
@@ -90,6 +94,73 @@ export function VideoPlayer({ src, poster, label, priority = false }: { src: str
         // files stay at preload="none" to preserve free-tier egress.
         preload={priority ? "metadata" : "none"}
         playsInline
+      />
+    </div>
+  );
+}
+
+/**
+ * Hero-only Vimeo embed that uses the Player.js SDK to pre-buffer the first
+ * seconds of video without showing motion to the visitor. Flow:
+ *
+ *   1. iframe mounts with the standard Vimeo URL — Vimeo shows its thumbnail.
+ *   2. Right after mount, we lazy-import `@vimeo/player`, instantiate a
+ *      Player against the iframe, force-mute, start playing, then pause as
+ *      soon as the first frame has decoded.
+ *   3. Vimeo's pipeline keeps the decoded chunks in its buffer. When the
+ *      visitor clicks play (using Vimeo's own play button) the video starts
+ *      instantly — the bytes are already in memory.
+ *
+ * The brief play/pause cycle is muted and lasts a single render tick, so
+ * the visitor sees the thumbnail the entire time. Falls back gracefully to
+ * a normal eager-loaded iframe if autoplay is blocked or the SDK fails to
+ * load. Bandwidth cost is roughly the first 2-4 seconds of video per
+ * visitor (much smaller than a full play).
+ */
+function VimeoPriorityPlayer({ videoId, label }: { videoId: string; label?: string }) {
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const { default: Player } = await import("@vimeo/player");
+        if (cancelled) return;
+        const player = new Player(iframe);
+        await player.ready();
+        await player.setVolume(0);
+        await player.setMuted(true);
+        await player.play();
+        // Pause on the very next tick — Vimeo keeps the prefetched buffer
+        // around so the click-to-play that follows starts instantly.
+        await player.pause();
+        await player.setCurrentTime(0);
+        // Restore the unmuted state so the visitor's click plays with sound.
+        await player.setMuted(false);
+        await player.setVolume(1);
+      } catch {
+        /* autoplay blocked or SDK error — iframe still works as a normal,
+           eager-loaded Vimeo player; click-to-play is just slightly slower. */
+      }
+    })();
+
+    return () => { cancelled = true; };
+  }, []);
+
+  return (
+    <div className="ac-player">
+      <iframe
+        ref={iframeRef}
+        src={`https://player.vimeo.com/video/${videoId}?playsinline=1`}
+        title={label || "Video"}
+        loading="eager"
+        // @ts-expect-error fetchpriority is a valid HTML attribute, not yet in React's typings for iframe.
+        fetchpriority="high"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowFullScreen
       />
     </div>
   );
