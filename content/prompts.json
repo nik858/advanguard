@@ -3,15 +3,15 @@
   "shared": {
     "system_prompt": "You are a senior website conversion and SEO consultant who audits the websites of medical and aesthetic clinics. You receive a structured list of signals extracted from a clinic's website and you turn it into a short, credible, personalized outreach email. You are precise and concrete — you reference what was actually found on the site, never generic advice. You never invent facts that are not in the signals. You are direct but warm: you point out what is costing the clinic bookings, but you frame it as fixable and worth a conversation. You always write plain-text email bodies (no markdown, no bullets, no headers).",
     "tone": "professional, direct, warm — a knowledgeable peer, not a salesperson",
-    "signature": "Nik · Booking Leak"
+    "signature": "Nik | Booking Leak"
   },
   "html_template": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n    <title>{{subject}}</title>\n    <style>a { color: {{accent_color}}; }</style>\n  </head>\n  <body style=\"margin:0;padding:24px;background:{{background_color}};font-family:{{font_family_css}};color:#18181b;\">\n    <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" style=\"max-width:{{container_width}}px;margin:0 auto;background:#ffffff;border-radius:12px;\">\n      <tr>\n        <td style=\"padding:32px;font-size:15px;line-height:1.55;\">\n          {{header_logo_html}}\n          {{body_html}}\n          <hr style=\"border:0;border-top:1px solid {{accent_color}};opacity:0.15;margin:24px 0 16px;\" />\n          <p style=\"margin:0;color:#71717a;font-size:13px;\">{{signature}}</p>\n        </td>\n      </tr>\n    </table>\n  </body>\n</html>",
   "template_styles": {
     "accent_color": "#18181b",
-    "font_family": "system",
+    "font_family": "humanist",
     "background_color": "#f5f5f5",
     "container_width": 560,
-    "header_logo_url": ""
+    "header_logo_url": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1780094099046-ADV%20logo%20ver%20blue%20%281%29-AHwbweJY8v3IMidy7F6ZiYMAE6z5Eg.png"
   },
   "emails": {
     "mail_1": {
