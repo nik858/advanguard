@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CTA } from "./_shared/CTA";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
@@ -8,9 +8,21 @@ import { Erasable } from "../_editor/Erasable";
 import { mediaUrl, type OrderContent } from "@/types/content";
 import { CLINIC_TYPES, CLINIC_TYPE_LABELS } from "@/lib/leads/clinic-types";
 
+const SUBMITTED_KEY = "advanguard_lead_submitted";
+
 export function OrderForm({ content: order, onCheckout, edit = false }: { content: OrderContent; onCheckout?: () => void; edit?: boolean }) {
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "err">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  // Once a visitor has submitted, we lock the form so they cannot fire the CTA
+  // again (and create duplicate leads / spam). Persisted in localStorage so it
+  // survives reloads, new tabs and browser restarts — not just the current tab.
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(SUBMITTED_KEY) === "1") setSubmitted(true);
+    } catch { /* localStorage unavailable (private mode / SSR) */ }
+  }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -23,7 +35,12 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
       website: fd.get("website"),
     };
     const res = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
-    if (res.ok) { setStatus("ok"); onCheckout?.(); }
+    if (res.ok) {
+      setStatus("ok");
+      setSubmitted(true);
+      try { localStorage.setItem(SUBMITTED_KEY, "1"); } catch { /* ignore */ }
+      onCheckout?.();
+    }
     else {
       const b = await res.json().catch(() => ({}));
       setErrorMsg(b.error || "Error");
@@ -31,9 +48,12 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
     }
   }
 
+  // Locked = already submitted (remembered across sessions). Never locked in the editor, where
+  // the operator needs the live form to keep working.
+  const locked = submitted && !edit;
   // In the editor we want to preview the banner with its real copy and let
   // the operator edit it inline — without having to fake a submitted form.
-  const showSuccessBanner = status === "ok" || edit;
+  const showSuccessBanner = status === "ok" || submitted || edit;
 
   const successMessageNode = (variant: "top" | "inline") => (
     <Erasable path="order.successMessage" label="success message">
@@ -125,6 +145,9 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
             <EditRich edit={edit} path="order.description" multiline>{order.description}</EditRich>
           </p>
         </Erasable>
+        {locked ? (
+          successMessageNode("inline")
+        ) : (
         <form onSubmit={onSubmit} aria-label="Order">
           <label htmlFor="lead-email-input" className="visually-hidden">Email</label>
           <input
@@ -181,6 +204,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           {showSuccessBanner && successMessageNode("inline")}
           {status === "err" && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
         </form>
+        )}
         <Erasable path="order.secureText" label="secure text">
           <div className="ac-order__secure">
             <span className="ac-order__check" aria-hidden="true">✓</span>
