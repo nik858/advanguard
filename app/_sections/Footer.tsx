@@ -1,11 +1,10 @@
 "use client";
 import { Reveal } from "./_shared/Reveal";
-import { CTA } from "./_shared/CTA";
+import { LeadCTA } from "./_shared/LeadCTA";
 import { EditRich } from "../_editor/EditRich";
 import { EditableText } from "../_editor/EditableText";
 import { Erasable } from "../_editor/Erasable";
 import { mediaUrl, type FooterContent, type HeaderContent } from "@/types/content";
-import { scrollToLeadForm } from "@/lib/landing/scroll-to-lead-form";
 
 export function Footer({ content: c, header: h, edit = false }: {
   content: FooterContent;
@@ -25,11 +24,10 @@ export function Footer({ content: c, header: h, edit = false }: {
         </Erasable>
         <Erasable path="footer.cta" label="footer CTA">
           <Reveal delay={80} className="ac-footer__stack">
-            <CTA
+            <LeadCTA
               edit={edit}
               tag={<EditRich edit={edit} path="footer.ctaTagline">{c.ctaTagline}</EditRich>}
               label={<EditRich edit={edit} path="footer.ctaLabel">{c.ctaLabel}</EditRich>}
-              onClick={scrollToLeadForm}
             />
           </Reveal>
         </Erasable>

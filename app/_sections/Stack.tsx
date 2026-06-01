@@ -1,6 +1,6 @@
 "use client";
 import { Reveal } from "./_shared/Reveal";
-import { CTA } from "./_shared/CTA";
+import { LeadCTA } from "./_shared/LeadCTA";
 import { Book } from "./_shared/Book";
 import { Icons } from "./_shared/Icons";
 import { EditRich } from "../_editor/EditRich";
@@ -9,7 +9,6 @@ import { RepeatableList } from "../_editor/RepeatableList";
 import { Erasable } from "../_editor/Erasable";
 import { Resizable } from "../_editor/Resizable";
 import { mediaUrl, type StackContent } from "@/types/content";
-import { scrollToLeadForm } from "@/lib/landing/scroll-to-lead-form";
 
 function shortLabel(s: string): string { return s.split(" ").slice(0, 2).join(" "); }
 
@@ -90,11 +89,10 @@ export function Stack({ content: c, edit = false, style }: { content: StackConte
         </div>
         <Erasable path="stack.cta" label="CTA">
           <Reveal className="ac-only__cta-wrap" delay={200}>
-            <CTA
+            <LeadCTA
               edit={edit}
               tag={<EditRich edit={edit} path="stack.ctaTagline">{c.ctaTagline}</EditRich>}
               label={<EditRich edit={edit} path="stack.ctaLabel">{c.ctaLabel}</EditRich>}
-              onClick={scrollToLeadForm}
             />
             <Erasable path="stack.guaranteeText" label="guarantee text">
               <div className="ac-only__guarantee-row">

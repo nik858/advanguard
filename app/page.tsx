@@ -9,6 +9,7 @@ import { EditorProvider } from "./_editor/EditorProvider";
 import { LandingTree } from "./_editor/LandingTree";
 import { RenderContextProvider } from "./_editor/RenderContext";
 import { SectionContextProvider } from "./_editor/SectionContext";
+import { LeadGateProvider } from "./_sections/_shared/LeadGate";
 
 export default async function Home() {
   const h = await headers();
@@ -62,17 +63,19 @@ export default async function Home() {
       <JsonLd data={productJsonLd} />
       <JsonLd data={faqJsonLd} />
       <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], imageSizes: c.imageSizes ?? {}, edit: false }}>
-        <Header content={c.header} />
-        <main id="main">
-          {c.sections
-            .filter((s) => !s.hidden)
-            .map((s) => (
-              <SectionContextProvider key={s.id} value={{ basePath: "", sectionId: s.id }}>
-                <SectionBody section={s} />
-              </SectionContextProvider>
-            ))}
-        </main>
-        <Footer content={c.footer} header={c.header} />
+        <LeadGateProvider successMessage={(hero?.data.order.successMessage || "Success. Your Patient-Leak Findings will be emailed in 3-minutes").trim()}>
+          <Header content={c.header} />
+          <main id="main">
+            {c.sections
+              .filter((s) => !s.hidden)
+              .map((s) => (
+                <SectionContextProvider key={s.id} value={{ basePath: "", sectionId: s.id }}>
+                  <SectionBody section={s} />
+                </SectionContextProvider>
+              ))}
+          </main>
+          <Footer content={c.footer} header={c.header} />
+        </LeadGateProvider>
       </RenderContextProvider>
     </>
   );

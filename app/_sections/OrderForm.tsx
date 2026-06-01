@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CTA } from "./_shared/CTA";
+import { useLeadGate } from "./_shared/LeadGate";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
 import { MediaSlot } from "../_editor/MediaSlot";
@@ -8,21 +9,13 @@ import { Erasable } from "../_editor/Erasable";
 import { mediaUrl, type OrderContent } from "@/types/content";
 import { CLINIC_TYPES, CLINIC_TYPE_LABELS } from "@/lib/leads/clinic-types";
 
-const SUBMITTED_KEY = "advanguard_lead_submitted";
-
 export function OrderForm({ content: order, onCheckout, edit = false }: { content: OrderContent; onCheckout?: () => void; edit?: boolean }) {
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "err">("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  // Once a visitor has submitted, we lock the form so they cannot fire the CTA
-  // again (and create duplicate leads / spam). Persisted in localStorage so it
-  // survives reloads, new tabs and browser restarts — not just the current tab.
-  const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(SUBMITTED_KEY) === "1") setSubmitted(true);
-    } catch { /* localStorage unavailable (private mode / SSR) */ }
-  }, []);
+  // Shared, page-wide "already submitted" flag (persisted in localStorage). Once
+  // set, this form locks AND every other CTA on the page flips to the success
+  // banner — see LeadGate. Always false in the editor, so live forms keep working.
+  const { submitted, markSubmitted } = useLeadGate();
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,8 +30,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
     const res = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
     if (res.ok) {
       setStatus("ok");
-      setSubmitted(true);
-      try { localStorage.setItem(SUBMITTED_KEY, "1"); } catch { /* ignore */ }
+      markSubmitted();
       onCheckout?.();
     }
     else {

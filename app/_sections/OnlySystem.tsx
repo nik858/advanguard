@@ -1,6 +1,6 @@
 "use client";
 import { Reveal } from "./_shared/Reveal";
-import { CTA } from "./_shared/CTA";
+import { LeadCTA } from "./_shared/LeadCTA";
 import { Book } from "./_shared/Book";
 import { EditRich } from "../_editor/EditRich";
 import { RepeatableList } from "../_editor/RepeatableList";
@@ -128,11 +128,10 @@ export function OnlySystem({ content: c, edit = false, style }: { content: OnlyS
         </Reveal>
         <Erasable path="onlySystem.cta" label="CTA">
           <Reveal className="ac-only__cta-wrap" delay={200}>
-            <CTA
+            <LeadCTA
               edit={edit}
               tag={<EditRich edit={edit} path="onlySystem.ctaTagline">{c.ctaTagline}</EditRich>}
               label={<EditRich edit={edit} path="onlySystem.ctaLabel">{c.ctaLabel}</EditRich>}
-              onClick={scrollToLeadForm}
             />
             <Erasable path="onlySystem.ctaSubLink" label="sub link" as="span">
               <a className="ac-only__cta-sub" href="#top" onClick={(e) => { e.preventDefault(); scrollToLeadForm(); }}>

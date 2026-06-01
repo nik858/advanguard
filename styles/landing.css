@@ -164,6 +164,16 @@ img { max-width: 100%; height: auto; display: block; }
   .ac-order__success--top { display: none; }
   .ac-order__success--inline { display: flex; margin: 4px 0 0; }
 }
+/* Standalone variant: replaces the scroll-to-form CTA buttons elsewhere on the
+   page once a lead is in. Unlike --inline it stays visible at every breakpoint
+   and centers itself in the button's old slot. */
+.ac-order__success--standalone {
+  display: inline-flex;
+  justify-content: center;
+  text-align: left;
+  max-width: 460px;
+  margin: 0 auto;
+}
 .ac-order {
   position: sticky; top: 84px;
   background: #fff;
