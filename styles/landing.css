@@ -155,15 +155,10 @@ img { max-width: 100%; height: auto; display: block; }
 @media (prefers-reduced-motion: reduce) {
   .ac-order__success { animation: none; }
 }
-/* Two-variant render: the same banner is mounted twice — once above the
-   card (.--top), once inside the form below SEND (.--inline). CSS shows
-   only one at a time based on viewport so the user always sees a single,
-   well-placed banner without us having to portal it through the DOM. */
-.ac-order__success--inline { display: none; }
-@media (max-width: 700px) {
-  .ac-order__success--top { display: none; }
-  .ac-order__success--inline { display: flex; margin: 4px 0 0; }
-}
+/* In-card variant: sits exactly where the email + clinic inputs were once a
+   lead is in. Always visible (no viewport swap) and full-width like the fields
+   it replaces. */
+.ac-order__success--field { width: 100%; }
 /* Standalone variant: replaces the scroll-to-form CTA buttons elsewhere on the
    page once a lead is in. Unlike --inline it stays visible at every breakpoint
    and centers itself in the button's old slot. */

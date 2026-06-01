@@ -43,14 +43,13 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
   // Locked = already submitted (remembered across sessions). Never locked in the editor, where
   // the operator needs the live form to keep working.
   const locked = submitted && !edit;
-  // In the editor we want to preview the banner with its real copy and let
-  // the operator edit it inline — without having to fake a submitted form.
-  const showSuccessBanner = status === "ok" || submitted || edit;
 
-  const successMessageNode = (variant: "top" | "inline") => (
+  // Shown in place of the input fields once a lead is in (and as an editable
+  // preview in the editor). Always visible — no viewport-dependent variant.
+  const successMessageNode = () => (
     <Erasable path="order.successMessage" label="success message">
       <div
-        className={`ac-order__success ac-order__success--${variant}`}
+        className="ac-order__success ac-order__success--field"
         role="status"
         aria-live="polite"
       >
@@ -67,8 +66,6 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
   );
 
   return (
-    <>
-      {showSuccessBanner && successMessageNode("top")}
       <aside className="ac-order" aria-label="Order form">
       <Erasable path="order.badge" label="badge">
         <div className="ac-order__strip">
@@ -138,7 +135,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           </p>
         </Erasable>
         {locked ? (
-          successMessageNode("inline")
+          successMessageNode()
         ) : (
         <form onSubmit={onSubmit} aria-label="Order">
           <label htmlFor="lead-email-input" className="visually-hidden">Email</label>
@@ -193,7 +190,7 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
               : <EditRich edit={edit} path="order.ctaLabel">{order.ctaLabel}</EditRich>}
             ariaLabel={order.ctaLabel}
           />
-          {showSuccessBanner && successMessageNode("inline")}
+          {edit && successMessageNode()}
           {status === "err" && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
         </form>
         )}
@@ -249,6 +246,5 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
         </div>
       </div>
       </aside>
-    </>
   );
 }
