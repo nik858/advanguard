@@ -5,6 +5,10 @@ import { bodyToHtml } from "@/lib/audit/template";
 export { bodyToHtml };
 
 export const RESEND_FROM = "nik@bookingleak.com";
+// Replies land here. The From domain (bookingleak.com) has no mailbox, so a
+// Reply-To pointing at the address Nik actually reads is what makes replies
+// reachable — no GoDaddy mailbox / paid forwarding needed.
+export const RESEND_REPLY_TO = "nik@advanguard.agency";
 
 export type SendAuditEmailInput = {
   to: string;
@@ -49,6 +53,7 @@ export async function sendAuditEmail(input: SendAuditEmailInput): Promise<string
     try {
       const res = await client.emails.send({
         from: RESEND_FROM,
+        replyTo: RESEND_REPLY_TO,
         to: input.to,
         subject: input.subject,
         text: input.body,

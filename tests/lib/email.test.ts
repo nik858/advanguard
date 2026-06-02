@@ -9,7 +9,7 @@ vi.mock("resend", () => ({
 }));
 
 // Import AFTER the mock so the SDK is already stubbed.
-import { sendAuditEmail, bodyToHtml, RESEND_FROM } from "@/lib/email";
+import { sendAuditEmail, bodyToHtml, RESEND_FROM, RESEND_REPLY_TO } from "@/lib/email";
 
 describe("lib/email — bodyToHtml", () => {
   it("converts paragraphs + line breaks to semantic HTML", () => {
@@ -47,6 +47,7 @@ describe("lib/email — sendAuditEmail", () => {
     expect(mockSend).toHaveBeenCalledTimes(1);
     expect(mockSend).toHaveBeenCalledWith({
       from: RESEND_FROM,
+      replyTo: RESEND_REPLY_TO,
       to: "a@b.com",
       subject: "Sub",
       text: "Hello",
