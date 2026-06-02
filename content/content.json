@@ -10,7 +10,7 @@
   },
   "header": {
     "orderByPhone": "Excellent based on 71+ reviews",
-    "needHelp": "Need help? nik@booking-leak.com",
+    "needHelp": "Need help? nik@bookingleak.com",
     "logoLight": "/assets/advanguard-logo-white.png",
     "logoDark": "/assets/advanguard-logo-dark.png",
     "logoText": "ADVANGUARD",
@@ -281,7 +281,7 @@
       "data": {
         "faq": {
           "h2": "Frequently Asked <span style=\"color:#1c7fff\">Questions</span>",
-          "sub": "Need help? nik@booking-leak.com",
+          "sub": "Need help? nik@bookingleak.com",
           "items": [
             {
               "q": "Who is this for?",
@@ -351,7 +351,8 @@
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.h2",
     "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.h2",
     "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.bigStackImg",
-    "footer.cta"
+    "footer.cta",
+    "header.logoDark"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "bigger",
