@@ -1,15 +1,19 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-const { mockSend } = vi.hoisted(() => ({ mockSend: vi.fn() }));
+const { mockSend, mockCreateContact } = vi.hoisted(() => ({
+  mockSend: vi.fn(),
+  mockCreateContact: vi.fn(),
+}));
 vi.mock("resend", () => ({
   Resend: class {
     emails = { send: mockSend };
+    contacts = { create: mockCreateContact };
     constructor(_apiKey: string) {}
   },
 }));
 
 // Import AFTER the mock so the SDK is already stubbed.
-import { sendAuditEmail, bodyToHtml, RESEND_FROM, RESEND_REPLY_TO } from "@/lib/email";
+import { sendAuditEmail, addContactToSegment, bodyToHtml, RESEND_FROM, RESEND_REPLY_TO } from "@/lib/email";
 
 describe("lib/email — bodyToHtml", () => {
   it("converts paragraphs + line breaks to semantic HTML", () => {
@@ -138,5 +142,61 @@ describe("lib/email — sendAuditEmail", () => {
 
     await expect(p).resolves.toBe("ok");
     expect(mockSend).toHaveBeenCalledTimes(3);
+  });
+});
+
+describe("lib/email — addContactToSegment", () => {
+  beforeEach(() => {
+    process.env.RESEND_API_KEY = "test_key";
+    process.env.RESEND_SEGMENT_ID = "00000000-0000-0000-0000-0000000000aa";
+    mockCreateContact.mockReset();
+  });
+  afterEach(() => {
+    delete process.env.RESEND_SEGMENT_ID;
+  });
+
+  it("creates the contact in the configured segment", async () => {
+    mockCreateContact.mockResolvedValueOnce({ data: { id: "c1" }, error: null });
+
+    await addContactToSegment({ email: "a@b.com", firstName: "Ann" });
+
+    expect(mockCreateContact).toHaveBeenCalledWith({
+      email: "a@b.com",
+      firstName: "Ann",
+      unsubscribed: false,
+      segments: [{ id: "00000000-0000-0000-0000-0000000000aa" }],
+    });
+  });
+
+  it("omits firstName when the lead did not provide one", async () => {
+    mockCreateContact.mockResolvedValueOnce({ data: { id: "c1" }, error: null });
+
+    await addContactToSegment({ email: "a@b.com" });
+
+    expect(mockCreateContact).toHaveBeenCalledWith({
+      email: "a@b.com",
+      unsubscribed: false,
+      segments: [{ id: "00000000-0000-0000-0000-0000000000aa" }],
+    });
+  });
+
+  it("falls back to the default segment when RESEND_SEGMENT_ID is unset", async () => {
+    delete process.env.RESEND_SEGMENT_ID;
+    mockCreateContact.mockResolvedValueOnce({ data: { id: "c1" }, error: null });
+
+    await addContactToSegment({ email: "a@b.com" });
+
+    expect(mockCreateContact).toHaveBeenCalledWith(
+      expect.objectContaining({ segments: [{ id: "73141da5-f98b-4430-98ca-8daf6d8de93d" }] })
+    );
+  });
+
+  it("throws on API error", async () => {
+    mockCreateContact.mockResolvedValueOnce({
+      data: null,
+      error: { statusCode: 422, name: "validation_error", message: "Bad" },
+    });
+
+    await expect(addContactToSegment({ email: "a@b.com" })).rejects.toThrow(/422/);
   });
 });

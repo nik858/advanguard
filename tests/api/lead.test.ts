@@ -2,12 +2,15 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 const runAudit = vi.fn().mockResolvedValue(undefined);
-const afterCb: Array<() => void> = [];
+const addContactToSegment = vi.fn().mockResolvedValue(undefined);
+const afterCb: Array<() => void | Promise<void>> = [];
 
 beforeEach(() => {
   vi.restoreAllMocks();
   vi.resetModules();
   runAudit.mockClear();
+  addContactToSegment.mockClear();
+  addContactToSegment.mockResolvedValue(undefined);
   afterCb.length = 0;
 });
 
@@ -19,6 +22,7 @@ vi.mock("next/server", async (orig) => {
   };
 });
 vi.mock("@/lib/audit/index", () => ({ runAudit }));
+vi.mock("@/lib/email", () => ({ addContactToSegment }));
 vi.mock("@/lib/db/leads", () => ({
   insertLead: vi.fn().mockResolvedValue({ id: "00000000-0000-0000-0000-000000000001" }),
 }));
@@ -37,9 +41,28 @@ describe("POST /api/lead", () => {
     const res = await POST(mkReq({ email: "matt@clinicabc.com", first_name: "Matt" }));
     expect(res.status).toBe(200);
     expect(afterCb).toHaveLength(1);
-    afterCb[0]();
+    await afterCb[0]();
     expect(runAudit).toHaveBeenCalledOnce();
     expect(runAudit.mock.calls[0][0]).toMatchObject({ email: "matt@clinicabc.com", firstName: "Matt", domain: "clinicabc.com" });
+  });
+
+  it("adds the lead to the Resend contact list in the background", async () => {
+    const { POST } = await import("@/app/api/lead/route");
+    const res = await POST(mkReq({ email: "matt@clinicabc.com", first_name: "Matt" }));
+    expect(res.status).toBe(200);
+    await afterCb[0]();
+    expect(addContactToSegment).toHaveBeenCalledExactlyOnceWith({ email: "matt@clinicabc.com", firstName: "Matt" });
+  });
+
+  it("still runs the audit when the contact-list sync fails", async () => {
+    addContactToSegment.mockRejectedValueOnce(new Error("Resend 500: Boom"));
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+    const { POST } = await import("@/app/api/lead/route");
+    const res = await POST(mkReq({ email: "matt@clinicabc.com" }));
+    expect(res.status).toBe(200);
+    await afterCb[0]();
+    expect(runAudit).toHaveBeenCalledOnce();
+    expect(consoleError).toHaveBeenCalledOnce();
   });
 
   it("rejects generic email domains", async () => {

@@ -73,6 +73,7 @@ export default function SettingsPage() {
         <Row label="Vercel Blob" description="Stores uploaded media and the AI audit prompts." ok={blob} />
         <Row label="Anthropic API (Claude)" description="Generates the personalized audit email. Required for the audit pipeline." ok={anthropic} />
         <Row label="Resend API" description="Sends the personalized audit email to each lead." ok={resend} />
+        <Row label="Resend contact list" description={'Every new lead is also added to the "Bookingleak Leads" contact list in Resend, ready for campaigns.'} ok={resend} />
         <Row label="Google PageSpeed API" description="Performance metrics for the audit. Optional — the audit degrades gracefully without it." ok={pagespeed} />
       </div>
 

@@ -5,9 +5,8 @@ import { bodyToHtml } from "@/lib/audit/template";
 export { bodyToHtml };
 
 export const RESEND_FROM = "nik@bookingleak.com";
-// Replies land here. The From domain (bookingleak.com) has no mailbox, so a
-// Reply-To pointing at the address Nik actually reads is what makes replies
-// reachable — no GoDaddy mailbox / paid forwarding needed.
+// Replies land here — the address Nik actually reads. (bookingleak.com now
+// also has a Google mailbox, but advanguard.agency stays the reply inbox.)
 export const RESEND_REPLY_TO = "nik@advanguard.agency";
 
 export type SendAuditEmailInput = {
@@ -85,6 +84,34 @@ export async function sendAuditEmail(input: SendAuditEmailInput): Promise<string
   }
 
   throw lastErr ?? new Error("Resend send failed");
+}
+
+// The "Bookingleak Leads" segment — the contact list campaign broadcasts
+// target. Not a secret (useless without the API key), so hardcoded like
+// RESEND_FROM; RESEND_SEGMENT_ID overrides it if the list ever changes.
+const DEFAULT_SEGMENT_ID = "73141da5-f98b-4430-98ca-8daf6d8de93d";
+
+export type AddContactInput = {
+  email: string;
+  firstName?: string;
+};
+
+/**
+ * Adds a lead to the Resend segment used for campaign mailing (contacts are
+ * account-level; the segment is the "contact list" broadcasts target).
+ * Idempotent: Resend returns the existing contact on a duplicate email.
+ * Throws on API failure — callers decide whether that is fatal.
+ */
+export async function addContactToSegment(input: AddContactInput): Promise<void> {
+  const segmentId = process.env.RESEND_SEGMENT_ID || DEFAULT_SEGMENT_ID;
+  const client = getClient();
+  const res = await client.contacts.create({
+    email: input.email,
+    ...(input.firstName ? { firstName: input.firstName } : {}),
+    unsubscribed: false,
+    segments: [{ id: segmentId }],
+  });
+  if (res.error) throw new Error(formatError(res.error));
 }
 
 /**

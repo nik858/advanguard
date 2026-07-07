@@ -3,6 +3,7 @@ import { z } from "zod";
 import crypto from "node:crypto";
 import { checkLimit, clientIp, leadLimiter } from "@/lib/ratelimit";
 import { runAudit } from "@/lib/audit/index";
+import { addContactToSegment } from "@/lib/email";
 import { extractDomain } from "@/lib/audit/domain";
 import { insertLead } from "@/lib/db/leads";
 import { CLINIC_TYPES } from "@/lib/leads/clinic-types";
@@ -71,8 +72,16 @@ export async function POST(req: Request) {
     ipHash: crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16),
   };
 
-  // Respond immediately; the audit pipeline runs in the background.
-  after(() => runAudit(lead));
+  // Respond immediately; the audit pipeline runs in the background. The
+  // campaign-list sync must never block or fail the audit, so its errors are
+  // swallowed after logging.
+  after(async () => {
+    await addContactToSegment({
+      email: lead.email,
+      firstName: lead.firstName || undefined,
+    }).catch((e) => console.error("[lead] resend contact sync failed", { domain, error: String(e) }));
+    await runAudit(lead);
+  });
 
   return NextResponse.json({ ok: true });
 }
