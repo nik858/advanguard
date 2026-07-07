@@ -91,6 +91,10 @@ export async function sendAuditEmail(input: SendAuditEmailInput): Promise<string
 // RESEND_FROM; RESEND_SEGMENT_ID overrides it if the list ever changes.
 const DEFAULT_SEGMENT_ID = "73141da5-f98b-4430-98ca-8daf6d8de93d";
 
+export function getResendSegmentId(): string {
+  return process.env.RESEND_SEGMENT_ID || DEFAULT_SEGMENT_ID;
+}
+
 export type AddContactInput = {
   email: string;
   firstName?: string;
@@ -103,7 +107,7 @@ export type AddContactInput = {
  * Throws on API failure — callers decide whether that is fatal.
  */
 export async function addContactToSegment(input: AddContactInput): Promise<void> {
-  const segmentId = process.env.RESEND_SEGMENT_ID || DEFAULT_SEGMENT_ID;
+  const segmentId = getResendSegmentId();
   const client = getClient();
   const res = await client.contacts.create({
     email: input.email,

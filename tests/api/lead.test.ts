@@ -54,6 +54,15 @@ describe("POST /api/lead", () => {
     expect(addContactToSegment).toHaveBeenCalledExactlyOnceWith({ email: "matt@clinicabc.com", firstName: "Matt" });
   });
 
+  it("keeps internal/test domains out of the contact list but still audits them", async () => {
+    const { POST } = await import("@/app/api/lead/route");
+    const res = await POST(mkReq({ email: "nik@advanguard.agency" }));
+    expect(res.status).toBe(200);
+    await afterCb[0]();
+    expect(addContactToSegment).not.toHaveBeenCalled();
+    expect(runAudit).toHaveBeenCalledOnce();
+  });
+
   it("still runs the audit when the contact-list sync fails", async () => {
     addContactToSegment.mockRejectedValueOnce(new Error("Resend 500: Boom"));
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});

@@ -20,6 +20,16 @@ const BLOCKED_DOMAINS = new Set([
   "aol.com", "gmx.com", "mail.com",
 ]);
 
+// Our own funnel-test domains: they go through the audit pipeline like any
+// lead, but must never end up in the campaign contact list.
+const INTERNAL_DOMAINS = new Set([
+  "advanguard.agency",
+  "dvanguard.agency", // typo'd variant that shows up in manual tests
+  "bookingleak.com",
+  "brightsmile.dev", // smoke-test domain
+  "fanclaw.ai", // Thom's test domain
+]);
+
 const BodySchema = z.object({
   email: z.string().email(),
   first_name: z.string().optional(),
@@ -76,10 +86,12 @@ export async function POST(req: Request) {
   // campaign-list sync must never block or fail the audit, so its errors are
   // swallowed after logging.
   after(async () => {
-    await addContactToSegment({
-      email: lead.email,
-      firstName: lead.firstName || undefined,
-    }).catch((e) => console.error("[lead] resend contact sync failed", { domain, error: String(e) }));
+    if (!INTERNAL_DOMAINS.has(domain)) {
+      await addContactToSegment({
+        email: lead.email,
+        firstName: lead.firstName || undefined,
+      }).catch((e) => console.error("[lead] resend contact sync failed", { domain, error: String(e) }));
+    }
     await runAudit(lead);
   });
 
