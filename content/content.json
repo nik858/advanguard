@@ -160,7 +160,7 @@
           "items": [
             {
               "type": "video",
-              "videoUrl": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1784735649190-Testimonial%20-%20Gary%20M_-ebA39xnTBjPpGXVQgbA9PYCDOoqezE.mp4",
+              "videoUrl": "https://advanguard.wistia.com/medias/6sfwfw38hc",
               "videoPoster": "",
               "name": "Gary M.",
               "role": "Owner of Aesthetics clinic",
@@ -179,11 +179,11 @@
             },
             {
               "type": "video",
-              "videoUrl": "https://vimeo.com/1140349452?fl=ip&amp;fe=ec",
-              "videoPoster": "/assets/video-thumbnail.png",
+              "videoUrl": "",
+              "videoPoster": "",
               "name": "Adam N.",
               "role": "Outsourced CMO for Healthcare Clinics",
-              "quote": ""
+              "quote": "We are so happy with the results."
             },
             {
               "type": "text",
@@ -353,7 +353,8 @@
     "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.bigStackImg",
     "footer.cta",
     "header.logoDark",
-    "testimonials:testimonials.items.0.avatar"
+    "testimonials:testimonials.items.0.avatar",
+    "testimonials:testimonials.items.2.avatar"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "bigger",
