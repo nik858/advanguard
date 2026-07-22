@@ -160,11 +160,11 @@
           "items": [
             {
               "type": "video",
-              "videoUrl": "https://vimeo.com/1140349195?fl=ip&amp;fe=ec",
+              "videoUrl": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1784735649190-Testimonial%20-%20Gary%20M_-ebA39xnTBjPpGXVQgbA9PYCDOoqezE.mp4",
               "videoPoster": "",
-              "name": "Gary M., ",
-              "role": "Owner, Aesthetics Clinic Triplas",
-              "quote": ""
+              "name": "Gary M.",
+              "role": "Owner of Aesthetics clinic",
+              "quote": "We truly, truly appreciate it. Thank you."
             },
             {
               "type": "text",
@@ -352,7 +352,8 @@
     "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.h2",
     "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.bigStackImg",
     "footer.cta",
-    "header.logoDark"
+    "header.logoDark",
+    "testimonials:testimonials.items.0.avatar"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "bigger",
