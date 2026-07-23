@@ -40,7 +40,7 @@
           "eyebrow": "For Clinic Owners Looking To Add More Booked Patients Online",
           "eyebrowDotColor": "rgb(28,127,255)",
           "h1": "Find Out What's <span style=\"color:#1c7fff\">Really Stopping</span> Patients From Booking On Your Website",
-          "sub": "It's not your ads, content, or prices. \nThe Patient-Leak System uncovers the invisible leaks and tells you exactly what to fix first, <u>delivered straight to your inbox within minutes.</u>"
+          "sub": "<strong>It's not your ads, content, or prices. \n</strong>The Patient-Leak System uncovers the invisible leaks and tells you exactly what to fix first, <u>delivered straight to your inbox within minutes.</u>"
         }
       }
     },
@@ -58,7 +58,7 @@
           "videoUrl": "https://www.veed.io/embed/adb95d75-1ddd-40df-8892-efb7ffb9eeae?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
           "videoPoster": "/media/hero-video-poster.jpg",
           "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
-          "sectionBody": "The Patient-Leak System is a <u>counterintuitive approach that analyses and provides personalised solutions</u> for clinic-specific cases.\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nWe achieve this by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals. \n\nAs a result, you can raise your appointment booking rates by up to 30% without spending more on ads or other marketing activities.\n\n"
+          "sectionBody": "The Patient-Leak System is a <u>counterintuitive approach that analyses and provides personalised solutions</u> for clinic-specific cases.\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nWe achieve this by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals. \n\nAs a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities.\n\n"
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
@@ -112,7 +112,7 @@
       "id": "e8d0cdf8-6117-4d39-96de-2a7733e7121c",
       "type": "onlySystem",
       "style": {
-        "pt": 32,
+        "pt": 0,
         "pb": 0
       },
       "data": {
@@ -414,7 +414,7 @@
     "hero:order.productSubtitle"
   ],
   "imageSizes": {
-    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "bigger",
+    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.centerImage": "bigger",
     "hero:hero.videoUrl": "bigger",
     "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.centerImage": "bigger"
