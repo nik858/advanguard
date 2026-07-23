@@ -160,7 +160,7 @@
           "items": [
             {
               "type": "video",
-              "videoUrl": "https://www.veed.io/view/ffa1f96e-b643-4b50-9208-44c3977abbb9?panel=share",
+              "videoUrl": "https://www.veed.io/embed/ffa1f96e-b643-4b50-9208-44c3977abbb9?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
               "videoPoster": "",
               "name": "Gary M.",
               "role": "Owner of Aesthetics clinic",
@@ -200,7 +200,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Mark P.",
               "role": "Owner of Lumière Aesthetics, Miami FL",
-              "quote": "Genuinely useful! We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
+              "quote": "Genuinely useful! We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would..",
               "highlights": [
                 "egestas arcu mauris dictum",
                 "odio quis"
