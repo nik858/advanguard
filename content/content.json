@@ -415,13 +415,15 @@
     "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.h2",
     "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.eyebrow",
     "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.h2",
-    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.eyebrow"
+    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.eyebrow",
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.cta"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.centerImage": "bigger",
     "hero:hero.videoUrl": "bigger",
     "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.centerImage": "bigger",
-    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full"
+    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full",
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "full"
   }
 }
