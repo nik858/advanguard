@@ -56,7 +56,7 @@
         "hero": {
           "videoLabel": "",
           "videoUrl": "https://vimeo.com/1193670382?fl=ip&amp;fe=ec",
-          "videoPoster": "/assets/video-thumbnail.png",
+          "videoPoster": "/media/hero-video-poster.jpg",
           "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
           "sectionBody": "The Patient-Leak System is a <u>counterintuitive approach that analyses and provides personalised solutions</u> for clinic-specific cases (like yours).\n\nWe achieve this by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals, without generic templates that have nothing to do with getting clinics more patients.\n\nAs a result, this allows you to raise your booking appointment rates by up to 30%without spending more on ads or other marketing activities."
         },
