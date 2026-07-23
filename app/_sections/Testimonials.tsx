@@ -65,7 +65,7 @@ export function Testimonials({ content: c, edit = false, style }: { content: Tes
               {edit && <TestimonialTypeToggle path={`testimonials.items.${i}`} current={t.type} />}
               {t.type === "video" ? (
                 <div className="ac-testi-card ac-testi-card--video" style={{ position: "relative" }}>
-                  {edit && <MediaSlot path={`testimonials.items.${i}.videoUrl`} accept="video" />}
+                  {edit && <MediaSlot path={`testimonials.items.${i}.videoUrl`} posterPath={`testimonials.items.${i}.videoPoster`} accept="video" />}
                   <VideoPlayer src={t.videoUrl} poster={t.videoPoster} label={t.name} edit={edit}/>
                   <div className="ac-testi-card__video-foot">
                     <div className="ac-testi-card__name">

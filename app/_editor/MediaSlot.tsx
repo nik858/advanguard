@@ -6,7 +6,7 @@ import { useMediaUpload } from "./useMediaUpload";
 import { MediaLibraryPopover } from "./MediaLibraryPopover";
 import { Icons } from "../_sections/_shared/Icons";
 
-type View = "menu" | "library" | "url" | "alt";
+type View = "menu" | "library" | "url" | "alt" | "poster";
 
 const popItem: React.CSSProperties = {
   textAlign: "left",
@@ -55,17 +55,23 @@ export function MediaSlot({
   path,
   accept,
   compact = false,
+  posterPath,
 }: {
   path: string;
   accept: "image" | "video";
   /** Tiny icon-only trigger for small slots (e.g. the favicon). */
   compact?: boolean;
+  /** Content path of the thumbnail image shown before a hosted video plays.
+   *  Adds a "Thumbnail image" flow to the popover (videos only). */
+  posterPath?: string;
 }) {
   const { setField, state } = useEditor();
   const fullPath = useSectionPath(path);
+  const fullPosterPath = useSectionPath(posterPath ?? path);
   const { uploadFile, busy, progress, error } = useMediaUpload();
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<View>("menu");
+  const [posterMode, setPosterMode] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [urlInput, setUrlInput] = useState("");
   const [altInput, setAltInput] = useState("");
@@ -128,19 +134,33 @@ export function MediaSlot({
   const isEmpty = !currentUrl;
   const popoverTop = compact ? 30 : 44;
 
+  const posterCurrent = posterPath
+    ? fullPosterPath.split(".").reduce<unknown>(
+        (acc, k) => (acc as Record<string, unknown> | undefined)?.[k.match(/^\d+$/) ? Number(k) : (k as string)],
+        state.draft as unknown,
+      )
+    : undefined;
+  const posterUrl = typeof posterCurrent === "string"
+    ? posterCurrent
+    : (posterCurrent as { url?: string } | undefined)?.url ?? "";
+  const effectiveAccept = posterMode ? "image" : accept;
+
   function applyUrl(url: string) {
     // Accept a full <iframe ...> embed snippet (e.g. Vimeo's "Embed" copy)
     // and extract its src so the user doesn't have to clean it up by hand.
     const trimmed = url.trim();
     const iframeMatch = trimmed.match(/<iframe[^>]*\bsrc=["']([^"']+)["']/i);
     const finalUrl = iframeMatch ? iframeMatch[1] : trimmed;
-    if (typeof current === "object" && current !== null) {
+    if (posterMode) {
+      setField(fullPosterPath, finalUrl);
+    } else if (typeof current === "object" && current !== null) {
       setField(fullPath, { ...(current as object), url: finalUrl });
     } else {
       setField(fullPath, finalUrl);
     }
     setOpen(false);
     setView("menu");
+    setPosterMode(false);
   }
 
   function applyAlt(alt: string) {
@@ -196,7 +216,7 @@ export function MediaSlot({
         <button
           ref={triggerRef}
           type="button"
-          onClick={(e) => { e.stopPropagation(); setOpen(true); setView("menu"); }}
+          onClick={(e) => { e.stopPropagation(); setOpen(true); setView("menu"); setPosterMode(false); }}
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
             e.preventDefault();
@@ -276,17 +296,17 @@ export function MediaSlot({
 
             {view === "library" && (
               <div>
-                <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
-                <MediaLibraryPopover accept={accept} onSelect={applyUrl} />
+                <button type="button" style={popBack} onClick={() => setView(posterMode ? "poster" : "menu")}>‹ Back</button>
+                <MediaLibraryPopover accept={effectiveAccept} onSelect={applyUrl} />
               </div>
             )}
 
             {view === "url" && (
               <div>
-                <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
+                <button type="button" style={popBack} onClick={() => setView(posterMode ? "poster" : "menu")}>‹ Back</button>
                 <input
                   type="url"
-                  placeholder={accept === "video" ? "URL or <iframe …> (YouTube, Vimeo, .mp4)" : "https://…/image.jpg"}
+                  placeholder={accept === "video" ? "URL or <iframe …> (YouTube, Vimeo, Loom, .mp4…)" : "https://…/image.jpg"}
                   value={urlInput}
                   onChange={(e) => setUrlInput(e.target.value)}
                   style={popInput}
@@ -303,7 +323,7 @@ export function MediaSlot({
 
             {view === "alt" && (
               <div>
-                <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
+                <button type="button" style={popBack} onClick={() => setView(posterMode ? "poster" : "menu")}>‹ Back</button>
                 <input
                   type="text"
                   placeholder="Describe the image (accessibility)"
@@ -325,7 +345,7 @@ export function MediaSlot({
         <input
           ref={fileRef}
           type="file"
-          accept={accept === "image" ? "image/*" : "video/mp4,video/webm,video/quicktime"}
+          accept={effectiveAccept === "image" ? "image/*" : "video/mp4,video/webm,video/quicktime"}
           style={{ display: "none" }}
           onChange={(e) => handleFile(e.target.files?.[0])}
         />
@@ -419,7 +439,7 @@ export function MediaSlot({
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onClick={(e) => { e.stopPropagation(); setOpen(true); setView("menu"); }}
+        onClick={(e) => { e.stopPropagation(); setOpen(true); setView("menu"); setPosterMode(false); }}
         onDragOver={(e) => { e.preventDefault(); }}
         onDrop={(e) => {
           e.preventDefault();
@@ -474,7 +494,7 @@ export function MediaSlot({
       <button
         ref={triggerRef}
         type="button"
-        onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); setView("menu"); }}
+        onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); setView("menu"); setPosterMode(false); }}
         aria-label="Change media"
         style={triggerStyle}
       >
@@ -514,6 +534,11 @@ export function MediaSlot({
               <button type="button" style={popItem} onClick={() => setView("url")}>
                 Paste a URL
               </button>
+              {accept === "video" && posterPath && (
+                <button type="button" style={popItem} onClick={() => { setPosterMode(true); setView("poster"); }}>
+                  Thumbnail image…
+                </button>
+              )}
               {accept === "image" && (
                 <button type="button" style={popItem} onClick={() => {
                   setAltInput(typeof current === "object" && current !== null ? String((current as { alt?: string }).alt ?? "") : "");
@@ -528,19 +553,44 @@ export function MediaSlot({
             </div>
           )}
 
+          {view === "poster" && (
+            <div>
+              <button type="button" style={popBack} onClick={() => { setPosterMode(false); setView("menu"); }}>‹ Back</button>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <button type="button" style={popItem} onClick={() => fileRef.current?.click()}>
+                  Upload an image
+                </button>
+                <button type="button" style={popItem} onClick={() => setView("library")}>
+                  Choose from library
+                </button>
+                <button type="button" style={popItem} onClick={() => setView("url")}>
+                  Paste a URL
+                </button>
+                {posterUrl && (
+                  <button type="button" style={{ ...popItem, color: "#c62828" }} onClick={() => { setField(fullPosterPath, ""); setOpen(false); setPosterMode(false); }}>
+                    Remove thumbnail
+                  </button>
+                )}
+              </div>
+              <p style={{ fontSize: 11, color: "#a1a1aa", margin: "6px 2px 0" }}>
+                Shown over the video until the visitor presses play.
+              </p>
+            </div>
+          )}
+
           {view === "library" && (
             <div>
-              <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
-              <MediaLibraryPopover accept={accept} onSelect={applyUrl} />
+              <button type="button" style={popBack} onClick={() => setView(posterMode ? "poster" : "menu")}>‹ Back</button>
+              <MediaLibraryPopover accept={effectiveAccept} onSelect={applyUrl} />
             </div>
           )}
 
           {view === "url" && (
             <div>
-              <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
+              <button type="button" style={popBack} onClick={() => setView(posterMode ? "poster" : "menu")}>‹ Back</button>
               <input
                 type="url"
-                placeholder={accept === "video" ? "https://… (YouTube, Vimeo, .mp4)" : "https://…/image.jpg"}
+                placeholder={effectiveAccept === "video" ? "URL or <iframe …> (YouTube, Vimeo, Loom, .mp4…)" : "https://…/image.jpg"}
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
                 style={popInput}
@@ -557,7 +607,7 @@ export function MediaSlot({
 
           {view === "alt" && (
             <div>
-              <button type="button" style={popBack} onClick={() => setView("menu")}>‹ Back</button>
+              <button type="button" style={popBack} onClick={() => setView(posterMode ? "poster" : "menu")}>‹ Back</button>
               <input
                 type="text"
                 placeholder="Describe the image (accessibility)"
@@ -579,7 +629,7 @@ export function MediaSlot({
       <input
         ref={fileRef}
         type="file"
-        accept={accept === "image" ? "image/*" : "video/mp4,video/webm,video/quicktime"}
+        accept={effectiveAccept === "image" ? "image/*" : "video/mp4,video/webm,video/quicktime"}
         style={{ display: "none" }}
         onChange={(e) => handleFile(e.target.files?.[0])}
       />

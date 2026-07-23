@@ -349,7 +349,7 @@ img { max-width: 100%; height: auto; display: block; }
 .ac-testi-card--video { padding: 0; overflow: hidden; }
 .ac-testi-card--video .ac-player { aspect-ratio: 16/10; }
 .ac-testi-card__video-foot { padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; }
-.ac-testi-card__video-quote { font: 700 16px/1.3 var(--font-body); color: var(--color-text-primary); }
+.ac-testi-card__video-quote { font: 400 16px/1.5 var(--font-body); color: #000; }
 
 /* ─── Stack ─── */
 .ac-stack { background: var(--color-bg-alt); padding: 64px 32px; }

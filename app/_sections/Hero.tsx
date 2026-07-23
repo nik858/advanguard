@@ -16,7 +16,7 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
             <Erasable path="hero.videoUrl" label="hero video">
               <Reveal className="ac-hero__video-wrap">
                 <div className="ac-hero__video" style={{ position: "relative" }}>
-                  {edit && <MediaSlot path="hero.videoUrl" accept="video" />}
+                  {edit && <MediaSlot path="hero.videoUrl" posterPath="hero.videoPoster" accept="video" />}
                   <VideoPlayer src={hero.videoUrl} poster={hero.videoPoster} label={hero.videoLabel} edit={edit} priority/>
                 </div>
                 {(edit || (hero.videoLabel ?? "").trim()) && (

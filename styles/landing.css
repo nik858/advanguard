@@ -440,8 +440,8 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
 .ac-player { position: relative; width: 100%; height: 100%; border-radius: inherit; }
 .ac-player__poster--empty { width: 100%; height: 100%; background: #000; border-radius: inherit; }
 .ac-player video, .ac-player iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: inherit; object-fit: contain; background: #000; }
-/* Thumbnail overlay used by the priority Vimeo embed. Sits on top of the
-   iframe with the video's real poster image, dismissed on click. */
+/* Click-to-play facade: shows the operator-uploaded thumbnail + play button
+   instead of the hosted player; the iframe mounts (with autoplay) on click. */
 .ac-player__overlay {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -464,7 +464,7 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
   transition: transform 160ms ease;
 }
 .ac-player__overlay:hover .ac-player__overlay-play { transform: scale(1.05); }
-.ac-player__overlay-play svg { margin-left: 4px; }
+.ac-player__overlay-play svg { width: 32px; height: 32px; margin-left: 4px; }
 
 /* ─── Testimonials ─── */
 .ac-testi { background: #fff; padding: 64px 32px; }
@@ -500,7 +500,7 @@ button.ac-cta { animation: ac-cta-breathe 2s ease-in-out infinite; }
 .ac-testi-card--video { padding: 0; overflow: hidden; }
 .ac-testi-card--video .ac-player { aspect-ratio: 16/10; }
 .ac-testi-card__video-foot { padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; }
-.ac-testi-card__video-quote { font: 700 16px/1.3 var(--font-body); color: var(--color-text-primary); }
+.ac-testi-card__video-quote { font: 400 16px/1.5 var(--font-body); color: #000; }
 
 /* ─── Stack ─── */
 .ac-stack { background: var(--color-bg-alt); padding: 64px 32px; }

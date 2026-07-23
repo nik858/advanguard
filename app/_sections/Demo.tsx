@@ -22,7 +22,7 @@ export function Demo({ content: c, edit = false, style }: { content: DemoContent
           <Erasable path="demo.videoUrl" label="demo video">
             <Reveal delay={120}>
               <div className="ac-demo__video" style={{ position: "relative" }}>
-                {edit && <MediaSlot path="demo.videoUrl" accept="video" />}
+                {edit && <MediaSlot path="demo.videoUrl" posterPath="demo.videoPoster" accept="video" />}
                 <VideoPlayer src={c.videoUrl} poster={c.videoPoster} label="Demo video" edit={edit}/>
               </div>
             </Reveal>
