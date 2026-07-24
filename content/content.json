@@ -58,7 +58,7 @@
           "videoUrl": "https://www.veed.io/embed/adb95d75-1ddd-40df-8892-efb7ffb9eeae?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
           "videoPoster": "/media/hero-video-poster.jpg",
           "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
-          "sectionBody": "The Patient-Leak System is a counterintuitive approach that <u>analyses your clinic's website and delivers personalised solutions for your specific case.</u>\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nYour website gets analysed against <strong>14 crucial signals, </strong>with the results delivered as a personalized action plan across <strong>3 separate emails.</strong>\n\n<em>All of it built by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals.\n</em>\nAs a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities.\n\n"
+          "sectionBody": "The Patient-Leak System is a counterintuitive approach that <u>analyses your clinic's website and delivers personalised solutions for your specific case.</u>\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nThe analyse includes <strong>14 crucial signals, </strong>with the results delivered as a personalized action plan across <strong>3 separate emails.</strong>\n\n<em>All of it built by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals.\n</em>\nAs a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities.\n\n"
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
@@ -231,7 +231,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Lisa V.",
               "role": "Med Spa Owner, Palm Beach FL",
-              "quote": "I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free. Confirmed.",
+              "quote": "&quot;I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free. Confirmed.&quot;",
               "highlights": [
                 "adipiscing"
               ]
@@ -288,7 +288,7 @@
           "eyebrowDotColor": "rgb(28,127,255)",
           "h2": "The Only System <span style=\"color:#1c7fff\">You’ll Need To </span>Acquire Patients",
           "body": "",
-          "centerImage": "/media/only-system-2.webp",
+          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1784883934026-hf_20260723_154915_4a21634c-e3be-4471-9125-c20c51000a54%20%281%29-k4uUmHWydEl7LQEYevmtgTvXnL9OX4.webp",
           "leftFeatures": [],
           "rightFeatures": [],
           "stats": [],
@@ -308,8 +308,8 @@
       },
       "data": {
         "guarantee": {
-          "h2": "Here's What We<span style=\"color:#1c7fff\"> Guarantee\n</span>",
-          "body": "Your diagnosis will be specific to your clinic's case. It will name the exact signals missing from your site, benchmark them against clinics in your vertical, and tell you what to fix first.\n\nIf it reads like something that could have been written for any clinic on the internet - call us out on it. We mean that."
+          "h2": "Here's What We<span style=\"color:#1c7fff\"> Guarantee🔒</span>",
+          "body": "Your diagnosis will be specific to your clinic's case. \n\nIt will name the exact signals missing from your site, benchmark them against clinics in your vertical, and tell you what to fix first.\n\nIf it reads like something that could have been written for any clinic on the internet - call us out on it. We mean that."
         }
       }
     },
@@ -325,19 +325,19 @@
           "sub": "Need help? nik@bookingleak.com",
           "items": [
             {
-              "q": "Who is this for?",
+              "q": "🔹 Who is this for?",
               "a": "The Patient-Leak System was built for clinic owners and practice decision-makers running medium-to-high ticket healthcare services. Dental implant, All-on-4, aesthetic, med spa, and physiotherapy clinics specifically.\nIf you are a general practitioner, a pharmacy, or a clinic outside those verticals, this is not the right fit and we will tell you that during submission."
             },
             {
-              "q": "Is this actually free? What's the catch?",
+              "q": "🔹 Is this actually free? What's the catch?",
               "a": "Yes, completely free. No credit card, trial or hidden upgrade.\nThe Patient-Leak System exists because we audit clinics before working with them anyway. Instead of keeping those findings internal, we deliver them directly to you, whether you ever work with us or not.\nAnd if you want our help fixing what we find, we can talk after.\n"
             },
             {
-              "q": "How is this personalized if I just submitted an email?",
+              "q": "🔹 How is this personalized if I just submitted an email?",
               "a": "Your work email contains your clinic's domain. Our system detects it, deeply analyses your website, and runs 14 healthcare-specific signals against your vertical.\nNothing in your diagnosis is written for &quot;clinics in general.&quot; It is written for your URL, your vertical, and the market you operate in."
             },
             {
-              "q": " I've had marketing audits before. Why is this different?",
+              "q": "🔹 I've had marketing audits before. Why is this different?",
               "a": "Because this isn't a marketing audit.\nMost audits tell you to create more content, more ads, etc. The Patient-Leak System tells you what's already broken. The 14 signals we check are the specific technical, structural, and psychological barriers that stop patients from booking even when your ads are working.\nWe're basically telling you what to fix."
             },
             {
@@ -345,7 +345,7 @@
               "a": "Your first finding arrives within minutes of submitting.\nThe second arrives on day 2. The third on day 3.\nWe space them deliberately, one finding at a time is actionable. Three findings at once becomes a to-do list nobody finishes. Trust us, we tried that."
             },
             {
-              "q": "Is there a guarantee?",
+              "q": "🔹 Is there a guarantee?",
               "a": "The diagnosis is free so there is nothing to refund.\nBut here is what we do promise. Your diagnosis will be specific to your clinic, not a generic checklist with your name at the top. It will name the exact signals missing from your site, benchmark them against clinics in your vertical that convert best, and tell you what to fix first.\nNo sales call follows or pitch sequence.\nIf you receive your diagnosis and it does not contain at least one specific, actionable finding you can implement this week, reply to any of the emails and tell us. We will make it right."
             }
           ]
@@ -416,7 +416,13 @@
     "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.eyebrow",
     "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.h2",
     "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.eyebrow",
-    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.cta"
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.cta",
+    "faq:faq.items.0.qIcon",
+    "faq:faq.items.1.qIcon",
+    "faq:faq.items.3.qIcon",
+    "faq:faq.items.2.qIcon",
+    "faq:faq.items.5.qIcon",
+    "faq:faq.items.4.qIcon"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
@@ -424,6 +430,7 @@
     "hero:hero.videoUrl": "bigger",
     "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.centerImage": "bigger",
     "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full",
-    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "full"
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "full",
+    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.centerImage": "full"
   }
 }
