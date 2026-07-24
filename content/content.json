@@ -341,7 +341,7 @@
               "a": "Because this isn't a marketing audit.\nMost audits tell you to create more content, more ads, etc. The Patient-Leak System tells you what's already broken. The 14 signals we check are the specific technical, structural, and psychological barriers that stop patients from booking even when your ads are working.\nWe're basically telling you what to fix."
             },
             {
-              "q": "How long does it take to get my diagnosis?",
+              "q": "🔹 How long does it take to get my diagnosis?",
               "a": "Your first finding arrives within minutes of submitting.\nThe second arrives on day 2. The third on day 3.\nWe space them deliberately, one finding at a time is actionable. Three findings at once becomes a to-do list nobody finishes. Trust us, we tried that."
             },
             {
@@ -423,7 +423,9 @@
     "faq:faq.items.2.qIcon",
     "faq:faq.items.5.qIcon",
     "faq:faq.items.4.qIcon",
-    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.eyebrow"
+    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.eyebrow",
+    "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.h2",
+    "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.rating"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
