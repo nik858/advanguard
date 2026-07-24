@@ -279,7 +279,7 @@
       "id": "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d",
       "type": "onlySystem",
       "style": {
-        "pt": 32,
+        "pt": 0,
         "pb": 0
       },
       "data": {
@@ -425,7 +425,8 @@
     "faq:faq.items.4.qIcon",
     "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.eyebrow",
     "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.h2",
-    "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.rating"
+    "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.rating",
+    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.h2"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
