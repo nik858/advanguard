@@ -212,7 +212,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Dr. Sarah H.",
               "role": "Implantology Clinic, Phoenix AZ",
-              "quote": "&quot;The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.&quot;",
+              "quote": "The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.",
               "highlights": [
                 "egestas arcu mauris dictum",
                 "feugiat turpis lacinia orci"
@@ -231,7 +231,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Lisa V.",
               "role": "Med Spa Owner, Palm Beach FL",
-              "quote": "&quot;I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, and 100% free. Confirmed.&quot;",
+              "quote": "I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, confirmed.",
               "highlights": [
                 "adipiscing"
               ]
@@ -241,7 +241,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Mark P.",
               "role": "Owner of Lumière Aesthetics, Miami FL",
-              "quote": "&quot;Genuinely useful! We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.&quot;",
+              "quote": "Genuinely useful! We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
               "highlights": [
                 "egestas arcu mauris dictum",
                 "odio quis"
@@ -252,7 +252,7 @@
               "avatar": "/assets/avatar-placeholder.png",
               "name": "Dr. Clemente H.",
               "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
-              "quote": "&quot;In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.&quot;",
+              "quote": "In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.",
               "highlights": [
                 "tristique aliquet pulvinar"
               ]
@@ -432,8 +432,6 @@
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.centerImage": "bigger",
     "hero:hero.videoUrl": "bigger",
     "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.centerImage": "bigger",
-    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full",
-    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "full",
-    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.centerImage": "full"
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "bigger"
   }
 }
