@@ -5,7 +5,7 @@ import { EditRich } from "../_editor/EditRich";
 import { MediaSlot } from "../_editor/MediaSlot";
 import { Erasable } from "../_editor/Erasable";
 import { Resizable } from "../_editor/Resizable";
-import type { HeroContent, OrderContent } from "@/types/content";
+import { mediaUrl, type HeroContent, type OrderContent } from "@/types/content";
 
 export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; order: OrderContent; edit?: boolean; style?: React.CSSProperties }) {
   return (
@@ -43,6 +43,33 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
               </p>
             </Reveal>
           </Erasable>
+          {(edit || mediaUrl(hero.sectionImage)) && (
+            <Resizable path="hero.sectionImage" label="section image size">
+              <Erasable path="hero.sectionImage" label="section image">
+                <Reveal delay={140}>
+                  <div style={{ position: "relative", marginTop: 18 }}>
+                    {mediaUrl(hero.sectionImage) && (
+                      <img
+                        src={mediaUrl(hero.sectionImage)}
+                        alt={typeof hero.sectionImage === "object" && hero.sectionImage ? (hero.sectionImage.alt ?? "") : ""}
+                        style={{ width: "100%", height: "auto", borderRadius: 12, display: "block" }}
+                      />
+                    )}
+                    {edit && <MediaSlot path="hero.sectionImage" accept="image" />}
+                  </div>
+                </Reveal>
+              </Erasable>
+            </Resizable>
+          )}
+          {(edit || (hero.sectionBody2 ?? "").trim()) && (
+            <Erasable path="hero.sectionBody2" label="section body (below image)">
+              <Reveal delay={160}>
+                <p className="ac-hero__what-body">
+                  <EditRich edit={edit} path="hero.sectionBody2" multiline>{hero.sectionBody2}</EditRich>
+                </p>
+              </Reveal>
+            </Erasable>
+          )}
         </div>
         <Reveal as="div" className="ac-order-wrap">
           <OrderForm content={order} edit={edit} />

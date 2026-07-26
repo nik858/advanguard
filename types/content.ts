@@ -58,6 +58,11 @@ export const HeroSchema = z.object({
   sectionTitle: z.string(),
   /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   sectionBody: z.string(),
+  /** Optional image rendered between the two body blocks. Hidden when unset. */
+  sectionImage: MediaRefSchema.nullable().default(null),
+  /** Rich text (HTML). Optional second body block shown below the image —
+   * lets the operator split the copy so the image sits "in the middle". */
+  sectionBody2: z.string().default(""),
 });
 export type HeroContent = z.infer<typeof HeroSchema>;
 
@@ -380,7 +385,7 @@ export function createSection(type: SectionType): Section {
       return {
         id, type,
         data: {
-          hero: { videoLabel: "Watch the video", videoUrl: "", videoPoster: "", sectionTitle: "Section title", sectionBody: "Body text" },
+          hero: { videoLabel: "Watch the video", videoUrl: "", videoPoster: "", sectionTitle: "Section title", sectionBody: "Body text", sectionImage: null, sectionBody2: "" },
           order: { badge: "", productName: "Product", productSubtitle: "", limitedTime: "", priceWas: "", priceNow: "", priceSubLine: "", description: "", ctaTagline: "", ctaLabel: "Buy now", secureText: "", guaranteeText: "", ratingText: "", successMessage: "Success. Your Patient-Leak Findings will be emailed in 3-minutes", miniTestimonials: [] },
         },
       };
