@@ -61,6 +61,20 @@ export function Hero({ hero, order, edit = false, style }: { hero: HeroContent; 
               </Erasable>
             </Resizable>
           )}
+          {(edit || (hero.sectionVideoUrl ?? "").trim()) && (
+            <Resizable path="hero.sectionVideoUrl" label="section video size">
+              <Erasable path="hero.sectionVideoUrl" label="section video">
+                <Reveal delay={140}>
+                  <div className="ac-hero__video" style={{ position: "relative", marginTop: 18 }}>
+                    {edit && <MediaSlot path="hero.sectionVideoUrl" posterPath="hero.sectionVideoPoster" accept="video" />}
+                    {(hero.sectionVideoUrl ?? "").trim() && (
+                      <VideoPlayer src={hero.sectionVideoUrl} poster={hero.sectionVideoPoster ?? undefined} edit={edit} />
+                    )}
+                  </div>
+                </Reveal>
+              </Erasable>
+            </Resizable>
+          )}
           {(edit || (hero.sectionBody2 ?? "").trim()) && (
             <Erasable path="hero.sectionBody2" label="section body (below image)">
               <Reveal delay={160}>

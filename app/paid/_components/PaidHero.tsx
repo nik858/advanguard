@@ -58,6 +58,17 @@ export function PaidHero({ hero, order, style }: { hero: HeroContent; order: Ord
               </Erasable>
             </Resizable>
           )}
+          {(hero.sectionVideoUrl ?? "").trim() && (
+            <Resizable path="hero.sectionVideoUrl" label="section video size">
+              <Erasable path="hero.sectionVideoUrl" label="section video">
+                <Reveal delay={140}>
+                  <div className="ac-hero__video" style={{ position: "relative", marginTop: 18 }}>
+                    <VideoPlayer src={hero.sectionVideoUrl} poster={hero.sectionVideoPoster ?? undefined} edit={false} />
+                  </div>
+                </Reveal>
+              </Erasable>
+            </Resizable>
+          )}
           {(hero.sectionBody2 ?? "").trim() && (
             <Erasable path="hero.sectionBody2" label="section body (below image)">
               <Reveal delay={160}>
