@@ -35,6 +35,9 @@ export function PaidOrderForm({ content: order }: { content: OrderContent }) {
   const [clinicUrl, setClinicUrl] = useState("");
   const [phase, setPhase] = useState<"form" | "starting" | "checkout">("form");
   const [errorMsg, setErrorMsg] = useState("");
+  // Which fields the visitor has interacted with — invalid hints only show
+  // after a field was touched, so the pristine form isn't covered in red.
+  const [touched, setTouched] = useState<{ email?: boolean; type?: boolean; url?: boolean }>({});
   const checkoutRef = useRef<StripeEmbeddedCheckout | null>(null);
   const mountRef = useRef<HTMLDivElement>(null);
   const honeypotRef = useRef<HTMLInputElement>(null);
@@ -44,6 +47,13 @@ export function PaidOrderForm({ content: order }: { content: OrderContent }) {
   const typeValid = clinicType !== "";
   const urlValid = normalizeClinicUrl(clinicUrl) !== null;
   const canPay = emailValid && typeValid && urlValid;
+
+  const fieldError = (bad: boolean) => (bad ? { borderColor: "#c62828" } : undefined);
+  const hintStyle: React.CSSProperties = { color: "#c62828", fontSize: 12, margin: "4px 2px 0", textAlign: "left" };
+  const missing: string[] = [];
+  if (!emailValid) missing.push("work email");
+  if (!typeValid) missing.push("clinic type");
+  if (!urlValid) missing.push("clinic website");
 
   // Mount the embedded checkout once its container is in the DOM.
   useEffect(() => {
@@ -201,7 +211,12 @@ export function PaidOrderForm({ content: order }: { content: OrderContent }) {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+              style={fieldError(!!touched.email && !emailValid)}
             />
+            {touched.email && !emailValid && (
+              <p style={hintStyle}>Please enter a valid email address.</p>
+            )}
             <label htmlFor="clinic_type" className="visually-hidden">Type of clinic</label>
             <select
               id="clinic_type"
@@ -209,14 +224,18 @@ export function PaidOrderForm({ content: order }: { content: OrderContent }) {
               required
               className="ac-order__field"
               value={clinicType}
-              onChange={(e) => setClinicType(e.target.value)}
-              style={selectStyle}
+              onChange={(e) => { setClinicType(e.target.value); setTouched((t) => ({ ...t, type: true })); }}
+              onBlur={() => setTouched((t) => ({ ...t, type: true }))}
+              style={{ ...selectStyle, ...fieldError(!!touched.type && !typeValid) }}
             >
               <option value="" disabled hidden>Type of clinic</option>
               {CLINIC_TYPES.map((v) => (
                 <option key={v} value={v}>{CLINIC_TYPE_LABELS[v]}</option>
               ))}
             </select>
+            {touched.type && !typeValid && (
+              <p style={hintStyle}>Please select your clinic type.</p>
+            )}
             <label htmlFor="clinic_url" className="visually-hidden">Clinic website URL</label>
             <input
               id="clinic_url"
@@ -227,10 +246,14 @@ export function PaidOrderForm({ content: order }: { content: OrderContent }) {
               placeholder="Your clinic website (e.g. yourclinic.com)"
               className="ac-order__field"
               autoComplete="url"
-              style={{ marginTop: 8 }}
               value={clinicUrl}
               onChange={(e) => setClinicUrl(e.target.value)}
+              onBlur={() => setTouched((t) => ({ ...t, url: true }))}
+              style={{ marginTop: 8, ...fieldError(!!touched.url && !urlValid) }}
             />
+            {touched.url && !urlValid && (
+              <p style={hintStyle}>Please enter a valid website address, e.g. yourclinic.com — no spaces.</p>
+            )}
             {/* Honeypot: positioned offscreen, bots fill it but humans don't */}
             <input
               ref={honeypotRef}
@@ -261,6 +284,11 @@ export function PaidOrderForm({ content: order }: { content: OrderContent }) {
                 <span className="ac-cta__arrow"><Icons.ArrowRight /></span>
               </span>
             </button>
+            {!canPay && (
+              <p style={{ color: "#71717a", fontSize: 12, margin: "8px 2px 0", textAlign: "center" }}>
+                Fill in your {missing.join(", ")} to unlock secure checkout.
+              </p>
+            )}
             {errorMsg && <p style={{ color: "#c62828", fontSize: 13, marginTop: 8 }}>{errorMsg}</p>}
           </form>
         )}

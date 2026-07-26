@@ -63,6 +63,9 @@ export const HeroSchema = z.object({
   /** Optional video rendered between the two body blocks (same slot as the image). */
   sectionVideoUrl: z.string().default(""),
   sectionVideoPoster: MediaRefSchema.nullable().default(null),
+  /** Space above/below the in-copy media block, px (drag handles in the editor). */
+  sectionMediaMt: z.number().optional(),
+  sectionMediaMb: z.number().optional(),
   /** Rich text (HTML). Second body block, rendered below the image/video slot —
    * splitting the copy across the two blocks puts the media "in the middle". */
   sectionBody2: z.string().default(""),

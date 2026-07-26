@@ -43,31 +43,35 @@ export function PaidHero({ hero, order, style }: { hero: HeroContent; order: Ord
               </p>
             </Reveal>
           </Erasable>
-          {mediaUrl(hero.sectionImage) && (
-            <Resizable path="hero.sectionImage" label="section image size">
-              <Erasable path="hero.sectionImage" label="section image">
-                <Reveal delay={140}>
-                  <div style={{ position: "relative", marginTop: 18 }}>
-                    <img
-                      src={mediaUrl(hero.sectionImage)}
-                      alt={typeof hero.sectionImage === "object" && hero.sectionImage ? (hero.sectionImage.alt ?? "") : ""}
-                      style={{ width: "100%", height: "auto", borderRadius: 12, display: "block" }}
-                    />
-                  </div>
-                </Reveal>
-              </Erasable>
-            </Resizable>
-          )}
-          {(hero.sectionVideoUrl ?? "").trim() && (
-            <Resizable path="hero.sectionVideoUrl" label="section video size">
-              <Erasable path="hero.sectionVideoUrl" label="section video">
-                <Reveal delay={140}>
-                  <div className="ac-hero__video" style={{ position: "relative", marginTop: 18 }}>
-                    <VideoPlayer src={hero.sectionVideoUrl} poster={hero.sectionVideoPoster ?? undefined} edit={false} />
-                  </div>
-                </Reveal>
-              </Erasable>
-            </Resizable>
+          {(mediaUrl(hero.sectionImage) || (hero.sectionVideoUrl ?? "").trim()) && (
+            <div style={{ position: "relative", marginTop: hero.sectionMediaMt ?? 18, marginBottom: hero.sectionMediaMb ?? 0 }}>
+              {mediaUrl(hero.sectionImage) && (
+                <Resizable path="hero.sectionImage" label="section image size">
+                  <Erasable path="hero.sectionImage" label="section image">
+                    <Reveal delay={140}>
+                      <div style={{ position: "relative" }}>
+                        <img
+                          src={mediaUrl(hero.sectionImage)}
+                          alt={typeof hero.sectionImage === "object" && hero.sectionImage ? (hero.sectionImage.alt ?? "") : ""}
+                          style={{ width: "100%", height: "auto", borderRadius: 12, display: "block" }}
+                        />
+                      </div>
+                    </Reveal>
+                  </Erasable>
+                </Resizable>
+              )}
+              {(hero.sectionVideoUrl ?? "").trim() && (
+                <Resizable path="hero.sectionVideoUrl" label="section video size">
+                  <Erasable path="hero.sectionVideoUrl" label="section video">
+                    <Reveal delay={140}>
+                      <div className="ac-hero__video" style={{ position: "relative" }}>
+                        <VideoPlayer src={hero.sectionVideoUrl} poster={hero.sectionVideoPoster ?? undefined} edit={false} />
+                      </div>
+                    </Reveal>
+                  </Erasable>
+                </Resizable>
+              )}
+            </div>
           )}
           {(hero.sectionBody2 ?? "").trim() && (
             <Erasable path="hero.sectionBody2" label="section body (below image)">
