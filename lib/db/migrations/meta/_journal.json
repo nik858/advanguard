@@ -29,6 +29,13 @@
       "when": 1779192285595,
       "tag": "0003_mail_sequence",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1785002073469,
+      "tag": "0004_paid_funnel",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, jsonb, timestamp, index, boolean } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, jsonb, timestamp, index, uniqueIndex, boolean } from "drizzle-orm/pg-core";
 
 export const leads = pgTable(
   "leads",
@@ -17,6 +17,11 @@ export const leads = pgTable(
     signals: jsonb("signals"),
     enrichment: jsonb("enrichment"),
     clinicType: text("clinic_type"),
+    // Paid funnel (/paid): user-typed audit target + the Stripe Checkout session
+    // that paid for it. stripe_session_id is UNIQUE — it is the idempotency key
+    // that guarantees one audit per payment (webhook and thank-you page race).
+    clinicUrl: text("clinic_url"),
+    stripeSessionId: text("stripe_session_id"),
     scheduledEmails: jsonb("scheduled_emails"),
     sequenceStopped: boolean("sequence_stopped").notNull().default(false),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -27,6 +32,7 @@ export const leads = pgTable(
     index("leads_email_idx").on(t.email),
     index("leads_status_idx").on(t.status),
     index("leads_clinic_type_idx").on(t.clinicType),
+    uniqueIndex("leads_stripe_session_id_uidx").on(t.stripeSessionId),
   ],
 );
 
@@ -36,7 +42,7 @@ export type NewLead = typeof leads.$inferInsert;
 export const LEAD_STATUSES = ["new", "contacted", "client", "lost"] as const;
 export type LeadStatus = (typeof LEAD_STATUSES)[number];
 
-export const LEAD_SOURCES = ["inbound", "manual"] as const;
+export const LEAD_SOURCES = ["inbound", "manual", "paid"] as const;
 export type LeadSource = (typeof LEAD_SOURCES)[number];
 
 export const LEAD_AUDIT_OUTCOMES = ["success", "fallback"] as const;

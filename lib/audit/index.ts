@@ -1,6 +1,6 @@
 import type { Lead, Signals, AuditEmail, SignalsV2, Enrichment } from "@/types/audit";
 import type { PromptsV2, MailKey } from "@/types/prompts";
-import { resolveReachableUrl } from "@/lib/audit/domain";
+import { resolveReachableUrl, resolveProvidedUrl } from "@/lib/audit/domain";
 import { fetchHtml, parseSignals } from "@/lib/audit/scrape";
 import { fetchPageSpeed } from "@/lib/audit/pagespeed";
 import { generateAuditEmails } from "@/lib/audit/ai";
@@ -87,9 +87,13 @@ function renderMail(lead: Lead, key: MailKey, email: AuditEmail, prompts: Prompt
 export async function runAuditPipeline(lead: Lead, promptsOverride?: PromptsV2): Promise<PipelineResult> {
   const prompts = promptsOverride ?? (await loadPrompts());
 
-  const url = await resolveReachableUrl(lead.domain);
+  // Paid funnel: the user typed their clinic URL — it takes priority over the
+  // email domain. Free funnel behavior (email domain) is unchanged.
+  const url = lead.websiteUrl
+    ? await resolveProvidedUrl(lead.websiteUrl)
+    : await resolveReachableUrl(lead.domain);
   if (!url) {
-    console.warn("[audit] unreachable domain", { domain: lead.domain });
+    console.warn("[audit] unreachable domain", { domain: lead.domain, websiteUrl: lead.websiteUrl });
     return {
       outcome: "fallback",
       reason: "site unreachable",

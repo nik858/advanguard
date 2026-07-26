@@ -14,11 +14,30 @@ export type InsertLeadInput = {
   domain?: string | null;
   source: LeadSource;
   clinicType?: ClinicType | null;
+  clinicUrl?: string | null;
+  stripeSessionId?: string | null;
 };
 
 export async function insertLead(input: InsertLeadInput): Promise<Lead> {
   const rows = await getDb().insert(leads).values(input).returning();
   return rows[0];
+}
+
+/**
+ * Idempotent insert for the paid funnel, keyed on the unique stripe_session_id.
+ * Returns the new row, or null when this Checkout session was already
+ * fulfilled (webhook and thank-you page can race) — callers must then skip
+ * the audit so it never fires twice for one payment.
+ */
+export async function insertPaidLeadOnce(
+  input: InsertLeadInput & { stripeSessionId: string },
+): Promise<Lead | null> {
+  const rows = await getDb()
+    .insert(leads)
+    .values(input)
+    .onConflictDoNothing({ target: leads.stripeSessionId })
+    .returning();
+  return rows[0] ?? null;
 }
 
 export type ScheduledEmailStatus = "scheduled" | "sent" | "cancelled" | "failed";

@@ -10,6 +10,7 @@ export type Limiter = { limit: number; windowMs: number; prefix: string };
 
 export const loginLimiter: Limiter = { limit: 5, windowMs: 15 * 60_000, prefix: "login" };
 export const leadLimiter: Limiter = { limit: 20, windowMs: 60 * 60_000, prefix: "lead" };
+export const paidCheckoutLimiter: Limiter = { limit: 20, windowMs: 60 * 60_000, prefix: "paid-checkout" };
 
 type Bucket = { count: number; resetAt: number };
 const buckets = new Map<string, Bucket>();

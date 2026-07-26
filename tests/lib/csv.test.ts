@@ -17,6 +17,8 @@ const row: Lead = {
   signals: { url: "https://brightsmile.com" },
   enrichment: null,
   clinicType: "dental_implant",
+  clinicUrl: null,
+  stripeSessionId: null,
   scheduledEmails: null,
   sequenceStopped: false,
   createdAt: new Date("2026-05-14T12:00:00.000Z"),

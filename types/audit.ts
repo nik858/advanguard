@@ -6,6 +6,8 @@ export type Lead = {
   firstName: string;        // empty string if not provided by the form
   phone?: string;
   domain: string;           // extracted from the email, lowercased
+  /** Explicit audit target typed by the user (paid funnel). Takes priority over the email domain. */
+  websiteUrl?: string;
   userAgent?: string;
   ipHash?: string;
 };

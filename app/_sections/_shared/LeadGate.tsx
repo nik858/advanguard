@@ -26,30 +26,38 @@ export function useLeadGate(): LeadGate {
   return useContext(Ctx);
 }
 
-export function LeadGateProvider({ successMessage, children }: { successMessage: string; children: ReactNode }) {
+export function LeadGateProvider({
+  successMessage,
+  children,
+  // The paid variant (/paid) passes its own key so a free-page submission
+  // never locks the paid form (and vice versa). Defaults keep the free page
+  // byte-identical.
+  storageKey = SUBMITTED_KEY,
+}: { successMessage: string; children: ReactNode; storageKey?: string }) {
   const [submitted, setSubmitted] = useState(false);
+  const eventName = storageKey === SUBMITTED_KEY ? SUBMITTED_EVENT : `${storageKey}:submitted`;
 
   useEffect(() => {
     try {
-      if (localStorage.getItem(SUBMITTED_KEY) === "1") setSubmitted(true);
+      if (localStorage.getItem(storageKey) === "1") setSubmitted(true);
     } catch { /* localStorage unavailable (private mode) */ }
 
     const onSubmittedHere = () => setSubmitted(true);
     const onStorage = (e: StorageEvent) => {
-      if (e.key === SUBMITTED_KEY && e.newValue === "1") setSubmitted(true);
+      if (e.key === storageKey && e.newValue === "1") setSubmitted(true);
     };
-    window.addEventListener(SUBMITTED_EVENT, onSubmittedHere);
+    window.addEventListener(eventName, onSubmittedHere);
     window.addEventListener("storage", onStorage);
     return () => {
-      window.removeEventListener(SUBMITTED_EVENT, onSubmittedHere);
+      window.removeEventListener(eventName, onSubmittedHere);
       window.removeEventListener("storage", onStorage);
     };
-  }, []);
+  }, [storageKey, eventName]);
 
   const markSubmitted = () => {
     setSubmitted(true);
-    try { localStorage.setItem(SUBMITTED_KEY, "1"); } catch { /* ignore */ }
-    try { window.dispatchEvent(new Event(SUBMITTED_EVENT)); } catch { /* ignore */ }
+    try { localStorage.setItem(storageKey, "1"); } catch { /* ignore */ }
+    try { window.dispatchEvent(new Event(eventName)); } catch { /* ignore */ }
   };
 
   return <Ctx.Provider value={{ submitted, markSubmitted, successMessage }}>{children}</Ctx.Provider>;
