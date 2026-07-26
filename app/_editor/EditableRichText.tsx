@@ -7,12 +7,47 @@ import { useMediaUpload } from "./useMediaUpload";
 import styles from "./styles.module.css";
 
 // Invisible marker dropped at the caret when the operator picks "image" in the
-// toolbar: the file dialog blurs the contenteditable (which saves the field),
-// so the upload callback later swaps this marker for the final <img> tag
-// directly in the saved value. Publish-time sanitization strips any stray
-// marker left by a cancelled dialog.
+// toolbar. It is saved into the draft immediately (not on blur — browsers do
+// not reliably blur a contenteditable when a file dialog opens), so the upload
+// callback can swap it for the final <img> whenever it completes. Publish-time
+// sanitization strips any stray marker left by a cancelled dialog.
 const IMG_MARKER = '<span data-adv-img-slot="1">​</span>';
 const IMG_MARKER_RE = /<span[^>]*data-adv-img-slot[^>]*>[\s\S]*?<\/span>/;
+
+/**
+ * Opens a file picker and resolves with the chosen file (null if cancelled).
+ *
+ * The input is created outside React on purpose: the editor re-renders while
+ * the dialog is open (autosave, toolbar state), and a React-owned hidden input
+ * can be unmounted in the meantime — its change event would then never reach
+ * any handler and the upload would silently never start.
+ */
+function pickImageFile(): Promise<File | null> {
+  return new Promise((resolve) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.style.cssText = "position:fixed;left:-9999px;width:1px;height:1px";
+    let settled = false;
+    const finish = (f: File | null) => {
+      if (settled) return;
+      settled = true;
+      window.removeEventListener("focus", onWindowFocus);
+      input.remove();
+      resolve(f);
+    };
+    // Fallback for browsers without the `cancel` event: once the window regains
+    // focus, a moment later, an empty file list means the dialog was dismissed.
+    function onWindowFocus() {
+      setTimeout(() => { if (!input.files?.length) finish(null); }, 800);
+    }
+    input.addEventListener("change", () => finish(input.files?.[0] ?? null));
+    input.addEventListener("cancel", () => finish(null));
+    window.addEventListener("focus", onWindowFocus);
+    document.body.appendChild(input);
+    input.click();
+  });
+}
 
 export function EditableRichText({
   path,
@@ -30,10 +65,17 @@ export function EditableRichText({
   const { state, setField } = useEditor();
   const fullPath = useSectionPath(path);
   const ref = useRef<HTMLElement | null>(null);
-  const fileRef = useRef<HTMLInputElement | null>(null);
   const [editing, setEditing] = useState(false);
   const [toolbarRange, setToolbarRange] = useState<Range | null>(null);
-  const { uploadFile, busy: uploading } = useMediaUpload();
+  const { uploadFile, busy: uploading, error: uploadError } = useMediaUpload();
+  // Upload errors are surfaced as a transient badge rather than a sticky one.
+  const [errorShown, setErrorShown] = useState<string | null>(null);
+  useEffect(() => {
+    if (!uploadError) return;
+    setErrorShown(uploadError);
+    const t = setTimeout(() => setErrorShown(null), 6000);
+    return () => clearTimeout(t);
+  }, [uploadError]);
 
   const value: string = fullPath.split(".").reduce<any>(
     (acc, k) => acc?.[k.match(/^\d+$/) ? Number(k) : k],
@@ -108,24 +150,30 @@ export function EditableRichText({
     setToolbarRange(sel.getRangeAt(0));
   }
 
-  // Toolbar "image" action: drop the invisible marker at the caret, then open
-  // the file picker. The dialog blurs the editable, which saves the field
-  // (marker included); handleImageFile swaps the marker for the uploaded URL.
-  function onRequestImage() {
-    try { document.execCommand("insertHTML", false, IMG_MARKER); } catch { /* noop */ }
-    fileRef.current?.click();
+  function stripMarker() {
+    const cur = valueRef.current;
+    if (IMG_MARKER_RE.test(cur)) setField(fullPath, cur.replace(IMG_MARKER_RE, ""));
   }
 
-  async function handleImageFile(f: File | undefined | null) {
-    if (!f) return;
-    const url = await uploadFile(f);
+  /**
+   * Toolbar "image" action: mark the caret position, persist it right away,
+   * then upload the chosen file and swap the marker for the <img>.
+   */
+  async function onRequestImage() {
+    try { document.execCommand("insertHTML", false, IMG_MARKER); } catch { /* noop */ }
+    const marked = ref.current?.innerHTML ?? "";
+    if (marked && IMG_MARKER_RE.test(marked)) setField(fullPath, marked);
+
+    const file = await pickImageFile();
+    if (!file) { stripMarker(); return; }
+
+    const url = await uploadFile(file);
+    if (!url) { stripMarker(); return; }
+
     const cur = valueRef.current;
-    if (!url) {
-      // Upload failed — drop the marker so no artifact lingers in the text.
-      if (IMG_MARKER_RE.test(cur)) setField(fullPath, cur.replace(IMG_MARKER_RE, ""));
-      return;
-    }
-    const img = `<img src="${url}" alt="">`;
+    const img = `<img src="${url.replace(/"/g, "&quot;")}" alt="">`;
+    // No marker (execCommand refused, or the caret was lost): append instead of
+    // dropping the image the operator just waited for.
     setField(fullPath, IMG_MARKER_RE.test(cur) ? cur.replace(IMG_MARKER_RE, img) : cur + img);
   }
 
@@ -139,24 +187,15 @@ export function EditableRichText({
     );
   }
 
-  const imageInput = multiline ? (
-    <input
-      ref={fileRef}
-      type="file"
-      accept="image/*"
-      style={{ display: "none" }}
-      onChange={(e) => { handleImageFile(e.target.files?.[0]); e.target.value = ""; }}
-    />
-  ) : null;
-
-  const uploadingBadge = uploading ? (
+  const uploadingBadge = (uploading || errorShown) ? (
     <span
+      role="status"
       style={{
         position: "fixed",
         bottom: 16,
         right: 16,
         zIndex: 300,
-        background: "#18181b",
+        background: errorShown ? "#c62828" : "#18181b",
         color: "#fff",
         padding: "8px 14px",
         borderRadius: 999,
@@ -166,7 +205,7 @@ export function EditableRichText({
         boxShadow: "0 4px 16px rgba(0,0,0,0.24)",
       }}
     >
-      Uploading image…
+      {errorShown ? `Image upload failed: ${errorShown}` : "Uploading image…"}
     </span>
   ) : null;
 
@@ -180,7 +219,6 @@ export function EditableRichText({
           style={{ whiteSpace: multiline ? "pre-line" : undefined }}
           dangerouslySetInnerHTML={{ __html: value || (typeof children === "string" ? children : "") }}
         />
-        {imageInput}
         {uploadingBadge}
       </>
     );
@@ -210,7 +248,6 @@ export function EditableRichText({
           onRequestImage={onRequestImage}
         />
       )}
-      {imageInput}
       {uploadingBadge}
     </>
   );
