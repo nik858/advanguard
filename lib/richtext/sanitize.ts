@@ -4,7 +4,7 @@ import { PALETTE_HEX_SET } from "./palette";
 import { isAllowedFontSize } from "./font-sizes";
 
 // Canonical (output) allowlist
-const ALLOWED_TAGS = new Set(["strong", "em", "u", "br", "span"]);
+const ALLOWED_TAGS = new Set(["strong", "em", "u", "br", "span", "img"]);
 // Tag whose content (not just wrapper) is dropped
 const CONTENT_STRIPPED_TAGS = new Set(["script", "style"]);
 // Tags that get normalized into canonical equivalents before serialization
@@ -71,9 +71,24 @@ function styleFontSizeFromAttr(style: string): number | null {
   return null;
 }
 
+/** Only http(s) or site-relative image sources survive sanitization. */
+function safeImageSrc(raw: string | undefined): string | null {
+  if (!raw) return null;
+  const src = raw.trim();
+  if (/^https?:\/\//i.test(src) || (src.startsWith("/") && !src.startsWith("//"))) return src;
+  return null;
+}
+
+function escapeAttr(v: string): string {
+  return v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 function walkSanitize(node: AnyNode): string {
   if (node.type === "text") {
     return ((node as { data?: string }).data ?? "")
+      // Zero-width spaces are editor artifacts (inline-image insertion markers)
+      // and must never reach published content.
+      .replace(/\u200B/g, "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -106,6 +121,14 @@ function walkSanitize(node: AnyNode): string {
   if (!ALLOWED_TAGS.has(tag)) return inner;
 
   if (tag === "br") return "<br>";
+
+  // Inline image (inserted via the rich-text toolbar): keep src + alt only.
+  if (tag === "img") {
+    const src = safeImageSrc(el.attribs?.src);
+    if (!src) return "";
+    const alt = el.attribs?.alt ? ` alt="${escapeAttr(el.attribs.alt)}"` : ' alt=""';
+    return `<img src="${escapeAttr(src)}"${alt}>`;
+  }
 
   // Span handling: keep `color:` and/or `font-size:` if they are palette / preset-valid.
   if (tag === "span") {

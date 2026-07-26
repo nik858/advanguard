@@ -8,6 +8,9 @@ type Props = {
   range: Range;
   host: HTMLElement;
   onMutated: () => void;
+  /** Multiline body fields allow inserting an inline image at the caret. */
+  allowImage?: boolean;
+  onRequestImage?: () => void;
 };
 
 const btn: React.CSSProperties = {
@@ -66,7 +69,7 @@ function clearColorAroundSelection(range: Range, host: HTMLElement): void {
   }
 }
 
-export function RichTextToolbar({ range, host, onMutated }: Props) {
+export function RichTextToolbar({ range, host, onMutated, allowImage = false, onRequestImage }: Props) {
   const [view, setView] = useState<"main" | "color" | "size">("main");
   const ref = useRef<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
@@ -224,11 +227,33 @@ export function RichTextToolbar({ range, host, onMutated }: Props) {
     >
       {view === "main" && (
         <>
-          <button data-rich-text-toolbar="true" type="button" style={activeBold ? btnActive : btn} onClick={applyBold}>B</button>
-          <button data-rich-text-toolbar="true" type="button" style={{ ...(activeItalic ? btnActive : btn), fontStyle: "italic" }} onClick={applyItalic}>I</button>
-          <button data-rich-text-toolbar="true" type="button" style={{ ...(activeUnder ? btnActive : btn), textDecoration: "underline" }} onClick={applyUnderline}>U</button>
-          <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("size")}>size</button>
-          <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("color")}>color</button>
+          {/* Formatting needs a text selection — with just a caret, only the
+              image insertion makes sense, so the toolbar shrinks to it. */}
+          {!range.collapsed && (
+            <>
+              <button data-rich-text-toolbar="true" type="button" style={activeBold ? btnActive : btn} onClick={applyBold}>B</button>
+              <button data-rich-text-toolbar="true" type="button" style={{ ...(activeItalic ? btnActive : btn), fontStyle: "italic" }} onClick={applyItalic}>I</button>
+              <button data-rich-text-toolbar="true" type="button" style={{ ...(activeUnder ? btnActive : btn), textDecoration: "underline" }} onClick={applyUnderline}>U</button>
+              <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("size")}>size</button>
+              <button data-rich-text-toolbar="true" type="button" style={btn} onClick={() => setView("color")}>color</button>
+            </>
+          )}
+          {allowImage && onRequestImage && (
+            <button
+              data-rich-text-toolbar="true"
+              type="button"
+              style={btn}
+              onClick={() => {
+                // Re-anchor the caret to where the user actually clicked
+                // before the marker is dropped in.
+                const sel = window.getSelection();
+                if (sel) { sel.removeAllRanges(); sel.addRange(range); }
+                onRequestImage();
+              }}
+            >
+              🖼 image
+            </button>
+          )}
         </>
       )}
       {view === "size" && (

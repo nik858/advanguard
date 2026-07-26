@@ -96,3 +96,31 @@ describe("sanitizeRichText", () => {
     );
   });
 });
+
+describe("inline images", () => {
+  it("keeps an https image with src and alt only", () => {
+    expect(sanitizeRichText('<img src="https://cdn.example.com/a.webp" alt="clinic" width="200" onerror="x()">')).toBe(
+      '<img src="https://cdn.example.com/a.webp" alt="clinic">',
+    );
+  });
+
+  it("keeps a site-relative image", () => {
+    expect(sanitizeRichText('<img src="/media/photo.webp">')).toBe('<img src="/media/photo.webp" alt="">');
+  });
+
+  it("drops javascript: and data: sources entirely", () => {
+    expect(sanitizeRichText('<img src="javascript:alert(1)">')).toBe("");
+    expect(sanitizeRichText('<img src="data:text/html;base64,xxx">')).toBe("");
+    expect(sanitizeRichText('<img src="//evil.com/a.png">')).toBe("");
+  });
+
+  it("keeps the image inline within surrounding text", () => {
+    expect(sanitizeRichText('before <img src="https://x.com/a.png"> after')).toBe(
+      'before <img src="https://x.com/a.png" alt=""> after',
+    );
+  });
+
+  it("strips zero-width editor markers from text", () => {
+    expect(sanitizeRichText('a​b<span data-adv-img-slot="1">​</span>c')).toBe("abc");
+  });
+});

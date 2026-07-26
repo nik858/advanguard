@@ -4,8 +4,7 @@ import { EditRich } from "@/app/_editor/EditRich";
 import { Erasable } from "@/app/_editor/Erasable";
 import { Resizable } from "@/app/_editor/Resizable";
 import { PaidOrderForm } from "./PaidOrderForm";
-import { HeroCopyBlocks } from "@/app/_sections/_shared/HeroCopyBlocks";
-import { mediaUrl, type HeroContent, type OrderContent } from "@/types/content";
+import type { HeroContent, OrderContent } from "@/types/content";
 
 // Paid variant of Hero: identical markup, but mounts PaidOrderForm instead of
 // the free OrderForm. Never rendered in edit mode (/paid is not editable).
@@ -37,42 +36,13 @@ export function PaidHero({ hero, order, style }: { hero: HeroContent; order: Ord
               </h2>
             </Reveal>
           </Erasable>
-          <HeroCopyBlocks
-            body={hero.sectionBody}
-            body2={hero.sectionBody2 ?? ""}
-            edit={false}
-            mediaPresent={!!(mediaUrl(hero.sectionImage) || (hero.sectionVideoUrl ?? "").trim())}
-            mediaSlot={(mediaUrl(hero.sectionImage) || (hero.sectionVideoUrl ?? "").trim()) ? (
-              <div style={{ position: "relative", marginTop: hero.sectionMediaMt ?? 18, marginBottom: hero.sectionMediaMb ?? 0 }}>
-                {mediaUrl(hero.sectionImage) && (
-                  <Resizable path="hero.sectionImage" label="section image size">
-                    <Erasable path="hero.sectionImage" label="section image">
-                      <Reveal delay={140}>
-                        <div style={{ position: "relative" }}>
-                          <img
-                            src={mediaUrl(hero.sectionImage)}
-                            alt={typeof hero.sectionImage === "object" && hero.sectionImage ? (hero.sectionImage.alt ?? "") : ""}
-                            style={{ width: "100%", height: "auto", borderRadius: 12, display: "block" }}
-                          />
-                        </div>
-                      </Reveal>
-                    </Erasable>
-                  </Resizable>
-                )}
-                {(hero.sectionVideoUrl ?? "").trim() && (
-                  <Resizable path="hero.sectionVideoUrl" label="section video size">
-                    <Erasable path="hero.sectionVideoUrl" label="section video">
-                      <Reveal delay={140}>
-                        <div className="ac-hero__video" style={{ position: "relative" }}>
-                          <VideoPlayer src={hero.sectionVideoUrl} poster={hero.sectionVideoPoster ?? undefined} edit={false} />
-                        </div>
-                      </Reveal>
-                    </Erasable>
-                  </Resizable>
-                )}
-              </div>
-            ) : null}
-          />
+          <Erasable path="hero.sectionBody" label="section body">
+            <Reveal delay={120}>
+              <p className="ac-hero__what-body">
+                <EditRich edit={false} path="hero.sectionBody" multiline>{hero.sectionBody}</EditRich>
+              </p>
+            </Reveal>
+          </Erasable>
         </div>
         <Reveal as="div" className="ac-order-wrap">
           <PaidOrderForm content={order} />

@@ -56,19 +56,9 @@ export const HeroSchema = z.object({
   videoPoster: MediaRefSchema,
   /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
   sectionTitle: z.string(),
-  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color]. */
+  /** Rich text (HTML). Allowed tags: strong, em, u, span[style=color], img —
+   * inline images are inserted at the caret via the rich-text toolbar. */
   sectionBody: z.string(),
-  /** Optional image rendered between the two body blocks. Hidden when unset. */
-  sectionImage: MediaRefSchema.nullable().default(null),
-  /** Optional video rendered between the two body blocks (same slot as the image). */
-  sectionVideoUrl: z.string().default(""),
-  sectionVideoPoster: MediaRefSchema.nullable().default(null),
-  /** Space above/below the in-copy media block, px (drag handles in the editor). */
-  sectionMediaMt: z.number().optional(),
-  sectionMediaMb: z.number().optional(),
-  /** Rich text (HTML). Second body block, rendered below the image/video slot —
-   * splitting the copy across the two blocks puts the media "in the middle". */
-  sectionBody2: z.string().default(""),
 });
 export type HeroContent = z.infer<typeof HeroSchema>;
 
@@ -391,7 +381,7 @@ export function createSection(type: SectionType): Section {
       return {
         id, type,
         data: {
-          hero: { videoLabel: "Watch the video", videoUrl: "", videoPoster: "", sectionTitle: "Section title", sectionBody: "Body text", sectionImage: null, sectionVideoUrl: "", sectionVideoPoster: null, sectionBody2: "" },
+          hero: { videoLabel: "Watch the video", videoUrl: "", videoPoster: "", sectionTitle: "Section title", sectionBody: "Body text" },
           order: { badge: "", productName: "Product", productSubtitle: "", limitedTime: "", priceWas: "", priceNow: "", priceSubLine: "", description: "", ctaTagline: "", ctaLabel: "Buy now", secureText: "", guaranteeText: "", ratingText: "", successMessage: "Success. Your Patient-Leak Findings will be emailed in 3-minutes", miniTestimonials: [] },
         },
       };
