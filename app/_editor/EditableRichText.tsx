@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, type ElementType } from "react";
+import { createPortal } from "react-dom";
 import { useEditor } from "./EditorProvider";
 import { useSectionPath } from "./SectionContext";
 import { RichTextToolbar } from "./RichTextToolbar";
@@ -76,6 +77,74 @@ export function EditableRichText({
     const t = setTimeout(() => setErrorShown(null), 6000);
     return () => clearTimeout(t);
   }, [uploadError]);
+
+  // Hover affordance to delete an inline image. Backspace alone is not enough:
+  // a full-width image gives the caret nowhere obvious to land, so the operator
+  // gets an explicit button instead.
+  //
+  // The image is tracked by INDEX, never by DOM node: while editing, every
+  // saved change re-writes innerHTML, which replaces the <img> element — a
+  // captured node would be detached by the time the button is clicked, and
+  // removing it would silently do nothing.
+  const [imgOverlay, setImgOverlay] = useState<{ top: number; left: number; index: number } | null>(null);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (hideTimer.current) clearTimeout(hideTimer.current); }, []);
+  useEffect(() => {
+    if (!imgOverlay) return;
+    function reposition() {
+      setImgOverlay((cur) => {
+        if (!cur) return null;
+        const el = ref.current?.querySelectorAll("img")[cur.index];
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return { ...cur, top: r.top + 8, left: Math.max(8, r.right - 148) };
+      });
+    }
+    window.addEventListener("scroll", reposition, { passive: true });
+    window.addEventListener("resize", reposition);
+    return () => {
+      window.removeEventListener("scroll", reposition);
+      window.removeEventListener("resize", reposition);
+    };
+  }, [imgOverlay]);
+
+  function scheduleHideImgOverlay() {
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    hideTimer.current = setTimeout(() => setImgOverlay(null), 200);
+  }
+  function onHostMouseOver(e: React.MouseEvent) {
+    const t = e.target as HTMLElement;
+    if (!(t instanceof HTMLImageElement)) return;
+    const host = ref.current;
+    if (!host) return;
+    const index = Array.from(host.querySelectorAll("img")).indexOf(t);
+    if (index < 0) return;
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    const r = t.getBoundingClientRect();
+    setImgOverlay({ top: r.top + 8, left: Math.max(8, r.right - 148), index });
+  }
+
+  /** Drops the nth `<img …>` tag from an HTML string. */
+  function removeNthImg(html: string, n: number): string {
+    let i = -1;
+    return html.replace(/<img\b[^>]*>/gi, (m) => {
+      i += 1;
+      return i === n ? "" : m;
+    });
+  }
+
+  function removeHoveredImage() {
+    const index = imgOverlay?.index;
+    setImgOverlay(null);
+    if (index === undefined) return;
+    // While editing, the live DOM holds the operator's unsaved typing and is
+    // the source of truth; otherwise the saved value is.
+    const source = editing && ref.current ? ref.current.innerHTML : valueRef.current;
+    const next = removeNthImg(source, index);
+    if (next === source) return;
+    if (editing && ref.current) ref.current.innerHTML = next;
+    setField(fullPath, next);
+  }
 
   const value: string = fullPath.split(".").reduce<any>(
     (acc, k) => acc?.[k.match(/^\d+$/) ? Number(k) : k],
@@ -209,16 +278,56 @@ export function EditableRichText({
     </span>
   ) : null;
 
+  const imgRemoveButton = imgOverlay && typeof document !== "undefined"
+    ? createPortal(
+        <button
+          type="button"
+          data-rich-text-toolbar="true"
+          onMouseEnter={() => { if (hideTimer.current) clearTimeout(hideTimer.current); }}
+          onMouseLeave={scheduleHideImgOverlay}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={removeHoveredImage}
+          style={{
+            position: "fixed",
+            top: imgOverlay.top,
+            left: imgOverlay.left,
+            zIndex: 210,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            background: "#fff",
+            color: "#c62828",
+            border: "1px solid rgba(0,0,0,0.08)",
+            borderRadius: 999,
+            padding: "6px 12px",
+            fontSize: 13,
+            fontWeight: 600,
+            fontFamily: "var(--adv-font, system-ui, sans-serif)",
+            cursor: "pointer",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+          }}
+        >
+          ✕ Remove image
+        </button>,
+        document.body,
+      )
+    : null;
+
   if (!editing) {
     return (
       <>
         <Tag
+          ref={ref}
+          data-adv-rt="1"
           className={`${className} ${styles.editable}`}
           tabIndex={0}
           onClick={() => setEditing(true)}
+          onMouseOver={onHostMouseOver}
+          onMouseLeave={scheduleHideImgOverlay}
           style={{ whiteSpace: multiline ? "pre-line" : undefined }}
           dangerouslySetInnerHTML={{ __html: value || (typeof children === "string" ? children : "") }}
         />
+        {imgRemoveButton}
         {uploadingBadge}
       </>
     );
@@ -228,6 +337,7 @@ export function EditableRichText({
     <>
       <Tag
         ref={ref}
+        data-adv-rt="1"
         className={`${className} ${styles.editable}`}
         data-editing="true"
         data-multiline={multiline ? "true" : "false"}
@@ -237,6 +347,8 @@ export function EditableRichText({
         onBlur={onBlur}
         onKeyDown={onKey}
         onPaste={onPaste}
+        onMouseOver={onHostMouseOver}
+        onMouseLeave={scheduleHideImgOverlay}
         style={{ whiteSpace: multiline ? "pre-line" : undefined }}
       />
       {toolbarRange && ref.current && (
@@ -248,6 +360,7 @@ export function EditableRichText({
           onRequestImage={onRequestImage}
         />
       )}
+      {imgRemoveButton}
       {uploadingBadge}
     </>
   );
