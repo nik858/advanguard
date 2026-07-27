@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { verifySession, SESSION_CONFIG } from "@/lib/auth";
 
 export const config = {
-  matcher: ["/admin/:path*", "/"],
+  // Both landing pages are editable in place, each with its own content.
+  matcher: ["/admin/:path*", "/", "/premium"],
 };
 
 export async function middleware(req: NextRequest) {
@@ -20,7 +21,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // For "/", inject a header indicating edit mode availability
+  // For the landing pages, inject a header indicating edit mode availability
   const res = NextResponse.next();
   if (session) res.headers.set("x-adv-edit-mode", "1");
   return res;

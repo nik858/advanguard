@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useEditor } from "./EditorProvider";
 import { ConfirmDialog } from "../_components/ConfirmDialog";
 import { Icons } from "../_sections/_shared/Icons";
+import { LANDING_VARIANTS, VARIANTS } from "@/lib/landing/variants";
 
 function countDiff(a: unknown, b: unknown): number {
   if (a === b) return 0;
@@ -33,7 +34,7 @@ function formatAgo(ms: number): string {
 }
 
 export function PublishBar() {
-  const { state, resetDraft, publish, togglePreview, setField } = useEditor();
+  const { state, variant, flushDraft, resetDraft, publish, togglePreview, setField } = useEditor();
   const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(null);
   const [busy, setBusy] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -220,6 +221,38 @@ export function PublishBar() {
         >
           ← Admin
         </a>
+
+        {/* Which landing page is being edited — switching keeps each page's
+            own draft, so unsaved work is never carried across. */}
+        <div style={{ display: "inline-flex", border: "1px solid var(--adv-border, #e7e7ea)", borderRadius: 6, overflow: "hidden" }}>
+          {LANDING_VARIANTS.map((v) => {
+            const active = v === variant;
+            return (
+              <a
+                key={v}
+                href={VARIANTS[v].path}
+                onClick={async (e) => {
+                  if (active || !state.dirty) return;
+                  e.preventDefault();
+                  await flushDraft();
+                  window.location.href = VARIANTS[v].path;
+                }}
+                title={`Edit the ${VARIANTS[v].label.toLowerCase()} (${VARIANTS[v].path})`}
+                style={{
+                  padding: "5px 10px",
+                  fontSize: 13,
+                  fontFamily: "inherit",
+                  textDecoration: "none",
+                  background: active ? "var(--adv-accent, #18181b)" : "transparent",
+                  color: active ? "#fff" : "var(--adv-text-muted, #71717a)",
+                  fontWeight: active ? 600 : 400,
+                }}
+              >
+                {VARIANTS[v].label.replace(" landing", "")}
+              </a>
+            );
+          })}
+        </div>
 
         {/* Status dot */}
         <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 500 }}>

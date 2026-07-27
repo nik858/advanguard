@@ -4,6 +4,7 @@ import { verifySession, SESSION_CONFIG } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { saveDraft, loadDraft, deleteDraft } from "@/lib/blob";
 import { migrateContent } from "@/types/content";
+import { parseVariant, VARIANTS } from "@/lib/landing/variants";
 
 async function requireSession() {
   const c = await cookies();
@@ -11,9 +12,15 @@ async function requireSession() {
   return token ? await verifySession(token) : null;
 }
 
-export async function GET() {
+/** Which landing page this draft belongs to — free unless stated otherwise. */
+function draftKeyFor(req: Request): string {
+  const variant = parseVariant(new URL(req.url).searchParams.get("variant"));
+  return VARIANTS[variant].draftKey;
+}
+
+export async function GET(req: Request) {
   if (!(await requireSession())) return new NextResponse("Unauthorized", { status: 401 });
-  const draft = await loadDraft();
+  const draft = await loadDraft(draftKeyFor(req));
   return NextResponse.json({ draft });
 }
 
@@ -29,12 +36,12 @@ export async function PUT(req: Request) {
   } catch (e) {
     return NextResponse.json({ error: "Invalid content shape", detail: (e as Error).message }, { status: 400 });
   }
-  await saveDraft(migrated);
+  await saveDraft(migrated, draftKeyFor(req));
   return NextResponse.json({ ok: true });
 }
 
-export async function DELETE() {
+export async function DELETE(req: Request) {
   if (!(await requireSession())) return new NextResponse("Unauthorized", { status: 401 });
-  await deleteDraft();
+  await deleteDraft(draftKeyFor(req));
   return NextResponse.json({ ok: true });
 }

@@ -6,6 +6,7 @@ import { Icons } from "@/app/_sections/_shared/Icons";
 import { EditRich } from "@/app/_editor/EditRich";
 import { RepeatableList } from "@/app/_editor/RepeatableList";
 import { Erasable } from "@/app/_editor/Erasable";
+import { MediaSlot } from "@/app/_editor/MediaSlot";
 import { mediaUrl, type OrderContent } from "@/types/content";
 import { CLINIC_TYPES, CLINIC_TYPE_LABELS } from "@/lib/leads/clinic-types";
 import { normalizeClinicUrl } from "@/lib/audit/domain";
@@ -29,7 +30,7 @@ const selectStyle: React.CSSProperties = {
   paddingRight: 40,
 };
 
-export function PremiumOrderForm({ content: order }: { content: OrderContent }) {
+export function PremiumOrderForm({ content: order, edit = false }: { content: OrderContent; edit?: boolean }) {
   const [email, setEmail] = useState("");
   const [clinicType, setClinicType] = useState("");
   const [clinicUrl, setClinicUrl] = useState("");
@@ -42,6 +43,9 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
   const mountRef = useRef<HTMLDivElement>(null);
   const honeypotRef = useRef<HTMLInputElement>(null);
   const { submitted } = useLeadGate();
+  // In the editor the card must stay live and inert: no success lock, and the
+  // CTA must never open a real (billable) Stripe checkout.
+  const locked = submitted && !edit;
 
   const emailValid = EMAIL_RE.test(email.trim());
   const typeValid = clinicType !== "";
@@ -67,7 +71,7 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
 
   async function startCheckout(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!canPay || phase !== "form") return;
+    if (edit || !canPay || phase !== "form") return;
     setPhase("starting");
     setErrorMsg("");
     try {
@@ -113,7 +117,7 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
         </svg>
       </span>
       <span className="ac-order__success-text">
-        <EditRich edit={false} path="order.successMessage">{order.successMessage || "Success. Your Patient-Leak Findings will be emailed in 3-minutes"}</EditRich>
+        <EditRich edit={edit} path="order.successMessage">{order.successMessage || "Success. Your Patient-Leak Findings will be emailed in 3-minutes"}</EditRich>
       </span>
     </div>
   );
@@ -122,58 +126,61 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
     <aside className="ac-order" aria-label="Order form">
       <Erasable path="order.badge" label="badge">
         <div className="ac-order__strip">
-          <EditRich edit={false} path="order.badge">{order.badge}</EditRich>
+          <EditRich edit={edit} path="order.badge">{order.badge}</EditRich>
         </div>
       </Erasable>
       <Erasable path="order.image" label="order image">
-        {mediaUrl(order.image) && (
+        {(mediaUrl(order.image) || edit) && (
           <div className="ac-order__image" style={{ position: "relative" }}>
-            <img
-              src={mediaUrl(order.image)}
-              alt={typeof order.image === "object" && order.image ? (order.image.alt ?? "") : ""}
-              className="ac-order__image-img"
-            />
+            {mediaUrl(order.image) && (
+              <img
+                src={mediaUrl(order.image)}
+                alt={typeof order.image === "object" && order.image ? (order.image.alt ?? "") : ""}
+                className="ac-order__image-img"
+              />
+            )}
+            {edit && <MediaSlot path="order.image" accept="image" compact />}
           </div>
         )}
       </Erasable>
       <div className="ac-order__product">
         <Erasable path="order.productName" label="product name">
           <div className="ac-order__product-name">
-            <EditRich edit={false} path="order.productName">{order.productName}</EditRich>
+            <EditRich edit={edit} path="order.productName">{order.productName}</EditRich>
           </div>
         </Erasable>
         <Erasable path="order.productSubtitle" label="product subtitle">
           <div className="ac-order__product-sub">
-            <EditRich edit={false} path="order.productSubtitle">{order.productSubtitle}</EditRich>
+            <EditRich edit={edit} path="order.productSubtitle">{order.productSubtitle}</EditRich>
           </div>
         </Erasable>
       </div>
       <div className="ac-order__inner">
-        {(order.limitedTime ?? "").trim() && (
+        {(edit || (order.limitedTime ?? "").trim()) && (
           <Erasable path="order.limitedTime" label="limited time">
             <div className="ac-order__limited">
-              <EditRich edit={false} path="order.limitedTime">{order.limitedTime}</EditRich>
+              <EditRich edit={edit} path="order.limitedTime">{order.limitedTime}</EditRich>
             </div>
           </Erasable>
         )}
-        {((order.priceWas ?? "").trim() || (order.priceNow ?? "").trim() || (order.priceSubLine ?? "").trim()) && (
+        {(edit || (order.priceWas ?? "").trim() || (order.priceNow ?? "").trim() || (order.priceSubLine ?? "").trim()) && (
           <Erasable path="order.priceRow" label="price row">
             <div className="ac-order__price-row">
               <div>
                 <Erasable path="order.priceWas" label="old price" as="span">
                   <span className="ac-order__price-was">
-                    <EditRich edit={false} path="order.priceWas">{order.priceWas}</EditRich>
+                    <EditRich edit={edit} path="order.priceWas">{order.priceWas}</EditRich>
                   </span>
                 </Erasable>
                 <Erasable path="order.priceNow" label="current price" as="span">
                   <span className="ac-order__price">
-                    <EditRich edit={false} path="order.priceNow">{order.priceNow}</EditRich>
+                    <EditRich edit={edit} path="order.priceNow">{order.priceNow}</EditRich>
                   </span>
                 </Erasable>
               </div>
               <Erasable path="order.priceSubLine" label="price subline">
                 <div className="ac-order__price-sub">
-                  <EditRich edit={false} path="order.priceSubLine">{order.priceSubLine}</EditRich>
+                  <EditRich edit={edit} path="order.priceSubLine">{order.priceSubLine}</EditRich>
                 </div>
               </Erasable>
             </div>
@@ -181,11 +188,11 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
         )}
         <Erasable path="order.description" label="description">
           <p className="ac-order__desc">
-            <EditRich edit={false} path="order.description" multiline>{order.description}</EditRich>
+            <EditRich edit={edit} path="order.description" multiline>{order.description}</EditRich>
           </p>
         </Erasable>
 
-        {submitted ? (
+        {locked ? (
           successMessageNode
         ) : phase === "checkout" ? (
           <div>
@@ -274,13 +281,13 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
             >
               {(order.ctaTagline ?? "").trim() && (
                 <span className="ac-cta__tag">
-                  <EditRich edit={false} path="order.ctaTagline">{order.ctaTagline}</EditRich>
+                  <EditRich edit={edit} path="order.ctaTagline">{order.ctaTagline}</EditRich>
                 </span>
               )}
               <span className="ac-cta__label">
                 {phase === "starting"
                   ? "Loading secure checkout…"
-                  : <EditRich edit={false} path="order.ctaLabel">{order.ctaLabel}</EditRich>}
+                  : <EditRich edit={edit} path="order.ctaLabel">{order.ctaLabel}</EditRich>}
                 <span className="ac-cta__arrow"><Icons.ArrowRight /></span>
               </span>
             </button>
@@ -296,20 +303,20 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
         <Erasable path="order.secureText" label="secure text">
           <div className="ac-order__secure">
             <span className="ac-order__check" aria-hidden="true">✓</span>
-            <span><EditRich edit={false} path="order.secureText">{order.secureText}</EditRich></span>
+            <span><EditRich edit={edit} path="order.secureText">{order.secureText}</EditRich></span>
           </div>
         </Erasable>
         <Erasable path="order.guaranteeText" label="guarantee text">
           <div className="ac-order__guarantee-row">
             <div className="ac-order__guarantee-text">
-              <EditRich edit={false} path="order.guaranteeText">{order.guaranteeText}</EditRich>
+              <EditRich edit={edit} path="order.guaranteeText">{order.guaranteeText}</EditRich>
             </div>
           </div>
         </Erasable>
         <Erasable path="order.ratingText" label="rating text">
           <div className="ac-order__rating">
             <span className="ac-order__rating-text">
-              <EditRich edit={false} path="order.ratingText">{order.ratingText}</EditRich>
+              <EditRich edit={edit} path="order.ratingText">{order.ratingText}</EditRich>
             </span>
           </div>
         </Erasable>
@@ -317,7 +324,7 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
           <RepeatableList
             path="order.miniTestimonials"
             newItem={{ avatar: "", name: "Name", role: "Role", quote: "Short quote." }}
-            edit={false}
+            edit={edit}
           >
             {order.miniTestimonials.map((t, i) => (
               <div className="ac-order__mini-card" key={i}>
@@ -327,16 +334,16 @@ export function PremiumOrderForm({ content: order }: { content: OrderContent }) 
                 <div>
                   <Erasable path={`order.miniTestimonials.${i}.name`} label="name">
                     <div className="ac-order__mini-name">
-                      <EditRich edit={false} path={`order.miniTestimonials.${i}.name`}>{t.name}</EditRich>
+                      <EditRich edit={edit} path={`order.miniTestimonials.${i}.name`}>{t.name}</EditRich>
                     </div>
                   </Erasable>
                   <Erasable path={`order.miniTestimonials.${i}.role`} label="role">
                     <div className="ac-order__mini-role">
-                      <EditRich edit={false} path={`order.miniTestimonials.${i}.role`}>{t.role}</EditRich>
+                      <EditRich edit={edit} path={`order.miniTestimonials.${i}.role`}>{t.role}</EditRich>
                     </div>
                   </Erasable>
                   <Erasable path={`order.miniTestimonials.${i}.quote`} label="quote">
-                    <div className="ac-order__mini-quote">&quot;<EditRich edit={false} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</EditRich>&quot;</div>
+                    <div className="ac-order__mini-quote">&quot;<EditRich edit={edit} path={`order.miniTestimonials.${i}.quote`}>{t.quote}</EditRich>&quot;</div>
                   </Erasable>
                 </div>
               </div>

@@ -3,8 +3,8 @@ import { createContext, useContext, useEffect, useMemo, useReducer, useRef, type
 import type { Content, SectionType } from "@/types/content";
 import { migrateContent, genSectionId, createSection } from "@/types/content";
 import type { EditorState, EditorAction } from "./types";
+import { VARIANTS, type LandingVariant } from "@/lib/landing/variants";
 
-const STORAGE_KEY = "adv:draft:v1";
 const HISTORY_LIMIT = 50;
 
 function setByPath(obj: unknown, path: string, value: unknown): unknown {
@@ -128,6 +128,10 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
 
 type EditorContextValue = {
   state: EditorState;
+  /** Landing page currently being edited. */
+  variant: LandingVariant;
+  /** Persists the draft immediately instead of waiting for the debounce. */
+  flushDraft: () => Promise<void>;
   setField: (path: string, value: unknown) => void;
   setFieldHidden: (path: string, hidden: boolean) => void;
   isFieldHidden: (path: string) => boolean;
@@ -155,7 +159,15 @@ export const useEditor = () => {
   return v;
 };
 
-export function EditorProvider({ initial, children }: { initial: Content; children: ReactNode }) {
+export function EditorProvider({
+  initial,
+  children,
+  // Which landing page is being edited. Each variant has its own draft,
+  // localStorage slot and publish target, so the two editors never collide.
+  variant = "free",
+}: { initial: Content; children: ReactNode; variant?: LandingVariant }) {
+  const STORAGE_KEY = VARIANTS[variant].storageKey;
+  const draftQuery = `?variant=${variant}`;
   const [state, dispatch] = useReducer(reducer, {
     draft: initial,
     baseline: initial,
@@ -178,7 +190,7 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
         }
       }
     } catch { /* ignore corrupt/incompatible local draft */ }
-    fetch("/api/draft").then(async (r) => {
+    fetch(`/api/draft${draftQuery}`).then(async (r) => {
       if (!r.ok) return;
       const body = await r.json();
       if (body?.draft) {
@@ -187,7 +199,8 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
         } catch { /* ignore incompatible server draft */ }
       }
     }).catch(() => {});
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [variant]);
 
   // Save to localStorage on every change
   useEffect(() => {
@@ -201,7 +214,7 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
     if (!state.dirty) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      fetch("/api/draft", {
+      fetch(`/api/draft${draftQuery}`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ draft: state.draft }),
@@ -231,6 +244,18 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
 
   const value = useMemo<EditorContextValue>(() => ({
     state,
+    variant,
+    // Used before navigating to the other landing editor: the debounced save
+    // is 5s behind, and a page switch must not drop the last few edits.
+    flushDraft: async () => {
+      if (!state.dirty) return;
+      if (saveTimer.current) clearTimeout(saveTimer.current);
+      await fetch(`/api/draft${draftQuery}`, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ draft: state.draft }),
+      }).catch(() => {});
+    },
     setField: (path, value) => dispatch({ type: "set", path, value }),
     setFieldHidden: (path, hidden) => dispatch({ type: "setFieldHidden", path, hidden }),
     isFieldHidden: (path) => (state.draft.hiddenFields ?? []).includes(path),
@@ -239,11 +264,11 @@ export function EditorProvider({ initial, children }: { initial: Content; childr
     resetDraft: () => {
       dispatch({ type: "reset" });
       localStorage.removeItem(STORAGE_KEY);
-      fetch("/api/draft", { method: "DELETE" }).catch(() => {});
+      fetch(`/api/draft${draftQuery}`, { method: "DELETE" }).catch(() => {});
     },
     togglePreview: () => dispatch({ type: "togglePreview" }),
     publish: async () => {
-      const res = await fetch("/api/publish", { method: "POST" });
+      const res = await fetch(`/api/publish${draftQuery}`, { method: "POST" });
       if (res.ok) {
         const body = await res.json();
         localStorage.removeItem(STORAGE_KEY);

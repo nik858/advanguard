@@ -1,9 +1,11 @@
 import { put, list, del } from "@vercel/blob";
 
+// Each landing variant keeps its own draft (see lib/landing/variants.ts).
+// The key defaults to the free page's so existing callers are unaffected.
 export const DRAFT_KEY = "drafts/nik.json";
 
-export async function saveDraft(draft: unknown): Promise<void> {
-  await put(DRAFT_KEY, JSON.stringify(draft), {
+export async function saveDraft(draft: unknown, key: string = DRAFT_KEY): Promise<void> {
+  await put(key, JSON.stringify(draft), {
     access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
@@ -11,10 +13,10 @@ export async function saveDraft(draft: unknown): Promise<void> {
   });
 }
 
-export async function loadDraft(): Promise<unknown | null> {
+export async function loadDraft(key: string = DRAFT_KEY): Promise<unknown | null> {
   try {
-    const { blobs } = await list({ prefix: DRAFT_KEY });
-    const match = blobs.find((b) => b.pathname === DRAFT_KEY);
+    const { blobs } = await list({ prefix: key });
+    const match = blobs.find((b) => b.pathname === key);
     if (!match) return null;
     const r = await fetch(match.url, { cache: "no-store" });
     if (!r.ok) return null;
@@ -22,10 +24,10 @@ export async function loadDraft(): Promise<unknown | null> {
   } catch { return null; }
 }
 
-export async function deleteDraft(): Promise<void> {
+export async function deleteDraft(key: string = DRAFT_KEY): Promise<void> {
   try {
-    const { blobs } = await list({ prefix: DRAFT_KEY });
-    for (const b of blobs) if (b.pathname === DRAFT_KEY) await del(b.url);
+    const { blobs } = await list({ prefix: key });
+    for (const b of blobs) if (b.pathname === key) await del(b.url);
   } catch { /* ignore */ }
 }
 

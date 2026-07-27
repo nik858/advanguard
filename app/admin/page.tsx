@@ -39,15 +39,31 @@ export default async function AdminHome() {
         </p>
       </div>
 
-      {/* Primary action */}
+      {/* Primary actions — one editor per landing page. The two pages hold
+          separate content: editing one never changes the other. */}
       <Link href="/" className={styles.primaryCard}>
         <div className={styles.primaryIcon}>
           <Icons.Pencil />
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 3 }}>Edit the landing page</div>
+          <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 3 }}>Edit the free landing page</div>
           <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.45 }}>
-            Inline editing — click directly on the text and media on your site.
+            bookingleak.com — inline editing, click directly on the text and media.
+          </div>
+        </div>
+        <span className={styles.primaryArrow} aria-hidden>
+          &rarr;
+        </span>
+      </Link>
+
+      <Link href="/premium" className={styles.primaryCard} style={{ marginTop: 12 }}>
+        <div className={styles.primaryIcon}>
+          <Icons.Pencil />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 3 }}>Edit the premium landing page</div>
+          <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.45 }}>
+            bookingleak.com/premium — the $27 paid variant, with its own content.
           </div>
         </div>
         <span className={styles.primaryArrow} aria-hidden>
