@@ -123,8 +123,10 @@ export function PublishBar() {
         }
       }
       if (Date.now() > deadline) {
+        // The commit is in — only the build indicator gave up.
         setBusy(false);
-        setStatus({ ok: true, msg: "Published (check Vercel)" });
+        setStatus({ ok: true, msg: "✓ Published — build still finishing" });
+        setTimeout(() => setStatus(null), 8000);
         return;
       }
       setTimeout(poll, 3000);

@@ -33,6 +33,21 @@ export async function putFile(args: { path: string; content: unknown; sha?: stri
   return { commitSha: res.data.commit.sha! };
 }
 
+/**
+ * Combined commit status — Vercel posts one ("Vercel – advanguard") as the
+ * deployment for that commit progresses. Lets the editor report "site is live"
+ * without a Vercel API token.
+ */
+export async function getCommitState(sha: string): Promise<"success" | "failure" | "pending"> {
+  const o = getClient();
+  const { owner, repo } = repoSlug();
+  const res = await o.rest.repos.getCombinedStatusForRef({ owner, repo, ref: sha });
+  const state = res.data.state;
+  if (state === "success") return "success";
+  if (state === "failure" || state === "error") return "failure";
+  return "pending";
+}
+
 export async function listRecentCommits(path: string, perPage = 30): Promise<{ sha: string; message: string; date: string }[]> {
   const o = getClient();
   const { owner, repo } = repoSlug();
