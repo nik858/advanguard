@@ -7,6 +7,22 @@ import { CLINIC_TYPES, CLINIC_TYPE_LABELS, type ClinicType } from "@/lib/leads/c
 import { InlineEditableField } from "./InlineEditableField";
 import type { Enrichment } from "@/types/audit";
 import type { ScheduledEmail } from "@/lib/db/leads";
+import { safeHttpUrl } from "@/lib/safe-url";
+
+/**
+ * Renders an outside-controlled URL as a link only when it is http(s) —
+ * a `javascript:` href here would run in the admin's own origin. Anything
+ * else is shown as inert text so the operator still sees the value.
+ */
+function ExternalLink({ url, stripScheme = true }: { url: string; stripScheme?: boolean }) {
+  const safe = safeHttpUrl(url);
+  if (!safe) return <span style={{ color: "#71717a" }}>{url} (blocked)</span>;
+  return (
+    <a href={safe} target="_blank" rel="noreferrer noopener" style={{ color: "#1c7bfd" }}>
+      {stripScheme ? safe.replace(/^https?:\/\//, "") : safe}
+    </a>
+  );
+}
 
 type Props = {
   lead: Lead | null;
@@ -142,9 +158,7 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
                     <>
                       <div className={styles.kvKey}>Clinic URL</div>
                       <div className={styles.kvValue}>
-                        <a href={lead.clinicUrl} target="_blank" rel="noreferrer" style={{ color: "#1c7bfd" }}>
-                          {lead.clinicUrl.replace(/^https?:\/\//, "")}
-                        </a>
+                        <ExternalLink url={lead.clinicUrl} />
                         <span style={{ fontSize: 11, color: "#71717a", marginLeft: 6 }}>(typed by the buyer — audit target)</span>
                       </div>
                     </>
@@ -170,9 +184,9 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
                 if (enr.businessName) rows.push(["Business", enr.businessName]);
                 if (enr.phone) rows.push(["Phone (site)", enr.phone]);
                 if (enr.address) rows.push(["Address", enr.address]);
-                if (enr.instagram) rows.push(["Instagram", <a key="ig" href={enr.instagram} target="_blank" rel="noreferrer" style={{ color: "#1c7bfd" }}>{enr.instagram.replace(/^https?:\/\//, "")}</a>]);
-                if (enr.facebook) rows.push(["Facebook", <a key="fb" href={enr.facebook} target="_blank" rel="noreferrer" style={{ color: "#1c7bfd" }}>{enr.facebook.replace(/^https?:\/\//, "")}</a>]);
-                if (enr.bookingUrl) rows.push(["Booking URL", <a key="bk" href={enr.bookingUrl} target="_blank" rel="noreferrer" style={{ color: "#1c7bfd" }}>{enr.bookingUrl}</a>]);
+                if (enr.instagram) rows.push(["Instagram", <ExternalLink key="ig" url={enr.instagram} />]);
+                if (enr.facebook) rows.push(["Facebook", <ExternalLink key="fb" url={enr.facebook} />]);
+                if (enr.bookingUrl) rows.push(["Booking URL", <ExternalLink key="bk" url={enr.bookingUrl} stripScheme={false} />]);
                 if (rows.length === 0) return null;
                 return (
                   <div>
