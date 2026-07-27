@@ -9,9 +9,9 @@ import { Footer } from "@/app/_sections/Footer";
 import { RenderContextProvider } from "@/app/_editor/RenderContext";
 import { LeadGateProvider } from "@/app/_sections/_shared/LeadGate";
 import { getStripe } from "@/lib/stripe";
-import { fulfillPaidCheckout } from "@/lib/paid/fulfill";
-import { PAID_SUBMITTED_KEY } from "../_components/paid-gate";
-import { MarkPaidSubmitted } from "./MarkPaidSubmitted";
+import { fulfillPremiumCheckout } from "@/lib/premium/fulfill";
+import { PREMIUM_SUBMITTED_KEY } from "../_components/premium-gate";
+import { MarkPremiumSubmitted } from "./MarkPremiumSubmitted";
 
 // Return page of the embedded Stripe Checkout. Verifies the session directly
 // with Stripe (never trusts the URL alone), then fires the audit in the
@@ -31,32 +31,32 @@ export default async function ThankYouPage({
   searchParams: Promise<{ session_id?: string }>;
 }) {
   const { session_id: sessionId } = await searchParams;
-  if (!sessionId) redirect("/paid");
+  if (!sessionId) redirect("/premium");
 
   let session: Stripe.Checkout.Session | null = null;
   try {
     session = await getStripe().checkout.sessions.retrieve(sessionId);
   } catch (e) {
-    console.warn("[paid] thank-you: could not retrieve session", { sessionId, error: String(e) });
+    console.warn("[premium] thank-you: could not retrieve session", { sessionId, error: String(e) });
   }
   // Unpaid / abandoned / bogus session: back to the paid page, user can retry.
-  if (!session || session.status !== "complete") redirect("/paid");
+  if (!session || session.status !== "complete") redirect("/premium");
 
-  const paidSession = session;
+  const premiumSession = session;
   after(async () => {
-    const result = await fulfillPaidCheckout(paidSession);
-    console.log("[paid] thank-you fulfillment", { sessionId: paidSession.id, result });
+    const result = await fulfillPremiumCheckout(premiumSession);
+    console.log("[premium] thank-you fulfillment", { sessionId: premiumSession.id, result });
   });
 
   const c = migrateContent(contentJson);
   const hero = findSection(c, "hero");
   const successMessage = (hero?.data.order.successMessage || "Success. Your Patient-Leak Findings will be emailed in 3-minutes").trim();
-  const buyerEmail = paidSession.customer_details?.email ?? paidSession.customer_email ?? "";
+  const buyerEmail = premiumSession.customer_details?.email ?? premiumSession.customer_email ?? "";
 
   return (
     <RenderContextProvider value={{ hiddenFields: c.hiddenFields ?? [], imageSizes: c.imageSizes ?? {}, edit: false }}>
-      <LeadGateProvider storageKey={PAID_SUBMITTED_KEY} successMessage={successMessage}>
-        <MarkPaidSubmitted />
+      <LeadGateProvider storageKey={PREMIUM_SUBMITTED_KEY} successMessage={successMessage}>
+        <MarkPremiumSubmitted />
         <Header content={c.header} />
         <main id="main">
           <section style={{ maxWidth: 640, margin: "0 auto", padding: "88px 24px 120px", textAlign: "center" }}>

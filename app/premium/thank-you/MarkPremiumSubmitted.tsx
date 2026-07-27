@@ -2,9 +2,9 @@
 import { useEffect } from "react";
 import { useLeadGate } from "@/app/_sections/_shared/LeadGate";
 
-// Flags the paid gate (localStorage) so a returning buyer sees the success
-// state on /paid instead of the payment form.
-export function MarkPaidSubmitted() {
+// Flags the premium gate (localStorage) so a returning buyer sees the success
+// state on /premium instead of the payment form.
+export function MarkPremiumSubmitted() {
   const { markSubmitted } = useLeadGate();
   useEffect(() => {
     markSubmitted();

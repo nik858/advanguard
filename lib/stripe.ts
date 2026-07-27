@@ -2,7 +2,7 @@ import "server-only";
 import Stripe from "stripe";
 
 // Lazy singleton so importing this module never throws at build time —
-// the key is only required when a paid-funnel route actually runs.
+// the key is only required when a premium-funnel route actually runs.
 let stripe: Stripe | null = null;
 
 export function getStripe(): Stripe {

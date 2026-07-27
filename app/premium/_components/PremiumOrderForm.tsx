@@ -10,7 +10,7 @@ import { mediaUrl, type OrderContent } from "@/types/content";
 import { CLINIC_TYPES, CLINIC_TYPE_LABELS } from "@/lib/leads/clinic-types";
 import { normalizeClinicUrl } from "@/lib/audit/domain";
 
-// Paid variant of OrderForm (deliberately a separate component — the free
+// Premium variant of OrderForm (deliberately a separate component — the free
 // form and its audit trigger must stay untouched for the split test).
 // Three required fields, then an embedded Stripe Checkout ($27) rendered
 // inline. The audit only fires server-side after the payment succeeds.
@@ -29,7 +29,7 @@ const selectStyle: React.CSSProperties = {
   paddingRight: 40,
 };
 
-export function PaidOrderForm({ content: order }: { content: OrderContent }) {
+export function PremiumOrderForm({ content: order }: { content: OrderContent }) {
   const [email, setEmail] = useState("");
   const [clinicType, setClinicType] = useState("");
   const [clinicUrl, setClinicUrl] = useState("");
@@ -71,7 +71,7 @@ export function PaidOrderForm({ content: order }: { content: OrderContent }) {
     setPhase("starting");
     setErrorMsg("");
     try {
-      const res = await fetch("/api/paid/checkout", {
+      const res = await fetch("/api/premium/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -93,7 +93,7 @@ export function PaidOrderForm({ content: order }: { content: OrderContent }) {
       checkoutRef.current = await stripe.createEmbeddedCheckoutPage({ clientSecret: data.clientSecret });
       setPhase("checkout");
     } catch (err) {
-      console.error("[paid] checkout start failed", err);
+      console.error("[premium] checkout start failed", err);
       setErrorMsg("Could not start checkout. Please try again.");
       setPhase("form");
     }

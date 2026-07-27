@@ -35,10 +35,10 @@ function mkSession(overrides: Partial<Stripe.Checkout.Session> = {}): Stripe.Che
   } as Stripe.Checkout.Session;
 }
 
-describe("fulfillPaidCheckout", () => {
+describe("fulfillPremiumCheckout", () => {
   it("inserts the paid lead and runs the audit against the typed clinic URL", async () => {
-    const { fulfillPaidCheckout } = await import("@/lib/paid/fulfill");
-    const result = await fulfillPaidCheckout(mkSession());
+    const { fulfillPremiumCheckout } = await import("@/lib/premium/fulfill");
+    const result = await fulfillPremiumCheckout(mkSession());
     expect(result).toBe("fulfilled");
     expect(insertPaidLeadOnce).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
@@ -61,12 +61,12 @@ describe("fulfillPaidCheckout", () => {
   });
 
   it("audits the typed URL even when the buyer pays with a personal email", async () => {
-    const { fulfillPaidCheckout } = await import("@/lib/paid/fulfill");
+    const { fulfillPremiumCheckout } = await import("@/lib/premium/fulfill");
     const session = mkSession({
       metadata: { lead_email: "matt@gmail.com", clinic_type: "med_spa", clinic_url: "https://myclinic.si" },
       customer_details: { email: "matt@gmail.com" } as Stripe.Checkout.Session["customer_details"],
     });
-    await fulfillPaidCheckout(session);
+    await fulfillPremiumCheckout(session);
     expect(runAudit).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ domain: "myclinic.si", websiteUrl: "https://myclinic.si/" }),
     );
@@ -74,16 +74,16 @@ describe("fulfillPaidCheckout", () => {
 
   it("is idempotent: skips the audit when the session was already fulfilled", async () => {
     insertPaidLeadOnce.mockResolvedValue(null);
-    const { fulfillPaidCheckout } = await import("@/lib/paid/fulfill");
-    const result = await fulfillPaidCheckout(mkSession());
+    const { fulfillPremiumCheckout } = await import("@/lib/premium/fulfill");
+    const result = await fulfillPremiumCheckout(mkSession());
     expect(result).toBe("already_fulfilled");
     expect(runAudit).not.toHaveBeenCalled();
     expect(addContactToSegment).not.toHaveBeenCalled();
   });
 
   it("does nothing for an unpaid session", async () => {
-    const { fulfillPaidCheckout } = await import("@/lib/paid/fulfill");
-    const result = await fulfillPaidCheckout(mkSession({ payment_status: "unpaid" }));
+    const { fulfillPremiumCheckout } = await import("@/lib/premium/fulfill");
+    const result = await fulfillPremiumCheckout(mkSession({ payment_status: "unpaid" }));
     expect(result).toBe("skipped");
     expect(insertPaidLeadOnce).not.toHaveBeenCalled();
     expect(runAudit).not.toHaveBeenCalled();
@@ -91,8 +91,8 @@ describe("fulfillPaidCheckout", () => {
 
   it("skips when the session carries no email at all", async () => {
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    const { fulfillPaidCheckout } = await import("@/lib/paid/fulfill");
-    const result = await fulfillPaidCheckout(
+    const { fulfillPremiumCheckout } = await import("@/lib/premium/fulfill");
+    const result = await fulfillPremiumCheckout(
       mkSession({ metadata: { clinic_url: "https://x.com" }, customer_details: null, customer_email: null }),
     );
     expect(result).toBe("skipped");
@@ -100,12 +100,12 @@ describe("fulfillPaidCheckout", () => {
   });
 
   it("keeps internal/test email domains out of the contact list but still audits", async () => {
-    const { fulfillPaidCheckout } = await import("@/lib/paid/fulfill");
+    const { fulfillPremiumCheckout } = await import("@/lib/premium/fulfill");
     const session = mkSession({
       metadata: { lead_email: "nik@advanguard.agency", clinic_type: "other", clinic_url: "https://someclinic.com" },
       customer_details: { email: "nik@advanguard.agency" } as Stripe.Checkout.Session["customer_details"],
     });
-    await fulfillPaidCheckout(session);
+    await fulfillPremiumCheckout(session);
     expect(addContactToSegment).not.toHaveBeenCalled();
     expect(runAudit).toHaveBeenCalledOnce();
   });
@@ -113,8 +113,8 @@ describe("fulfillPaidCheckout", () => {
   it("still runs the audit when the contact-list sync fails", async () => {
     addContactToSegment.mockRejectedValueOnce(new Error("Resend 500"));
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    const { fulfillPaidCheckout } = await import("@/lib/paid/fulfill");
-    const result = await fulfillPaidCheckout(mkSession());
+    const { fulfillPremiumCheckout } = await import("@/lib/premium/fulfill");
+    const result = await fulfillPremiumCheckout(mkSession());
     expect(result).toBe("fulfilled");
     expect(runAudit).toHaveBeenCalledOnce();
     expect(consoleError).toHaveBeenCalled();
@@ -123,8 +123,8 @@ describe("fulfillPaidCheckout", () => {
   it("never throws when the insert fails", async () => {
     insertPaidLeadOnce.mockRejectedValueOnce(new Error("db down"));
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    const { fulfillPaidCheckout } = await import("@/lib/paid/fulfill");
-    const result = await fulfillPaidCheckout(mkSession());
+    const { fulfillPremiumCheckout } = await import("@/lib/premium/fulfill");
+    const result = await fulfillPremiumCheckout(mkSession());
     expect(result).toBe("skipped");
     expect(runAudit).not.toHaveBeenCalled();
     expect(consoleError).toHaveBeenCalled();

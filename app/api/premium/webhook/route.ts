@@ -1,11 +1,11 @@
 import { NextResponse, after } from "next/server";
 import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
-import { fulfillPaidCheckout } from "@/lib/paid/fulfill";
+import { fulfillPremiumCheckout } from "@/lib/premium/fulfill";
 
-// Primary fulfillment path for the paid funnel: Stripe calls this on
+// Primary fulfillment path for the premium funnel: Stripe calls this on
 // checkout.session.completed, so the audit fires even if the buyer closes the
-// tab before landing on /paid/thank-you. Fulfillment is idempotent (unique
+// tab before landing on /premium/thank-you. Fulfillment is idempotent (unique
 // stripe_session_id), so racing with the thank-you page is safe.
 
 // The audit runs in the background via after(); give the function room to finish.
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   try {
     event = getStripe().webhooks.constructEvent(payload, signature, secret);
   } catch (e) {
-    console.error("[paid] webhook signature verification failed", { error: String(e) });
+    console.error("[premium] webhook signature verification failed", { error: String(e) });
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
@@ -34,8 +34,8 @@ export async function POST(req: Request) {
   ) {
     const session = event.data.object as Stripe.Checkout.Session;
     after(async () => {
-      const result = await fulfillPaidCheckout(session);
-      console.log("[paid] webhook fulfillment", { sessionId: session.id, result });
+      const result = await fulfillPremiumCheckout(session);
+      console.log("[premium] webhook fulfillment", { sessionId: session.id, result });
     });
   }
 

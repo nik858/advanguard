@@ -1,11 +1,11 @@
 import type { Section } from "@/types/content";
 import { SectionBody } from "@/app/_sections/SectionBody";
-import { PaidHero } from "./PaidHero";
+import { PremiumHero } from "./PremiumHero";
 
 // Renders the same sections as the free page, swapping only the hero so the
-// paid order form (Stripe Checkout) replaces the free lead form. Every other
+// premium order form (Stripe Checkout) replaces the free lead form. Every other
 // section delegates to the shared SectionBody untouched.
-export function PaidSectionBody({ section }: { section: Section }) {
+export function PremiumSectionBody({ section }: { section: Section }) {
   if (section.type === "hero") {
     const sectionStyle: React.CSSProperties | undefined =
       (section.style?.pt !== undefined || section.style?.pb !== undefined)
@@ -16,7 +16,7 @@ export function PaidSectionBody({ section }: { section: Section }) {
         : undefined;
     return (
       <div style={{ position: "relative" }}>
-        <PaidHero hero={section.data.hero} order={section.data.order} style={sectionStyle} />
+        <PremiumHero hero={section.data.hero} order={section.data.order} style={sectionStyle} />
       </div>
     );
   }

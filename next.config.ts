@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
         destination: "https://www.bookingleak.com/:path*",
         permanent: true,
       },
+      // The premium variant shipped briefly at /paid — keep old links working.
+      { source: "/paid", destination: "/premium", permanent: true },
+      { source: "/paid/:path*", destination: "/premium/:path*", permanent: true },
     ];
   },
 };

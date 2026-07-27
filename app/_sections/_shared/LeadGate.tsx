@@ -29,8 +29,8 @@ export function useLeadGate(): LeadGate {
 export function LeadGateProvider({
   successMessage,
   children,
-  // The paid variant (/paid) passes its own key so a free-page submission
-  // never locks the paid form (and vice versa). Defaults keep the free page
+  // The premium variant (/premium) passes its own key so a free-page submission
+  // never locks the premium form (and vice versa). Defaults keep the free page
   // byte-identical.
   storageKey = SUBMITTED_KEY,
 }: { successMessage: string; children: ReactNode; storageKey?: string }) {

@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getStripe } from "@/lib/stripe";
-import { checkLimit, clientIp, paidCheckoutLimiter } from "@/lib/ratelimit";
+import { checkLimit, clientIp, premiumCheckoutLimiter } from "@/lib/ratelimit";
 import { normalizeClinicUrl } from "@/lib/audit/domain";
 import { CLINIC_TYPES } from "@/lib/leads/clinic-types";
 
-// Creates the embedded Stripe Checkout session for the paid variant (/paid).
+// Creates the embedded Stripe Checkout session for the premium variant (/premium).
 // Deliberately does NOT touch the leads table — per spec, no email enters the
-// audit system unless the payment completes (see lib/paid/fulfill.ts).
+// audit system unless the payment completes (see lib/premium/fulfill.ts).
 
 const BodySchema = z.object({
   email: z.string().email(),
@@ -18,7 +18,7 @@ const BodySchema = z.object({
 
 export async function POST(req: Request) {
   const ip = clientIp(req);
-  const limit = await checkLimit(paidCheckoutLimiter, ip);
+  const limit = await checkLimit(premiumCheckoutLimiter, ip);
   if (!limit.success) return NextResponse.json({ error: "Too many attempts" }, { status: 429 });
 
   const json = await req.json().catch(() => null);
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
   const priceId = process.env.STRIPE_PRICE_ID;
   if (!priceId) {
-    console.error("[paid] STRIPE_PRICE_ID not set");
+    console.error("[premium] STRIPE_PRICE_ID not set");
     return NextResponse.json({ error: "Payment is temporarily unavailable." }, { status: 500 });
   }
 
@@ -55,11 +55,11 @@ export async function POST(req: Request) {
         clinic_type: parsed.data.clinic_type,
         clinic_url: clinicUrl,
       },
-      return_url: `${origin}/paid/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${origin}/premium/thank-you?session_id={CHECKOUT_SESSION_ID}`,
     });
     return NextResponse.json({ clientSecret: session.client_secret });
   } catch (e) {
-    console.error("[paid] checkout session create failed", { error: String(e) });
+    console.error("[premium] checkout session create failed", { error: String(e) });
     return NextResponse.json({ error: "Could not start checkout. Please try again." }, { status: 500 });
   }
 }

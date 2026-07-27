@@ -3,12 +3,12 @@ import { VideoPlayer } from "@/app/_sections/_shared/VideoPlayer";
 import { EditRich } from "@/app/_editor/EditRich";
 import { Erasable } from "@/app/_editor/Erasable";
 import { Resizable } from "@/app/_editor/Resizable";
-import { PaidOrderForm } from "./PaidOrderForm";
+import { PremiumOrderForm } from "./PremiumOrderForm";
 import type { HeroContent, OrderContent } from "@/types/content";
 
-// Paid variant of Hero: identical markup, but mounts PaidOrderForm instead of
-// the free OrderForm. Never rendered in edit mode (/paid is not editable).
-export function PaidHero({ hero, order, style }: { hero: HeroContent; order: OrderContent; style?: React.CSSProperties }) {
+// Premium variant of Hero: identical markup, but mounts PremiumOrderForm instead of
+// the free OrderForm. Never rendered in edit mode (/premium is not editable).
+export function PremiumHero({ hero, order, style }: { hero: HeroContent; order: OrderContent; style?: React.CSSProperties }) {
   return (
     <section className="ac-hero" aria-labelledby="what-is-h2" style={style}>
       <div className="ac-hero__grid">
@@ -45,7 +45,7 @@ export function PaidHero({ hero, order, style }: { hero: HeroContent; order: Ord
           </Erasable>
         </div>
         <Reveal as="div" className="ac-order-wrap">
-          <PaidOrderForm content={order} />
+          <PremiumOrderForm content={order} />
         </Reveal>
       </div>
     </section>

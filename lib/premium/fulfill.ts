@@ -21,20 +21,20 @@ const INTERNAL_DOMAINS = new Set([
 export type FulfillResult = "fulfilled" | "already_fulfilled" | "skipped";
 
 /**
- * Fulfillment for a paid Checkout session: insert the lead and fire the exact
+ * Fulfillment for a premium Checkout session: insert the lead and fire the exact
  * same audit the free page runs, targeting the clinic URL the buyer typed.
  *
  * Idempotent — keyed on the unique stripe_session_id column, so the Stripe
  * webhook and the thank-you page can both call this for the same session and
  * the audit fires exactly once. Never throws.
  */
-export async function fulfillPaidCheckout(session: Stripe.Checkout.Session): Promise<FulfillResult> {
+export async function fulfillPremiumCheckout(session: Stripe.Checkout.Session): Promise<FulfillResult> {
   if (session.payment_status !== "paid") return "skipped";
 
   const md = session.metadata ?? {};
   const email = md.lead_email || session.customer_details?.email || session.customer_email;
   if (!email) {
-    console.error("[paid] fulfillment: session has no email", { sessionId: session.id });
+    console.error("[premium] fulfillment: session has no email", { sessionId: session.id });
     return "skipped";
   }
 
@@ -52,13 +52,13 @@ export async function fulfillPaidCheckout(session: Stripe.Checkout.Session): Pro
     row = await insertPaidLeadOnce({
       email,
       domain,
-      source: "paid",
+      source: "paid", // DB value: the funnel that produced the lead
       clinicType,
       clinicUrl,
       stripeSessionId: session.id,
     });
   } catch (e) {
-    console.error("[paid] fulfillment db insert failed", { sessionId: session.id, error: String(e) });
+    console.error("[premium] fulfillment db insert failed", { sessionId: session.id, error: String(e) });
     return "skipped";
   }
   if (!row) return "already_fulfilled";
@@ -75,7 +75,7 @@ export async function fulfillPaidCheckout(session: Stripe.Checkout.Session): Pro
 
   if (!INTERNAL_DOMAINS.has(emailDomain)) {
     await addContactToSegment({ email }).catch((e) =>
-      console.error("[paid] resend contact sync failed", { domain, error: String(e) }),
+      console.error("[premium] resend contact sync failed", { domain, error: String(e) }),
     );
   }
   await runAudit(lead);
