@@ -138,8 +138,26 @@ export function LeadDetailDrawer({ lead, onClose, onUpdate, onDelete }: Props) {
                       onSave={(v) => patch({ clinic_type: v })}
                     />
                   </div>
+                  {lead.clinicUrl && (
+                    <>
+                      <div className={styles.kvKey}>Clinic URL</div>
+                      <div className={styles.kvValue}>
+                        <a href={lead.clinicUrl} target="_blank" rel="noreferrer" style={{ color: "#1c7bfd" }}>
+                          {lead.clinicUrl.replace(/^https?:\/\//, "")}
+                        </a>
+                        <span style={{ fontSize: 11, color: "#71717a", marginLeft: 6 }}>(typed by the buyer — audit target)</span>
+                      </div>
+                    </>
+                  )}
                   <div className={styles.kvKey}>Source</div>
-                  <div className={styles.kvValue}>{lead.source}</div>
+                  <div className={styles.kvValue}>
+                    {lead.source}
+                    {lead.stripeSessionId && (
+                      <span style={{ fontSize: 11, color: "#71717a", marginLeft: 6 }}>
+                        · paid $27 · Stripe {lead.stripeSessionId.slice(0, 20)}…
+                      </span>
+                    )}
+                  </div>
                   <div className={styles.kvKey}>Created</div>
                   <div className={styles.kvValue}>{new Date(lead.createdAt).toLocaleString()}</div>
                 </div>

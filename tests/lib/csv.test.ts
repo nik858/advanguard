@@ -59,7 +59,7 @@ describe("leadsToCsv", () => {
     const csv = leadsToCsv([]);
     const lines = csv.slice(1).split("\n").filter(Boolean);
     expect(lines).toHaveLength(1);
-    expect(lines[0]).toMatch(/^"id","email","first_name","phone","domain","clinic_type","source","status","audit_outcome","created_at","updated_at"$/);
+    expect(lines[0]).toMatch(/^"id","email","first_name","phone","domain","clinic_url","clinic_type","source","status","audit_outcome","created_at","updated_at"$/);
   });
 
   it("emits the expected columns and skips audit_subject / audit_body / signals", () => {
