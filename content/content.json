@@ -369,18 +369,6 @@
           "guaranteeText": ""
         }
       }
-    },
-    {
-      "id": "c211fabd-2c4d-495f-b28b-ee83db1a9954",
-      "type": "headline",
-      "data": {
-        "headline": {
-          "eyebrow": "Eyebrow text",
-          "eyebrowDotColor": "rgb(28,127,255)",
-          "h1": "New headline",
-          "sub": "Subtitle"
-        }
-      }
     }
   ],
   "admin": {
@@ -438,7 +426,10 @@
     "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.eyebrow",
     "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.h2",
     "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.rating",
-    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.h2"
+    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.h2",
+    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.eyebrow",
+    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.h1",
+    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.sub"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
