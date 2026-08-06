@@ -62,7 +62,7 @@
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
-          "productName": "Patient-Leak System ",
+          "productName": "Patient-Leak System          <span style=\"color:#140c0c\">ONLY $27.00 </span>",
           "productSubtitle": "FREE Today",
           "image": "/media/order-product.webp",
           "limitedTime": "",
@@ -329,8 +329,8 @@
               "a": "The Patient-Leak System was built for clinic owners and practice decision-makers running medium-to-high ticket healthcare services. Dental implant, All-on-4, aesthetic, med spa, and physiotherapy clinics specifically.\nIf you are a general practitioner, a pharmacy, or a clinic outside those verticals, this is not the right fit and we will tell you that during submission."
             },
             {
-              "q": "🔹 Is this actually free? What's the catch?",
-              "a": "Yes, completely free. No credit card, trial or hidden upgrade.\nThe Patient-Leak System exists because we audit clinics before working with them anyway. Instead of keeping those findings internal, we deliver them directly to you, whether you ever work with us or not.\nAnd if you want our help fixing what we find, we can talk after.\n"
+              "q": "🔹 Why does it cost $27?",
+              "a": "Honestly, it's a filter, not a profit center. When the audit was open to everyone, most of them were never implemented. The $27 keeps it limited to clinic owners who are serious about fixing what we find, and it doesn't even cover what the analysis costs us to run. If someone doesn't see the value of the outcome $27 provides, well, maybe it's best that way.\n"
             },
             {
               "q": "🔹 How is this personalized if I just submitted an email?",
@@ -346,7 +346,7 @@
             },
             {
               "q": "🔹 Is there a guarantee?",
-              "a": "The diagnosis is free so there is nothing to refund.\nBut here is what we do promise. Your diagnosis will be specific to your clinic, not a generic checklist with your name at the top. It will name the exact signals missing from your site, benchmark them against clinics in your vertical that convert best, and tell you what to fix first.\nNo sales call follows or pitch sequence.\nIf you receive your diagnosis and it does not contain at least one specific, actionable finding you can implement this week, reply to any of the emails and tell us. We will make it right."
+              "a": "Yes. If your diagnosis does not contain at least one specific, actionable finding you can implement this week, reply to any of the emails and we refund your $27 in full. "
             }
           ]
         }
