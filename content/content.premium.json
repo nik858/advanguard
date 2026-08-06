@@ -69,11 +69,11 @@
           "priceWas": "",
           "priceNow": "",
           "priceSubLine": "",
-          "description": "The same analysis agencies template out for four figures.\n\n<em>First email will arrive 3 minutes after payment</em>\n",
+          "description": "The same analysis agencies template out for <strong>four figures</strong>.\n\n<em> </em><em>First email will arrive 3 minutes after payment</em>\n",
           "ctaTagline": "",
           "ctaLabel": " CHECKOUT ",
           "secureText": "We securely process payments with\n256-bit security encryption",
-          "guaranteeText": "<em>Money Back Guarantee</em>",
+          "guaranteeText": "<em>                   Money Back Guarantee</em>",
           "ratingText": "⭐ 4.9 rating from 71+ audits delivered (Updated July 2026)",
           "successMessage": "Success. Your Patient-Leak Findings will be emailed in 3-minutes",
           "miniTestimonials": [
