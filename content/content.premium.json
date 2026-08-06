@@ -73,7 +73,7 @@
           "ctaTagline": "",
           "ctaLabel": " CHECKOUT ",
           "secureText": "We securely process payments with\n256-bit security encryption",
-          "guaranteeText": "<em>Money Back </em>",
+          "guaranteeText": "<em>Money Back Guarantee</em>",
           "ratingText": "⭐ 4.9 rating from 71+ audits delivered (Updated July 2026)",
           "successMessage": "Success. Your Patient-Leak Findings will be emailed in 3-minutes",
           "miniTestimonials": [
@@ -309,7 +309,7 @@
       "data": {
         "guarantee": {
           "h2": "Here's What We<span style=\"color:#1c7fff\"> Guarantee🔒</span>",
-          "body": "Your diagnosis will be specific to your clinic's case. \n\nIt will name the exact signals missing from your site, benchmark them against clinics in your vertical, and tell you what to fix first.\n\nIf it reads like something that could have been written for any clinic on the internet - call us out on it. We mean that."
+          "body": "Your diagnosis will be specific to your clinic's case.\n\nIt will name the exact signals missing from your site, benchmark them against clinics in your vertical, and tell you what to fix first.\n\nIf it reads like something that could have been written for any clinic on the internet, call us out on it. We mean that.\n\nAnd if your diagnosis doesn't contain at least one actionable finding you can use this week, <u>we refund your $27 in full.</u>"
         }
       }
     },
