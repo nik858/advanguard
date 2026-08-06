@@ -73,7 +73,7 @@
           "ctaTagline": "",
           "ctaLabel": " CHECKOUT ",
           "secureText": "We securely process payments with\n256-bit security encryption",
-          "guaranteeText": "<em>                   Money Back Guarantee</em>",
+          "guaranteeText": "<em>               100% Money Back Guarantee</em>",
           "ratingText": "⭐ 4.9 rating from 71+ audits delivered (Updated July 2026)",
           "successMessage": "Success. Your Patient-Leak Findings will be emailed in 3-minutes",
           "miniTestimonials": [
@@ -326,15 +326,15 @@
           "items": [
             {
               "q": "🔹 Who is this for?",
-              "a": "The Patient-Leak System was built for clinic owners and practice decision-makers running medium-to-high ticket healthcare services. Dental implant, All-on-4, aesthetic, med spa, and physiotherapy clinics specifically.\nIf you are a general practitioner, a pharmacy, or a clinic outside those verticals, this is not the right fit and we will tell you that during submission."
+              "a": "The Patient-Leak System was built for clinic owners and practice decision-makers running medium-to-high ticket healthcare services. Dental implant, All-on-4/6, aesthetic, med spa, and physiotherapy clinics specifically.\nIf you are a general practitioner, a pharmacy, or a clinic outside those verticals, this is not the right fit and we will tell you that during submission."
             },
             {
               "q": "🔹 Why does it cost $27?",
               "a": "Honestly, it's a filter, not a profit center. When the audit was open to everyone, most of them were never implemented. The $27 keeps it limited to clinic owners who are serious about fixing what we find, and it doesn't even cover what the analysis costs us to run. If someone doesn't see the value of the outcome $27 provides, well, maybe it's best that way.\n"
             },
             {
-              "q": "🔹 How is this personalized if I just submitted an email?",
-              "a": "Your work email contains your clinic's domain. Our system detects it, deeply analyses your website, and runs 14 healthcare-specific signals against your vertical.\nNothing in your diagnosis is written for &quot;clinics in general.&quot; It is written for your URL, your vertical, and the market you operate in."
+              "q": "🔹 How is this personalized?",
+              "a": "You submit your clinic's website URL directly, and our system deeply analyses it against 14 healthcare-specific signals for your vertical.\nNothing in your diagnosis is written for &quot;clinics in general.&quot; It is written for your URL, your vertical, and the market you operate in."
             },
             {
               "q": "🔹 I've had marketing audits before. Why is this different?",
@@ -342,7 +342,7 @@
             },
             {
               "q": "🔹 How long does it take to get my diagnosis?",
-              "a": "Your first finding arrives within minutes of submitting.\nThe second arrives on day 2. The third on day 3.\nWe space them deliberately, one finding at a time is actionable. Three findings at once becomes a to-do list nobody finishes. Trust us, we tried that."
+              "a": "Your first finding arrives within minutes of submitting.\nThe second arrives on day 2. The third on day 3.\nWe space them deliberately, one finding at a time is actionable. \nThree findings at once becomes a to-do list nobody finishes. Trust us, we tried that."
             },
             {
               "q": "🔹 Is there a guarantee?",
