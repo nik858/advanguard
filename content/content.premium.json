@@ -62,7 +62,7 @@
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
-          "productName": "        Patient-Leak System          <span style=\"color:#140c0c\">Only $27.00 </span>",
+          "productName": "        Patient-Leak System          <span style=\"color:#140c0c\">Only <u>$27.00 </u></span>",
           "productSubtitle": "FREE Today",
           "image": "/media/order-product.webp",
           "limitedTime": "",
