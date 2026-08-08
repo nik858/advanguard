@@ -94,6 +94,17 @@
       }
     },
     {
+      "id": "935d27e4-c7a0-4b66-b509-1589bd70c965",
+      "type": "demo",
+      "data": {
+        "demo": {
+          "h2": "Why Patients Really Leave Your Website <span style=\"color:#1c7fff\">Without Booking</span>",
+          "videoUrl": "https://www.veed.io/embed/657fdaa5-d409-4d07-b0c1-e46af366d458?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
+          "videoPoster": ""
+        }
+      }
+    },
+    {
       "id": "guarantee",
       "type": "guarantee",
       "hidden": false,
@@ -445,7 +456,8 @@
     "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.h2",
     "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.h1",
     "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.eyebrow",
-    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.sub"
+    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.sub",
+    "guarantee:guarantee.h2"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
@@ -454,6 +466,7 @@
     "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.centerImage": "bigger",
     "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "full",
     "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.centerImage": "bigger",
-    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full"
+    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full",
+    "935d27e4-c7a0-4b66-b509-1589bd70c965:demo.videoUrl": "full"
   }
 }
