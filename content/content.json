@@ -56,9 +56,9 @@
         "hero": {
           "videoLabel": "",
           "videoUrl": "https://www.veed.io/embed/9bbf7371-5114-4431-aed6-3be99fbdc746?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
-          "videoPoster": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1784885551976-hf_20260724_092941_5b25c228-fa26-48e6-851b-6ae3fbd94612-yd49fKrPXdaQ3CftcutMcOREr5HVA9.webp",
+          "videoPoster": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786188692474-hf_20260807_094912_a8bccdf3-ee49-46d5-a597-db3745ab2b3c%20%282%29-oP4nEWvYd5S5novUflTXHjX3qWIl4o.webp",
           "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
-          "sectionBody": "The Patient-Leak System is a counterintuitive approach that <u>analyses your clinic's website and delivers personalised solutions for your specific case.</u>\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nThe analysis includes <strong>14 crucial signals</strong>, with the results delivered as a personalized action plan across <strong>3 separate emails.\n </strong><strong> </strong>  \n<em>All of it built by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals.\n</em>\nAs a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities. "
+          "sectionBody": "The Patient-Leak System is a counterintuitive approach that <u>analyses your clinic's website and delivers personalised solutions for your specific case.</u>\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nThe analysis includes <strong>14 crucial signals</strong>, with the results delivered as a personalized action plan across <strong>3 separate emails. </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786188799474-Screenshot%202026-08-08%20at%2013.33.07-nRNNEADsNBqHFUDV7KpM2UplrLpTvs.webp\" alt=\"\"><em>All of it built by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals.\n</em>\nAs a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities. "
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
@@ -94,6 +94,20 @@
       }
     },
     {
+      "id": "6757a2fa-c3f7-4916-a9d4-6b524329aaa7",
+      "type": "demo",
+      "style": {
+        "pb": 12
+      },
+      "data": {
+        "demo": {
+          "h2": "Why Patients Really Leave Your Website <span style=\"color:#1c7fff\">Without Booking</span>",
+          "videoUrl": "https://www.veed.io/embed/657fdaa5-d409-4d07-b0c1-e46af366d458?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
+          "videoPoster": ""
+        }
+      }
+    },
+    {
       "id": "guarantee",
       "type": "guarantee",
       "hidden": false,
@@ -104,7 +118,7 @@
       "data": {
         "guarantee": {
           "h2": "Why Patients Really Leave Your Website <span style=\"color:#1c7fff\">Without Booking\n</span><span style=\"color:#1c7fff\"></span>",
-          "body": "When a patient lands on your site, they're making an emotional decision rather than a logical one. \n\nWhich means they're not really reading your pages, but scanning them for reasons to feel safe.\n\nThe moment something interrupts that feeling, they close the page and don't push through.\n\n<u>For example: </u>when people visit your site, they want to see the outcome they can expect, not the fancy new machine you're using. If your before-and-after gallery clearly shows those outcomes, that's the evidence they need. If it doesn't, they feel less certain, and an uncertain patient doesn't book.\n\n<strong>And it makes total sense!\n</strong>\nWhen someone is about to spend <em>four or five figures</em> on a procedure, they want to be 100% sure about it.\n\nThat's why the <span style=\"color:#1c7fff\">Patient-Leak System</span> <u>makes sure that trust is kept.</u>\n\nHere's how to use it:\n"
+          "body": "When a patient lands on your site, they're making an emotional decision rather than a logical one. \n\nWhich means they're not really reading your pages, but scanning them for reasons to feel safe.\n\nThe moment something interrupts that feeling, they close the page and don't push through.\n\n<u>For example: </u>when people visit your site, they want to see the outcome they can expect, not the fancy new machine you're using. If your before-and-after gallery clearly shows those outcomes, that's the evidence they need. If it doesn't, they feel less certain, and an uncertain patient doesn't book.  <strong>And it makes total sense! </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786189018388-hf_20260807_090013_9019bfcb-2e78-47a5-9cb5-0be55d5a1c81%20%281%29-h2HZBx12p93QpmN5yhv0p3FmvBfAoq.webp\" alt=\"\"><strong> </strong>\nWhen someone is about to spend <em>four or five figures</em> on a procedure, they want to be 100% sure about it.\n\nThat's why the <span style=\"color:#1c7fff\">Patient-Leak System</span> <u>makes sure that trust is kept.</u>\n\nHere's how to use it:\n"
         }
       }
     },
@@ -429,7 +443,8 @@
     "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.h2",
     "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.eyebrow",
     "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.h1",
-    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.sub"
+    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.sub",
+    "guarantee:guarantee.h2"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
@@ -438,6 +453,7 @@
     "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.centerImage": "bigger",
     "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "full",
     "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full",
-    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.centerImage": "bigger"
+    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.centerImage": "bigger",
+    "6757a2fa-c3f7-4916-a9d4-6b524329aaa7:demo.videoUrl": "bigger"
   }
 }
