@@ -47,6 +47,11 @@ export async function POST(req: Request) {
       ui_mode: "embedded_page",
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
+      // Lets a 100%-off promotion code be entered at checkout: the session still
+      // completes (payment_status "no_payment_required"), so the conversion
+      // tracking on /premium/thank-you can be tested without a real payment.
+      // Fulfillment stays untouched — it requires payment_status "paid".
+      allow_promotion_codes: true,
       customer_email: parsed.data.email,
       // Stripe emails the receipt automatically on successful payment (live mode).
       payment_intent_data: { receipt_email: parsed.data.email },

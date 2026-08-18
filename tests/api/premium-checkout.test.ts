@@ -41,6 +41,7 @@ describe("POST /api/premium/checkout", () => {
         ui_mode: "embedded_page",
         mode: "payment",
         line_items: [{ price: "price_test_27", quantity: 1 }],
+        allow_promotion_codes: true,
         customer_email: "matt@clinicabc.com",
         payment_intent_data: { receipt_email: "matt@clinicabc.com" },
         metadata: {
