@@ -55,12 +55,19 @@ export function MediaSlot({
   path,
   accept,
   compact = false,
+  bubble = false,
   posterPath,
 }: {
   path: string;
   accept: "image" | "video";
   /** Tiny icon-only trigger for small slots (e.g. the favicon). */
   compact?: boolean;
+  /**
+   * Round-avatar slot (the 40px bubbles under the checkout button): the whole
+   * circle is the trigger, and an empty slot still shows the bubble rather than
+   * the full-size dashed drop zone, which would blow the layout apart.
+   */
+  bubble?: boolean;
   /** Content path of the thumbnail image shown before a hosted video plays.
    *  Adds a "Thumbnail image" flow to the popover (videos only). */
   posterPath?: string;
@@ -79,6 +86,9 @@ export function MediaSlot({
   const fileRef = useRef<HTMLInputElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const popoverRef = useRef<HTMLDivElement | null>(null);
+  // In bubble mode the overlay IS the trigger, so it must be exempt from the
+  // outside-click close or the popover would shut on the very click that opens it.
+  const overlayRef = useRef<HTMLDivElement | null>(null);
 
   // Window-level drag detection so the overlay only intercepts pointer
   // events while a file is actually being dragged.
@@ -108,6 +118,7 @@ export function MediaSlot({
     function onDown(e: MouseEvent) {
       const t = e.target as Node;
       if (triggerRef.current && triggerRef.current.contains(t)) return;
+      if (overlayRef.current && overlayRef.current.contains(t)) return;
       if (popoverRef.current && popoverRef.current.contains(t)) return;
       setOpen(false);
     }
@@ -132,7 +143,7 @@ export function MediaSlot({
     ? current
     : (current as { url?: string } | undefined)?.url ?? "";
   const isEmpty = !currentUrl;
-  const popoverTop = compact ? 30 : 44;
+  const popoverTop = bubble ? 46 : compact ? 30 : 44;
 
   const posterCurrent = posterPath
     ? fullPosterPath.split(".").reduce<unknown>(
@@ -176,7 +187,7 @@ export function MediaSlot({
     if (url) applyUrl(url);
   }
 
-  if (isEmpty && !compact) {
+  if (isEmpty && !compact && !bubble) {
     return (
       <>
         {busy && (
@@ -437,9 +448,22 @@ export function MediaSlot({
 
       {/* Drop overlay — hover-aware; always intercepts pointer events */}
       <div
+        ref={overlayRef}
+        // Bubble mode has no corner button, so the circle itself carries the
+        // button semantics and keyboard entry point.
+        role={bubble ? "button" : undefined}
+        tabIndex={bubble ? 0 : undefined}
+        aria-label={bubble ? "Change avatar" : undefined}
+        onKeyDown={bubble ? (e) => {
+          if (e.key !== "Enter" && e.key !== " ") return;
+          e.preventDefault();
+          setOpen((o) => !o);
+          setView("menu");
+          setPosterMode(false);
+        } : undefined}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onClick={(e) => { e.stopPropagation(); setOpen(true); setView("menu"); setPosterMode(false); }}
+        onClick={(e) => { e.stopPropagation(); setOpen((o) => (bubble ? !o : true)); setView("menu"); setPosterMode(false); }}
         onDragOver={(e) => { e.preventDefault(); }}
         onDrop={(e) => {
           e.preventDefault();
@@ -450,7 +474,7 @@ export function MediaSlot({
           position: "absolute",
           inset: 0,
           zIndex: 9,
-          pointerEvents: compact ? (dragActive ? "auto" : "none") : "auto",
+          pointerEvents: compact && !dragActive ? "none" : "auto",
           cursor: compact ? undefined : "pointer",
           border: dragActive ? "2px dashed #1c7bfd" : "2px dashed transparent",
           background: dragActive
@@ -464,11 +488,17 @@ export function MediaSlot({
           fontSize: 13,
           fontWeight: 600,
           color: dragActive ? "#1c7bfd" : "#fff",
-          borderRadius: 8,
+          borderRadius: bubble ? "50%" : 8,
           transition: "background 150ms ease-in-out",
         }}
       >
-        {dragActive
+        {bubble
+          ? (hovered || dragActive) && (
+            <span style={{ display: "inline-flex", color: "#fff", pointerEvents: "none" }}>
+              <Icons.Pencil />
+            </span>
+          )
+          : dragActive
           ? `Drop to replace this ${accept}`
           : hovered && !compact
             ? (
@@ -490,17 +520,19 @@ export function MediaSlot({
             : null}
       </div>
 
-      {/* Corner button */}
-      <button
-        ref={triggerRef}
-        type="button"
-        onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); setView("menu"); setPosterMode(false); }}
-        aria-label="Change media"
-        style={triggerStyle}
-      >
-        <Icons.Pencil />
-        {!compact && "Change"}
-      </button>
+      {/* Corner button — in bubble mode the circle itself is the trigger. */}
+      {!bubble && (
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); setView("menu"); setPosterMode(false); }}
+          aria-label="Change media"
+          style={triggerStyle}
+        >
+          <Icons.Pencil />
+          {!compact && "Change"}
+        </button>
+      )}
 
       {/* Popover */}
       {open && (
@@ -510,7 +542,10 @@ export function MediaSlot({
           style={{
             position: "absolute",
             top: popoverTop,
-            right: compact ? 4 : 10,
+            // A 40px bubble has no room to hang a 280px popover off its right
+            // edge without running off the panel — open it rightwards instead.
+            left: bubble ? 0 : undefined,
+            right: bubble ? undefined : compact ? 4 : 10,
             zIndex: 11,
             width: 280,
             background: "#fff",

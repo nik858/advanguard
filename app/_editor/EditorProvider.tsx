@@ -4,6 +4,7 @@ import type { Content, SectionType } from "@/types/content";
 import { migrateContent, genSectionId, createSection } from "@/types/content";
 import type { EditorState, EditorAction } from "./types";
 import { VARIANTS, type LandingVariant } from "@/lib/landing/variants";
+import { remapIndexedKeys, remapIndexedRecord } from "./listKeys";
 
 const HISTORY_LIMIT = 50;
 
@@ -60,6 +61,22 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
       if (action.size === "default") delete current[action.path];
       else current[action.path] = action.size;
       const next = { ...state.draft, imageSizes: current };
+      return withDraft(state, next);
+    }
+    case "mutateList": {
+      // Index-keyed metadata (hiddenFields / imageSizes) must travel with the
+      // items it describes. Without this, deleting item 3 leaves "…items.3.name"
+      // hidden and it silently re-applies to whatever slid into slot 3 — the
+      // classic "it deleted the wrong card" / "the new card came in blank".
+      const withItems = setByPath(state.draft, action.path, action.items) as Content;
+      const { keyPrefix, indexMap } = action;
+      const next: Content = { ...withItems };
+      if (withItems.hiddenFields) {
+        next.hiddenFields = remapIndexedKeys(withItems.hiddenFields, keyPrefix, indexMap);
+      }
+      if (withItems.imageSizes) {
+        next.imageSizes = remapIndexedRecord(withItems.imageSizes, keyPrefix, indexMap);
+      }
       return withDraft(state, next);
     }
     case "reset":
@@ -133,6 +150,8 @@ type EditorContextValue = {
   /** Persists the draft immediately instead of waiting for the debounce. */
   flushDraft: () => Promise<void>;
   setField: (path: string, value: unknown) => void;
+  /** Replaces a repeatable list, carrying its index-keyed metadata along. */
+  mutateList: (path: string, items: unknown[], keyPrefix: string, indexMap: number[]) => void;
   setFieldHidden: (path: string, hidden: boolean) => void;
   isFieldHidden: (path: string) => boolean;
   setImageSize: (path: string, size: "default" | "bigger" | "full") => void;
@@ -257,6 +276,8 @@ export function EditorProvider({
       }).catch(() => {});
     },
     setField: (path, value) => dispatch({ type: "set", path, value }),
+    mutateList: (path, items, keyPrefix, indexMap) =>
+      dispatch({ type: "mutateList", path, items, keyPrefix, indexMap }),
     setFieldHidden: (path, hidden) => dispatch({ type: "setFieldHidden", path, hidden }),
     isFieldHidden: (path) => (state.draft.hiddenFields ?? []).includes(path),
     setImageSize: (path, size) => dispatch({ type: "setImageSize", path, size }),

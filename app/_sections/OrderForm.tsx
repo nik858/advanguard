@@ -223,7 +223,14 @@ export function OrderForm({ content: order, onCheckout, edit = false }: { conten
           {order.miniTestimonials.map((t, i) => (
             <div className="ac-order__mini-card" key={i}>
               <Erasable path={`order.miniTestimonials.${i}.avatar`} label="avatar">
-                <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true"/>
+                {edit ? (
+                  <div className="ac-order__mini-avatar-slot">
+                    <MediaSlot path={`order.miniTestimonials.${i}.avatar`} accept="image" bubble />
+                    <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true" />
+                  </div>
+                ) : (
+                  <div className="ac-order__mini-avatar" style={{ backgroundImage: `url(${mediaUrl(t.avatar)})` }} aria-hidden="true" />
+                )}
               </Erasable>
               <div>
                 <Erasable path={`order.miniTestimonials.${i}.name`} label="name">
