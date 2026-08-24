@@ -2,8 +2,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { verifySession, SESSION_CONFIG } from "@/lib/auth";
 
 export const config = {
-  // Both landing pages are editable in place, each with its own content.
-  matcher: ["/admin/:path*", "/", "/premium"],
+  // Every landing page is editable in place, each with its own content.
+  // Kept literal (not built from lib/landing/variants) because Next requires
+  // the matcher to be statically analysable.
+  matcher: ["/admin/:path*", "/", "/premium", "/premium.slo"],
 };
 
 export async function middleware(req: NextRequest) {

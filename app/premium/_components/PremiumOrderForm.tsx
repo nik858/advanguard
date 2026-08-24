@@ -4,6 +4,7 @@ import { loadStripe, type StripeEmbeddedCheckout } from "@stripe/stripe-js";
 import { useLeadGate } from "@/app/_sections/_shared/LeadGate";
 import { Icons } from "@/app/_sections/_shared/Icons";
 import { EditRich } from "@/app/_editor/EditRich";
+import { useRenderContext } from "@/app/_editor/RenderContext";
 import { RepeatableList } from "@/app/_editor/RepeatableList";
 import { Erasable } from "@/app/_editor/Erasable";
 import { MediaSlot } from "@/app/_editor/MediaSlot";
@@ -43,6 +44,8 @@ export function PremiumOrderForm({ content: order, edit = false }: { content: Or
   const mountRef = useRef<HTMLDivElement>(null);
   const honeypotRef = useRef<HTMLInputElement>(null);
   const { submitted } = useLeadGate();
+  // Which paid page this form is mounted on (/premium vs /premium.slo).
+  const { checkoutVariant = "premium" } = useRenderContext();
   // In the editor the card must stay live and inert: no success lock, and the
   // CTA must never open a real (billable) Stripe checkout.
   const locked = submitted && !edit;
@@ -82,6 +85,7 @@ export function PremiumOrderForm({ content: order, edit = false }: { content: Or
           email: email.trim(),
           clinic_type: clinicType,
           clinic_url: clinicUrl.trim(),
+          variant: checkoutVariant,
           website: honeypotRef.current?.value ?? "",
         }),
       });

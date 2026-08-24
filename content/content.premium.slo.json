@@ -1,0 +1,472 @@
+{
+  "version": 2,
+  "meta": {
+    "title": "Bookingleak",
+    "description": "Get leads in minute.",
+    "brand": "Advanguard",
+    "productName": "[INSERT YOUR PRODUCT NAME]",
+    "canonical": "https://www.bookingleak.com/",
+    "ogImage": "/assets/video-thumbnail.png"
+  },
+  "header": {
+    "orderByPhone": "Excellent based on 71+ reviews",
+    "needHelp": "Need help? nik@bookingleak.com",
+    "logoLight": "/assets/advanguard-logo-white.png",
+    "logoDark": "/assets/advanguard-logo-dark.png",
+    "logoText": "ADVANGUARD",
+    "favicon": "/assets/bookingleak-favicon.png"
+  },
+  "footer": {
+    "disclaimer": "This site is not a part of the Facebook website or Facebook Inc. Additionally, This site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.",
+    "ctaLabel": "Download Now for only $5.00",
+    "ctaTagline": "Get Your eBook Now!",
+    "earnings": "Need help? Contact us on nik@bookingleak.com",
+    "logoText": "ADVANGUARD",
+    "copyright": "© 2026 Advanguard. All rights reserved.",
+    "privacyLabel": "Privacy Policy",
+    "privacyUrl": "https://www.advanguard.agency/privacy-policy"
+  },
+  "sections": [
+    {
+      "id": "headline",
+      "type": "headline",
+      "hidden": false,
+      "style": {
+        "pt": 4,
+        "pb": 0
+      },
+      "data": {
+        "headline": {
+          "eyebrow": "For Clinic Owners Looking To Add More Booked Patients Online",
+          "eyebrowDotColor": "rgb(28,127,255)",
+          "h1": "Find Out What's <span style=\"color:#1c7fff\">Really Stopping</span> Patients From Booking On Your Website",
+          "sub": "<strong>It's not your ads, content, or prices. \n</strong>The Patient-Leak System uncovers the invisible leaks and tells you exactly what to fix first, <u>delivered straight to your inbox within minutes.</u>"
+        }
+      }
+    },
+    {
+      "id": "hero",
+      "type": "hero",
+      "hidden": false,
+      "style": {
+        "pt": 20,
+        "pb": 0
+      },
+      "data": {
+        "hero": {
+          "videoLabel": "",
+          "videoUrl": "https://www.veed.io/embed/7863359d-d6c3-4816-89c5-f4b37f5b5569?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
+          "videoPoster": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786120836917-hf_20260807_094912_a8bccdf3-ee49-46d5-a597-db3745ab2b3c%20%281%29-nBmKaYPv2c4GGTrKXBkaC55fBO45vZ.webp",
+          "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
+          "sectionBody": "The Patient-Leak System is a counterintuitive approach that <u>analyses your clinic's website and delivers personalised solutions for your specific case.</u>\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nThe analysis includes <strong>14 crucial signals</strong>, with the results delivered as a personalized action plan across <strong>3 separate emails.\n </strong><strong> </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786052119400-Screenshot%202026-08-06%20at%2023.35.00-m6JEysmDAi0f42Npu3NBtCpsLVOsar.webp\" alt=\"\"><strong> </strong><strong> </strong>  \n<em>All of it built by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals.\n</em>\nAs a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities."
+        },
+        "order": {
+          "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
+          "productName": "        Patient-Leak System          <span style=\"color:#140c0c\"><u>$27.00 O</u>ne-time<u> </u></span>",
+          "productSubtitle": "FREE Today",
+          "image": "/media/order-product.webp",
+          "limitedTime": "",
+          "priceWas": "",
+          "priceNow": "",
+          "priceSubLine": "",
+          "description": "The same analysis agencies template out for <strong>Four Figures.</strong>\n\n<em>No actionable findings? \n100% Money Back Guarantee</em>\n",
+          "ctaTagline": "",
+          "ctaLabel": " CHECKOUT ",
+          "secureText": "Payment secured by 256-bit encryption",
+          "guaranteeText": "<em> First email will arrive 3 minutes after payment</em>",
+          "ratingText": "⭐ 4.9 rating from 71+ audits delivered (Updated July 2026)",
+          "successMessage": "Success. Your Patient-Leak Findings will be emailed in 3-minutes",
+          "miniTestimonials": [
+            {
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Mark P.",
+              "role": "Owner of Lumière Aesthetics, Miami FL",
+              "quote": "Genuinely useful. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would."
+            },
+            {
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Dr. James Okonkwo",
+              "role": "All-on-4 Specialist, Toronto",
+              "quote": "Pure value without any upsell tactics"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "935d27e4-c7a0-4b66-b509-1589bd70c965",
+      "type": "demo",
+      "data": {
+        "demo": {
+          "h2": "Why Patients Really Leave Your Website <span style=\"color:#1c7fff\">Without Booking</span>",
+          "videoUrl": "https://www.veed.io/embed/657fdaa5-d409-4d07-b0c1-e46af366d458?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
+          "videoPoster": ""
+        }
+      }
+    },
+    {
+      "id": "guarantee",
+      "type": "guarantee",
+      "hidden": false,
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "guarantee": {
+          "h2": "Why Patients Really Leave Your Website <span style=\"color:#1c7fff\">Without Booking\n</span><span style=\"color:#1c7fff\"></span>",
+          "body": "When a patient lands on your site, they're making an emotional decision rather than a logical one. \n\nWhich means they're not really reading your pages, but scanning them for reasons to feel safe.\n\nThe moment something interrupts that feeling, they close the page and don't push through.\n\n<u>For example: </u>when people visit your site, they want to see the outcome they can expect, not the fancy new machine you're using. If your before-and-after gallery clearly shows those outcomes, that's the evidence they need. If it doesn't, they feel less certain, and an uncertain patient doesn't book.<br><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786093419588-hf_20260807_090013_9019bfcb-2e78-47a5-9cb5-0be55d5a1c81-YLlsyhGtVKsRGYLARwLOntRV5b0B7Y.webp\" alt=\"\"><strong>And it makes total sense!\n</strong>\nWhen someone is about to spend <em>four or five figures</em> on a procedure, they want to be 100% sure about it.\n\nThat's why the <span style=\"color:#1c7fff\">Patient-Leak System</span> <u>makes sure that trust is kept.</u>\n\nHere's how to use it:\n"
+        }
+      }
+    },
+    {
+      "id": "dfbcb9d2-972f-4304-849c-f95b34d09423",
+      "type": "onlySystem",
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "onlySystem": {
+          "eyebrow": "",
+          "eyebrowDotColor": "rgb(28,127,255)",
+          "h2": "The Only System <span style=\"color:#1c7fff\">You’ll Need To </span>Acquire Patients",
+          "body": "",
+          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786093390573-hf_20260807_085826_426226fe-005d-4c9e-bd41-b665786b4589-JeYTi14NIkDweU5BUCwiG49FAQNCuQ.webp",
+          "leftFeatures": [],
+          "rightFeatures": [],
+          "stats": [],
+          "ctaTagline": "",
+          "ctaLabel": "RECEIVE MY AUDIT",
+          "ctaSubLink": "",
+          "guaranteeText": ""
+        }
+      }
+    },
+    {
+      "id": "4debdc5f-d4ab-4b77-92c6-5d1d3c39155d",
+      "type": "guarantee",
+      "hidden": false,
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "guarantee": {
+          "h2": "The PATIENT-LEAK SYSTEM is a <span style=\"color:#1c7fff\">Shortcut</span>",
+          "body": "Before we created the <span style=\"color:#1c7fff\">Patient-Leak System,</span> increasing the appointment booking rate for clinics was a lottery for most clinic owners.\n\nThey came to us with a list of changes they made, or agency report templates providing the same solutions for everyone.\n\nWe were shocked. But at the same time, we saw an opportunity in it.\n\nHow could we provide clinic owners with true value without guesswork or burning another thousand bucks on a PDF template?\n\n<strong>So we decided to find a different way.\n</strong>\nAfter spending €550,000+ on different patient funnel approaches, we were able to build a system that shows you exactly what we spent years learning.\n\nThat's why our <span style=\"color:#1c7fff\">Patient-Leak System</span> allows you to use all our knowledge tailored to your clinic’s specific case.\n\nAgencies usually charge <u>four figures for audits built from templates.</u> \n\nThis one is <strong>only $27</strong>, and it's built for <strong>your site.</strong>\n\nSee below to learn how it works in detail:"
+        }
+      }
+    },
+    {
+      "id": "d93677d1-588d-4175-b5f7-86dc06c34ce0",
+      "type": "onlySystem",
+      "hidden": false,
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "onlySystem": {
+          "eyebrow": "",
+          "eyebrowDotColor": "rgb(28,127,255)",
+          "h2": "Heading",
+          "body": "",
+          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786122445935-hf_20260807_170030_5fd71376-d5c7-4bcf-b3bf-37dfbf657eed-AnD9v9vPmwTKzxStwUbXOmbPWUqjsh.webp",
+          "leftFeatures": [],
+          "rightFeatures": [],
+          "stats": [],
+          "ctaTagline": "",
+          "ctaLabel": "Buy now",
+          "ctaSubLink": "",
+          "guaranteeText": ""
+        }
+      }
+    },
+    {
+      "id": "35038ad9-15ec-4e3e-bda2-203113b00cba",
+      "type": "guarantee",
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "guarantee": {
+          "h2": "Here’s <span style=\"color:#1c7fff\">What That Means For You</span> And Your Clinic<span style=\"color:#1c7fff\"></span>",
+          "body": "Every clinic is built on one thing and one thing only - its ability to generate revenue.\n\nAnd revenue is largely based on the ability to get patients.\n\n<strong>Generating patients is also the #1 expense a clinic will incur on its path to growth.</strong>\n\nThat's why we developed the <span style=\"color:#1c7fff\">Patient-Leak System</span> model, to help you recover the patients your website is currently losing... and turn the traffic you already pay for into booked appointments.\n\nHow far you scale is up to you.\n\n<em>Here are a few of our clients and their stories of what they’ve been able to accomplish with the help of the Patient-Leak System.</em>\n"
+        }
+      }
+    },
+    {
+      "id": "testimonials",
+      "type": "testimonials",
+      "style": {
+        "pt": 36,
+        "pb": 0
+      },
+      "data": {
+        "testimonials": {
+          "rating": "Excellent based on 71 reviews",
+          "h2": "What Are <span style=\"color:#1c7fff\">Clinic Owners Saying</span> About Our Model?",
+          "pullQuote": "",
+          "items": [
+            {
+              "type": "video",
+              "videoUrl": "https://www.veed.io/embed/ffa1f96e-b643-4b50-9208-44c3977abbb9?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
+              "videoPoster": "",
+              "name": "Gary M.",
+              "role": "Owner of Aesthetics clinic",
+              "quote": "We truly, truly appreciate it. Thank you."
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Dr. Sarah H.",
+              "role": "Implantology Clinic, Phoenix AZ",
+              "quote": "The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.",
+              "highlights": [
+                "egestas arcu mauris dictum",
+                "feugiat turpis lacinia orci"
+              ]
+            },
+            {
+              "type": "video",
+              "videoUrl": "https://www.veed.io/embed/49ac6fa3-3b72-455b-a43a-154720f81294?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
+              "videoPoster": "",
+              "name": "Adam N.",
+              "role": "Outsourced CMO for Healthcare Clinics",
+              "quote": "We are so happy with the results."
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Lisa V.",
+              "role": "Med Spa Owner, Palm Beach FL",
+              "quote": "I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, confirmed.",
+              "highlights": [
+                "adipiscing"
+              ]
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Mark P.",
+              "role": "Owner of Lumière Aesthetics, Miami FL",
+              "quote": "Genuinely useful! We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
+              "highlights": [
+                "egestas arcu mauris dictum",
+                "odio quis"
+              ]
+            },
+            {
+              "type": "text",
+              "avatar": "/assets/avatar-placeholder.png",
+              "name": "Dr. Clemente H.",
+              "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
+              "quote": "In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.",
+              "highlights": [
+                "tristique aliquet pulvinar"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "faac4f00-a451-4fd5-b1c0-464134a94ae8",
+      "type": "guarantee",
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "guarantee": {
+          "h2": "The Only System <span style=\"color:#1c7fff\">You’ll Need </span>To Acquire Patients<span style=\"color:#1c7fff\"></span>",
+          "body": "This system exists because we ran the same clinics through every possible approach first, so that you can learn from our mistakes, our wins, and benefit from all the time, effort, and money that went into the experiences behind the <span style=\"color:#1c7fff\">Patient-Leak System.</span>\n\nWhat's left are the 14 most important signals, packed into 3 separate emails, that show you the real reasons why patients are dropping off your page before booking an actual appointment."
+        }
+      }
+    },
+    {
+      "id": "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d",
+      "type": "onlySystem",
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "onlySystem": {
+          "eyebrow": "",
+          "eyebrowDotColor": "rgb(28,127,255)",
+          "h2": "The Only System <span style=\"color:#1c7fff\">You’ll Need To </span>Acquire Patients",
+          "body": "",
+          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1784883934026-hf_20260723_154915_4a21634c-e3be-4471-9125-c20c51000a54%20%281%29-k4uUmHWydEl7LQEYevmtgTvXnL9OX4.webp",
+          "leftFeatures": [],
+          "rightFeatures": [],
+          "stats": [],
+          "ctaTagline": "",
+          "ctaLabel": "RECEIVE MY AUDIT",
+          "ctaSubLink": "",
+          "guaranteeText": ""
+        }
+      }
+    },
+    {
+      "id": "63cbc035-b2ec-466b-ad5b-854c85e3b3df",
+      "type": "guarantee",
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "guarantee": {
+          "h2": "Here's What We<span style=\"color:#1c7fff\"> Guarantee🔒</span>",
+          "body": "Your diagnosis will be specific to your clinic's case.\n\nIt will name the exact signals missing from your site, benchmark them against clinics in your vertical, and tell you what to fix first.\n\nIf it reads like something that could have been written for any clinic on the internet, call us out on it. <strong>We mean that.</strong>\n\nAnd if your diagnosis doesn't contain at least one actionable finding you can use this week, <u>we refund your $27 in full.</u>"
+        }
+      }
+    },
+    {
+      "id": "faq",
+      "type": "faq",
+      "style": {
+        "pb": 0
+      },
+      "data": {
+        "faq": {
+          "h2": "Frequently Asked <span style=\"color:#1c7fff\">Questions</span>",
+          "sub": "Need help? nik@bookingleak.com",
+          "items": [
+            {
+              "q": "🔹 Who is this for?",
+              "a": "The Patient-Leak System was built for clinic owners and practice decision-makers running medium-to-high ticket healthcare services. Dental implant, All-on-4/6, aesthetic, med spa, and physiotherapy clinics specifically.\nIf you are a general practitioner, a pharmacy, or a clinic outside those verticals, this is not the right fit and we will tell you that during submission."
+            },
+            {
+              "q": "🔹 Why does it cost $27?",
+              "a": "Honestly, it's a filter, not a profit center. When the audit was open to everyone, most of them were never implemented. The $27 keeps it limited to clinic owners who are serious about fixing what we find, and it doesn't even cover what the analysis costs us to run. And if it turns out we're wrong about your site, the money back guarantee means it costs you nothing anyway\n"
+            },
+            {
+              "q": "🔹 How is this personalized?",
+              "a": "You submit your clinic's website URL directly, and our system deeply analyses it against 14 healthcare-specific signals for your vertical.\nNothing in your diagnosis is written for &quot;clinics in general.&quot; It is written for your URL, your vertical, and the market you operate in."
+            },
+            {
+              "q": "🔹 I've had marketing audits before. Why is this different?",
+              "a": "Because this isn't a marketing audit.\nMost audits tell you to create more content, more ads, etc. The Patient-Leak System tells you what's already broken. The 14 signals we check are the specific technical, structural, and psychological barriers that stop patients from booking even when your ads are working.\nWe're basically telling you what to fix."
+            },
+            {
+              "q": "🔹 How long does it take to get my diagnosis?",
+              "a": "Your first finding arrives within minutes of submitting.\nThe second arrives on day 2. The third on day 3.\nWe space them deliberately, one finding at a time is actionable. \nThree findings at once becomes a to-do list nobody finishes. Trust us, we tried that."
+            },
+            {
+              "q": "🔹 Is there a guarantee?",
+              "a": "Yes. If your diagnosis does not contain at least one specific, actionable finding you can implement this week, reply to any of the emails and we refund your $27 in full. "
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc",
+      "type": "stack",
+      "hidden": false,
+      "style": {
+        "pt": 0,
+        "pb": 0
+      },
+      "data": {
+        "stack": {
+          "h2": "What you get",
+          "bigStackImg": "/media/stack-bundle.webp",
+          "items": [],
+          "ctaTagline": "",
+          "ctaLabel": "RECEIVE MY AUDIT",
+          "guaranteeText": ""
+        }
+      }
+    },
+    {
+      "id": "c211fabd-2c4d-495f-b28b-ee83db1a9954",
+      "type": "headline",
+      "style": {
+        "pb": 0
+      },
+      "data": {
+        "headline": {
+          "eyebrow": "Eyebrow text",
+          "eyebrowDotColor": "rgb(28,127,255)",
+          "h1": "New headline",
+          "sub": "Subtitle"
+        }
+      }
+    }
+  ],
+  "admin": {
+    "leads": {
+      "eyebrow": "CRM · Leads",
+      "title": "Every lead in one place.",
+      "tooltip": "Inbound submissions land here automatically. Add manual leads with the + New lead button. Click any row for details."
+    }
+  },
+  "hiddenFields": [
+    "hero:order.priceWas",
+    "header.phoneIcon",
+    "onlySystem:onlySystem.eyebrow",
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.h2",
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.eyebrow",
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.cta",
+    "testimonials:testimonials.rating",
+    "testimonials:testimonials.items.7.name",
+    "testimonials:testimonials.items.7.role",
+    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.eyebrow",
+    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.h2",
+    "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.h2",
+    "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.bigStackImg",
+    "footer.cta",
+    "header.logoDark",
+    "testimonials:testimonials.items.0.avatar",
+    "testimonials:testimonials.items.2.avatar",
+    "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.h2",
+    "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.eyebrowDot",
+    "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.cta",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.badge",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.image",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.productName",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.productSubtitle",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.priceRow",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.description",
+    "7951bb76-74d6-450e-a50e-acb921dae137:hero.videoUrl",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.ratingText",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.guaranteeText",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.secureText",
+    "7951bb76-74d6-450e-a50e-acb921dae137:order.successMessage",
+    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.cta",
+    "hero:order.productSubtitle",
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.h2",
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.eyebrow",
+    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.h2",
+    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.eyebrow",
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.cta",
+    "faq:faq.items.0.qIcon",
+    "faq:faq.items.1.qIcon",
+    "faq:faq.items.3.qIcon",
+    "faq:faq.items.2.qIcon",
+    "faq:faq.items.5.qIcon",
+    "faq:faq.items.4.qIcon",
+    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.eyebrow",
+    "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.h2",
+    "5eed4f38-c566-40d2-a39e-d8213fce2913:testimonials.rating",
+    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.h2",
+    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.h1",
+    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.eyebrow",
+    "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.sub",
+    "guarantee:guarantee.h2"
+  ],
+  "imageSizes": {
+    "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
+    "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.centerImage": "bigger",
+    "hero:hero.videoUrl": "bigger",
+    "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.centerImage": "bigger",
+    "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "full",
+    "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.centerImage": "bigger",
+    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full",
+    "935d27e4-c7a0-4b66-b509-1589bd70c965:demo.videoUrl": "full"
+  }
+}

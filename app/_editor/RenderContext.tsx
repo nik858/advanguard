@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, type ReactNode } from "react";
+import type { PaidVariant } from "@/lib/landing/variants";
 
 export type ImageSize = "default" | "bigger" | "full";
 
@@ -10,6 +11,11 @@ type RenderContextValue = {
   imageSizes: Record<string, ImageSize>;
   /** Whether we're rendering inside the inline editor. */
   edit: boolean;
+  /** Which paid landing page this render belongs to — the order form posts it
+      to /api/premium/checkout so the buyer comes back to the right thank-you
+      page and the lead is attributed to the right funnel. Absent on the free
+      page, where no Checkout session is ever opened. */
+  checkoutVariant?: PaidVariant;
 };
 
 const RenderContext = createContext<RenderContextValue>({

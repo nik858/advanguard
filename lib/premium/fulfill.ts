@@ -4,7 +4,9 @@ import { runAudit } from "@/lib/audit/index";
 import { addContactToSegment } from "@/lib/email";
 import { extractDomain, normalizeClinicUrl } from "@/lib/audit/domain";
 import { insertPaidLeadOnce } from "@/lib/db/leads";
+import type { LeadSource } from "@/lib/db/schema";
 import { CLINIC_TYPES, type ClinicType } from "@/lib/leads/clinic-types";
+import { PAID_VARIANTS, paidConfig } from "@/lib/landing/variants";
 import type { Lead } from "@/types/audit";
 
 // Mirror of the set in app/api/lead/route.ts (kept private there — the free
@@ -19,6 +21,11 @@ const INTERNAL_DOMAINS = new Set([
 ]);
 
 export type FulfillResult = "fulfilled" | "already_fulfilled" | "skipped";
+
+// The `leads.source` values a Checkout session is allowed to claim. Anything
+// else in the metadata is ignored in favour of the original premium funnel —
+// the session metadata is attacker-controllable in principle.
+const PAID_SOURCES = new Set<string>(PAID_VARIANTS.map((v) => paidConfig(v).leadSource));
 
 /**
  * Fulfillment for a premium Checkout session: insert the lead and fire the exact
@@ -43,6 +50,12 @@ export async function fulfillPremiumCheckout(session: Stripe.Checkout.Session): 
     ? (md.clinic_type as ClinicType)
     : null;
   const emailDomain = extractDomain(email);
+  // Which paid landing page sold this audit (set in the Checkout session).
+  // The cast is guarded twice over: by the runtime check above and by the test
+  // asserting every variant's leadSource is a declared LEAD_SOURCES value.
+  const paidSource = (md.lead_source && PAID_SOURCES.has(md.lead_source)
+    ? md.lead_source
+    : "paid") as LeadSource;
   // The clinic identity (used in the audit emails) is the typed URL's host,
   // not the email domain — buyers may well pay with a personal address.
   const domain = clinicUrl ? new URL(clinicUrl).hostname.replace(/^www\./, "") : emailDomain;
@@ -52,7 +65,7 @@ export async function fulfillPremiumCheckout(session: Stripe.Checkout.Session): 
     row = await insertPaidLeadOnce({
       email,
       domain,
-      source: "paid", // DB value: the funnel that produced the lead
+      source: paidSource, // DB value: the funnel that produced the lead
       clinicType,
       clinicUrl,
       stripeSessionId: session.id,
