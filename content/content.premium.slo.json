@@ -62,7 +62,7 @@
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
-          "productName": "        Patient-Leak System          <span style=\"color:#140c0c\"><u>$27.00 O</u>ne-time<u> </u></span>",
+          "productName": "        Patient-Leak System          <span style=\"color:#140c0c\"><u>$27</u> One-time<u> </u></span>",
           "productSubtitle": "FREE Today",
           "image": "/media/order-product.webp",
           "limitedTime": "",
@@ -267,6 +267,30 @@
               "highlights": [
                 "tristique aliquet pulvinar"
               ]
+            },
+            {
+              "type": "text",
+              "avatar": "",
+              "name": "Name",
+              "role": "Role",
+              "quote": "New testimonial quote.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "",
+              "name": "Mary C.",
+              "role": "Med Spa Clinic CEO, Austin, Texas ",
+              "quote": "Good insights, mobile speed in our case did the breakthrough.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "",
+              "name": "ddsdsdsdName",
+              "role": "Role",
+              "quote": "New testimonial quote.",
+              "highlights": []
             }
           ]
         }
@@ -457,7 +481,11 @@
     "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.h1",
     "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.eyebrow",
     "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.sub",
-    "guarantee:guarantee.h2"
+    "guarantee:guarantee.h2",
+    "94d955e5-ae7c-4643-b404-f6914e48f1be:testimonials.rating",
+    "b880d831-37f1-431a-b36e-a3f73585e39a:testimonials.rating",
+    "testimonials:testimonials.items.8.avatar",
+    "testimonials:testimonials.items.6.avatar"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
