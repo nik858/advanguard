@@ -1,5 +1,6 @@
 "use client";
 import { useEditor } from "./EditorProvider";
+import { VARIANTS } from "@/lib/landing/variants";
 import { ToastProvider } from "../_components/Toast";
 import { Header } from "../_sections/Header";
 import { Footer } from "../_sections/Footer";
@@ -20,7 +21,7 @@ export function LandingTree() {
   const editing = !state.previewMode;
   // The premium page swaps the hero so the operator edits (and previews) the
   // real paid order card rather than the free lead form.
-  const Body = variant === "premium" ? PremiumSectionBody : SectionBody;
+  const Body = VARIANTS[variant].paid ? PremiumSectionBody : SectionBody;
   return (
     <ToastProvider>
       <PublishBar />

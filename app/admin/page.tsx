@@ -39,8 +39,8 @@ export default async function AdminHome() {
         </p>
       </div>
 
-      {/* Primary actions — one editor per landing page. The two pages hold
-          separate content: editing one never changes the other. */}
+      {/* Primary actions — one editor per landing page. Each page holds its
+          own content: editing one never changes the others. */}
       <Link href="/" className={styles.primaryCard}>
         <div className={styles.primaryIcon}>
           <Icons.Pencil />
@@ -64,6 +64,21 @@ export default async function AdminHome() {
           <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 3 }}>Edit the premium landing page</div>
           <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.45 }}>
             bookingleak.com/premium — the $27 paid variant, with its own content.
+          </div>
+        </div>
+        <span className={styles.primaryArrow} aria-hidden>
+          &rarr;
+        </span>
+      </Link>
+
+      <Link href="/premium.slo" className={styles.primaryCard} style={{ marginTop: 12 }}>
+        <div className={styles.primaryIcon}>
+          <Icons.Pencil />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 3 }}>Edit the premium SLO landing page</div>
+          <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.45 }}>
+            bookingleak.com/premium.slo — same $27 offer on a separate traffic channel.
           </div>
         </div>
         <span className={styles.primaryArrow} aria-hidden>

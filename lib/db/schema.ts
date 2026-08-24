@@ -42,7 +42,10 @@ export type NewLead = typeof leads.$inferInsert;
 export const LEAD_STATUSES = ["new", "contacted", "client", "lost"] as const;
 export type LeadStatus = (typeof LEAD_STATUSES)[number];
 
-export const LEAD_SOURCES = ["inbound", "manual", "paid"] as const;
+// "paid" is the /premium funnel, "paid_slo" the /premium.slo one — the column
+// is free text, so a new paid landing page needs no migration (see
+// lib/landing/variants.ts).
+export const LEAD_SOURCES = ["inbound", "manual", "paid", "paid_slo"] as const;
 export type LeadSource = (typeof LEAD_SOURCES)[number];
 
 export const LEAD_AUDIT_OUTCOMES = ["success", "fallback"] as const;

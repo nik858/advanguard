@@ -48,10 +48,37 @@ describe("POST /api/premium/checkout", () => {
           lead_email: "matt@clinicabc.com",
           clinic_type: "dental_implant",
           clinic_url: "https://www.clinicabc.com/",
+          lead_source: "paid",
         },
         return_url: expect.stringContaining("/premium/thank-you?session_id="),
       }),
     );
+  });
+
+  it("defaults to the /premium funnel: its thank-you page and its lead source", async () => {
+    const { POST } = await import("@/app/api/premium/checkout/route");
+    await POST(mkReq(validBody));
+    const args = sessionsCreate.mock.calls[0][0];
+    expect(args.return_url).toContain("/premium/thank-you?session_id=");
+    expect(args.metadata.lead_source).toBe("paid");
+  });
+
+  it("routes the SLO variant to its own thank-you page and lead source", async () => {
+    const { POST } = await import("@/app/api/premium/checkout/route");
+    const res = await POST(mkReq({ ...validBody, variant: "premium_slo" }));
+    expect(res.status).toBe(200);
+    const args = sessionsCreate.mock.calls[0][0];
+    expect(args.return_url).toContain("/premium.slo/thank-you?session_id=");
+    expect(args.metadata.lead_source).toBe("paid_slo");
+  });
+
+  it("falls back to the premium funnel when the variant is unknown", async () => {
+    const { POST } = await import("@/app/api/premium/checkout/route");
+    const res = await POST(mkReq({ ...validBody, variant: "nope" }));
+    expect(res.status).toBe(200);
+    const args = sessionsCreate.mock.calls[0][0];
+    expect(args.return_url).toContain("/premium/thank-you?session_id=");
+    expect(args.metadata.lead_source).toBe("paid");
   });
 
   it("normalizes a scheme-less clinic URL to https", async () => {

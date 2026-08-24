@@ -4,8 +4,10 @@ import { getStripe } from "@/lib/stripe";
 import { checkLimit, clientIp, premiumCheckoutLimiter } from "@/lib/ratelimit";
 import { normalizeClinicUrl } from "@/lib/audit/domain";
 import { CLINIC_TYPES } from "@/lib/leads/clinic-types";
+import { paidConfig, parsePaidVariant } from "@/lib/landing/variants";
 
-// Creates the embedded Stripe Checkout session for the premium variant (/premium).
+// Creates the embedded Stripe Checkout session for a paid landing page
+// (/premium and /premium.slo share this route — see lib/landing/variants.ts).
 // Deliberately does NOT touch the leads table — per spec, no email enters the
 // audit system unless the payment completes (see lib/premium/fulfill.ts).
 
@@ -13,6 +15,8 @@ const BodySchema = z.object({
   email: z.string().email(),
   clinic_type: z.enum(CLINIC_TYPES),
   clinic_url: z.string().min(1),
+  // Which paid page the buyer is on; anything unknown falls back to /premium.
+  variant: z.string().optional(),
   website: z.string().optional(), // honeypot, same convention as /api/lead
 });
 
@@ -41,6 +45,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Payment is temporarily unavailable." }, { status: 500 });
   }
 
+  const variant = parsePaidVariant(parsed.data.variant);
+  const { leadSource, thankYouPath } = paidConfig(variant);
+
   const origin = new URL(req.url).origin;
   try {
     const session = await getStripe().checkout.sessions.create({
@@ -59,8 +66,10 @@ export async function POST(req: Request) {
         lead_email: parsed.data.email,
         clinic_type: parsed.data.clinic_type,
         clinic_url: clinicUrl,
+        // Read back on fulfillment: which funnel this lead came from.
+        lead_source: leadSource,
       },
-      return_url: `${origin}/premium/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${origin}${thankYouPath}?session_id={CHECKOUT_SESSION_ID}`,
     });
     return NextResponse.json({ clientSecret: session.client_secret });
   } catch (e) {
