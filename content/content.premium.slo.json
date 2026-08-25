@@ -39,8 +39,8 @@
         "headline": {
           "eyebrow": "Za lastnike klinik, ki želijo preko spleta pridobiti več naročenih pacientov",
           "eyebrowDotColor": "rgb(28,127,255)",
-          "h1": "Find Out What's <span style=\"color:#1c7fff\">Really Stopping</span> Patients From Booking On Your Website",
-          "sub": "<strong>It's not your ads, content, or prices. \n</strong>The Patient-Leak System uncovers the invisible leaks and tells you exactly what to fix first, <u>delivered straight to your inbox within minutes.</u>"
+          "h1": "Kaj Je Resnični Razlog, Ki <span style=\"color:#1c7fff\">Ustavlja Paciente</span>, Da Se Na Vaši Spletni Strani Ne Naročijo",
+          "sub": "<strong>(Ne gre za oglase, vsebino ali cene)\n</strong><span style=\"color:#1c7fff\">Patient-Leak Sistem</span> analizira in pokaže resnične vzroke, ki so odgovorni za nizko število povpraševanj. Analizo prejmete naravnost na vaš email <u>v nekaj minutah</u>.<u></u>"
         }
       }
     },
@@ -57,24 +57,24 @@
           "videoLabel": "",
           "videoUrl": "https://www.veed.io/embed/7863359d-d6c3-4816-89c5-f4b37f5b5569?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
           "videoPoster": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786120836917-hf_20260807_094912_a8bccdf3-ee49-46d5-a597-db3745ab2b3c%20%281%29-nBmKaYPv2c4GGTrKXBkaC55fBO45vZ.webp",
-          "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
-          "sectionBody": "The Patient-Leak System is a counterintuitive approach that <u>analyses your clinic's website and delivers personalised solutions for your specific case.</u>\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nThe analysis includes <strong>14 crucial signals</strong>, with the results delivered as a personalized action plan across <strong>3 separate emails.\n </strong><strong> </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786052119400-Screenshot%202026-08-06%20at%2023.35.00-m6JEysmDAi0f42Npu3NBtCpsLVOsar.webp\" alt=\"\"><strong> </strong><strong> </strong>  \n<em>All of it built by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals.\n</em>\nAs a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities."
+          "sectionTitle": "Kaj Je <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span><span style=\"color:#1c7fff\"></span>",
+          "sectionBody": "Sistem Patient-Leak je protiintuitiven pristop, ki analizira vašo spletno stran ter pripravi prilagojene predloge, ki rezultirajo na <strong>višje</strong> število oddanih povpraševanj.  \n\n<em>Namesto ugibanja, zakaj se pacienti za vas ne odločijo, boste sedaj točno vedeli, kje vaša spletna stran t.i. “pušča”.</em>\n\nAnaliza temelji na <strong>14 ključnih signalih</strong>, rezultate pa prejmete v obliki personaliziranega načrta predlogov, poslanega v <strong>3 ločenih mailih.</strong><strong>\n </strong><strong> </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786052119400-Screenshot%202026-08-06%20at%2023.35.00-m6JEysmDAi0f42Npu3NBtCpsLVOsar.webp\" alt=\"\">\n<strong></strong>Z implementacijo predlogov lahko <strong>povečate stopnjo oddanih povpraševanj do 30%</strong> brez dodatnega vložka v oglase ali druge marketinške aktivnosti."
         },
         "order": {
-          "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
-          "productName": "        Patient-Leak System          <span style=\"color:#140c0c\"><u>$27</u> One-time<u> </u></span>",
+          "badge": "PREJMITE DIAGNOZO SVOJE KLINIKE",
+          "productName": "        Patient-Leak Sistem          <span style=\"color:#140c0c\"><u>23€</u> Enkratni Znesek</span>",
           "productSubtitle": "FREE Today",
           "image": "/media/order-product.webp",
           "limitedTime": "",
           "priceWas": "",
           "priceNow": "",
           "priceSubLine": "",
-          "description": "The same analysis agencies template out for <strong>Four Figures.</strong>\n\n<em>No actionable findings? \n100% Money Back Guarantee</em>\n",
+          "description": "Analiza, za katero agencije zaračunajo štirimestne zneske.\n\n <em>100 % garancija vračila denarja, če ne prejmete nobene uporabne ugotovitve</em>\n\n",
           "ctaTagline": "",
           "ctaLabel": " CHECKOUT ",
-          "secureText": "Payment secured by 256-bit encryption",
-          "guaranteeText": "<em> First email will arrive 3 minutes after payment</em>",
-          "ratingText": "⭐ 4.9 rating from 71+ audits delivered (Updated July 2026)",
+          "secureText": "Varno Plačilo",
+          "guaranteeText": "<em> Prvo analizo prejmete 3 minute po plačilu!</em>",
+          "ratingText": "⭐ 4,9 ocena na podlagi 71+ opravljenih analiz (posodobljeno julij 2026)\n",
           "successMessage": "Success. Your Patient-Leak Findings will be emailed in 3-minutes",
           "miniTestimonials": [
             {
