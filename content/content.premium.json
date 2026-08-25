@@ -58,7 +58,7 @@
           "videoUrl": "https://www.veed.io/embed/7863359d-d6c3-4816-89c5-f4b37f5b5569?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
           "videoPoster": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786120836917-hf_20260807_094912_a8bccdf3-ee49-46d5-a597-db3745ab2b3c%20%281%29-nBmKaYPv2c4GGTrKXBkaC55fBO45vZ.webp",
           "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
-          "sectionBody": "The Patient-Leak System is a counterintuitive approach that analyses your clinic's website and <u>delivers personalised solutions for your specific case.</u>\n\nThe analysis includes <strong>14 crucial signals</strong>, with the results delivered as a personalized action plan across \n<strong>3 separate emails.\n\n</strong>Instead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n<strong> </strong><strong> </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786052119400-Screenshot%202026-08-06%20at%2023.35.00-m6JEysmDAi0f42Npu3NBtCpsLVOsar.webp\" alt=\"\">As a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities."
+          "sectionBody": "The Patient-Leak System is a counterintuitive approach that analyses your clinic's website and <u>delivers personalised solutions for your specific case.</u>\n\nThe analysis includes <strong>14 crucial signals</strong>, with the results delivered as a personalized action plan across <strong>3 separate emails.\n\n</strong>Instead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n<strong> </strong><strong> </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786052119400-Screenshot%202026-08-06%20at%2023.35.00-m6JEysmDAi0f42Npu3NBtCpsLVOsar.webp\" alt=\"\">As a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities."
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
@@ -202,7 +202,7 @@
       "type": "testimonials",
       "style": {
         "pt": 36,
-        "pb": 0
+        "pb": 36
       },
       "data": {
         "testimonials": {
@@ -239,6 +239,14 @@
             },
             {
               "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787650326833-hf_20260825_093015_2d94644e-49a5-4bf1-9e38-9e8647344d64-oAg4ubqUsR7rRFkaKwc1ug5pnYiLiZ.webp",
+              "name": "Oliver A.",
+              "role": "CEO of Rhinoplasty Clinic, London, UK",
+              "quote": "Value is definitely worth the money. We even hired Nik to fix the findings. Everything smooth, from A to Z.",
+              "highlights": []
+            },
+            {
+              "type": "text",
               "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787596571891-hf_20260824_183452_a9a0a4f5-43d8-4c06-9125-aa072a1fe277-zwRnpTBxlmZ9GeauCtVGDJj3PLsr5P.webp",
               "name": "Lisa V.",
               "role": "Med Spa Owner, Palm Beach FL",
@@ -270,6 +278,14 @@
             },
             {
               "type": "text",
+              "avatar": "",
+              "name": "Dr. Arthur M.",
+              "role": "Dentist, Manchester, UK",
+              "quote": "100% worth the money.",
+              "highlights": []
+            },
+            {
+              "type": "text",
               "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787648508159-hf_20260825_090031_e3b3bc5c-1b51-4c4b-a6ee-ded06cae3c46-XqpWkK0w1igh99E2VMl8dtk6pGrGuz.webp",
               "name": "Mary C.",
               "role": "Impant Clinic Owner, Austin, Texas",
@@ -290,6 +306,14 @@
               "name": "Jessica",
               "role": "Med Spa Clinic Manager",
               "quote": "I've spent $700+ on marketing audits that brought less insight than Patient-Leak. I'm impressed and grateful for it.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787650183392-hf_20260825_092832_5b2bd6b7-84f5-4380-942c-46075bfbc887-Ew2J0LNLz60gX5HDwnJzl9ZdIb5d1h.webp",
+              "name": "David S.",
+              "role": "CEO&amp;Manager, Implant Clinic, Tampa, FL ",
+              "quote": "I'm usually sceptical about ads but this one was worth it. We launched a new site recently and this analysis helped A LOT.",
               "highlights": []
             }
           ]
