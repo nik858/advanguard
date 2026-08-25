@@ -62,7 +62,7 @@
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
-          "productName": "        Patient-Leak System          <span style=\"color:#140c0c\"><u>$27</u> One-time<u> </u></span>",
+          "productName": "        Patient-Leak System          <span style=\"color:#140c0c\"><u>$27</u> One-time</span>",
           "productSubtitle": "FREE Today",
           "image": "/media/order-product.webp",
           "limitedTime": "",
@@ -280,7 +280,7 @@
               "type": "text",
               "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787648401177-hf_20260825_085850_c9427a72-0ec5-49be-9909-fb1cd161c76a-9xQQwmXTZAp2GRvAB4ER9SsioucUZI.webp",
               "name": "Dr. Anthony Y.",
-              "role": "Rejuvenation Clinic Owner, Arizona City, Arizona",
+              "role": "All on 4/6, Arizona City, Arizona",
               "quote": "This system showed us that mobile speed was one of our main issues. After fixing it, we actually detected a spike in conversion rate on our website.",
               "highlights": []
             },
