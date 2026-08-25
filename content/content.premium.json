@@ -58,7 +58,7 @@
           "videoUrl": "https://www.veed.io/embed/7863359d-d6c3-4816-89c5-f4b37f5b5569?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
           "videoPoster": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786120836917-hf_20260807_094912_a8bccdf3-ee49-46d5-a597-db3745ab2b3c%20%281%29-nBmKaYPv2c4GGTrKXBkaC55fBO45vZ.webp",
           "sectionTitle": "What is <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span>",
-          "sectionBody": "The Patient-Leak System is a counterintuitive approach that <u>analyses your clinic's website and delivers personalised solutions for your specific case.</u>\n\nInstead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n\nThe analysis includes <strong>14 crucial signals</strong>, with the results delivered as a personalized action plan across <strong>3 separate emails.\n </strong><strong> </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786052119400-Screenshot%202026-08-06%20at%2023.35.00-m6JEysmDAi0f42Npu3NBtCpsLVOsar.webp\" alt=\"\"><strong> </strong><strong> </strong>  \n<em>All of it built by combining our healthcare expertise with an advanced AI system trained strictly on healthcare verticals.\n</em>\nAs a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities."
+          "sectionBody": "The Patient-Leak System is a counterintuitive approach that analyses your clinic's website and <u>delivers personalised solutions for your specific case.</u>\n\nThe analysis includes <strong>14 crucial signals</strong>, with the results delivered as a personalized action plan across \n<strong>3 separate emails.\n\n</strong>Instead of guessing where patients drop off, you'll know exactly where your funnel is leaking, and why.\n<strong> </strong><strong> </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786052119400-Screenshot%202026-08-06%20at%2023.35.00-m6JEysmDAi0f42Npu3NBtCpsLVOsar.webp\" alt=\"\">As a result, you can raise your appointment booking rates by<strong> up to 30%</strong> without spending more on ads or other marketing activities."
         },
         "order": {
           "badge": "GET YOUR <u>INSTANT</u> CLINIC DIAGNOSIS",
@@ -78,13 +78,13 @@
           "successMessage": "Success. Your Patient-Leak Findings will be emailed in 3-minutes",
           "miniTestimonials": [
             {
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787647302893-hf_20260824_182955_0a3bb64c-40d8-49d8-87a4-7ec0dce3e07b-y9LTmEQubzGsxnO2BHZUid5N8Cgt9w.webp",
               "name": "Mark P.",
               "role": "Owner of Lumière Aesthetics, Miami FL",
               "quote": "Genuinely useful. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would."
             },
             {
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787647485428-hf_20260825_084346_0b8bb49f-bf1c-408e-adaf-7cf0e4433507-cEMGkKSZ9aRsni1uPQcZfreBrjR3xe.webp",
               "name": "Dr. James Okonkwo",
               "role": "All-on-4 Specialist, Toronto",
               "quote": "Pure value without any upsell tactics"
@@ -220,7 +220,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787596448920-hf_20260824_183022_c4f2db86-a8fd-4822-9a17-17c8634b22a5-ZfU00cfz5wc2VropwtmoXMQnAAfcmh.webp",
               "name": "Dr. Sarah H.",
               "role": "Implantology Clinic, Phoenix AZ",
               "quote": "The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.",
@@ -239,7 +239,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787596571891-hf_20260824_183452_a9a0a4f5-43d8-4c06-9125-aa072a1fe277-zwRnpTBxlmZ9GeauCtVGDJj3PLsr5P.webp",
               "name": "Lisa V.",
               "role": "Med Spa Owner, Palm Beach FL",
               "quote": "I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, confirmed.",
@@ -249,7 +249,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787596637639-hf_20260824_182955_0a3bb64c-40d8-49d8-87a4-7ec0dce3e07b-t66PrnRg2XJHGQOmzs3YEYzl7nv3J0.webp",
               "name": "Mark P.",
               "role": "Owner of Lumière Aesthetics, Miami FL",
               "quote": "Genuinely useful! We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
@@ -260,7 +260,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787596616421-hf_20260824_183553_a5d09b3c-7f8c-46eb-8bd1-ab985fa40617-ogFOG9ExoJvNG2INkWgzPzZiNFNOz8.webp",
               "name": "Dr. Clemente H.",
               "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
               "quote": "In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.",
@@ -270,26 +270,26 @@
             },
             {
               "type": "text",
-              "avatar": "",
-              "name": "Name",
-              "role": "Role",
-              "quote": "New testimonial quote.",
-              "highlights": []
-            },
-            {
-              "type": "text",
-              "avatar": "",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787648508159-hf_20260825_090031_e3b3bc5c-1b51-4c4b-a6ee-ded06cae3c46-XqpWkK0w1igh99E2VMl8dtk6pGrGuz.webp",
               "name": "Mary C.",
-              "role": "Med Spa Clinic CEO, Austin, Texas ",
-              "quote": "Good insights, mobile speed in our case did the breakthrough.",
+              "role": "Impant Clinic Owner, Austin, Texas",
+              "quote": "Good insights for a reasonable price.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787648401177-hf_20260825_085850_c9427a72-0ec5-49be-9909-fb1cd161c76a-9xQQwmXTZAp2GRvAB4ER9SsioucUZI.webp",
+              "name": "Dr. Anthony Y.",
+              "role": "Rejuvenation Clinic Owner, Arizona City, Arizona",
+              "quote": "This system showed us that mobile speed was one of our main issues. After fixing it, we actually detected a spike in conversion rate on our website.",
               "highlights": []
             },
             {
               "type": "text",
               "avatar": "",
-              "name": "ddsdsdsdName",
-              "role": "Role",
-              "quote": "New testimonial quote.",
+              "name": "Jessica",
+              "role": "Med Spa Clinic Manager",
+              "quote": "I've spent $700+ on marketing audits that brought less insight than Patient-Leak. I'm impressed and grateful for it.",
               "highlights": []
             }
           ]
@@ -437,8 +437,6 @@
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.eyebrow",
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.cta",
     "testimonials:testimonials.rating",
-    "testimonials:testimonials.items.7.name",
-    "testimonials:testimonials.items.7.role",
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.eyebrow",
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.h2",
     "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.h2",
@@ -484,8 +482,8 @@
     "guarantee:guarantee.h2",
     "94d955e5-ae7c-4643-b404-f6914e48f1be:testimonials.rating",
     "b880d831-37f1-431a-b36e-a3f73585e39a:testimonials.rating",
-    "testimonials:testimonials.items.8.avatar",
-    "testimonials:testimonials.items.6.avatar"
+    "31b8c283-8381-4577-9bbe-c9c6c9a1a6a8:testimonials.h2",
+    "31b8c283-8381-4577-9bbe-c9c6c9a1a6a8:testimonials.rating"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
