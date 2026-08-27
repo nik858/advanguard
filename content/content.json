@@ -78,16 +78,22 @@
           "successMessage": "Success. Your Patient-Leak Findings will be emailed in 3-minutes",
           "miniTestimonials": [
             {
-              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787604242931-images%20%281%29-GxtDuKoNxwf95MriWSumwlGvv5sIrJ.webp",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845263726-hf_20260824_182955_0a3bb64c-40d8-49d8-87a4-7ec0dce3e07b-INitQE2ECwuiieyxngbmkSXMM431Sp.webp",
               "name": "Mark P.",
               "role": "Owner of Lumière Aesthetics, Miami FL",
               "quote": "Genuinely useful. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would."
             },
             {
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845280309-hf_20260825_084346_0b8bb49f-bf1c-408e-adaf-7cf0e4433507-Mr0cIfcsWxVU8gsk0lQ2OWtfDdUBqe.webp",
               "name": "Dr. James Okonkwo",
               "role": "All-on-4 Specialist, Toronto",
               "quote": "Pure value without any upsell tactics"
+            },
+            {
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845303218-hf_20260825_090031_e3b3bc5c-1b51-4c4b-a6ee-ded06cae3c46-awd9NDCFhd8LbcH5sKBs4ty01DE6Rr.webp",
+              "name": "Mary C.",
+              "role": "Impant Clinic Owner, Austin, Texas",
+              "quote": "Short quote."
             }
           ]
         }
@@ -196,7 +202,7 @@
       "data": {
         "guarantee": {
           "h2": "Here’s <span style=\"color:#1c7fff\">What That Means For You</span> And Your Clinic<span style=\"color:#1c7fff\"></span>",
-          "body": "Every clinic is built on one thing and one thing only - its ability to generate revenue.\n\nAnd revenue is largely based on the ability to get patients.\n\n<strong>Generating patients is also the #1 expense a clinic will incur on its path to growth.</strong>\n\nThat’s why we developed the Patient-Leak System model to allow you to generate patients for free (while breaking even)…\n… and in turn, transform those patients into high-paying ones.\n\nHow far you scale is up to you.\n\n<em>Here are a few of our clients and their stories of what they’ve been able to accomplish with the help of the Patient-Leak System.</em>\n"
+          "body": "Every clinic is built on one thing and one thing only - its ability to generate revenue.\n\nAnd revenue is largely based on the ability to get patients.\n\n<strong>Generating patients is also the #1 expense a clinic will incur on its path to growth.</strong>\n\nThat’s why we developed the <strong><span style=\"color:#1c7fff\">Patient-Leak System </span></strong>model to allow you to generate patients for free (while breaking even)…\n… and in turn, transform those patients into high-paying ones.\n\nHow far you scale is up to you.\n"
         }
       }
     },
@@ -223,7 +229,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845221185-hf_20260824_183022_c4f2db86-a8fd-4822-9a17-17c8634b22a5-Pf7OmiHJfGG6YU5se5fTosN7Le22HN.webp",
               "name": "Dr. Sarah H.",
               "role": "Implantology Clinic, Phoenix AZ",
               "quote": "The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.",
@@ -242,7 +248,15 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787844929127-Screenshot%202026-08-25%20at%2011.31.52-4GlDp0u1BAuCgCt5OMG5kCbKREI89m.webp",
+              "name": "\nOliver A.",
+              "role": "CEO of Rhinoplasty Clinic, London, UK",
+              "quote": "Value is definitely worth the money. We even hired Nik to fix the findings. Everything smooth, from A to Z.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845207450-hf_20260824_183452_a9a0a4f5-43d8-4c06-9125-aa072a1fe277-xt64VcfEMtHwzVT0JgYzuXregjnzSw.webp",
               "name": "Lisa V.",
               "role": "Med Spa Owner, Palm Beach FL",
               "quote": "I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, confirmed.",
@@ -252,7 +266,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845193060-hf_20260824_182955_0a3bb64c-40d8-49d8-87a4-7ec0dce3e07b-DH9FV4SpiBDk7fe9XxX1DX3hyAUPOE.webp",
               "name": "Mark P.",
               "role": "Owner of Lumière Aesthetics, Miami FL",
               "quote": "Genuinely useful! We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
@@ -263,7 +277,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845172139-hf_20260824_183553_a5d09b3c-7f8c-46eb-8bd1-ab985fa40617-vhnUSlBa31K18DMy9HgTpfr85wXlg1.webp",
               "name": "Dr. Clemente H.",
               "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
               "quote": "In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.",
@@ -273,10 +287,42 @@
             },
             {
               "type": "text",
-              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787604298161-images-UCuVAnl1QilQVugZIcbLAV9bIlwixf.jpeg",
-              "name": "Test",
-              "role": "Role",
-              "quote": "Test",
+              "avatar": "",
+              "name": "Dr. Arthur M.",
+              "role": "Dentist, Manchester, UK",
+              "quote": "100% worth the money.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845041716-hf_20260825_090031_e3b3bc5c-1b51-4c4b-a6ee-ded06cae3c46-uvCPTvUJf3rXOY1Ocv0xl9PVBImcew.webp",
+              "name": "Mary C.",
+              "role": "Impant Clinic Owner, Austin, Texas",
+              "quote": "Good insights for a reasonable price.\n\n",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845085583-hf_20260825_085850_c9427a72-0ec5-49be-9909-fb1cd161c76a-sz4kdYCDfIlTSyEQ5XJxs9oFrQ1naP.webp",
+              "name": "\nDr. Anthony Y.",
+              "role": "All on 4/6, Arizona City, Arizona\n",
+              "quote": "This system showed us that mobile speed was one of our main issues. After fixing it, we actually detected a spike in conversion rate on our website.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "",
+              "name": "Jessica",
+              "role": "Med Spa Clinic Manager\n",
+              "quote": "I've spent $700+ on marketing audits that brought less insight than Patient-Leak. I'm impressed and grateful for it.\n\n",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1787845149671-hf_20260825_092832_5b2bd6b7-84f5-4380-942c-46075bfbc887-NGMKaLfCGe7sJuMgtZksc1o657HcCG.webp",
+              "name": "David S.",
+              "role": "CEO&amp;Manager, Implant Clinic, Tampa, FL ",
+              "quote": "I'm usually sceptical about ads but this one was worth it. We launched a new site recently and this analysis helped A LOT.",
               "highlights": []
             }
           ]
