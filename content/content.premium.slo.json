@@ -9,8 +9,8 @@
     "ogImage": "/assets/video-thumbnail.png"
   },
   "header": {
-    "orderByPhone": "Excellent based on 71+ reviews",
-    "needHelp": "Need help? nik@bookingleak.com",
+    "orderByPhone": "Odlična ocena na podlagi 71+ analiz",
+    "needHelp": "Vprašanje? nik@bookingleak.com",
     "logoLight": "/assets/advanguard-logo-white.png",
     "logoDark": "/assets/advanguard-logo-dark.png",
     "logoText": "ADVANGUARD",
@@ -61,7 +61,7 @@
           "sectionBody": "<span style=\"color:#1c7fff\"><strong>Sistem Patient-Leak</strong></span> je protiintuitiven pristop, ki analizira spletno strane vaše klinike ter pripravi personalizirane predloge, ki rezultirajo na <strong>višje</strong> število oddanih povpraševanj.  \n\nAnaliza zajema <strong>14 ključnih signalov</strong>, ki pokrivajo tehnične, strukturne in psihološke ovire, kar paciente odvrača od naročanja.\n<em>\n</em>Analizo prejmete v <strong>3 ločenih poročilih</strong>, direktno na vaš email naslov.<img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788002010853-primerno-za-storitve-SLO%402x-bc5bhLupk0wxKiAPITweW87Xc8NFfX.webp\" alt=\"\"> \n\n<br>Klinike poročajo o<u> </u><strong>30% višji stopnji oddanih povpraševanj</strong> po implementiranih predlogih (<u>brez</u> dodatnega vložka v oglase)."
         },
         "order": {
-          "badge": "PREJMITE DIAGNOZO <u>SVOJE</u> KLINIKE",
+          "badge": "PREJMITE ANALIZO <u>SVOJE</u> KLINIKE",
           "productName": "        Patient-Leak Sistem          <span style=\"color:#140c0c\"><u>27</u>$ Enkratni Znesek</span>",
           "productSubtitle": "FREE Today",
           "image": "/media/order-product.webp",
@@ -78,16 +78,22 @@
           "successMessage": "Success. Your Patient-Leak Findings will be emailed in 3-minutes",
           "miniTestimonials": [
             {
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003235860-hf_20260824_182955_0a3bb64c-40d8-49d8-87a4-7ec0dce3e07b-wAPNKwYM8vT1zI5uMQJ88WQUZvSC6L.webp",
               "name": "Mark P.",
               "role": "Owner of Lumière Aesthetics, Miami FL",
-              "quote": "Genuinely useful. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would."
+              "quote": "Genuinely useful. We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would"
             },
             {
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003290545-hf_20260825_084346_0b8bb49f-bf1c-408e-adaf-7cf0e4433507-IrUPEp2t8pjVaJTI6LtBiJ3MCxofNX.webp",
               "name": "Dr. James Okonkwo",
               "role": "All-on-4 Specialist, Toronto",
               "quote": "Pure value without any upsell tactics"
+            },
+            {
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003334750-hf_20260825_090031_e3b3bc5c-1b51-4c4b-a6ee-ded06cae3c46-8GP6xmHZUD5MExLxi65fU9loCTiSur.webp",
+              "name": "Mary C.\n",
+              "role": "Impant Clinic Owner, Austin, Texas\n",
+              "quote": "Good insights for a reasonable price"
             }
           ]
         }
@@ -115,7 +121,7 @@
       "data": {
         "guarantee": {
           "h2": "Why Patients Really Leave Your Website <span style=\"color:#1c7fff\">Without Booking\n</span><span style=\"color:#1c7fff\"></span>",
-          "body": "Pomembno je vedeti sledeče: ko se pacient odloča za neko storitev, v prvi vrsti sprejema čustveno odločitev, ne logične.\n\nTo pomeni, da vaše strani v resnici ne berejo tako kot vi, ampak enostavno iščejo razloge, da se tam počutijo varne.\n\nV trenutku, ko je ta občutek izgubljen, bodo stran zapustili in rešitev iskali drugje<em>. </em><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788002628211-hf_20260829_111644_88b1fd17-e2ba-46e4-ac7a-14ae162afac9-IfOOa4F7fCrgV2sPddgZlEF8atEmfB.webp\" alt=\"\">  \n<u>Primer</u>: ko ljudje obiščejo vašo stran, želijo videti rezultat, ki ga lahko pričakujejo, ne pa nove vrhunske naprave, po-poletne akcije, ki je pred vrati, ter opisa storitve, ki jo že tako poznajo. Pomeni, če galerija before/after jasno prikaže te rezultate, je to že en dokaz, ki ga potrebujejo. Če tega ni, niso prepričani v vas in negotovost jih odvrne.<br><strong>\nIn to je povsem logično!\n</strong>\nKo se vi odločate za nakup v vrednosti v +1.000€, želite biti 100 % prepričani v to.\n\n<strong><span style=\"color:#1c7fff\">Analiza Patient-Leak Sistema</span></strong> zato poskrbi, da pacienti ta občutek varnosti imajo ter ga ohranijo skozi celotni proces naročanja.\n\n<u>Kako uporabiti sistem za svojo kliniko:</u>\n"
+          "body": "Pomembno je vedeti sledeče: ko se pacient odloča za neko storitev, v prvi vrsti sprejema čustveno odločitev, ne logične.\n\nTo pomeni, da vaše strani v resnici ne berejo tako kot vi, ampak enostavno iščejo razloge, da se tam počutijo varne.\n\nV trenutku, ko je ta občutek izgubljen, bodo stran zapustili in rešitev iskali drugje<em>.\n </em><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003086345-hf_20260829_112938_6d06f31a-c015-4db2-b81f-7ee5699e4f08-vb4WlUsEpQDZCZG0X1w2F4zmIW5kwG.webp\" alt=\"\">  \n<u>Primer</u>: ko ljudje obiščejo vašo stran, želijo videti rezultat, ki ga lahko pričakujejo, ne pa nove vrhunske naprave, po-poletne akcije, ki je pred vrati, ter opisa storitve, ki jo že tako poznajo. Pomeni, če galerija before/after jasno prikaže te rezultate, je to že en dokaz, ki ga potrebujejo. Če tega ni, niso prepričani v vas in negotovost jih odvrne.<br><strong>\nIn to je povsem logično!\n</strong>\nKo se vi odločate za nakup v vrednosti v +1.000€, želite biti 100 % prepričani v to.\n\n<strong><span style=\"color:#1c7fff\">Analiza Patient-Leak Sistema</span></strong> zato poskrbi, da pacienti ta občutek varnosti imajo ter ga ohranijo skozi celotni proces naročanja.\n\n<u>Kako uporabiti sistem za svojo kliniko:</u>\n"
         }
       }
     },
@@ -137,7 +143,7 @@
           "rightFeatures": [],
           "stats": [],
           "ctaTagline": "",
-          "ctaLabel": "RECEIVE MY AUDIT",
+          "ctaLabel": "PREJMITE ANALIZO ",
           "ctaSubLink": "",
           "guaranteeText": ""
         }
@@ -154,7 +160,7 @@
       "data": {
         "guarantee": {
           "h2": "PATIENT-LEAK SYSTEM je <span style=\"color:#1c7fff\">bližnjica</span><span style=\"color:#1c7fff\"></span>",
-          "body": "Preden smo ustvarili <span style=\"color:#1c7fff\"><strong>Patient-Leak Sistem</strong></span>, je bilo povečanje povpraševanj za večino lastnikov klinik kot loterija. \n\nK nam so prihajali s seznamom sprememb ali agencijskimi poročili, ki vsem ponujajo enake rešitve. \n\n<em>Bili smo šokirani.</em> \n\nHkrati pa smo v tem videli priložnost.\n\nKako bi lahko lastnikom klinik dali resnično vrednost brez ugibanja in brez zapravljenih tisoče evrov za šablonska PDF poročila? \n\n<strong>Zato smo razvili drugačen pristop. \n</strong>\nPo investiranih več kot 550.000 € oglasnega budgeta za 200+ klinik po Evropi, Avstraliji in ZDA smo zgradili sistem, ki omogoča, da uporabite vse naše pridobljeno znanje, prilagojeno konkretnemu primeru vaše klinike. \n\n(Za kar marketinške agencije običajno zaračunajo štirimestne zneske.) \n\nCena Patient-Leak sistema znaša le <u>27 $</u> (23 €) in je 100% prilagojena vaši kliniki. \n\n<u>Spodaj si oglejte, kako sistem deluje v praksi:</u>\n"
+          "body": "Preden smo ustvarili <span style=\"color:#1c7fff\"><strong>Patient-Leak Sistem</strong></span>, je bilo povečanje povpraševanj za večino lastnikov klinik kot loterija. \n\nK nam so prihajali s seznamom sprememb ali agencijskimi poročili, ki vsem ponujajo enake rešitve. \n\n<em>Bili smo šokirani --&gt; </em>Hkrati pa smo v tem videli priložnost.\n\nKako bi lahko lastnikom klinik dali resnično vrednost brez ugibanja in brez zapravljenih tisoče evrov za šablonska PDF poročila? \n\n<strong>Zato smo razvili drugačen pristop. \n</strong>\nPo investiranih več kot 550.000 € oglasnega budgeta za 200+ klinik po Evropi, Avstraliji in ZDA smo zgradili sistem, ki omogoča, da uporabite vse naše pridobljeno znanje, prilagojeno konkretnemu primeru vaše klinike. \n\n(Za kar marketinške agencije običajno zaračunajo štirimestne zneske.) \n\nCena Patient-Leak sistema znaša le <u>27 $</u> (23 €) in je 100% prilagojena vaši kliniki. \n\n<u>Spodaj si oglejte, kako sistem deluje v praksi:</u>\n"
         }
       }
     },
@@ -220,7 +226,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003374985-hf_20260824_183022_c4f2db86-a8fd-4822-9a17-17c8634b22a5-aEFwiGZU1ASLCSGBa7G45LJS9e0zn5.webp",
               "name": "Dr. Sarah H.",
               "role": "Implantology Clinic, Phoenix AZ",
               "quote": "The audit found 9 things I didn't know were broken. One of them was on my own homepage and I look at that page every day. It took us 20 minutes to fix the first three things, and bookings peaked the following week.",
@@ -239,7 +245,15 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003432419-hf_20260825_093015_2d94644e-49a5-4bf1-9e38-9e8647344d64-eIW75KazdqTDgsSNn7mq6sytrE6oKP.webp",
+              "name": "Oliver",
+              "role": "CEO of Rhinoplasty Clinic, London, UK",
+              "quote": "Value is definitely worth the money. We even hired Nik to fix the findings. Everything smooth, from A to Z.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003459687-hf_20260824_183452_a9a0a4f5-43d8-4c06-9125-aa072a1fe277-LsT46iD5eEReZr8zlzqXDM0pyKiASD.webp",
               "name": "Lisa V.",
               "role": "Med Spa Owner, Palm Beach FL",
               "quote": "I kept thinking I was just bad at marketing. Maybe my niche was too saturated, maybe my pricing was wrong. Turns out it was basic technical stuff on my own website. The audit was actually useful, confirmed.",
@@ -249,7 +263,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003472151-hf_20260824_182955_0a3bb64c-40d8-49d8-87a4-7ec0dce3e07b-9bwP2GHTHvJKWfwwZyLpVoN2wY7nBN.webp",
               "name": "Mark P.",
               "role": "Owner of Lumière Aesthetics, Miami FL",
               "quote": "Genuinely useful! We ended up hiring Nik to fix the things the audit flagged and it worked exactly the way he said it would.",
@@ -260,7 +274,7 @@
             },
             {
               "type": "text",
-              "avatar": "/assets/avatar-placeholder.png",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003490852-hf_20260824_183553_a5d09b3c-7f8c-46eb-8bd1-ab985fa40617-YOcwVMhjgSWPEaHz9MFhaFe1oMGycF.webp",
               "name": "Dr. Clemente H.",
               "role": " Rhinoplasty Clinic Owner, Berlin, Germany",
               "quote": "In all the years I've worked with marketing agencies, I've never received anything this practical. Would recommend it to any clinic owner.",
@@ -271,25 +285,41 @@
             {
               "type": "text",
               "avatar": "",
-              "name": "Name",
-              "role": "Role",
-              "quote": "New testimonial quote.",
+              "name": "Dr. Arthur M.\n",
+              "role": "Dentist, Manchester, UK\n",
+              "quote": "100% worth the money.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003535999-hf_20260825_090031_e3b3bc5c-1b51-4c4b-a6ee-ded06cae3c46-TdTduI1EOfPPzDzgyBKYImo6TfLL3j.webp",
+              "name": "Mary C.\n",
+              "role": "Impant Clinic Owner, Austin, Texas\n",
+              "quote": "Good insights for a reasonable price.",
+              "highlights": []
+            },
+            {
+              "type": "text",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003561985-hf_20260825_085850_c9427a72-0ec5-49be-9909-fb1cd161c76a-0D5BsCPYBFTp3HUpIhF98Cc7gwEpFw.webp",
+              "name": "Dr. Anthony Y.\n",
+              "role": "All on 4/6, Arizona City, Arizona\n",
+              "quote": "This system showed us that mobile speed was one of our main issues. After fixing it, we actually detected a spike in conversion rate on our website.\n\n",
               "highlights": []
             },
             {
               "type": "text",
               "avatar": "",
-              "name": "Mary C.",
-              "role": "Med Spa Clinic CEO, Austin, Texas ",
-              "quote": "Good insights, mobile speed in our case did the breakthrough.",
+              "name": "Jessica\n",
+              "role": "Med Spa Clinic Manager\n",
+              "quote": "I've spent $700+ on marketing audits that brought less insight than Patient-Leak. I'm impressed and grateful for it.",
               "highlights": []
             },
             {
               "type": "text",
-              "avatar": "",
-              "name": "ddsdsdsdName",
-              "role": "Role",
-              "quote": "New testimonial quote.",
+              "avatar": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788003599622-hf_20260825_092832_5b2bd6b7-84f5-4380-942c-46075bfbc887-RwNBzNNsws084YnGcLl2VSvE1SRrVv.webp",
+              "name": "David S.\n",
+              "role": "CEO&amp;Manager, Implant Clinic, Tampa, FL \n",
+              "quote": "I'm usually sceptical about ads but this one was worth it. We launched a new site recently and this analysis helped A LOT.\n\n",
               "highlights": []
             }
           ]
@@ -323,12 +353,12 @@
           "eyebrowDotColor": "rgb(28,127,255)",
           "h2": "The Only System <span style=\"color:#1c7fff\">You’ll Need To </span>Acquire Patients",
           "body": "",
-          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1784883934026-hf_20260723_154915_4a21634c-e3be-4471-9125-c20c51000a54%20%281%29-k4uUmHWydEl7LQEYevmtgTvXnL9OX4.webp",
+          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788005201628-hf_20260829_120307_f5674579-f25b-4e5a-b967-46d58a2dfb12-jpJZhDJFz2RtZGff878XphNnHD3QGS.webp",
           "leftFeatures": [],
           "rightFeatures": [],
           "stats": [],
           "ctaTagline": "",
-          "ctaLabel": "RECEIVE MY AUDIT",
+          "ctaLabel": "PREJMITE ANALIZO ",
           "ctaSubLink": "",
           "guaranteeText": ""
         }
@@ -401,7 +431,7 @@
           "bigStackImg": "/media/stack-bundle.webp",
           "items": [],
           "ctaTagline": "",
-          "ctaLabel": "RECEIVE MY AUDIT",
+          "ctaLabel": "PREJMITE ANALIZO ",
           "guaranteeText": ""
         }
       }
@@ -437,8 +467,6 @@
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.eyebrow",
     "6c542949-3e87-47f0-b731-537a75b899e2:onlySystem.cta",
     "testimonials:testimonials.rating",
-    "testimonials:testimonials.items.7.name",
-    "testimonials:testimonials.items.7.role",
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.eyebrow",
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.h2",
     "8b48b3d0-0bc7-47bb-ae03-8df6477b1cdc:stack.h2",
@@ -483,9 +511,7 @@
     "c211fabd-2c4d-495f-b28b-ee83db1a9954:headline.sub",
     "guarantee:guarantee.h2",
     "94d955e5-ae7c-4643-b404-f6914e48f1be:testimonials.rating",
-    "b880d831-37f1-431a-b36e-a3f73585e39a:testimonials.rating",
-    "testimonials:testimonials.items.8.avatar",
-    "testimonials:testimonials.items.6.avatar"
+    "b880d831-37f1-431a-b36e-a3f73585e39a:testimonials.rating"
   ],
   "imageSizes": {
     "e8d0cdf8-6117-4d39-96de-2a7733e7121c:onlySystem.centerImage": "full",
