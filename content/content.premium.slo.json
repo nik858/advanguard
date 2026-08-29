@@ -40,7 +40,7 @@
           "eyebrow": "Za lastnike klinik, ki želijo preko spleta pridobiti več naročenih pacientov",
           "eyebrowDotColor": "rgb(28,127,255)",
           "h1": "Kaj Je Resnični Razlog, Ki <span style=\"color:#1c7fff\">Ustavlja Paciente</span>, Da Se Na Vaši Spletni Strani Ne Naročijo",
-          "sub": "<strong>(Ne gre za oglase, vsebino ali cene)\n</strong><span style=\"color:#1c7fff\">Patient-Leak Sistem</span> analizira in pokaže resnične vzroke, ki so odgovorni za nizko število povpraševanj. Analizo prejmete naravnost na vaš email <u>v nekaj minutah</u>.<u></u>"
+          "sub": "<strong>(Ne gre za oglase, vsebino ali cene)\n</strong><span style=\"color:#1c7fff\"><strong>Patient-Leak Sistem</strong></span> analizira in pokaže resnične vzroke, ki so odgovorni za nizko število povpraševanj. Analizo vam pošljemo <u>v nekaj minutah</u>.<u></u>"
         }
       }
     },
@@ -57,19 +57,19 @@
           "videoLabel": "",
           "videoUrl": "https://www.veed.io/embed/7863359d-d6c3-4816-89c5-f4b37f5b5569?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
           "videoPoster": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786120836917-hf_20260807_094912_a8bccdf3-ee49-46d5-a597-db3745ab2b3c%20%281%29-nBmKaYPv2c4GGTrKXBkaC55fBO45vZ.webp",
-          "sectionTitle": "Kaj je <span style=\"color:#1c7fff\">PATIENT-LEAK SYSTEM?</span><span style=\"color:#1c7fff\"></span>",
-          "sectionBody": "Sistem Patient-Leak je protiintuitiven pristop, ki analizira vašo spletno stran ter pripravi prilagojene predloge, ki rezultirajo na <strong>višje</strong> število oddanih povpraševanj.  \n\n<em>Namesto ugibanja, zakaj se pacienti za vas ne odločijo, boste sedaj točno vedeli, kje vaša spletna stran t.i. “pušča”.</em>\n\nAnaliza temelji na <strong>14 ključnih signalih</strong>, rezultate pa prejmete v obliki personaliziranega načrta predlogov, poslanega v <strong>3 ločenih mailih.</strong><strong>\n </strong><strong> </strong><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786052119400-Screenshot%202026-08-06%20at%2023.35.00-m6JEysmDAi0f42Npu3NBtCpsLVOsar.webp\" alt=\"\">\n<strong></strong>Z implementacijo predlogov lahko <strong>povečate stopnjo oddanih povpraševanj do 30%</strong> brez dodatnega vložka v oglase ali druge marketinške aktivnosti."
+          "sectionTitle": "Kaj je <span style=\"color:#1c7fff\">PATIENT-LEAK SISTEM?</span><span style=\"color:#1c7fff\"></span>",
+          "sectionBody": "<span style=\"color:#1c7fff\"><strong>Sistem Patient-Leak</strong></span> je protiintuitiven pristop, ki analizira spletno strane vaše klinike ter pripravi personalizirane predloge, ki rezultirajo na <strong>višje</strong> število oddanih povpraševanj.  \n\nAnaliza zajema <strong>14 ključnih signalov</strong>, ki pokrivajo tehnične, strukturne in psihološke ovire, kar paciente odvrača od naročanja.\n<em>\n</em>Analizo prejmete v <strong>3 ločenih poročilih</strong>, direktno na vaš email naslov.<img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788002010853-primerno-za-storitve-SLO%402x-bc5bhLupk0wxKiAPITweW87Xc8NFfX.webp\" alt=\"\"> \n\n<br>Klinike poročajo o<u> </u><strong>30% višji stopnji oddanih povpraševanj</strong> po implementiranih predlogih (<u>brez</u> dodatnega vložka v oglase)."
         },
         "order": {
-          "badge": "PREJMITE DIAGNOZO SVOJE KLINIKE",
-          "productName": "        Patient-Leak Sistem          <span style=\"color:#140c0c\"><u>23€</u> Enkratni Znesek</span>",
+          "badge": "PREJMITE DIAGNOZO <u>SVOJE</u> KLINIKE",
+          "productName": "        Patient-Leak Sistem          <span style=\"color:#140c0c\"><u>27</u>$ Enkratni Znesek</span>",
           "productSubtitle": "FREE Today",
           "image": "/media/order-product.webp",
           "limitedTime": "",
           "priceWas": "",
           "priceNow": "",
           "priceSubLine": "",
-          "description": "Analiza, za katero agencije zaračunajo štirimestne zneske.\n\n <em>100 % garancija vračila denarja, če ne prejmete nobene uporabne ugotovitve</em>\n\n",
+          "description": "(Analiza, za katero agencije zaračunajo +500€)\n\n <em>100 % garancija vračila denarja, če ne prejmete nobene uporabne ugotovitve</em>\n\n",
           "ctaTagline": "",
           "ctaLabel": " CHECKOUT ",
           "secureText": "Varno Plačilo",
@@ -98,7 +98,7 @@
       "type": "demo",
       "data": {
         "demo": {
-          "h2": " Zakaj pacienti zapustijo vašo spletno stran, <span style=\"color:#1c7fff\">ne da bi se naročili?</span><span style=\"color:#1c7fff\"></span>",
+          "h2": " Zakaj pacienti v resnici zapustijo spletno stran klinik, <span style=\"color:#1c7fff\">ne da bi se naročili?</span><span style=\"color:#1c7fff\"></span>",
           "videoUrl": "https://www.veed.io/embed/657fdaa5-d409-4d07-b0c1-e46af366d458?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
           "videoPoster": ""
         }
@@ -115,7 +115,7 @@
       "data": {
         "guarantee": {
           "h2": "Why Patients Really Leave Your Website <span style=\"color:#1c7fff\">Without Booking\n</span><span style=\"color:#1c7fff\"></span>",
-          "body": "Za začetek, ko se pacient odloča za neko storitev, sprejema čustveno odločitev, ne logične.\n\nTo pomeni, da vaših strani v resnici ne berejo tako kot vi, ampak enostavno iščejo razloge, da se tam počutijo varne.\n\nV trenutku, ko je ta občutek izgubljen, bodo zapustili stran in iskali drugje.\n\n<u>Na primer</u>: ko ljudje obiščejo vašo stran, želijo videti rezultat, ki ga lahko pričakujejo, ne pa nove vrhunske naprave, po-poletne akcije, ki je pred vrati, ter opisa storitve, ki jo že tako poznajo.\nPomeni, če galerija before/after jasno prikaže te rezultate, je to dokaz, ki ga potrebujejo. Če tega dokaza ni, niso prepričani v vas in negotov pacient se ne naroči<br><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786093419588-hf_20260807_090013_9019bfcb-2e78-47a5-9cb5-0be55d5a1c81-YLlsyhGtVKsRGYLARwLOntRV5b0B7Y.webp\" alt=\"\"><strong>In to je popolnoma logično!\n</strong>\nKo se nekdo odloča, da bo za poseg odštel 1000+ €, želi biti 100 % prepričan.\n\nPrav zato Patient-Leak Sistem poskrbi, da pacienti ta občutek varnosti imajo ter ga ohranijo skozi proces naročanja.\n\nUporabite ga lahko takole:\n"
+          "body": "Pomembno je vedeti sledeče: ko se pacient odloča za neko storitev, v prvi vrsti sprejema čustveno odločitev, ne logične.\n\nTo pomeni, da vaše strani v resnici ne berejo tako kot vi, ampak enostavno iščejo razloge, da se tam počutijo varne.\n\nV trenutku, ko je ta občutek izgubljen, bodo stran zapustili in rešitev iskali drugje<em>. </em><img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788002628211-hf_20260829_111644_88b1fd17-e2ba-46e4-ac7a-14ae162afac9-IfOOa4F7fCrgV2sPddgZlEF8atEmfB.webp\" alt=\"\">  \n<u>Primer</u>: ko ljudje obiščejo vašo stran, želijo videti rezultat, ki ga lahko pričakujejo, ne pa nove vrhunske naprave, po-poletne akcije, ki je pred vrati, ter opisa storitve, ki jo že tako poznajo. Pomeni, če galerija before/after jasno prikaže te rezultate, je to že en dokaz, ki ga potrebujejo. Če tega ni, niso prepričani v vas in negotovost jih odvrne.<br><strong>\nIn to je povsem logično!\n</strong>\nKo se vi odločate za nakup v vrednosti v +1.000€, želite biti 100 % prepričani v to.\n\n<strong><span style=\"color:#1c7fff\">Analiza Patient-Leak Sistema</span></strong> zato poskrbi, da pacienti ta občutek varnosti imajo ter ga ohranijo skozi celotni proces naročanja.\n\n<u>Kako uporabiti sistem za svojo kliniko:</u>\n"
         }
       }
     },
@@ -132,7 +132,7 @@
           "eyebrowDotColor": "rgb(28,127,255)",
           "h2": "The Only System <span style=\"color:#1c7fff\">You’ll Need To </span>Acquire Patients",
           "body": "",
-          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786093390573-hf_20260807_085826_426226fe-005d-4c9e-bd41-b665786b4589-JeYTi14NIkDweU5BUCwiG49FAQNCuQ.webp",
+          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788002075395-6-korakov-SLO%402x-mpe0mEBoLAxZvggILUwdeAjzCqbemy.webp",
           "leftFeatures": [],
           "rightFeatures": [],
           "stats": [],
@@ -154,7 +154,7 @@
       "data": {
         "guarantee": {
           "h2": "PATIENT-LEAK SYSTEM je <span style=\"color:#1c7fff\">bližnjica</span><span style=\"color:#1c7fff\"></span>",
-          "body": "Preden smo ustvarili Patient-Leak System, je bilo povečanje povpraševanj za večino lastnikov klinik kot loterija.\n\nK nam so prihajali s seznamom sprememb ali poročili, pripravljenimi s strani agencije, ki vsem ponuja iste rešitve.\n\nBili smo šokirani.\n\nHkrati pa smo v tem videli priložnost.\n\nKako bi lahko lastnikom klinik dali resnično vrednost brez ugibanja in brez zapravljenih tisoče evrov za šablonska PDF poročila?\n\n<strong>Zato smo razvili drugačen pristop.\n</strong>\nPo investiranih več kot 550.000 € oglasnega budgeta v klinične storitve smo na podlagi rezultatov zgradili sistem, učen na 200+ klinikah v zadnjih letih.\n\nPatient-Leak Sistem vam zato omogoča, da uporabite vse naše znanje, prilagojeno konkretnemu primeru vaše klinike.\n\nMarketinške agencije običajno zaračunajo štirimestne zneske za vnaprej pripravljene predloge.\n\nCena Patient-Leak znaša samo 23€ - analiza 100% prilagojena tvoji kliniki.\n\nSpodaj si oglejte, kako sistem deluje v podrobnostih:\n"
+          "body": "Preden smo ustvarili <span style=\"color:#1c7fff\"><strong>Patient-Leak Sistem</strong></span>, je bilo povečanje povpraševanj za večino lastnikov klinik kot loterija. \n\nK nam so prihajali s seznamom sprememb ali agencijskimi poročili, ki vsem ponujajo enake rešitve. \n\n<em>Bili smo šokirani.</em> \n\nHkrati pa smo v tem videli priložnost.\n\nKako bi lahko lastnikom klinik dali resnično vrednost brez ugibanja in brez zapravljenih tisoče evrov za šablonska PDF poročila? \n\n<strong>Zato smo razvili drugačen pristop. \n</strong>\nPo investiranih več kot 550.000 € oglasnega budgeta za 200+ klinik po Evropi, Avstraliji in ZDA smo zgradili sistem, ki omogoča, da uporabite vse naše pridobljeno znanje, prilagojeno konkretnemu primeru vaše klinike. \n\n(Za kar marketinške agencije običajno zaračunajo štirimestne zneske.) \n\nCena Patient-Leak sistema znaša le <u>27 $</u> (23 €) in je 100% prilagojena vaši kliniki. \n\n<u>Spodaj si oglejte, kako sistem deluje v praksi:</u>\n"
         }
       }
     },
@@ -172,7 +172,7 @@
           "eyebrowDotColor": "rgb(28,127,255)",
           "h2": "Heading",
           "body": "",
-          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786122445935-hf_20260807_170030_5fd71376-d5c7-4bcf-b3bf-37dfbf657eed-AnD9v9vPmwTKzxStwUbXOmbPWUqjsh.webp",
+          "centerImage": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788002926770-stari-vs-novi-nacin-SLO%403x_2-EN6VhUVdnzHDduub4lZ4CbXRUX82uv.webp",
           "leftFeatures": [],
           "rightFeatures": [],
           "stats": [],
@@ -192,8 +192,8 @@
       },
       "data": {
         "guarantee": {
-          "h2": "Here’s <span style=\"color:#1c7fff\">What That Means For You</span> And Your Clinic<span style=\"color:#1c7fff\"></span>",
-          "body": "Vsaka klinika obstaja zaradi enega dejstva, in to je njena sposobnost ustvarjanja prihodka.\n\nPrihodek pa je v veliki meri odvisen od sposobnosti pridobivanja pacientov.\nPridobivanje pacientov je hkrati tudi #1 strošek, ki ga klinika ima na svoji poti do rasti.\n\nZato smo razvili model Patient-Leak Sistem, da vam pomaga povrniti paciente, ki jih spletna stran vaše klinike trenutno izgublja... in obisk, ki ga že plačujete, spremeniti v naročene termine.\n\nKako daleč želite skalirati, je odvisno od vas.\n\n<em>Tukaj je nekaj naših strank in njihovih zgodb o tem, kaj so uspeli doseči s pomočjo sistema Patient-Leak.(Večina jih je iz Združenih držav Amerike, zato njihovih odzivov nismo prevajali.)</em>\n"
+          "h2": "Kaj to pomeni za <span style=\"color:#1c7fff\">vas</span> in <span style=\"color:#1c7fff\">vašo kliniko?</span>",
+          "body": "Vsaka klinika obstaja zaradi enega razloga, in to je njena sposobnost ustvarjanja prihodka. \n\nPrihodek pa je v veliki meri odvisen od sposobnosti pridobivanja pacientov.\n\n<strong>Pridobivanje pacientov je hkrati tudi #1 strošek, ki ga klinika ima na svoji poti do rasti. \n</strong>\nZato smo razvili model <span style=\"color:#1c7fff\"><strong>Patient-Leak Sistem</strong></span>, da vam pomaga povrniti paciente, ki jih spletna stran vaše klinike trenutno izgublja... in obisk spletne strani (ki ga že plačujete z oglasi) spremeniti v dejanske paciente. \n\nKako daleč želite zrasti, pa je odvisno od <u>vaših zmožnosti in kapacitet.</u>\n\n"
         }
       }
     },
@@ -207,7 +207,7 @@
       "data": {
         "testimonials": {
           "rating": "Excellent based on 71 reviews",
-          "h2": " Kaj o našem sistemu pravijo lastniki klinik?",
+          "h2": " Kaj o našem sistemu pravijo <span style=\"color:#1c7fff\">lastniki klinik?</span>",
           "pullQuote": "",
           "items": [
             {
@@ -305,8 +305,8 @@
       },
       "data": {
         "guarantee": {
-          "h2": "Edini sistem, ki ga potrebujete za pridobivanje pacientov\n<span style=\"color:#1c7fff\"></span>",
-          "body": "Ta sistem obstaja, ker smo iste klinike najprej analizirali skozi vse mogoče pristope, da se lahko vi učite iz naših zmag in napak ter prihranite trud in denar, ki stojita za sistemom Patient-Leak.\n\nRezultat je 14 najpomembnejših signalov, zapakiranih v 3 ločena e-sporočila, ki vam pokažejo resnične vzroke, zakaj pacienti &quot;puščajo&quot; z vaše strani, preden se dejansko naročijo na termin.\n"
+          "h2": "Edini sistem, <span style=\"color:#1c7fff\">ki ga potrebujete</span> za pridobivanje pacientov\n<span style=\"color:#1c7fff\"></span>",
+          "body": "Ta sistem obstaja, ker smo klinike enakih storitev najprej analizirali skozi različne marketinške pristope, tako da se lahko vi učite direktno iz naših zmag in napak ter prihranite ves trud in denar. \n\nKot rezultat smo razvili <strong>14 najpomembnejših signalov</strong>, zapakiranih v <strong>3 ločena poročila</strong>, ki vam pokažejo resnične vzroke, zakaj pacienti &quot;puščajo&quot; z vaše spletne strani, preden se dejansko naročijo na termin..\n"
         }
       }
     },
@@ -343,8 +343,8 @@
       },
       "data": {
         "guarantee": {
-          "h2": "Kaj vam zagotavljamo 🔒<span style=\"color:#1c7fff\"></span>",
-          "body": "Vaša diagnoza bo specifična za primer vaše klinike.\n\nNašla bo točno tiste signale, ki na vaši strani manjkajo, jih primerjala s klinikami v vaši panogi in vam povedala, kaj popraviti najprej.\n\nČe se analiza bere kot nekaj, kar bi lahko bilo pripravljeno za katerokoli kliniko, nam to sporočite.\n\nIn če vaša diagnoza ne bo vsebovala vsaj ene uporabne ugotovitve, ki jo lahko izkoristite, vam v celoti vrnemo 27€.<u></u>"
+          "h2": "Kaj vam <span style=\"color:#1c7fff\">zagotavljamo</span> 🔒<span style=\"color:#1c7fff\"></span>",
+          "body": "Diagnoza in poročilo bosta specifična za <strong>primer vaše klinike. </strong>\n\nNašla bosta točno tiste signale, ki na vaši strani manjkajo, jih primerjala z drugimi uspešnimi klinikami v vaši panogi ter vam točno pojasnila, kaj popraviti najprej. \n\nIn če vaša diagnoza ne bo vsebovala vsaj ene uporabne ugotovitve, ki jo lahko izkoristite, vam v celoti vrnemo 27 $ (23 €).<u></u>"
         }
       }
     },
@@ -356,20 +356,20 @@
       },
       "data": {
         "faq": {
-          "h2": " Pogosto zastavljena vprašanja<span style=\"color:#1c7fff\"></span>",
+          "h2": " Pogosto zastavljena <span style=\"color:#1c7fff\">vprašanja</span><span style=\"color:#1c7fff\"></span>",
           "sub": "Potrebujete pomoč? nik@bookingleak.com",
           "items": [
             {
-              "q": "🔹 Za koga je to?\n",
-              "a": "Patient-Leak System je narejen za lastnike klinik in odločevalce v ordinacijah, ki vodijo zdravstvene storitve srednjega in višjega cenovnega razreda. Konkretno za zobne implantate, All-on-4/6, estetske in pomlajevalne klinike, medicinske spa centre in fizioterapije.\n\nČe ste splošni zdravnik, lekarna ali klinika zunaj teh panog, to za vas verjetno ni primerno.\n\n"
+              "q": "🔹 Za koga je Patient-Leak sistem?\n",
+              "a": "Sistem je narejen za lastnike klinik in odločevalce v ordinacijah, ki vodijo zdravstvene storitve srednjega in višjega cenovnega razreda. Konkretno za zobne implantate, All-on-4/6, estetske in pomlajevalne klinike, medicinske spa centre in fizioterapije.\n\nČe ste splošni zdravnik, lekarna ali klinika zunaj teh panog, analiza za vas verjetno ni primerna.\n\n"
             },
             {
-              "q": "🔹 Zakaj stane 27 €?\n",
+              "q": "🔹 Zakaj stane 27﹩?\n",
               "a": "Iskreno, to je naš filter, ne vir dobička. Ko je bila analiza brezplačna, je večina ni izkoristila. Ko smo postavili minimalno ceno, smo dobili veliko boljše odzive klinik.\nGre za omejitev na lastnike klinik, ki mislijo resno.\nČe vašega pričakovanja nismo upravičili, dobite 100% vračilo denarja. Praktično vas ne stane nič\n\n"
             },
             {
               "q": "🔹 Kako je to personalizirano?\n",
-              "a": "Neposredno oddate URL spletne strani svoje klinike, naš sistem pa jo poglobljeno analizira skozi 14 signalov, specifičnih za zdravstvo in vašo panogo.\nNič v vaši diagnozi ni napisano za &quot;klinike na splošno.&quot; Napisano je za vaš URL, vašo panogo in trg, na katerem delujete.\n"
+              "a": "Neposredno oddate URL spletne strani svoje klinike, naš sistem pa jo poglobljeno analizira skozi 14 signalov, specifičnih za zdravstvo in vašo storitev.\nNič v vaši diagnozi ni napisano za &quot;klinike na splošno.&quot; Napisano je specificčno za vaš URL, panogo in trg, na katerem delujete.\n"
             },
             {
               "q": "Marketinške revizije sem že imel. Zakaj je ta drugačna?",
@@ -377,11 +377,11 @@
             },
             {
               "q": "🔹 Kako dolgo traja, da dobim diagnozo?\n",
-              "a": "Prva ugotovitev prispe v nekaj minutah po oddaji. Druga prispe 2. dan. Tretja 3. dan.\nRazmike delamo namenoma, saj je le ena ugotovitev naenkrat izvedljiva.\nTri ugotovitve hkrati postanejo seznam opravil, ki ga nihče ne dokonča.\nVerjemite, poskusili smo.\n"
+              "a": "Prva ugotovitev prispe v nekaj minutah po oddaji. Druga prispe 2. dan. Tretja 3. dan.\nRazmike delamo namenoma, saj je le ena ugotovitev naenkrat realno izvedljiva.\nTri ugotovitve hkrati postanejo seznam opravil, ki ga nihče ne dokonča.\nVerjemite, poskusili smo.\n"
             },
             {
               "q": "🔹 Ali obstaja garancija?\n",
-              "a": "Da. Če vaša diagnoza ne vsebuje vsaj ene konkretne, uporabne ugotovitve, ki jo lahko izvedete še ta teden, odgovorite na katerokoli e-sporočilo in povrnemo vam vseh 27 €.\n"
+              "a": "<strong>Da.</strong> Če vaša diagnoza ne vsebuje vsaj ene konkretne, uporabne ugotovitve, ki jo lahko izvedete še isti teden, odgovorite na katerokoli e-sporočilo in povrnemo vam vseh znesek plačila.\n"
             }
           ]
         }
@@ -494,7 +494,7 @@
     "15438399-c7d2-4ff1-8db5-5fa8e23acbc3:onlySystem.centerImage": "bigger",
     "d93677d1-588d-4175-b5f7-86dc06c34ce0:onlySystem.centerImage": "full",
     "0e53db25-3fd7-4eda-96e8-b7e6b0ed363d:onlySystem.centerImage": "bigger",
-    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full",
-    "935d27e4-c7a0-4b66-b509-1589bd70c965:demo.videoUrl": "full"
+    "935d27e4-c7a0-4b66-b509-1589bd70c965:demo.videoUrl": "full",
+    "dfbcb9d2-972f-4304-849c-f95b34d09423:onlySystem.centerImage": "full"
   }
 }
