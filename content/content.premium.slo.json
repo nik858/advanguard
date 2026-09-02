@@ -9,7 +9,7 @@
     "ogImage": "/assets/video-thumbnail.png"
   },
   "header": {
-    "orderByPhone": "Odlična ocena na podlagi 71+ analiz",
+    "orderByPhone": "Odlična ocena na podlagi 70+ analiz",
     "needHelp": "Vprašanje? nik@bookingleak.com",
     "logoLight": "/assets/advanguard-logo-white.png",
     "logoDark": "/assets/advanguard-logo-dark.png",
@@ -39,8 +39,8 @@
         "headline": {
           "eyebrow": "Za lastnike klinik, ki želijo preko spleta pridobiti več naročenih pacientov",
           "eyebrowDotColor": "rgb(28,127,255)",
-          "h1": "Kaj Je Resnični Razlog, Ki <span style=\"color:#1c7fff\">Ustavlja Paciente</span>, Da Se Na Vaši Spletni Strani Ne Naročijo",
-          "sub": "<strong>(Ne gre za oglase, vsebino ali cene)\n</strong><span style=\"color:#1c7fff\"><strong>Patient-Leak Sistem</strong></span> analizira in pokaže resnične vzroke, ki so odgovorni za nizko število povpraševanj. Analizo vam pošljemo <u>v nekaj minutah</u>.<u></u>"
+          "h1": "Kako <span style=\"color:#1c7fff\">Povečati </span>Število Pacientov Preko Spletne Strani <span style=\"color:#1c7fff\">Do 30%?</span> ",
+          "sub": "<strong>(Brez oglasov in nižanja cen) \n</strong><span style=\"color:#1c7fff\"><strong>Patient-Leak Sistem</strong></span> analizira in pokaže resnične vzroke, ki so odgovorni za nizko število povpraševanj.\n<em><u>+70 uspešno opravljenih analiz</u></em><br>"
         }
       }
     },
@@ -58,7 +58,7 @@
           "videoUrl": "https://www.veed.io/embed/f8db289f-32fd-403c-ad1e-4c83f8df292b?watermark=0&amp;color=&amp;sharing=0&amp;title=0",
           "videoPoster": "https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1786120836917-hf_20260807_094912_a8bccdf3-ee49-46d5-a597-db3745ab2b3c%20%281%29-nBmKaYPv2c4GGTrKXBkaC55fBO45vZ.webp",
           "sectionTitle": "Kaj je <span style=\"color:#1c7fff\">PATIENT-LEAK SISTEM?</span><span style=\"color:#1c7fff\"></span>",
-          "sectionBody": "<span style=\"color:#1c7fff\"><strong>Sistem Patient-Leak</strong></span> je protiintuitiven pristop, ki analizira spletno strane vaše klinike ter pripravi personalizirane predloge, ki rezultirajo na <strong>višje</strong> število oddanih povpraševanj.  \n\nAnaliza zajema <strong>14 ključnih signalov</strong>, ki pokrivajo tehnične, strukturne in psihološke ovire, kar paciente odvrača od naročanja.\n<em>\n</em>Analizo prejmete v <strong>3 ločenih poročilih</strong>, direktno na vaš email naslov.<img src=\"https://fc95p9wric6briir.public.blob.vercel-storage.com/media/1788002010853-primerno-za-storitve-SLO%402x-bc5bhLupk0wxKiAPITweW87Xc8NFfX.webp\" alt=\"\">Klinike poročajo o <strong>30% višji stopnji oddanih povpraševanj</strong> po implementiranih predlogih (<u>brez</u> dodatnega vložka v oglase).\n\n"
+          "sectionBody": "<span style=\"color:#1c7fff\"><strong>Sistem Patient-Leak </strong></span>analizira spletno strane vaše klinike ter pripravi personalizirane predloge, ki rezultirajo na <strong>višje</strong> število oddanih povpraševanj.  \n\nAnaliza zajema <strong>14 ključnih signalov</strong>, ki pokrivajo tehnične, strukturne in psihološke ovire, kar paciente odvrača od naročanja.\n<em>\n</em>Analizo prejmete v <strong>3 ločenih poročilih</strong>, direktno na vaš email naslov.\n\n"
         },
         "order": {
           "badge": "PREJMITE ANALIZO <u>SVOJE</u> KLINIKE",
